@@ -14,16 +14,12 @@ class User(models.Model):
         (3, '管理员')
     )
 
-    STATUS_CHOICES = (
-        (0, '启用'),
-        (1, '禁用'),
-    )
 
     FID = models.UUIDField(primary_key=True, default=uuid.uuid1, editable=False)
     FUserID = models.CharField(max_length=32, verbose_name='用户账户')
     FUserpwd = models.CharField(max_length=32, verbose_name='用户密码')
     FType = models.IntegerField(choices=TYPE_CHOICES, verbose_name='用户类型', default=0)
-    FStatus = models.IntegerField(choices=STATUS_CHOICES, verbose_name='状态', default=0)
+    FStatus = models.BooleanField(default=True, verbose_name='状态')
     FUsername = models.CharField(max_length=32, verbose_name='用户名称', blank=True, null=True)
     FOrgID = models.CharField(max_length=32, verbose_name='所属组织', blank=True, null=True)
     FRoleID = models.CharField(max_length=32, verbose_name='角色', blank=True, null=True)
