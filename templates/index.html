@@ -1,119 +1,70 @@
-<!DOCTYPE HTML>
 <html>
-<head>
-<title>智慧工地管控平台</title>
-<!-- Custom Theme files -->
-<link href="/static/css/style.css" rel="stylesheet" type="text/css" media="all"/>
-<link rel="stylesheet" href="/static/layui/css/layui.css">
-
-<!-- Custom Theme files -->
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
-<!--script-->
-<script src="/static/js/jquery-3.3.1.min.js"></script>
-<script src="/static/js/easyResponsiveTabs.js" type="text/javascript"></script>
-<script type="text/javascript">
-			    $(document).ready(function () {
-			        $('#horizontalTab').easyResponsiveTabs({
-			            type: 'default', //Types: default, vertical, accordion
-			            width: 'auto', //auto or any width like 600px
-			            fit: true   // 100% fit in a container
-			        });
-			    });
-
-</script>
-<!--script-->
-
-</head>
-
-<body>
-	<div class="head">
-		<div class="logo">
-			<div class="logo-top">
-                <img src="/static/images/logoHM.png" width="100px" height="94px"  alt="" style="padding-left: 35%"> <h1>翰名智慧工地管控平台</h1>
-			</div>
-			<div class="logo-bottom">
-				<section class="sky-form">
-					<label class="radio"><input type="radio" name="radio" id="ent" value="0" checked=""><i></i>企业账户登录</label>
-					<label class="radio"><input type="radio" name="radio" id="per" value="1"><i></i>合作伙伴账户登录</label>
-					<label class="radio"><input type="radio" name="radio" id="admin" value="2"><i></i>管理账户登录</label>
-				</section>
-			</div>
-		</div>		
-		<div class="login">
-			<div class="sap_tabs">
-				<div id="horizontalTab" style="display: block; width: 100%; margin: 0px;">
-					<ul class="resp-tabs-list">
-						<li class="resp-tab-item" aria-controls="tab_item-0" role="tab"><span>登录 Login</span></li>
-						<div class="clearfix"></div>
-					</ul>				  	 
-					<div class="resp-tabs-container">
-						<div class="tab-1 resp-tab-content" aria-labelledby="tab_item-0">
-							<div class="login-top">
-								<form class="layui-form layui-form-pane" accept-charset="utf-8">
-                                    <input type="text" class="email" name="email" placeholder="Email/Mobile phone/User account" required/>
-									<input type="password" class="password" name="password" placeholder="Password" required/>
-
-								    <div class="login-bottom login-bottom1">
-									    <div class="submit">
-										    <input type="submit" lay-submit lay-filter="formsubmit" value="LOGIN"/>
-									    </div>
-									    <div class="clear"></div>
-								    </div>
-
-								</form>
-
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>	
-		</div>	
-		<div class="clear"></div>
-	</div>	
-	<div class="footer">
-		<p>© 2019 杭州翰名信息技术有限公司 版权所有</p>
-	</div>
-
-    <script src="/static/layui/layui.js"></script>
-    <script>
-
-        layui.use(['element','layer','form'], function () {
-        var element = layui.element
-            , layer = layui.layer
-            , form = layui.form;
-
-            //监听窗口提交
-
-            form.on('submit(formsubmit)', function (data) {
-                var item = $("input[type='radio']:checked").val();
-                //alert(item);
-
-                $.ajax({
-                    type: "POST",
-                    url:  "{% url 'login:login_chk' %}?id="+item,
-                    data: data.field,
-                    dataType: "json",
-                    success: function (data) {
-                        if (data.result==='2') {
-                            layer.alert('没有找到用户名',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
-                        } else if (data.result==='1') {
-                            layer.alert('密码输入错误',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
-                        } else {
-                            window.location.href="";
-                        }
-                    }
-                });
-
-                return false;
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="description" content="" />
+        <meta name="keywords" content="" />
+        <title></title>
+        <link rel="stylesheet" href="/static/css/style.css" type="text/css" />
+        <link rel="stylesheet" href="/static/css/jquery.idcode.css">
+        <script src="/static/js/jquery-1.8.2.min.js" type="text/javascript"></script>
+        <script src="/static/js/jquery.idcode.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            $(function(){
+                $(".box").height($(window).height());
+	
+    	        $(window).resize(function(){$(".box").height($(window).height())});
             });
+        </script>
+    </head>
 
-        })
+    <body style="height: 100%; overflow: hidden">
 
-    </script>
+        <div class="box">
+
+            <div class="login-box">
+                <div class="left">
+                    <div >
+                        <img src="/static/images/logo.png" style="float: left;" /> <p style="float: left; font-size: 22px; color: white;">翰名科技</p>
+                    </div>
+                </div>
+                <div class="right">
+                    <!-- <img src="/static/images/icon02.png" /> -->
+                    <p style="font-size: 50px; color: #4455C9">智慧工地管控平台</p>
+
+                    <form style="padding-top: 15%">
+                        <div class="login">
+                            <input required='' type='text'>
+                            <label alt='用户名' placeholder='用户名'></label>
+                        </div>
+                        <div class="login">
+                            <input required='' type='password'>
+                            <label alt='密码' placeholder='密码'></label>
+                        </div>
+                        <div class="login">
+                            <input required='' type='text' class="txtVerification" id="Txtidcode" >
+                            <label alt='验证码' placeholder='验证码'></label>
+                            <span id="idcode" style="padding-left: 80%"></span>
+                        </div>
+                        <label class="login-btn"><input type="checkbox"><span></span><p>记住密码</p></label>
+                        <button class="btn" id="login">登录</button>
+                    </form>
+                    <p>© 2019 杭州翰名信息技术有限公司 版权所有 V1.1.0.728</p>
+                </div>
+            </div>
+        </div>
 
 
+        <script>
+            $.idcode.setCode();
 
-</body>
+            $("#login").click(function () {
+               //alert('test');
+               var IsBy = $.idcode.validateCode();
+               alert(IsBy);
+
+
+            });
+        </script>
+
+    </body>
 </html>
