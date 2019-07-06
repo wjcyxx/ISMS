@@ -7,6 +7,12 @@ from django.utils.encoding import python_2_unicode_compatible
 @python_2_unicode_compatible
 
 class project(models.Model):
+    PRJSTATE_CHOICES = (
+        (0, '立项'),
+        (1, '在建'),
+        (2, '完工')
+    )
+
 
     FID = models.UUIDField(primary_key=True, default=uuid.uuid1, editable=False)
     FPrjID = models.CharField(max_length=32, verbose_name='项目编码')
@@ -14,6 +20,42 @@ class project(models.Model):
     FShortname = models.CharField(max_length=128, verbose_name='项目简称', blank=True, null=True)
     FPrjtypeID = models.CharField(max_length=32, verbose_name='工程类别')
     FPrjuseID = models.CharField(max_length=32, verbose_name='工程用途')
+    FPrjstate = models.IntegerField(default=0, choices=PRJSTATE_CHOICES, verbose_name='工程状态')
+    FStructypeID = models.CharField(max_length=32, verbose_name='结构类型')
+    FPrjcost = models.FloatField(verbose_name='工程造价', default=0.0, blank=True, null=True)
+    FArea = models.FloatField(verbose_name='建筑面积', default=0.0, blank=True, null=True)
+    FAddress = models.CharField(max_length=128, verbose_name='项目地址', blank=True, null=True)
+    FLong = models.FloatField(verbose_name='经度', blank=True, null=True)
+    FLat = models.FloatField(verbose_name='经度', blank=True, null=True)
+    FSigDate = models.DateField(verbose_name='合同签订日期', blank=True, null=True)
+    FSigbeginDate = models.DateField(verbose_name='合同起始日期', blank=True, null=True)
+    FSigendDate = models.DateField(verbose_name='合同截止日期', blank=True, null=True)
+    FBeginDate = models.DateField(verbose_name='实际起始工期', blank=True, null=True)
+    FEndDate = models.DateField(verbose_name='实际截止日期', blank=True, null=True)
+    FPrjmanager = models.CharField(max_length=32, verbose_name='项目经理', blank=True, null=True)
+    FPrjmanagertel = models.CharField(max_length=32, verbose_name='项目经理电话', blank=True, null=True)
+    FWinOrgID = models.CharField(max_length=32, verbose_name='中标单位', blank=True, null=True)
+    FWinAtten = models.CharField(max_length=32, verbose_name='中标单位联系人', blank=True, null=True)
+    FWinAttenTel = models.CharField(max_length=32, verbose_name='中标单位联系人电话', blank=True, null=True)
+    FBuildOrgID = models.CharField(max_length=32, verbose_name='建设单位', blank=True, null=True)
+    FBuildAtten = models.CharField(max_length=32, verbose_name='建设单位联系人', blank=True, null=True)
+    FBuildAttenTel = models.CharField(max_length=32, verbose_name='建设单位联系人电话', blank=True, null=True)
+    FDesignOrgID = models.CharField(max_length=32, verbose_name='设计单位', blank=True, null=True)
+    FDesignAtten = models.CharField(max_length=32, verbose_name='设计单位联系人', blank=True, null=True)
+    FDesignAttenTel = models.CharField(max_length=32, verbose_name='设计单位联系人电话', blank=True, null=True)
+    FSuperviseOrgID = models.CharField(max_length=32, verbose_name='监理单位', blank=True, null=True)
+    FSuperviseAtten = models.CharField(max_length=32, verbose_name='监理单位联系人', blank=True, null=True)
+    FSuperviseAttenTel = models.CharField(max_length=32, verbose_name='监理单位联系人电话', blank=True, null=True)
+    FUserOrgID = models.CharField(max_length=32, verbose_name='业主单位', blank=True, null=True)
+    FUserAtten = models.CharField(max_length=32, verbose_name='业主单位联系人', blank=True, null=True)
+    FUserAttenTel = models.CharField(max_length=32, verbose_name='业务单位联系人电话', blank=True, null=True)
+    FPrjdesc = models.CharField(max_length=1024, verbose_name='工程概况', blank=True, null=True)
+    FStatus = models.BooleanField(default=True, verbose_name='状态')
+    CREATED_ORG = models.CharField(max_length=32, verbose_name='创建组织', blank=True, null=True)
+    CREATED_BY = models.CharField(max_length=32, verbose_name='创建人', blank=True, null=True)
+    CREATED_TIME = models.DateTimeField(blank=True, null=True, verbose_name='创建时间')
+    UPDATED_BY = models.CharField(max_length=32, verbose_name='更新人', blank=True, null=True)
+    UPDATED_TIME = models.DateTimeField(auto_now=True, verbose_name='更新时间')
 
     class Meta:
         db_table = "T_Project"
