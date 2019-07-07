@@ -16,10 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from login import views
+from common.views import generate_uuid
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('login/', include('login.urls')),
-    path('organize/', include('organize.urls')),
-    path('project/', include('project.urls')),
+    path('login/', include('login.urls'), name='login'),
+    path('organize/', include('organize.urls'), name='organize'),
+    path('project/', include('project.urls'), name='project'),
+    path('genuuid/', generate_uuid, name='genuuid')
 ]
