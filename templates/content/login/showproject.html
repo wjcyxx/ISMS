@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    {% include "common/resfiles.html" %}
+</head>
+<body style="overflow: hidden;">
+
+  <!--外联单位信息列表  -->
+
+    <!-- 工具条 -->
+      <!-- 查询框 -->
+      <div class="layui-collapse">
+          <div class="layui-colla-item">
+              <h2 class="layui-colla-title">查询条件</h2>
+              <div class="layui-colla-content">
+                  <form class="layui-form" method="post">
+                      <div class="layui-inline">
+                          <input type="text" name="serinput" placeholder="输入查询的外联单位名称" autocomplete="off" class="layui-input" value="" style="width: 120%">
+                      </div>
+
+                      <div class="layui-inline" style="margin-left: 35px">
+                          <input type="button" class="layui-btn layui-btn-small layui-btn-normal layui-icon" lay-submit lay-filter="formsubmit" value="&#xe615;查  询"/>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+
+      <div style="padding-top: 10px" >
+        <a href="javascript:;" class="layui-btn layui-btn-normal" id="btnAdd">新增</a>
+        <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
+      </div>
+
+      <!-- 数据列表 -->
+
+      <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
+
+{% include "common/jsfiles.html" %}
+
+<script>
+    var defaults = {
+      s1: 'provid',
+      s2: 'cityid',
+      s3: 'areaid',
+      v1: null,
+      v2: null,
+      v3: null
+    };
+</script>
+
+
+<script>
+  var Basetype = {{ bdata|safe }}
+
+  layui.use(['element', 'layer', 'table'], function(){
+      var $ = layui.jquery
+          ,element = layui.element
+          ,table = layui.table
+          ,layer = layui.layer;
+
+
+      $("#btnClose").click(function () {
+          window.parent.layui.element.tabDelete('tabMain','Unionorg');
+      });
+
+      //新增按钮事件
+      $("#btnAdd").click(function () {
+          parent.layer.open({
+              type:   2,
+              title:  '添加外联单位信息',
+              area: ['900px','630px'],
+              fixed: false,
+              content: "{% url 'unionorg:add' %}",
+              resize: false,
+              move: false
+          });
+      });
+
+      table.render({
+          method: 'post',
+          page: true,
+          limit: 20,
+          elem: '#datasource',
+          url: "{% url 'unionorg:get_datasource' %}",
+          cols: [[
+              {field:'FUnion_name', width: '20%', title: '外联单位名称', sort: true},
+              {field:'FUnion_typeid', width: '15%', title: '单位类型', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FUnion_typeid, Basetype)}}{% endverbatim %}</div>'},
+              {field:'FUnion_address', width: '25%', title: '所在地址', sort: true},
+              {field:'FUnion_corporation', width: '15%', title: '法人代表', sort: true},
+              {field:'FUnion_corptel', width: '15%', title: '法人电话', sort: true},
+              {field:'FUnion_privlinenum', width: '15%', title: '接入专线数量', sort: true},
+              {field:'FUnion_terminalnum', width: '15%', title: '接入终端数量', sort: true},
+              {field:'FUnion_organizeid', width: '25%', title: '社会统一信用代码', sort: true},
+              {field:'FUnion_state', width: '10%', title: '状态', sort: true, templet: '#tpActive'},
+              {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
+          ]],
+          id: 'runreload'
+      });
+
+      //监听查询条件提交
+        form.on('submit(formsubmit)', function (data) {
+            var serinput = $("input[name='serinput']").val();
+            //alert(serinput);
+            table.reload('runreload', {where: {resultdict:{FUnion_name: serinput}}});
+
+            return false;
+        });
+
+
+      //监听工具栏按钮事件
+      table.on('tool(toolbar)', function (obj) {
+          var data = obj.data;           //获取当前行数据
+          var layEvent = obj.event;      //获取当前行事件
+          var tr = obj.tr;               //获取当前行tr的DOM数据
+          var fid = {"FUnion_id":data.FUnion_id};
+
+          switch (layEvent){
+              case 'edit' :              //编辑按钮事件
+                  parent.layer.open({
+                      type:   2,
+                      title:  '编辑外联单位信息',
+                      area: ['900px','630px'],
+                      fixed: false,
+                      content: "{% url 'unionorg:edit' %}?fid="+data.FUnion_id,
+                      resize: false,
+                      move: false
+                  });
+
+                  break;
+              case 'disable' :               //删除按钮事件
+                  parent.layer.open({
+                      content: '是否确定禁用该组织',
+                      btn: ['确定','取消'],
+                      yes: function (index) {
+                          $.post("{% url 'unionorg:disabled' %}", fid, function (data) {
+                              if (data.result=='0') {
+                                 window.parent.document.getElementById('Unionorg').contentWindow.location.reload();
+                              } else if (data.result=='1') {
+                                 parent.layer.alert('禁用失败,未找到数据',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                              }
+                          },"json");
+                          parent.layer.close(index);
+                      },
+                      btn2: function (index) {
+                      }
+                  });
+                  break;
+          }
+      });
+  });
+</script>
+
+<!--显示组织隔离模板-->
+
+<!--显示启用状态模板-->
+<script type="text/html" id="tpActive">
+    {% verbatim %}
+        {{#  if(d.FUnion_state == 0){ }}
+        <span style="color: darkgreen; font-weight: bold">正常</span>
+        {{#  } else if(d.FUnion_state == 1) { }}
+        <span style="color: yellow; font-weight: bold">锁定</span>
+        {{#  } else { }}
+        <span style="color: red; font-weight: bold">禁用</span>
+        {{#  } }}
+    {% endverbatim %}
+</script>
+
+<!--生成操作工具栏-->
+<script type="text/html" id="tlbar">
+  <div class="layui-btn-group">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disable"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>
+  </div>
+</script>
+
+</body>
+</html>

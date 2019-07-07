@@ -5,9 +5,11 @@
         <meta name="keywords" content="" />
         <title></title>
         <link rel="stylesheet" href="/static/css/style.css" type="text/css" />
+        <link rel="stylesheet" href="/static/layui/css/layui.css">
         <link rel="stylesheet" href="/static/css/jquery.idcode.css">
-        <script src="/static/js/jquery-1.8.2.min.js" type="text/javascript"></script>
+        <script src="/static/js/jquery-3.3.1.min.js" type="text/javascript"></script>
         <script src="/static/js/jquery.idcode.js" type="text/javascript"></script>
+        <script src="/static/layui/layui.js"></script>
         <script type="text/javascript">
             $(function(){
                 $(".box").height($(window).height());
@@ -31,39 +33,80 @@
                     <!-- <img src="/static/images/icon02.png" /> -->
                     <p style="font-size: 50px; color: #4455C9">智慧工地管控平台</p>
 
-                    <form style="padding-top: 15%">
+                    <form style="padding-top: 15%" class="layui-form layui-form-pane" accept-charset="utf-8">
                         <div class="login">
-                            <input required='' type='text'>
+                            <input required='' type='text' name="UserID">
                             <label alt='用户名' placeholder='用户名'></label>
                         </div>
                         <div class="login">
-                            <input required='' type='password'>
+                            <input required='' type='password' name="Userpwd">
                             <label alt='密码' placeholder='密码'></label>
                         </div>
                         <div class="login">
                             <input required='' type='text' class="txtVerification" id="Txtidcode" >
                             <label alt='验证码' placeholder='验证码'></label>
-                            <span id="idcode" style="padding-left: 80%"></span>
                         </div>
-                        <label class="login-btn"><input type="checkbox"><span></span><p>记住密码</p></label>
-                        <button class="btn" id="login">登录</button>
+                        <div>
+                            <span id="idcode" style="padding-left: 80%;"></span>
+                        </div>
+
+                        <input type="button" id="login" class="layui-btn layui-btn-normal" lay-submit lay-filter="formsubmit"  value="登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录"/>
                     </form>
+                    <br/>
+                    <br/>
                     <p>© 2019 杭州翰名信息技术有限公司 版权所有 V1.1.0.728</p>
                 </div>
             </div>
         </div>
 
-
         <script>
-            $.idcode.setCode();
-
-            $("#login").click(function () {
-               //alert('test');
-               var IsBy = $.idcode.validateCode();
-               alert(IsBy);
+            layui.use(['element','layer','form'], function () {
+                var element = layui.element
+                , layer = layui.layer
+                , form = layui.form;
 
 
+                $.idcode.setCode();
+
+                $("#login").click(function () {
+                    var IsBy = $.idcode.validateCode();
+
+                    if (IsBy == true) {
+                        //监听窗口提交
+                        form.on('submit(formsubmit)', function (data) {
+                            $.ajax({
+                                type: "POST",
+                                url:  "{% url 'login:login_chk' %}",
+                                data: data.field,
+                                dataType: "json",
+                                success: function (data) {
+                                    if (data.result==='2') {
+                                        layer.alert('没有找到用户名',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                                    } else if (data.result==='1') {
+                                        layer.alert('密码输入错误',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                                    } else {
+                                        layer.open({
+                                            type: 2,
+                                            title: '选择所属项目',
+                                            fixed: false,
+                                            resize: false,
+                                            move: false,
+                                            area: ['700', '500'],
+                                            content: "{% url 'login:login_showPrj' %}?orgid="+data.orgid
+                                        });
+                                    }
+                                }
+                            });
+
+                            return false;
+                        });
+
+                    } else {
+                        layer.alert('验证码输入错误',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                    }
+                });
             });
+
         </script>
 
     </body>

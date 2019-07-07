@@ -13,7 +13,7 @@ img{border:none;}
 
 .box{background:url(../images/bj.jpg) top center no-repeat;background-size:cover;}
 
-.login-box{width:100%;max-width:1420px;height:780px;padding:0 10px; margin:0 auto;}
+.login-box{width:100%;max-width:1420px;height:700px;padding:0 10px; margin:0 auto;}
 .login-box div.left,.login-box div.right{width:50%;height:100%;margin:6% 0;}
 .login-box div.left{background:url(../images/left-bj.png) top left no-repeat;padding:30px; }
 .login-box div.right{background:url(../images/right-bj.jpg) top left no-repeat;padding:40px 102px;}
