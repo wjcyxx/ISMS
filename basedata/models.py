@@ -7,7 +7,7 @@ from django.utils.encoding import python_2_unicode_compatible
 @python_2_unicode_compatible
 
 class base(models.Model):
-    FID = models.UUIDField(primary_key=True, default=uuid.uuid1, editable=False)
+    FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
     FPID = models.CharField(max_length=32, blank=True, null=True)
     FBaseID = models.CharField(max_length=32, verbose_name='字典编号', blank=True, null=True)
     FBase = models.CharField(max_length=32, verbose_name='字典名称', blank=True, null=True)

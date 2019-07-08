@@ -67,7 +67,7 @@ def update(request):
     if request.method == 'POST':
 
         response_data = {}
-        fid = request.POST.get('fid')
+        fid = request.POST.get('FID')
 
         Base_info = base.objects.get(FID=fid)
         obj = BasetypeModelForm(request.POST, instance=Base_info)
@@ -152,7 +152,7 @@ def get_object(request):
 def basedata_add(request):
     obj = BasedataModelForm()
 
-    obj.fields['FBase_pid'].choices = get_object(request)
+    obj.fields['FPID'].choices = get_object(request)
     return render(request, "content/basedata/basedataadd.html", {'obj': obj})
 
 def basedata_edit(request):
@@ -194,7 +194,7 @@ def basedata_update(request):
         response_data = {}
         dict={}
 
-        fid = request.POST.get('fid')
+        fid = request.POST.get('FID')
 
         Base_info = base.objects.get(FID=fid)
         dict['CREATED_BY'] = Base_info.CREATED_BY

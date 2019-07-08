@@ -59,10 +59,10 @@
           elem: '#datasource',
           url: "{% url 'basedata:getbasedata_datasource' %}",
           cols: [[
-              {field:'FBase_key', width: '15%', title: '编号', sort: true},
-              {field:'FBase_value', width: '20%', title: '字典名称'},
-              {field:'FBase_pid', width: '20%', title:'字典类型', templet: '<div>{% verbatim %}{{sotitle(d.FBase_pid, Basetype)}}{% endverbatim %}</div>'},
-              {field:'FBase_desc', width: '25%', title: '描述'},
+              {field:'FBaseID', width: '15%', title: '编号', sort: true},
+              {field:'FBase', width: '20%', title: '字典名称'},
+              {field:'FPID', width: '20%', title:'字典类型', templet: '<div>{% verbatim %}{{sotitle(d.FPID, Basetype)}}{% endverbatim %}</div>'},
+              {field:'FDesc', width: '25%', title: '描述'},
               {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
           ]],
           page: true,
@@ -74,7 +74,7 @@
           var data = obj.data;           //获取当前行数据
           var layEvent = obj.event;      //获取当前行事件
           var tr = obj.tr;               //获取当前行tr的DOM数据
-          var fid = {"fid":data.FBase_id};
+          var fid = {"fid":data.FID};
 
           switch (layEvent){
               case 'edit' :              //编辑按钮事件
@@ -83,7 +83,7 @@
                       title:  '编辑数据字典信息',
                       area: ['900px','350px'],
                       fixed: false,
-                      content: "{% url 'basedata:basedata_edit' %}?fid="+data.FBase_id,
+                      content: "{% url 'basedata:basedata_edit' %}?fid="+data.FID,
                       resize: false,
                       move: false
                   });
