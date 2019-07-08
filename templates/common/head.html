@@ -1,0 +1,66 @@
+ <div class="layui-header header">
+   <div class="layui-main">
+     <div>
+         <div class="layui-inline">
+            <img src="/static/images/logoHM.png" height="48" width="50" style="padding-top: 1px" />
+         </div>
+         <div class="layui-inline">
+            <H1 style="padding-top: 7px; display: inline-block">智慧工地管控平台</H1> <H2 style="display: inline-block; padding-left: 15px"><span class="layui-badge-dot"></span><a href="" style="color: yellowgreen"> {{ prjinfo.FPrjname }}</a></H2>
+         </div>
+     </div>
+     <ul class="layui-nav" lay-filter="navTop" style="text-align:left">
+         <li class="layui-nav-item">
+             <a href="javascript:;"><i class="iconfont icon-zuzhiguanli"></i>项目管理</a>
+             <dl class="layui-nav-child">
+                 <dd><a href="javascript:;" data-id="Organize" data-url=""><span>组织管理</span></a></dd>
+                 <dd><a href="javascript:;" data-id="Role" data-url=""><span>用户组管理</span></a></dd>
+                 <dd><a href="javascript:;" data-id="Userinfo" data-url=""><span>用户管理</span></a></dd>
+             </dl>
+         </li>
+
+
+         <li class="layui-nav-item">
+             <a href="javascript:;"><i class="iconfont icon-zuzhiguanli"></i>组织管理</a>
+             <dl class="layui-nav-child">
+                 <dd><a href="javascript:;" data-id="Organize" data-url=""><span>组织管理</span></a></dd>
+                 <dd><a href="javascript:;" data-id="Role" data-url=""><span>用户组管理</span></a></dd>
+                 <dd><a href="javascript:;" data-id="Userinfo" data-url=""><span>用户管理</span></a></dd>
+             </dl>
+         </li>
+
+         <li class="layui-nav-item">
+             <a href="javascript:;"><i class="iconfont icon-zuzhiguanli"></i>基础数据</a>
+             <dl class="layui-nav-child">
+                 <dd><a href="javascript:;" data-id="Organize" data-url=""><span>组织管理</span></a></dd>
+                 <dd><a href="javascript:;" data-id="Role" data-url=""><span>用户组管理</span></a></dd>
+                 <dd><a href="javascript:;" data-id="Userinfo" data-url=""><span>用户管理</span></a></dd>
+             </dl>
+         </li>
+
+         <li class="layui-nav-item">
+             <a href="javascript:;"><i class="layui-icon">&#xe614;</i>系统设置</a>
+             <dl class="layui-nav-child">
+                <dd><a href="javascript:;" data-id="Basetype" data-url=""><span>字典类型</span></a></dd>
+                <dd><a href="javascript:;" data-id="Basedata" data-url=""><span>数据字典</span></a></dd>
+                <dd><a href="javascript:;" data-id="lnkSyslog">系统日志</a></dd>
+             </dl>
+         </li>
+
+
+        <li class="layui-nav-item">
+          <!-- <a href="javascript:;">{$Think.session.usrtag}</a> -->
+          <div class="layui-inline">
+            <img src="/static/images/title1.png" height="28" width="28" />
+          </div>
+          <div class="layui-inline">
+            <a href="javascript:;">{{ request.session.Username }}</a>
+          </div>
+          <dl class="layui-nav-child">
+            <dd><a href="">修改密码</a></dd>
+            <dd><a href="">注销登录</a></dd>
+          </dl>
+        </li>
+
+     </ul>
+   </div>
+ </div>

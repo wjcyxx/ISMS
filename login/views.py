@@ -2,7 +2,10 @@ from django.shortcuts import render
 from django.shortcuts import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
+from django.http import JsonResponse
 from .models import *
+from project.models import *
+from common.views import *
 import json
 
 # Create your views here.
@@ -36,6 +39,31 @@ def login_chk(request):
         return HttpResponse(json.dumps(response_data))
 
 def login_showPrj(request):
-
     if request.method == "GET":
-        return render(request, "content/login/showproject.html")
+        orgid = request.GET.get('orgid')
+
+        return render(request, "content/login/showproject.html", {'orgid': orgid})
+
+
+def get_project(request):
+    if request.method == "POST":
+        orgid = request.GET.get('orgid')
+
+        serinput = request.POST.get("resultdict[FPrjname]", '')
+
+        prj_info = project.objects.filter(Q(FManageORG=orgid), Q(FPrjname__contains=serinput))
+        dict = convert_to_dicts(prj_info)
+
+        resultdict = {'code': 0, 'msg': "", 'count': prj_info.count(), 'data': dict}
+        return JsonResponse(resultdict, safe=False)
+
+def login_ok(request):
+    if request.method == "GET":
+        prjid = request.GET.get('prjid')
+        prjid = ''.join(str(prjid).split('-'))
+
+        prj_info = project.objects.get(Q(FID=prjid))
+
+        return render(request, "main.html", {'prjinfo': prj_info})
+
+

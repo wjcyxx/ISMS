@@ -35,15 +35,15 @@
 
                     <form style="padding-top: 15%" class="layui-form layui-form-pane" accept-charset="utf-8">
                         <div class="login">
-                            <input required='' type='text' name="UserID">
+                            <input required='' type='text' name="UserID" autocomplete="off">
                             <label alt='用户名' placeholder='用户名'></label>
                         </div>
                         <div class="login">
-                            <input required='' type='password' name="Userpwd">
+                            <input required='' type='password' name="Userpwd" autocomplete="off">
                             <label alt='密码' placeholder='密码'></label>
                         </div>
                         <div class="login">
-                            <input required='' type='text' class="txtVerification" id="Txtidcode" >
+                            <input required='' type='text' class="txtVerification" id="Txtidcode" autocomplete="off">
                             <label alt='验证码' placeholder='验证码'></label>
                         </div>
                         <div>
@@ -91,7 +91,7 @@
                                             fixed: false,
                                             resize: false,
                                             move: false,
-                                            area: ['700', '500'],
+                                            area: ['900', '500'],
                                             content: "{% url 'login:login_showPrj' %}?orgid="+data.orgid
                                         });
                                     }

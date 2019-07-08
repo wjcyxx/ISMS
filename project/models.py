@@ -51,6 +51,7 @@ class project(models.Model):
     FUserAttenTel = models.CharField(max_length=32, verbose_name='业务单位联系人电话', blank=True, null=True)
     FPrjdesc = models.CharField(max_length=1024, verbose_name='工程概况', blank=True, null=True)
     FStatus = models.BooleanField(default=True, verbose_name='状态')
+    FManageORG = models.CharField(max_length=32, verbose_name='管理组织', blank=True, null=True)
     CREATED_ORG = models.CharField(max_length=32, verbose_name='创建组织', blank=True, null=True)
     CREATED_BY = models.CharField(max_length=32, verbose_name='创建人', blank=True, null=True)
     CREATED_TIME = models.DateTimeField(blank=True, null=True, verbose_name='创建时间')
