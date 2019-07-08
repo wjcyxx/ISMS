@@ -10,7 +10,7 @@
      </div>
      <ul class="layui-nav" lay-filter="navTop" style="text-align:left">
          <li class="layui-nav-item">
-             <a href="javascript:;"><i class="iconfont icon-zuzhiguanli"></i>项目管理</a>
+             <a href="javascript:;"><i class="fa fa-product-hunt" aria-hidden="true"></i>项目管理</a>
              <dl class="layui-nav-child">
                  <dd><a href="javascript:;" data-id="Organize" data-url=""><span>组织管理</span></a></dd>
                  <dd><a href="javascript:;" data-id="Role" data-url=""><span>用户组管理</span></a></dd>
@@ -29,7 +29,7 @@
          </li>
 
          <li class="layui-nav-item">
-             <a href="javascript:;"><i class="iconfont icon-zuzhiguanli"></i>基础数据</a>
+             <a href="javascript:;"><i class="fa fa-database" aria-hidden="true"></i>基础数据</a>
              <dl class="layui-nav-child">
                  <dd><a href="javascript:;" data-id="Organize" data-url=""><span>组织管理</span></a></dd>
                  <dd><a href="javascript:;" data-id="Role" data-url=""><span>用户组管理</span></a></dd>
@@ -40,7 +40,7 @@
          <li class="layui-nav-item">
              <a href="javascript:;"><i class="layui-icon">&#xe614;</i>系统设置</a>
              <dl class="layui-nav-child">
-                <dd><a href="javascript:;" data-id="Basetype" data-url=""><span>字典类型</span></a></dd>
+                <dd><a href="javascript:;" data-id="Basetype" data-url="{% url 'basedata:basetype' %}"><span>字典类型</span></a></dd>
                 <dd><a href="javascript:;" data-id="Basedata" data-url=""><span>数据字典</span></a></dd>
                 <dd><a href="javascript:;" data-id="lnkSyslog">系统日志</a></dd>
              </dl>

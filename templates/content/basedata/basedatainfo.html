@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include "common/resfiles.html" %}
+</head>
+<body style="overflow: hidden;">
+  <!--数据字典信息列表  -->
+
+    <!-- 工具条 -->
+      <form class="layui-form" method="post">
+      <div >
+        <a href="javascript:;" class="layui-btn layui-btn-normal" id="btnAdd">新增</a>
+        <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
+        <!-- 查询框 -->
+          <div class="layui-inline" style="margin-left: 30px">
+            <input type="text" name="serbase" placeholder="请输入需要查询的类别" autocomplete="off" class="layui-input" style="width: 120%">
+          </div>
+          <div class="layui-inline" style="margin-left: 35px">
+              <input type="button" class="layui-btn layui-btn-small layui-btn-normal layui-icon" lay-submit lay-filter="formsubmit" value="&#xe615;查  询"/>
+          </div>
+      </div>
+      </form>
+    <!-- 数据列表 -->
+      <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
+
+{% include "common/jsfiles.html" %}
+
+<script>
+    var Basetype = {{ bdata|safe }}
+
+    layui.use(['element', 'layer', 'table'], function(){
+      var $ = layui.jquery
+          ,element = layui.element
+          ,table = layui.table
+          ,layer = layui.layer;
+
+
+      $("#btnClose").click(function () {
+          window.parent.layui.element.tabDelete('tabMain','Basedata');
+      });
+
+
+      //新增按钮事件
+      $("#btnAdd").click(function () {
+          parent.layer.open({
+              type:   2,
+              title:  '添加数据字典信息',
+              area: ['900px','500px'],
+              fixed: false,
+              content: "{% url 'basedata:basedata_add' %}",
+              resize: false,
+              move: false
+          });
+      });
+
+        table.render({
+          method: 'post',
+          height: 'full-450',
+          elem: '#datasource',
+          url: "{% url 'basedata:getbasedata_datasource' %}",
+          cols: [[
+              {field:'FBase_key', width: '15%', title: '编号', sort: true},
+              {field:'FBase_value', width: '20%', title: '字典名称'},
+              {field:'FBase_pid', width: '20%', title:'字典类型', templet: '<div>{% verbatim %}{{sotitle(d.FBase_pid, Basetype)}}{% endverbatim %}</div>'},
+              {field:'FBase_desc', width: '25%', title: '描述'},
+              {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
+          ]],
+          page: true,
+          limit: 10
+      });
+
+      //监听工具栏按钮事件
+      table.on('tool(toolbar)', function (obj) {
+          var data = obj.data;           //获取当前行数据
+          var layEvent = obj.event;      //获取当前行事件
+          var tr = obj.tr;               //获取当前行tr的DOM数据
+          var fid = {"fid":data.FBase_id};
+
+          switch (layEvent){
+              case 'edit' :              //编辑按钮事件
+                  parent.layer.open({
+                      type:   2,
+                      title:  '编辑数据字典信息',
+                      area: ['900px','350px'],
+                      fixed: false,
+                      content: "{% url 'basedata:basedata_edit' %}?fid="+data.FBase_id,
+                      resize: false,
+                      move: false
+                  });
+
+                  break;
+              case 'del' :               //删除按钮事件
+                  parent.layer.open({
+                      content: '是否确定删除该数据',
+                      btn: ['确定','取消'],
+                      yes: function (index) {
+                          $.post("{% url 'basedata:basedata_delete' %}", fid, function (data) {
+                              if (data.result == '0'){
+                                  window.parent.document.getElementById('Basedata').contentWindow.location.reload();
+                              } else if (data.result == '1')  {
+                                  parent.layer.alert('删除失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                              }
+                          },"json");
+
+                          parent.layer.close(index);
+                      },
+                      btn2: function (index) {
+
+                      }
+                  });
+
+                  break;
+          }
+      });
+  });
+</script>
+
+
+<!--生成操作工具栏-->
+<script type="text/html" id="tlbar">
+  <div class="layui-btn-group">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>编辑</a>
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="del"><i class="iconfont icon-shanchu"></i>删除</a>
+  </div>
+</script>
+
+</body>
+</html>

@@ -23,5 +23,7 @@ urlpatterns = [
     path('login/', include('login.urls'), name='login'),
     path('organize/', include('organize.urls'), name='organize'),
     path('project/', include('project.urls'), name='project'),
-    path('genuuid/', generate_uuid, name='genuuid')
+    path('genuuid/', generate_uuid, name='genuuid'),
+    path('basedata/', include('basedata.urls'), name='basedata')
+
 ]

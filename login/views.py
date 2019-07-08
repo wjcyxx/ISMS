@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import HttpResponse
+from django.shortcuts import redirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from django.http import JsonResponse
@@ -66,4 +67,7 @@ def login_ok(request):
 
         return render(request, "main.html", {'prjinfo': prj_info})
 
-
+def show(request):
+    url = request.GET.get('url')
+    #return HttpResponse(url)
+    return redirect(url)

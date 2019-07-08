@@ -25,7 +25,7 @@ SECRET_KEY = 'b-5u!p7be3ii&u0gov-ysd1l^y&-=zu0_8faf1r_6ua)ygu#0q'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'login',
     'organize',
     'project',
-    'common'
+    'common',
+    'basedata'
 ]
 
 MIDDLEWARE = [
