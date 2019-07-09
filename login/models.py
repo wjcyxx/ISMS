@@ -11,7 +11,7 @@ class User(models.Model):
     TYPE_CHOICES = (
         (0, '企业账户'),
         (1, '合作伙伴'),
-        (3, '管理员')
+        (2, '管理员')
     )
 
 

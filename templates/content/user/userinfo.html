@@ -4,7 +4,8 @@
     {% include "common/resfiles.html" %}
 </head>
 <body style="overflow: hidden;">
-  <!--数据字典信息列表  -->
+
+  <!--字典类别信息列表  -->
 
     <!-- 工具条 -->
       <form class="layui-form" method="post">
@@ -13,10 +14,10 @@
         <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
         <!-- 查询框 -->
           <div class="layui-inline" style="margin-left: 30px">
-            <input type="text" name="serinput" placeholder="请输入需要查询的类别" autocomplete="off" class="layui-input" style="width: 120%">
+            <input type="text" name="serinput" placeholder="请输入需要查询的类别名称" autocomplete="off" class="layui-input" style="width: 120%">
           </div>
           <div class="layui-inline" style="margin-left: 35px">
-              <input type="button" class="layui-btn layui-btn-small layui-btn-normal layui-icon" lay-submit lay-filter="formsubmit" value="&#xe615;查  询"/>
+            <input type="button" class="layui-btn layui-btn-small layui-btn-normal layui-icon" lay-submit lay-filter="formsubmit" value="&#xe615;查  询"/>
           </div>
       </div>
       </form>
@@ -26,58 +27,53 @@
 {% include "common/jsfiles.html" %}
 
 <script>
-    var Basetype = {{ bdata|safe }}
-
-    layui.use(['element', 'layer', 'table'], function(){
+  layui.use(['element', 'layer', 'table'], function(){
       var $ = layui.jquery
           ,element = layui.element
           ,table = layui.table
           ,layer = layui.layer;
 
-
       $("#btnClose").click(function () {
-          window.parent.layui.element.tabDelete('tabMain','Basedata');
+          window.parent.layui.element.tabDelete('tabMain','User');
       });
-
 
       //新增按钮事件
       $("#btnAdd").click(function () {
           parent.layer.open({
               type:   2,
-              title:  '添加数据字典信息',
-              area: ['900px','500px'],
+              title:  '添加字典类型信息',
+              area: ['900px','300px'],
               fixed: false,
-              content: "{% url 'basedata:basedata_add' %}",
+              content: "{% url 'user:add' %}",
               resize: false,
               move: false
           });
       });
 
-        table.render({
+      table.render({
           method: 'post',
-          height: 'full-450',
+          page: true,
+          limit: 15,
           elem: '#datasource',
-          url: "{% url 'basedata:getbasedata_datasource' %}",
+          url: "{% url 'user:get_datasource' %}",
           cols: [[
-              {field:'FBaseID', width: '15%', title: '编号', sort: true},
-              {field:'FBase', width: '20%', title: '字典名称'},
-              {field:'FPID', width: '20%', title:'字典类型', templet: '<div>{% verbatim %}{{sotitle(d.FPID, Basetype)}}{% endverbatim %}</div>'},
-              {field:'FDesc', width: '25%', title: '描述'},
+              {field:'FBaseID', width: '20%', title: '类型编号', sort: true},
+              {field:'FBase', width: '20%', title: '类型名称'},
+              {field:'FDesc', width: '40%', title: '描述'},
               {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
           ]],
-          page: true,
-          limit: 10,
           id: 'runreload'
-        });
-
-      //监听查询条件提交
-      form.on('submit(formsubmit)', function (data) {
-          var serinput = $("input[name='serinput']").val();
-
-          table.reload('runreload', {page:{curr: 1}, where: {resultdict:{FBase: serinput}}});
-
-          return false;
       });
+
+    //监听查询条件提交
+     form.on('submit(formsubmit)', function (data) {
+        var serinput = $("input[name='serinput']").val();
+
+        table.reload('runreload', {page:{curr: 1}, where: {resultdict:{FBase: serinput}}});
+
+        return false;
+     });
+
 
       //监听工具栏按钮事件
       table.on('tool(toolbar)', function (obj) {
@@ -90,10 +86,10 @@
               case 'edit' :              //编辑按钮事件
                   parent.layer.open({
                       type:   2,
-                      title:  '编辑数据字典信息',
-                      area: ['900px','350px'],
+                      title:  '编辑字典类型信息',
+                      area: ['900px','300px'],
                       fixed: false,
-                      content: "{% url 'basedata:basedata_edit' %}?fid="+data.FID,
+                      content: "{% url 'basedata:edit' %}?fid="+data.FID,
                       resize: false,
                       move: false
                   });
@@ -104,21 +100,21 @@
                       content: '是否确定删除该数据',
                       btn: ['确定','取消'],
                       yes: function (index) {
-                          $.post("{% url 'basedata:basedata_delete' %}", fid, function (data) {
+                          $.post("{% url 'basedata:delete' %} ", fid, function (data) {
                               if (data.result == '0'){
-                                  window.parent.document.getElementById('Basedata').contentWindow.location.reload();
+                                   window.parent.document.getElementById('Basetype').contentWindow.location.reload();
                               } else if (data.result == '1')  {
                                   parent.layer.alert('删除失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                              } else if (data.result == '2') {
+                                  parent.layer.alert('删除失败,该字典类型已被使用',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
                               }
                           },"json");
 
                           parent.layer.close(index);
                       },
                       btn2: function (index) {
-
                       }
                   });
-
                   break;
           }
       });

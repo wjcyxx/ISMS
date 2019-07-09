@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  {% include 'common/resfiles.html' %}
+</head>
+<body style="overflow: hidden">
+
+
+<form class="layui-form layui-form-pane" accept-charset="utf-8">
+    <!-- 工具栏按钮 -->
+    <div style="padding-top: 1%; padding-left: 1%">
+      <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formsubmit" >保存</button>
+      <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnC">关闭</a>
+    </div>
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+      <legend>字典类型信息详情</legend>
+    </fieldset>
+    <!-- 表单内容 -->
+      <div class="layui-row layui-col-space3" style="padding-left: 2%">
+          <div class="layui-col-xs4">
+              <label class="layui-form-label">类型编号</label>
+              <div class="layui-input-block">
+                  {{ obj.FBase_id }}
+                  {{ obj.FBase_key }}
+              </div>
+          </div>
+          <div class="layui-col-xs4">
+              <label class="layui-form-label">类型名称</label>
+              <div class="layui-input-block">
+                  {{ obj.FBase_value }}
+              </div>
+          </div>
+      </div>
+
+      <div class="layui-row layui-col-space20" style="padding-left: 2%">
+          <div class="layui-col-xs12">
+              <label class="layui-form-label">类型描述</label>
+              <div class="layui-input-block">
+                  {{ obj.FBase_desc }}
+              </div>
+          </div>
+      </div>
+</form>
+
+
+<!-- <script src="//res.layui.com/layui/build/layui.js" charset="utf-8"></script> -->
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+{% include 'common/jsfiles.html' %}
+
+<script>
+layui.use(['element','layer','form'], function () {
+    var element = layui.element
+        , layer = layui.layer
+        , form = layui.form;
+
+
+    //关闭按钮
+    $("#btnC").click(function () {
+        var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
+        parent.layer.close(index);
+    });
+
+
+    //监听窗口提交
+    form.on('submit(formsubmit)', function (data) {
+        $.ajax({
+            type: "POST",
+            url:  "{% url 'basedata:insert' %}",
+            data: data.field,
+            dataType: "json",
+            success: function (data) {
+                if (data.result == '0') {          //返回正常保存
+                    window.parent.document.getElementById('Basetype').contentWindow.location.href ="{% url 'basedata:basetype' %}";
+                    var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
+                    parent.layer.close(index);
+                } else if (data.result == '1') {  //返回校验错误信息
+                        for (item in data["msg"]){
+                            if (data["msg"][item]){
+                                $("#error").remove();
+                                $("input[name='"+item+"']").after("<span style='color:#FF5722' id='error'>"+data["msg"][item]+"</span>");
+                            }
+                        }
+                }
+            }
+        });
+        return false;
+    });
+})
+</script>
+
+</body>
+</html>
