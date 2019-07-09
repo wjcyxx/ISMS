@@ -26,8 +26,11 @@ def login_chk(request):
             if Userpwd != user_info.FUserpwd:
                 response_data['result'] = '1'  # 返回密码输入错误
                 return HttpResponse(json.dumps(response_data))
-        except ObjectDoesNotExist:
 
+            if user_info.FStatus == False:
+                response_data['result'] = '3'  # 返回用户被禁用
+                return HttpResponse(json.dumps(response_data))
+        except ObjectDoesNotExist:
             response_data['result'] = '2'  # 返回用户没有找到
             return HttpResponse(json.dumps(response_data))
 

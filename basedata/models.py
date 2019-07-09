@@ -20,3 +20,4 @@ class base(models.Model):
 
     class Meta:
         db_table = 'T_Base'
+        ordering = ['FBaseID']

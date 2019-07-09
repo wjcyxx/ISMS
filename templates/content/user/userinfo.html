@@ -34,15 +34,15 @@
           ,layer = layui.layer;
 
       $("#btnClose").click(function () {
-          window.parent.layui.element.tabDelete('tabMain','User');
+          window.parent.layui.element.tabDelete('tabMain','Userinfo');
       });
 
       //新增按钮事件
       $("#btnAdd").click(function () {
           parent.layer.open({
               type:   2,
-              title:  '添加字典类型信息',
-              area: ['900px','300px'],
+              title:  '添加用户信息',
+              area: ['900px','350px'],
               fixed: false,
               content: "{% url 'user:add' %}",
               resize: false,
@@ -57,9 +57,11 @@
           elem: '#datasource',
           url: "{% url 'user:get_datasource' %}",
           cols: [[
-              {field:'FBaseID', width: '20%', title: '类型编号', sort: true},
-              {field:'FBase', width: '20%', title: '类型名称'},
-              {field:'FDesc', width: '40%', title: '描述'},
+              {field:'FUserID', width: '20%', title: '用户账户', sort: true},
+              {field:'FType', width: '10%', title: '用户类型', sort: true, templet: '#tpUserType'},
+              {field:'FUsername', width: '20%', title: '用户名称', sort: true},
+              {field:'FTel', width: '20%', title: '联系电话', sort: true},
+              {field:'FStatus', width: '10%', title: '状态', sort: true, templet: '#tpStatus'},
               {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
           ]],
           id: 'runreload'
@@ -87,27 +89,26 @@
                   parent.layer.open({
                       type:   2,
                       title:  '编辑字典类型信息',
-                      area: ['900px','300px'],
+                      area: ['900px','400px'],
                       fixed: false,
-                      content: "{% url 'basedata:edit' %}?fid="+data.FID,
+                      content: "{% url 'user:edit' %}?fid="+data.FID,
                       resize: false,
                       move: false
                   });
 
                   break;
-              case 'del' :               //删除按钮事件
+              case 'disabled' :               //禁用按钮事件
                   parent.layer.open({
-                      content: '是否确定删除该数据',
+                      content: '是否确定禁用该用户账户',
                       btn: ['确定','取消'],
                       yes: function (index) {
-                          $.post("{% url 'basedata:delete' %} ", fid, function (data) {
-                              if (data.result == '0'){
-                                   window.parent.document.getElementById('Basetype').contentWindow.location.reload();
-                              } else if (data.result == '1')  {
-                                  parent.layer.alert('删除失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
-                              } else if (data.result == '2') {
-                                  parent.layer.alert('删除失败,该字典类型已被使用',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                          $.post("{% url 'user:disabled' %}", fid, function (data) {
+                              if (data.result=='0') {
+                                  window.parent.document.getElementById('Userinfo').contentWindow.location.reload();
+                              } else if (data.result=='1') {
+                                  parent.layer.alert('用户账户禁用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
                               }
+
                           },"json");
 
                           parent.layer.close(index);
@@ -115,20 +116,55 @@
                       btn2: function (index) {
                       }
                   });
+
                   break;
           }
       });
   });
 </script>
 
+<!--显示启用状态模板-->
+<script type="text/html" id="tpStatus">
+    {% verbatim %}
+        {{#  if(d.FStatus == false){ }}
+        <span style="color: red">禁用</span>
+        {{#  } else if(d.FStatus == true) { }}
+        <span style="color: green">启用</span>
+        {{#  } }}
+    {% endverbatim %}
+</script>
+
+<!--显示用户类型模板-->
+<script type="text/html" id="tpUserType">
+    {% verbatim %}
+        {{#  if(d.FType == 0){ }}
+        <span>企业用户</span>
+        {{#  } else if(d.FType == 1) { }}
+        <span>合作伙伴</span>
+        {{#  } else { }}
+        <span>管理员</span>
+        {{#  } }}
+    {% endverbatim %}
+</script>
 
 <!--生成操作工具栏-->
 <script type="text/html" id="tlbar">
-  <div class="layui-btn-group">
-    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>编辑</a>
-    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="del"><i class="iconfont icon-shanchu"></i>删除</a>
-  </div>
+    {% verbatim %}
+        <div class="layui-btn-group">
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>编辑</a>
+
+            {{# if(d.FStatus == true){ }}
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>
+            {{# } else if(d.FStatus == false){ }}
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="enabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>启用</a>
+            {{# } else { }}
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>
+            {{# } }}
+
+        </div>
+    {% endverbatim %}
 </script>
+
 
 </body>
 </html>

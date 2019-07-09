@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  {% include 'common/resfiles.html' %}
+  {% include "common/resfiles.html" %}
 </head>
 <body style="overflow: hidden">
 
@@ -13,39 +13,75 @@
       <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnC">关闭</a>
     </div>
     <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-      <legend>字典类型信息详情</legend>
+      <legend>用户信息</legend>
     </fieldset>
     <!-- 表单内容 -->
-      <div class="layui-row layui-col-space3" style="padding-left: 2%">
-          <div class="layui-col-xs4">
-              <label class="layui-form-label">类型编号</label>
-              <div class="layui-input-block">
-                  {{ obj.FBase_id }}
-                  {{ obj.FBase_key }}
-              </div>
-          </div>
-          <div class="layui-col-xs4">
-              <label class="layui-form-label">类型名称</label>
-              <div class="layui-input-block">
-                  {{ obj.FBase_value }}
-              </div>
+    <div class="layui-row layui-col-space10" style="padding-left: 2%">
+      <div class="layui-col-xs4">
+          <label class="layui-form-label" style="color: red">用户账户</label>
+          <div class="layui-input-block">
+              {{ obj.FID }}
+              {{ obj.FUserID }}
           </div>
       </div>
+      <div class="layui-col-xs4">
+          <label class="layui-form-label" style="color: red">初始密码</label>
+          <div class="layui-input-block">
+              {{ obj.FUserpwd}}
+          </div>
+      </div>
+      <div class="layui-col-xs4">
+          <label class="layui-form-label" style="color: red">用户名称</label>
+          <div class="layui-input-block">
+              {{ obj.FUsername }}
+          </div>
+      </div>
+    </div>
 
-      <div class="layui-row layui-col-space20" style="padding-left: 2%">
-          <div class="layui-col-xs12">
-              <label class="layui-form-label">类型描述</label>
-              <div class="layui-input-block">
-                  {{ obj.FBase_desc }}
-              </div>
-          </div>
-      </div>
+    <div class="layui-row layui-col-space10" style="padding-left: 2%">
+        <div class="layui-col-xs4">
+            <label class="layui-form-label" style="color: red">账户类型</label>
+            <div class="layui-input-block">
+                {{ obj.FType }}
+            </div>
+        </div>
+
+        <div class="layui-col-xs4">
+            <label class="layui-form-label">所属组织</label>
+            <div class="layui-input-block">
+                {{ obj.FOrgID }}
+            </div>
+        </div>
+
+        <div class="layui-col-xs4">
+            <label class="layui-form-label">用户角色</label>
+            <div class="layui-input-block">
+                {{ obj.FRoleID }}
+            </div>
+        </div>
+    </div>
+
+    <fieldset class="layui-elem-field layui-field-title">
+    </fieldset>
+
+    <div class="layui-row layui-col-space10" style="padding-left: 2%">
+        <div class="layui-col-xs12">
+            <label class="layui-form-label">联系方式</label>
+            <div class="layui-input-block">
+                {{ obj.FTel }}
+            </div>
+        </div>
+    </div>
+
 </form>
 
+<style>
+    .layui-unselect dl { max-height:160px; }
+</style>
 
 <!-- <script src="//res.layui.com/layui/build/layui.js" charset="utf-8"></script> -->
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
-{% include 'common/jsfiles.html' %}
+{% include "common/jsfiles.html" %}
 
 <script>
 layui.use(['element','layer','form'], function () {
@@ -65,28 +101,32 @@ layui.use(['element','layer','form'], function () {
     form.on('submit(formsubmit)', function (data) {
         $.ajax({
             type: "POST",
-            url:  "{% url 'basedata:insert' %}",
+            url:  "{% url 'user:insert' %}?actype={{ action }}",
             data: data.field,
             dataType: "json",
             success: function (data) {
-                if (data.result == '0') {          //返回正常保存
-                    window.parent.document.getElementById('Basetype').contentWindow.location.href ="{% url 'basedata:basetype' %}";
+                if (data.result=='0') {
+                    window.parent.document.getElementById('Userinfo').contentWindow.location.reload();
+
                     var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
                     parent.layer.close(index);
-                } else if (data.result == '1') {  //返回校验错误信息
-                        for (item in data["msg"]){
-                            if (data["msg"][item]){
-                                $("#error").remove();
-                                $("input[name='"+item+"']").after("<span style='color:#FF5722' id='error'>"+data["msg"][item]+"</span>");
-                            }
+                } else if (data.result=='1'){
+                    for (item in data["msg"]){
+                        if (data["msg"][item]){
+                            layer.tips(data["msg"][item], $("input[name='"+item+"']"));
                         }
+                    }
+                } else if (data.result=='2') {
+                    layer.alert('无效的执行方法');
                 }
             }
         });
         return false;
     });
+
 })
 </script>
+
 
 </body>
 </html>

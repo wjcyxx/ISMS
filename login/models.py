@@ -15,7 +15,7 @@ class User(models.Model):
     )
 
 
-    FID = models.UUIDField(primary_key=True, default=uuid.uuid1, editable=False)
+    FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
     FUserID = models.CharField(max_length=32, verbose_name='用户账户')
     FUserpwd = models.CharField(max_length=32, verbose_name='用户密码')
     FType = models.IntegerField(choices=TYPE_CHOICES, verbose_name='用户类型', default=0)

@@ -83,7 +83,9 @@
                                     if (data.result==='2') {
                                         layer.alert('没有找到用户名',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
                                     } else if (data.result==='1') {
-                                        layer.alert('密码输入错误',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                                        layer.alert('密码输入错误', {skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                                    } else if (data.result==='3') {
+                                        layer.alert('该用户账户已被禁用', {skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
                                     } else {
                                         layer.open({
                                             type: 2,

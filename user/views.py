@@ -8,11 +8,13 @@ from .forms import *
 import json
 from django.utils import timezone
 from django.forms import widgets as Fwidge
+from django.core.exceptions import ObjectDoesNotExist
 
+#User管理控制器入口
 def user(request):
     return render(request, 'content/user/userinfo.html')
 
-
+#返回table数据及查询结果
 def get_datasource(request):
     serinput = request.POST.get("resultdict[FBase]", '')
 
@@ -23,60 +25,81 @@ def get_datasource(request):
 
     return  JsonResponse(resultdict, safe=False)
 
-
+#链接增加模板
 def add(request):
     obj = UserModelForm()
 
-    return render(request, "content/user/useradd.html", {'obj': obj})
+    return render(request, "content/user/useradd.html" , {'obj': obj, 'action': 'insert'})
 
-
+#链接编辑模板
 def edit(request):
     fid = request.GET.get('fid')
 
     User_info = User.objects.get(FID=fid)
     obj = UserModelForm(instance=User_info)
 
-    return render(request, "content/user/useredit.html")
+    return render(request, "content/user/useradd.html", {'obj': obj, 'action': 'update'})
 
+#处理新增及保存
 def insert(request):
     if request.method == 'POST':
-        obj = UserModelForm(request.POST)
-
         response_data = {}
 
-        if obj.is_valid():
-            temp = obj.save(commit=False)
-            temp.CREATED_ORG = request.session['UserOrg']
-            temp.CREATED_BY = request.session['UserID']
-            temp.UPDATED_BY = request.session['UserID']
-            temp.CREATED_TIME = timezone.now()
-
-            temp.save()
-            response_data['result'] = '0'
-
+        if request.GET.get('actype') == 'insert':
+            obj = UserModelForm(request.POST)
+        elif request.GET.get('actype') == 'update':
+            fid = request.POST.get('FID')
+            User_info = User.objects.get(FID=fid)
+            obj = UserModelForm(request.POST, instance=User_info)
         else:
-            response_data['msg'] = obj.errors
+            response_data['result'] = '2'
+            return HttpResponse(json.dumps(response_data))
+
+        try:
+            if obj.is_valid():
+                temp = obj.save(commit=False)
+                temp.FStatus = True
+                temp.CREATED_ORG = request.session['UserOrg']
+                temp.CREATED_BY = request.session['UserID']
+                temp.UPDATED_BY = request.session['UserID']
+                temp.CREATED_TIME = timezone.now()
+
+                temp.save()
+                response_data['result'] = '0'
+            else:
+                response_data['msg'] = obj.errors
+                response_data['result'] = '1'
+
+            return HttpResponse(json.dumps(response_data))
+
+        except Exception as e:
+            response_data['msg'] = e
             response_data['result'] = '1'
 
-        return HttpResponse(json.dumps(response_data))
+            return HttpResponse(json.dumps(response_data))
 
-def update(request):
+
+#处理禁用设备
+def disabled(request):
+    response_data = {}
     if request.method == 'POST':
+        fid = request.POST.get('fid')
 
-        response_data = {}
-        fid = request.POST.get('FID')
+        try:
+            User_info = User.objects.get(FID=fid)
 
-        User_info = User.objects.get(FID=fid)
-        obj = UserModelForm(request.POST, instance=User_info)
+            User_info.FStatus = False
+            User_info.save()
 
-        if obj.is_valid():
-            temp = obj.save(commit=False)
-            temp.UPDATED_BY = request.session['UserID']
-
-            temp.save()
             response_data['result'] = '0'
-        else:
-            response_data['msg'] = obj.errors
-            response_data['result'] = '1'
+            return HttpResponse(json.dumps(response_data))
+        except ObjectDoesNotExist:
+            response_data['result'] = '2'
+            return HttpResponse(json.dumps(response_data))
 
+    else:
+        response_data['result'] = '2'
         return HttpResponse(json.dumps(response_data))
+
+
+
