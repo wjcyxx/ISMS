@@ -8,10 +8,10 @@ from django.utils.encoding import python_2_unicode_compatible
 
 class organize(models.Model):
 
-    FID = models.UUIDField(primary_key=True, default=uuid.uuid1, editable=False)
-    FOrgID = models.CharField(max_length=32, verbose_name='统一社会信用代码', blank=True, null=True)
+    FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
+    FOrgID = models.CharField(max_length=32, verbose_name='统一社会信用代码', unique=True, error_messages={'unique': '信用代码重复'})
     FQualevel = models.CharField(max_length=32, verbose_name='主项资质等级', blank=True, null=True)
-    FOrgname = models.CharField(max_length=32, verbose_name='组织名称')
+    FOrgname = models.CharField(max_length=32, verbose_name='组织名称', unique=True, error_messages={'unique': '组织名称重复'})
     FOrgtypeID = models.CharField(max_length=32, verbose_name='组织类型')
     provid = models.CharField(max_length=32, verbose_name='所属省份', blank=True, null=True)
     cityid = models.CharField(max_length=32, verbose_name='所属城市', blank=True, null=True)
@@ -32,7 +32,7 @@ class organize(models.Model):
     FHrtel = models.CharField(max_length=32, verbose_name='劳资负责人电话', blank=True, null=True)
     FIssplit = models.BooleanField(default=True, verbose_name='是否数据隔离')
     FStatus = models.BooleanField(default=True, verbose_name='状态')
-    FScope = models.CharField(max_length=1000, verbose_name='经验范围', blank=True, null=True)
+    FScope = models.CharField(max_length=1000, verbose_name='经营范围', blank=True, null=True)
     CREATED_ORG = models.CharField(max_length=32, verbose_name='创建组织', blank=True, null=True)
     CREATED_BY = models.CharField(max_length=32, verbose_name='创建人', blank=True, null=True)
     CREATED_TIME = models.DateTimeField(blank=True, null=True, verbose_name='创建时间')

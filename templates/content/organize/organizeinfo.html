@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include "common/resfiles.html" %}
+</head>
+<body style="overflow: hidden;">
+
+  <!--组织信息列表  -->
+
+    <!-- 工具条 -->
+      <form class="layui-form" method="post">
+      <div >
+        <a href="javascript:;" class="layui-btn layui-btn-normal" id="btnAdd">新增</a>
+        <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
+        <!-- 查询框 -->
+          <div class="layui-inline" style="margin-left: 30px">
+            <input type="text" name="serinput" placeholder="请输入需要查询的类别名称" autocomplete="off" class="layui-input" style="width: 120%">
+          </div>
+          <div class="layui-inline" style="margin-left: 35px">
+            <input type="button" class="layui-btn layui-btn-small layui-btn-normal layui-icon" lay-submit lay-filter="formsubmit" value="&#xe615;查  询"/>
+          </div>
+      </div>
+      </form>
+    <!-- 数据列表 -->
+      <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
+
+{% include "common/jsfiles.html" %}
+
+<script>
+  var Orgtypedata = {{ setdata|safe }};
+
+
+  layui.use(['element', 'layer', 'table'], function(){
+      var $ = layui.jquery
+          ,element = layui.element
+          ,table = layui.table
+          ,layer = layui.layer;
+
+      $("#btnClose").click(function () {
+          window.parent.layui.element.tabDelete('tabMain','Organize');
+      });
+
+      //新增按钮事件
+      $("#btnAdd").click(function () {
+          parent.layer.open({
+              type:   2,
+              title:  '添加组织信息',
+              area: ['1100px','690px'],
+              fixed: false,
+              content: "{% url 'organize:add' %}",
+              resize: false,
+              move: false
+          });
+      });
+
+      table.render({
+          method: 'post',
+          page: true,
+          limit: 15,
+          elem: '#datasource',
+          url: "{% url 'organize:get_datasource' %}",
+          cols: [[
+              {field:'FOrgname', width: '20%', title: '组织名称', sort: true},
+              {field:'FOrgtypeID', width: '12%', title: '组织类型', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FOrgtypeID, Orgtypedata)}}{% endverbatim %}</div>'},
+              {field:'FOrgID', width: '20%', title: '统一社会信用代码', sort: true},
+              {field:'FOrgaddress', width: '20%', title: '组织地址', sort: true},
+              {field:'FQualevel', width: '20%', title: '主项资质等级', sort: true},
+              {field:'FLar', width: '20%', title: '法人代表', sort: true},
+              {field:'FRegcapital', width: '20%', title: '注册资金', sort: true},
+              {field:'FRegDate', width: '20%', title: '注册日期', sort: true},
+              {field:'FLicenceno', width: '25%', title: '安全施工许可证号', sort: true},
+              {field:'FValidDate', width: '20%', title: '许可证有效日期', sort: true},
+              {field:'FLicauthority', width: '20%', title: '发证机关', sort: true},
+              {field:'FHrcharge', width: '20%', title: '劳资负责人', sort: true},
+
+              {field:'FIssplit', width: '10%', title: '数据隔离', sort: true, templet: '#tpIssplit'},
+              {field:'FStatus', width: '10%', title: '状态', sort: true, templet: '#tpStatus'},
+              {field:'', title: '操作', width: '10%', toolbar: '#tlbar', fixed: 'right'}
+          ]],
+          id: 'runreload'
+      });
+
+    //监听查询条件提交
+     form.on('submit(formsubmit)', function (data) {
+        var serinput = $("input[name='serinput']").val();
+
+        table.reload('runreload', {page:{curr: 1}, where: {resultdict:{FOrgname: serinput}}});
+
+        return false;
+     });
+
+
+      //监听工具栏按钮事件
+      table.on('tool(toolbar)', function (obj) {
+          var data = obj.data;           //获取当前行数据
+          var layEvent = obj.event;      //获取当前行事件
+          var tr = obj.tr;               //获取当前行tr的DOM数据
+          var fid = {"fid":data.FID};
+
+          switch (layEvent){
+              case 'edit' :              //编辑按钮事件
+                  parent.layer.open({
+                      type:   2,
+                      title:  '编辑字典类型信息',
+                      area: ['1100px','690px'],
+                      fixed: false,
+                      content: "{% url 'organize:edit' %}?fid="+data.FID,
+                      resize: false,
+                      move: false
+                  });
+
+                  break;
+              case 'disabled' :               //禁用按钮事件
+                  parent.layer.open({
+                      content: '是否确定禁用该用户账户',
+                      btn: ['确定','取消'],
+                      yes: function (index) {
+                          $.post("{% url 'user:disabled' %}", fid, function (data) {
+                              if (data.result=='0') {
+                                  window.parent.document.getElementById('Userinfo').contentWindow.location.reload();
+                              } else if (data.result=='1') {
+                                  parent.layer.alert('用户账户禁用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                              }
+
+                          },"json");
+
+                          parent.layer.close(index);
+                      },
+                      btn2: function (index) {
+                      }
+                  });
+
+                  break;
+          }
+      });
+  });
+</script>
+
+<!--显示启用状态模板-->
+<script type="text/html" id="tpStatus">
+    {% verbatim %}
+        {{#  if(d.FStatus == false){ }}
+        <span style="color: red">禁用</span>
+        {{#  } else if(d.FStatus == true) { }}
+        <span style="color: green">启用</span>
+        {{#  } }}
+    {% endverbatim %}
+</script>
+
+<!--显示用户类型模板-->
+<script type="text/html" id="tpIssplit">
+    {% verbatim %}
+        {{#  if(d.FIssplit == false){ }}
+        <span>不隔离</span>
+        {{#  } else if(d.FIssplit == true) { }}
+        <span>隔离</span>
+        {{#  } }}
+    {% endverbatim %}
+</script>
+
+<!--生成操作工具栏-->
+<script type="text/html" id="tlbar">
+    {% verbatim %}
+        <div class="layui-btn-group">
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>编辑</a>
+
+            {{# if(d.FStatus == true){ }}
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>
+            {{# } else if(d.FStatus == false){ }}
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="enabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>启用</a>
+            {{# } else { }}
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>
+            {{# } }}
+
+        </div>
+    {% endverbatim %}
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+  {% include "common/resfiles.html" %}
+</head>
+<body style="overflow: hidden">
+
+
+<form class="layui-form layui-form-pane" accept-charset="utf-8">
+    <!-- 工具栏按钮 -->
+    <div style="padding-top: 1%; padding-left: 1%">
+      <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formsubmit" >保存</button>
+      <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnC">关闭</a>
+    </div>
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+      <legend>组织信息</legend>
+    </fieldset>
+    <!-- 表单内容 -->
+    <div class="layui-row layui-col-space10" style="padding-left: 2%">
+      <div class="layui-col-xs4">
+          <label class="layui-form-label" style="color: red">组织名称</label>
+          <div class="layui-input-block">
+              {{ obj.FID }}
+              {{ obj.FOrgname }}
+          </div>
+      </div>
+      <div class="layui-col-xs4">
+          <label class="layui-form-label" style="color: red">社会信用代码</label>
+          <div class="layui-input-block">
+              {{ obj.FOrgID}}
+          </div>
+      </div>
+      <div class="layui-col-xs4">
+          <label class="layui-form-label" style="color: red">组织类型</label>
+          <div class="layui-input-block">
+              {{ obj.FOrgtypeID }}
+          </div>
+      </div>
+    </div>
+
+    <div class="layui-row layui-col-space10" style="padding-left: 2%">
+        <div class="layui-col-xs4">
+            <label class="layui-form-label" style="color: red">资质等级</label>
+            <div class="layui-input-block">
+                {{ obj.FQualevel }}
+            </div>
+        </div>
+
+        <div class="layui-col-xs8">
+            <label class="layui-form-label" style="color: red">所在位置</label>
+            <div class="layui-input-block">
+                <div class="layui-input-inline">
+                    <select name="provid" id="Fprovid" lay-filter="provid">
+                        <option value="">请选择省</option>
+                    </select>
+                </div>
+                <div class="layui-input-inline">
+                    <select name="cityid" id="Fcityid" lay-filter="cityid">
+                        <option value="">请选择市</option>
+                    </select>
+                </div>
+                <div class="layui-input-inline">
+                    <select name="areaid" id="Fareaid" lay-filter="areaid">
+                        <option value="">请选择县/区</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-row layui-col-space10" style="padding-left: 2%">
+        <div class="layui-col-xs4">
+            <label class="layui-form-label" style="color: red">所在地址</label>
+            <div class="layui-input-block">
+                {{ obj.FOrgaddress }}
+            </div>
+        </div>
+        <div class="layui-col-xs4">
+            <label class="layui-form-label">经度</label>
+            <div class="layui-input-block">
+                {{ obj.FLong }}
+            </div>
+        </div>
+        <div class="layui-col-xs4">
+            <label class="layui-form-label">纬度</label>
+            <div class="layui-input-block">
+                {{ obj.FLat }}
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-row layui-col-space10" style="padding-left: 2%">
+        <div class="layui-col-xs4">
+            <label class="layui-form-label" style="color: red">施工证号</label>
+            <div class="layui-input-block">
+                {{ obj.FLicenceno }}
+            </div>
+        </div>
+        <div class="layui-col-xs4">
+            <label class="layui-form-label">有效日期</label>
+            <div class="layui-input-block">
+                {{ obj.FValidDate }}
+            </div>
+        </div>
+        <div class="layui-col-xs4">
+            <label class="layui-form-label">发证机关</label>
+            <div class="layui-input-block">
+                {{ obj.FLicauthority }}
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-row layui-col-space10" style="padding-left: 2%">
+        <div class="layui-col-xs4">
+            <label class="layui-form-label">注册资金</label>
+            <div class="layui-input-block">
+                {{ obj.FRegcapital }}
+            </div>
+        </div>
+        <div class="layui-col-xs4">
+            <label class="layui-form-label">注册日期</label>
+            <div class="layui-input-block">
+                {{ obj.FRegDate }}
+            </div>
+        </div>
+        <div class="layui-col-xs4">
+            <label class="layui-form-label">数据隔离</label>
+            <div class="layui-input-block">
+                {{ obj.FIssplit }}
+            </div>
+        </div>
+    </div>
+
+
+    <fieldset class="layui-elem-field layui-field-title">
+        <legend>组织负责人</legend>
+    </fieldset>
+
+    <div class="layui-row layui-col-space10" style="padding-left: 2%">
+        <div class="layui-col-xs4">
+            <label class="layui-form-label" style="color: red">法人代表</label>
+            <div class="layui-input-block">
+                {{ obj.FLar }}
+            </div>
+        </div>
+        <div class="layui-col-xs4">
+            <label class="layui-form-label">法人电话</label>
+            <div class="layui-input-block">
+                {{ obj.FLartel }}
+            </div>
+        </div>
+        <div class="layui-col-xs4">
+            <label class="layui-form-label">身份证号</label>
+            <div class="layui-input-block">
+                {{ obj.FLarIDcard }}
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-row layui-col-space10" style="padding-left: 2%">
+        <div class="layui-col-xs4">
+            <label class="layui-form-label" style="color: red">劳资负责人</label>
+            <div class="layui-input-block">
+                {{ obj.FHrcharge }}
+            </div>
+        </div>
+        <div class="layui-col-xs4">
+            <label class="layui-form-label">联系电话</label>
+            <div class="layui-input-block">
+                {{ obj.FHrtel }}
+            </div>
+        </div>
+        <div class="layui-col-xs4">
+            <label class="layui-form-label">身份证号</label>
+            <div class="layui-input-block">
+                {{ obj.FHrIDcard }}
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-row layui-col-space10" style="padding-left: 2%">
+        <div class="layui-col-xs12">
+            <label class="layui-form-label">经营范围</label>
+            <div class="layui-input-block">
+                {{ obj.FScope }}
+            </div>
+        </div>
+    </div>
+
+
+</form>
+
+<style>
+    .layui-unselect dl { max-height:260px; }
+</style>
+
+<!-- <script src="//res.layui.com/layui/build/layui.js" charset="utf-8"></script> -->
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+{% include "common/jsfiles.html" %}
+<script>
+    var defaults = {
+        s1: 'provid',
+        s2: 'cityid',
+        s3: 'areaid',
+        {% if action == 'insert' %}
+            v1: null,
+            v2: null,
+            v3: null
+        {% else %}
+            v1: {{ Organize_info.provid }},
+            v2: {{ Organize_info.cityid }},
+            v3: {{ Organize_info.areaid }}
+        {% endif %}
+    };
+</script>
+
+<script>
+layui.use(['element','layer','form', 'laydate'], function () {
+    var element = layui.element
+        , layer = layui.layer
+        , form = layui.form
+        , laydate = layui.laydate;
+
+
+    //关闭按钮
+    $("#btnC").click(function () {
+        var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
+        parent.layer.close(index);
+    });
+
+    laydate.render({
+        elem: '#id_FRegDate'
+    });
+
+    laydate.render({
+        elem: '#id_FValidDate'
+    });
+
+    lay('.takeDate').each(function() {
+			laydate.render({
+				elem: this
+			});
+    });
+
+
+    //监听窗口提交
+    form.on('submit(formsubmit)', function (data) {
+        $.ajax({
+            type: "POST",
+            url:  "{% url 'organize:insert' %}?actype={{ action }}",
+            data: data.field,
+            dataType: "json",
+            success: function (data) {
+                if (data.result=='0') {
+                    window.parent.document.getElementById('Organize').contentWindow.location.reload();
+
+                    var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
+                    parent.layer.close(index);
+                } else if (data.result=='1'){
+                    for (item in data["msg"]){
+                        if (data["msg"][item]){
+                            layer.tips(data["msg"][item], $("input[name='"+item+"']"));
+                        }
+                    }
+                } else if (data.result=='2') {
+                    layer.alert('无效的执行方法');
+                }
+            }
+        });
+        return false;
+    });
+
+})
+</script>
+
+
+</body>
+</html>
