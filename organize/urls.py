@@ -1,5 +1,5 @@
 from django.urls import path
-from organize import views
+from . import views
 
 app_name="organize"
 
@@ -9,5 +9,6 @@ urlpatterns = [
     path('add/', views.add, name='add'),
     path('edit/', views.edit, name='edit'),
     path('insert/', views.insert, name='insert'),
-    path('disable/', views.disabled, name='disabled')
+    path('disable/', views.disabled, name='disabled'),
+    path('show_upload/', views.show_uplaod, name='show_upload'),
 ]

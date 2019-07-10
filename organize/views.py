@@ -10,6 +10,7 @@ import json
 from django.utils import timezone
 from django.forms import widgets as Fwidge
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.files.base import ContentFile
 
 #User管理控制器入口
 def organize(request):
@@ -116,6 +117,39 @@ def disabled(request):
     else:
         response_data['result'] = '2'
         return HttpResponse(json.dumps(response_data))
+
+
+def show_uplaod(request):
+    obj = OrganizeQualiModeForm()
+    fid = ''.join(str(request.GET.get('fid')).split('-'))
+
+    if request.method == 'POST':
+        obj = OrganizeQualiModeForm(request.POST, request.FILES)
+
+
+        if obj.is_valid():
+            temp = obj.save(commit=False)
+            temp.FPID = request.POST.get('FPID')
+            temp.CREATED_ORG = request.session['UserOrg']
+            temp.CREATED_BY = request.session['UserID']
+            temp.UPDATED_BY = request.session['UserID']
+            temp.CREATED_TIME = timezone.now()
+
+            temp.save()
+
+            file_content = ContentFile(request.FILES['FFilepath'].read())
+            temp.FFilepath.save(request.FILES['FFilepath'].name, file_content)
+
+        return render(request, "content/organize/orgainizeupload.html", {'obj': obj, 'fid': fid})
+    else:
+
+        return render(request, "content/organize/orgainizeupload.html", {'obj': obj})
+
+
+
+
+
+
 
 
 

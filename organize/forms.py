@@ -33,3 +33,18 @@ class OrganizeModelForm(ModelForm):
             'FStatus': Fwidgets.Select(attrs={'lay-verify': 'required'}),
             'FScope': Fwidgets.Textarea(attrs={'class': 'layui-textarea', 'autocomplete': 'off', 'rows': '0'}),
         }
+
+
+class OrganizeQualiModeForm(ModelForm):
+    FFilepath = forms.ImageField(required=False)
+
+    class Meta:
+        model = orgQualifications
+        fields = "__all__"
+
+        widgets = {
+            'FID': Fwidgets.Input(attrs={'type': 'hidden'}),
+            'FPID': Fwidgets.Input(attrs={'type': 'hidden'}),
+            'FQualification': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
+            'FFilename': Fwidgets.Input(attrs={'class': 'layui-input', 'autocomplete': 'off'}),
+        }

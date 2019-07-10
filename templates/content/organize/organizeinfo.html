@@ -75,7 +75,7 @@
 
               {field:'FIssplit', width: '10%', title: '数据隔离', sort: true, templet: '#tpIssplit'},
               {field:'FStatus', width: '10%', title: '状态', sort: true, templet: '#tpStatus'},
-              {field:'', title: '操作', width: '10%', toolbar: '#tlbar', fixed: 'right'}
+              {field:'', title: '操作', width: '15%', toolbar: '#tlbar', fixed: 'right'}
           ]],
           id: 'runreload'
       });
@@ -131,6 +131,19 @@
                   });
 
                   break;
+
+              case 'upload' :
+                  parent.layer.open({
+                      type:   2,
+                      title:  '上传资质文件',
+                      area: ['1000px','690px'],
+                      fixed: false,
+                      content: "{% url 'organize:show_upload' %}?fid="+data.FID,
+                      resize: false,
+                      move: false
+                  });
+
+                  break;
           }
       });
   });
@@ -163,6 +176,7 @@
     {% verbatim %}
         <div class="layui-btn-group">
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>编辑</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="upload"><i class="fa fa-picture-o" aria-hidden="true"></i>上传资质文件</a>
 
             {{# if(d.FStatus == true){ }}
                 <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>
