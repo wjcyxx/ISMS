@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import HttpResponse
+from django.shortcuts import redirect
 from .models import organize as T_Organize
 from basedata.models import base
 from django.db.models import Q
@@ -119,7 +120,7 @@ def disabled(request):
         return HttpResponse(json.dumps(response_data))
 
 
-def show_uplaod(request):
+def show_upload(request):
     obj = OrganizeQualiModeForm()
     fid = ''.join(str(request.GET.get('fid')).split('-'))
 
@@ -136,14 +137,13 @@ def show_uplaod(request):
             temp.CREATED_TIME = timezone.now()
 
             temp.save()
+            
+            url = '/organize/show_upload?fid='+request.POST.get('FPID')
+            return redirect(url)
 
-            file_content = ContentFile(request.FILES['FFilepath'].read())
-            temp.FFilepath.save(request.FILES['FFilepath'].name, file_content)
-
-        return render(request, "content/organize/orgainizeupload.html", {'obj': obj, 'fid': fid})
     else:
+        return render(request, "content/organize/orgainizeupload.html", {'obj': obj, 'fid': fid})
 
-        return render(request, "content/organize/orgainizeupload.html", {'obj': obj})
 
 
 

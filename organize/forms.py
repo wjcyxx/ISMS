@@ -36,7 +36,7 @@ class OrganizeModelForm(ModelForm):
 
 
 class OrganizeQualiModeForm(ModelForm):
-    FFilepath = forms.ImageField(required=False)
+    FFilepath = forms.ImageField(required=False, widget=forms.FileInput(attrs={'class': 'layui-input'}))
 
     class Meta:
         model = orgQualifications

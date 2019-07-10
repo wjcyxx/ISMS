@@ -1,6 +1,9 @@
 from django.db import models
 import uuid
 from django.utils.encoding import python_2_unicode_compatible
+import urllib
+from django.core.files import File
+import os
 
 # Create your models here.
 
@@ -58,4 +61,5 @@ class orgQualifications(models.Model):
 
     class Meta:
         db_table = "T_OrgQualifications"
+
 
