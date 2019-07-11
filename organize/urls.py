@@ -11,4 +11,6 @@ urlpatterns = [
     path('insert/', views.insert, name='insert'),
     path('disable/', views.disabled, name='disabled'),
     path('show_upload/', views.show_upload, name='show_upload'),
+    path('get_quailfications/', views.get_quailfications, name='get_quailfications'),
+    path('delete/', views.delete, name='delete'),
 ]

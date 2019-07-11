@@ -50,7 +50,7 @@ class orgQualifications(models.Model):
 
     FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
     FPID = models.CharField(max_length=32, blank=True, null=True)
-    FQualification = models.CharField(max_length=32, verbose_name='资质名称', blank=True, null=True)
+    FQualification = models.CharField(max_length=32, verbose_name='资质名称')
     FFilename = models.CharField(max_length=32, verbose_name='文件名称', blank=True, null=True)
     FFilepath = models.ImageField(upload_to='orgqualpic/', blank=True, null=True)
     CREATED_ORG = models.CharField(max_length=32, verbose_name='创建组织', blank=True, null=True)

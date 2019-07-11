@@ -31,13 +31,12 @@ class OrganizeModelForm(ModelForm):
             'FHrtel': Fwidgets.Input(attrs={'class': 'layui-input', 'autocomplete': 'off'}),
             'FIssplit': Fwidgets.CheckboxInput(attrs={'lay-skin': 'primary'}),
             'FStatus': Fwidgets.Select(attrs={'lay-verify': 'required'}),
-            'FScope': Fwidgets.Textarea(attrs={'class': 'layui-textarea', 'autocomplete': 'off', 'rows': '0'}),
+            'FScope': Fwidgets.Textarea(attrs={'class': 'layui-input', 'autocomplete': 'off'}),
         }
 
 
 class OrganizeQualiModeForm(ModelForm):
-    FFilepath = forms.ImageField(required=False, widget=forms.FileInput(attrs={'capture': 'camera', 'class': 'layui-input'}))
-    #FFilepath = forms.ImageField(required=False, widget=forms.ClearableFileInput(attrs={'type': 'camera'}))
+    FFilepath = forms.ImageField(required=False, widget=forms.FileInput(attrs={'class': 'layui-input', 'style': 'display: none'}))
 
     class Meta:
         model = orgQualifications

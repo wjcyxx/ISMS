@@ -12,186 +12,208 @@
       <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formsubmit" >保存</button>
       <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnC">关闭</a>
     </div>
-    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-      <legend>组织信息</legend>
-    </fieldset>
-    <!-- 表单内容 -->
-    <div class="layui-row layui-col-space10" style="padding-left: 2%">
-      <div class="layui-col-xs4">
-          <label class="layui-form-label" style="color: red">组织名称</label>
-          <div class="layui-input-block">
-              {{ obj.FID }}
-              {{ obj.FOrgname }}
-          </div>
-      </div>
-      <div class="layui-col-xs4">
-          <label class="layui-form-label" style="color: red">社会信用代码</label>
-          <div class="layui-input-block">
-              {{ obj.FOrgID}}
-          </div>
-      </div>
-      <div class="layui-col-xs4">
-          <label class="layui-form-label" style="color: red">组织类型</label>
-          <div class="layui-input-block">
-              {{ obj.FOrgtypeID }}
-          </div>
-      </div>
-    </div>
 
-    <div class="layui-row layui-col-space10" style="padding-left: 2%">
-        <div class="layui-col-xs4">
-            <label class="layui-form-label" style="color: red">资质等级</label>
-            <div class="layui-input-block">
-                {{ obj.FQualevel }}
-            </div>
-        </div>
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li class="layui-this">组织资料</li>
+            <li>资质文件</li>
+        </ul>
 
-        <div class="layui-col-xs8">
-            <label class="layui-form-label" style="color: red">所在位置</label>
-            <div class="layui-input-block">
-                <div class="layui-input-inline">
-                    <select name="provid" id="Fprovid" lay-filter="provid">
-                        <option value="">请选择省</option>
-                    </select>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                    <legend>基本信息</legend>
+                </fieldset>
+                <!-- 表单内容 -->
+                <div class="layui-row layui-col-space10" style="padding-left: 2%">
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label" style="color: red">组织名称</label>
+                        <div class="layui-input-block">
+                            {{ obj.FID }}
+                            {{ obj.FOrgname }}
+                        </div>
+                    </div>
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label" style="color: red">社会信用代码</label>
+                        <div class="layui-input-block">
+                            {{ obj.FOrgID}}
+                        </div>
+                    </div>
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label" style="color: red">组织类型</label>
+                        <div class="layui-input-block">
+                            {{ obj.FOrgtypeID }}
+                        </div>
+                    </div>
                 </div>
-                <div class="layui-input-inline">
-                    <select name="cityid" id="Fcityid" lay-filter="cityid">
-                        <option value="">请选择市</option>
-                    </select>
+
+                <div class="layui-row layui-col-space10" style="padding-left: 2%">
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label" style="color: red">资质等级</label>
+                        <div class="layui-input-block">
+                            {{ obj.FQualevel }}
+                        </div>
+                    </div>
+
+                    <div class="layui-col-xs8">
+                        <label class="layui-form-label" style="color: red">所在位置</label>
+                        <div class="layui-input-block">
+                            <div class="layui-input-inline">
+                                <select name="provid" id="Fprovid" lay-filter="provid">
+                                    <option value="">请选择省</option>
+                                </select>
+                            </div>
+                            <div class="layui-input-inline">
+                                <select name="cityid" id="Fcityid" lay-filter="cityid">
+                                    <option value="">请选择市</option>
+                                </select>
+                            </div>
+                            <div class="layui-input-inline">
+                                <select name="areaid" id="Fareaid" lay-filter="areaid">
+                                    <option value="">请选择县/区</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="layui-input-inline">
-                    <select name="areaid" id="Fareaid" lay-filter="areaid">
-                        <option value="">请选择县/区</option>
-                    </select>
+
+                <div class="layui-row layui-col-space10" style="padding-left: 2%">
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label" style="color: red">所在地址</label>
+                        <div class="layui-input-block">
+                            {{ obj.FOrgaddress }}
+                        </div>
+                    </div>
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">经度</label>
+                        <div class="layui-input-block">
+                            {{ obj.FLong }}
+                        </div>
+                    </div>
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">纬度</label>
+                        <div class="layui-input-block">
+                            {{ obj.FLat }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-row layui-col-space10" style="padding-left: 2%">
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label" style="color: red">施工证号</label>
+                        <div class="layui-input-block">
+                            {{ obj.FLicenceno }}
+                        </div>
+                    </div>
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">有效日期</label>
+                        <div class="layui-input-block">
+                            {{ obj.FValidDate }}
+                        </div>
+                    </div>
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">发证机关</label>
+                        <div class="layui-input-block">
+                            {{ obj.FLicauthority }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-row layui-col-space10" style="padding-left: 2%">
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">注册资金</label>
+                        <div class="layui-input-block">
+                            {{ obj.FRegcapital }}
+                        </div>
+                    </div>
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">注册日期</label>
+                        <div class="layui-input-block">
+                            {{ obj.FRegDate }}
+                        </div>
+                    </div>
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">数据隔离</label>
+                        <div class="layui-input-block">
+                            {{ obj.FIssplit }}
+                        </div>
+                    </div>
+                </div>
+
+
+                <fieldset class="layui-elem-field layui-field-title">
+                    <legend>组织负责人</legend>
+                </fieldset>
+
+                <div class="layui-row layui-col-space10" style="padding-left: 2%">
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label" style="color: red">法人代表</label>
+                        <div class="layui-input-block">
+                            {{ obj.FLar }}
+                        </div>
+                    </div>
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">法人电话</label>
+                        <div class="layui-input-block">
+                            {{ obj.FLartel }}
+                        </div>
+                    </div>
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">身份证号</label>
+                        <div class="layui-input-block">
+                            {{ obj.FLarIDcard }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-row layui-col-space10" style="padding-left: 2%">
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label" style="color: red">劳资负责人</label>
+                        <div class="layui-input-block">
+                            {{ obj.FHrcharge }}
+                        </div>
+                    </div>
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">联系电话</label>
+                        <div class="layui-input-block">
+                            {{ obj.FHrtel }}
+                        </div>
+                    </div>
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">身份证号</label>
+                        <div class="layui-input-block">
+                            {{ obj.FHrIDcard }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-row layui-col-space10" style="padding-left: 2%">
+                    <div class="layui-col-xs12">
+                        <label class="layui-form-label">经营范围</label>
+                        <div class="layui-input-block">
+                            {{ obj.FScope }}
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <div class="layui-tab-item">
+                <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
+            </div>
+
         </div>
     </div>
-
-    <div class="layui-row layui-col-space10" style="padding-left: 2%">
-        <div class="layui-col-xs4">
-            <label class="layui-form-label" style="color: red">所在地址</label>
-            <div class="layui-input-block">
-                {{ obj.FOrgaddress }}
-            </div>
-        </div>
-        <div class="layui-col-xs4">
-            <label class="layui-form-label">经度</label>
-            <div class="layui-input-block">
-                {{ obj.FLong }}
-            </div>
-        </div>
-        <div class="layui-col-xs4">
-            <label class="layui-form-label">纬度</label>
-            <div class="layui-input-block">
-                {{ obj.FLat }}
-            </div>
-        </div>
-    </div>
-
-    <div class="layui-row layui-col-space10" style="padding-left: 2%">
-        <div class="layui-col-xs4">
-            <label class="layui-form-label" style="color: red">施工证号</label>
-            <div class="layui-input-block">
-                {{ obj.FLicenceno }}
-            </div>
-        </div>
-        <div class="layui-col-xs4">
-            <label class="layui-form-label">有效日期</label>
-            <div class="layui-input-block">
-                {{ obj.FValidDate }}
-            </div>
-        </div>
-        <div class="layui-col-xs4">
-            <label class="layui-form-label">发证机关</label>
-            <div class="layui-input-block">
-                {{ obj.FLicauthority }}
-            </div>
-        </div>
-    </div>
-
-    <div class="layui-row layui-col-space10" style="padding-left: 2%">
-        <div class="layui-col-xs4">
-            <label class="layui-form-label">注册资金</label>
-            <div class="layui-input-block">
-                {{ obj.FRegcapital }}
-            </div>
-        </div>
-        <div class="layui-col-xs4">
-            <label class="layui-form-label">注册日期</label>
-            <div class="layui-input-block">
-                {{ obj.FRegDate }}
-            </div>
-        </div>
-        <div class="layui-col-xs4">
-            <label class="layui-form-label">数据隔离</label>
-            <div class="layui-input-block">
-                {{ obj.FIssplit }}
-            </div>
-        </div>
-    </div>
-
-
-    <fieldset class="layui-elem-field layui-field-title">
-        <legend>组织负责人</legend>
-    </fieldset>
-
-    <div class="layui-row layui-col-space10" style="padding-left: 2%">
-        <div class="layui-col-xs4">
-            <label class="layui-form-label" style="color: red">法人代表</label>
-            <div class="layui-input-block">
-                {{ obj.FLar }}
-            </div>
-        </div>
-        <div class="layui-col-xs4">
-            <label class="layui-form-label">法人电话</label>
-            <div class="layui-input-block">
-                {{ obj.FLartel }}
-            </div>
-        </div>
-        <div class="layui-col-xs4">
-            <label class="layui-form-label">身份证号</label>
-            <div class="layui-input-block">
-                {{ obj.FLarIDcard }}
-            </div>
-        </div>
-    </div>
-
-    <div class="layui-row layui-col-space10" style="padding-left: 2%">
-        <div class="layui-col-xs4">
-            <label class="layui-form-label" style="color: red">劳资负责人</label>
-            <div class="layui-input-block">
-                {{ obj.FHrcharge }}
-            </div>
-        </div>
-        <div class="layui-col-xs4">
-            <label class="layui-form-label">联系电话</label>
-            <div class="layui-input-block">
-                {{ obj.FHrtel }}
-            </div>
-        </div>
-        <div class="layui-col-xs4">
-            <label class="layui-form-label">身份证号</label>
-            <div class="layui-input-block">
-                {{ obj.FHrIDcard }}
-            </div>
-        </div>
-    </div>
-
-    <div class="layui-row layui-col-space10" style="padding-left: 2%">
-        <div class="layui-col-xs12">
-            <label class="layui-form-label">经营范围</label>
-            <div class="layui-input-block">
-                {{ obj.FScope }}
-            </div>
-        </div>
-    </div>
-
 
 </form>
 
 <style>
     .layui-unselect dl { max-height:260px; }
+
+    .layui-table-cell{
+            height: auto!important;
+            white-space: normal;
+    }
+
 </style>
 
 <!-- <script src="//res.layui.com/layui/build/layui.js" charset="utf-8"></script> -->
@@ -215,11 +237,12 @@
 </script>
 
 <script>
-layui.use(['element','layer','form', 'laydate'], function () {
+layui.use(['element','layer','form', 'laydate', 'table'], function () {
     var element = layui.element
         , layer = layui.layer
         , form = layui.form
-        , laydate = layui.laydate;
+        , laydate = layui.laydate
+        , table = layui.table;
 
 
     //关闭按钮
@@ -270,9 +293,120 @@ layui.use(['element','layer','form', 'laydate'], function () {
         return false;
     });
 
+
+    fid = $("#id_FID").val();
+
+    table.render({
+        method: 'post',
+        page: true,
+        limit: 15,
+        elem: '#datasource',
+        url: "{% url 'organize:get_quailfications' %}?fid="+fid,
+        cols: [[
+            {field:'FQualification', width: '20%', title: '资质名称', sort: true},
+            {field:'FFilepath', width: '70%', title: '资质文件', sort: true, templet: '#tpImg'},
+            {field:'', title: '操作', width: '10%', toolbar: '#tlbar', fixed: 'right'}
+        ]],
+        id: 'runreload',
+        done : function (res, curr, count) {
+            // 处理图片弹出预览框
+            if ($('.layer-photos-demo').length > 0) {
+                $('.layer-photos-demo').on('click', function () {
+                    var img_src = $(this).attr('src');
+                    var img_alt = $(this).attr('alt');
+                    layer.photos({
+                        photos: {
+                            'title': '查看图片',
+                            'data': [{
+                                'src': img_src,
+                                'alt': img_alt
+                            }]
+                        },
+                        anim: 5
+                    });
+                });
+            }
+        }
+    });
+
+    // 实现滚轮缩放图片
+    $(document).on("mousewheel DOMMouseScroll", ".layui-layer-phimg img", function(e) {
+		var delta = (e.originalEvent.wheelDelta && (e.originalEvent.wheelDelta > 0 ? 1 : -1)) || // chrome & ie
+			(e.originalEvent.detail && (e.originalEvent.detail > 0 ? -1 : 1)); // firefox
+		var imagep = $(".layui-layer-phimg").parent().parent();
+		var image = $(".layui-layer-phimg").parent();
+		var h = image.height();
+		var w = image.width();
+		if(delta > 0) {
+				h = h * 1.05;
+				w = w * 1.05;
+		} else if(delta < 0) {
+			if(h > 100) {
+				h = h * 0.95;
+				w = w * 0.95;
+			}
+		}
+		imagep.css("top", (window.innerHeight - h) / 2);
+		imagep.css("left", (window.innerWidth - w) / 2);
+		image.height(h);
+		image.width(w);
+		imagep.height(h);
+		imagep.width(w);
+	});
+
+
+
+    //监听工具栏按钮事件
+    table.on('tool(toolbar)', function (obj) {
+        var data = obj.data;           //获取当前行数据
+        var layEvent = obj.event;      //获取当前行事件
+        var tr = obj.tr;               //获取当前行tr的DOM数据
+        var fid = {"fid":data.FID};
+
+        switch (layEvent){
+            case 'delete' :              //删除按钮事件
+                parent.layer.open({
+                    content: '是否删除该资质文件',
+                    btn: ['确定','取消'],
+                    yes: function (index) {
+                        $.post("{% url 'organize:delete' %}", fid, function (data) {
+                            if (data.result=='0') {
+                                table.reload('runreload', {page: {curr: 1}, where: {resultdict: {FPID: ''}}});
+                            } else if (data.result=='1') {
+                                parent.layer.alert('文件不存在,已移除数据记录',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                            } else if (data.result=='2') {
+                                parent.layer.alert('删除失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                            }
+
+                        },"json");
+
+                        parent.layer.close(index);
+                    },
+                    btn2: function (index) {
+                    }
+                });
+
+                break;
+        }
+    });
 })
 </script>
 
+<!--显示用户类型模板-->
+<script type="text/html" id="tpImg">
+    {% verbatim %}
+    <div>
+        <img class="layer-photos-demo" layer-scr="/media/{{ d.FFilepath }}" src="/media/{{ d.FFilepath }}" alt="" />
+    </div>
+    {% endverbatim %}
+</script>
+
+<!--生成操作工具栏-->
+<script type="text/html" id="tlbar">
+    <div class="layui-btn-group">
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="delete"><i class="fa fa-trash-o" aria-hidden="true"></i>移除</a>
+    </div>
+</script>
 
 </body>
 </html>

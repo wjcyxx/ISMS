@@ -23,7 +23,6 @@
       </form>
     <!-- 数据列表 -->
       <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
-
 {% include "common/jsfiles.html" %}
 
 <script>
@@ -44,8 +43,8 @@
       $("#btnAdd").click(function () {
           parent.layer.open({
               type:   2,
-              title:  '添加组织信息',
-              area: ['1100px','690px'],
+              title:  '添加组织资料',
+              area: ['1100px','670px'],
               fixed: false,
               content: "{% url 'organize:add' %}",
               resize: false,
@@ -75,7 +74,7 @@
 
               {field:'FIssplit', width: '10%', title: '数据隔离', sort: true, templet: '#tpIssplit'},
               {field:'FStatus', width: '10%', title: '状态', sort: true, templet: '#tpStatus'},
-              {field:'', title: '操作', width: '15%', toolbar: '#tlbar', fixed: 'right'}
+              {field:'', title: '操作', width: '22%', toolbar: '#tlbar', fixed: 'right'}
           ]],
           id: 'runreload'
       });
@@ -101,8 +100,8 @@
               case 'edit' :              //编辑按钮事件
                   parent.layer.open({
                       type:   2,
-                      title:  '编辑字典类型信息',
-                      area: ['1100px','690px'],
+                      title:  '编辑组织资料',
+                      area: ['1100px','670px'],
                       fixed: false,
                       content: "{% url 'organize:edit' %}?fid="+data.FID,
                       resize: false,
@@ -112,14 +111,14 @@
                   break;
               case 'disabled' :               //禁用按钮事件
                   parent.layer.open({
-                      content: '是否确定禁用该用户账户',
+                      content: '是否确定禁用该组织',
                       btn: ['确定','取消'],
                       yes: function (index) {
-                          $.post("{% url 'user:disabled' %}", fid, function (data) {
+                          $.post("{% url 'organize:disabled' %}?type=lock", fid, function (data) {
                               if (data.result=='0') {
-                                  window.parent.document.getElementById('Userinfo').contentWindow.location.reload();
-                              } else if (data.result=='1') {
-                                  parent.layer.alert('用户账户禁用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                                  window.parent.document.getElementById('Organize').contentWindow.location.reload();
+                              } else if (data.result=='2') {
+                                  parent.layer.alert('组织禁用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
                               }
 
                           },"json");
@@ -132,11 +131,34 @@
 
                   break;
 
+              case 'enabled' :
+                  parent.layer.open({
+                      content: '是否确定启用该组织',
+                      btn: ['确定','取消'],
+                      yes: function (index) {
+                          $.post("{% url 'organize:disabled' %}?type=unlock", fid, function (data) {
+                              if (data.result=='0') {
+                                  window.parent.document.getElementById('Organize').contentWindow.location.reload();
+                              } else if (data.result=='2') {
+                                  parent.layer.alert('组织启用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                              }
+
+                          },"json");
+
+                          parent.layer.close(index);
+                      },
+                      btn2: function (index) {
+                      }
+                  });
+
+
+                  break;
+
               case 'upload' :
                   parent.layer.open({
                       type:   2,
                       title:  '上传资质文件',
-                      area: ['1000px','690px'],
+                      area: ['800px','280px'],
                       fixed: false,
                       content: "{% url 'organize:show_upload' %}?fid="+data.FID,
                       resize: false,
