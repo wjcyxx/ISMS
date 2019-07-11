@@ -137,6 +137,7 @@ def getbasedata_datasource(request):
 
     dict = convert_to_dicts(Base_info)
     resultdict = {'total':total, 'code':0, 'msg':"", 'count': total, 'data': dict}
+    #resultdict = {'code':0, 'msg':"", 'count': Base_info.count(), 'data': dict}
 
     return  JsonResponse(resultdict, safe=False)
 

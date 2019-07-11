@@ -55,7 +55,6 @@
 
         table.render({
           method: 'post',
-          height: 'full-450',
           elem: '#datasource',
           url: "{% url 'basedata:getbasedata_datasource' %}",
           cols: [[
@@ -66,7 +65,7 @@
               {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
           ]],
           page: true,
-          limit: 10,
+          limit: 15,
           id: 'runreload'
         });
 

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include "common/resfiles.html" %}
+</head>
+<body style="overflow: hidden;">
+
+  <!--UKEY设备信息列表  -->
+
+    <!-- 工具条 -->
+      <!-- 查询框 -->
+      <div class="layui-collapse">
+          <div class="layui-colla-item">
+              <h2 class="layui-colla-title">查询条件</h2>
+              <div class="layui-colla-content">
+                  <form class="layui-form" method="post">
+                      <div class="layui-inline">
+                          <input type="text" name="serinput" placeholder="输入查询的UKEY序列号" autocomplete="off" class="layui-input" value="" style="width: 120%">
+                      </div>
+
+                      <div class="layui-inline" style="margin-left: 35px">
+                          <input type="button" class="layui-btn layui-btn-small layui-btn-normal layui-icon" lay-submit lay-filter="formsubmit" value="&#xe615;查  询"/>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+
+      <div style="padding-top: 10px" >
+        <a href="javascript:;" class="layui-btn layui-btn-normal" id="btnAdd">注册终端</a>
+        <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
+      </div>
+
+      <!-- 数据列表 -->
+
+      <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
+
+{% include "common/jsfiles.html" %}
+
+<script>
+  var Portdata = {{ portdata|safe }};
+
+  layui.use(['element', 'layer', 'table'], function(){
+      var $ = layui.jquery
+          ,element = layui.element
+          ,table = layui.table
+          ,layer = layui.layer;
+
+      $("#btnClose").click(function () {
+          window.parent.layui.element.tabDelete('tabMain','Ukey');
+      });
+
+      //新增按钮事件
+      $("#btnAdd").click(function () {
+          parent.layer.open({
+              type:   2,
+              title:  '注册UKEY信息',
+              area: ['920px','430px'],
+              fixed: false,
+              content: "{% url 'ukey:add' %}",
+              resize: false,
+              move: false
+          });
+      });
+
+      table.render({
+          method: 'post',
+          page: true,
+          limit: 20,
+          elem: '#datasource',
+          url: "{% url 'ukey:get_datasource' %}",
+          cols: [[
+              {field:'FUkey_serial', width: '25%', title: '终端设备序列号', sort: true},
+              {field:'FUkey_type', width: '15%', title: '终端类型', sort: true, templet: '#tpType'},
+              {field:'FUkey_devportid', width: '12%', title: '绑定主机端口', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FUkey_devportid, Portdata)}}{% endverbatim %}</div>'},
+              {field:'CREATED_TIME', width: '20%', title: '注册日期', sort: true},
+              {field:'FUkey_state', width: '15%', title: '状态', sort: true, templet: '#tpState'},
+              {field:'FUkey_ruleversion', width: '20%', title: '规则版本号', sort: true},
+              {field:'FPdev_desc', width: '20%', title: '设备描述', sort: true},
+
+              {field:'', title: '操作', width: '25%', toolbar: '#tlbar', fixed: 'right'}
+          ]],
+          id: 'runreload'
+      });
+
+      //监听查询条件提交
+        form.on('submit(formsubmit)', function (data) {
+            var serinput = $("input[name='serinput']").val();
+            //alert(serinput);
+            table.reload('runreload', {where: {resultdict:{FUkey_serial: serinput}}});
+
+            return false;
+        });
+
+
+      //监听工具栏按钮事件
+      table.on('tool(toolbar)', function (obj) {
+          var data = obj.data;           //获取当前行数据
+          var layEvent = obj.event;      //获取当前行事件
+          var tr = obj.tr;               //获取当前行tr的DOM数据
+          var fid = {"FUkey_id":data.FUkey_id};
+
+          switch (layEvent){
+              case 'edit' :              //编辑按钮事件
+                  parent.layer.open({
+                      type:   2,
+                      title:  '编辑设备信息',
+                      area: ['920px','430px'],
+                      fixed: false,
+                      content: "{% url 'ukey:edit' %}?fid="+data.FUkey_id,
+                      resize: false,
+                      move: false
+                  });
+
+                  break;
+              case 'disabled' :               //分配端口按钮事件
+                  parent.layer.open({
+                      content: '是否确定禁用该终端设备',
+                      btn: ['确定','取消'],
+                      yes: function (index) {
+                          $.post("{% url 'ukey:disabled' %}", fid, function (data) {
+                              if (data.result=='0') {
+                                  window.parent.document.getElementById('Ukey').contentWindow.location.reload();
+                              } else if (data.result=='1') {
+                                  parent.layer.alert('设备禁用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                              }
+
+                          },"json");
+
+                          parent.layer.close(index);
+                      },
+                      btn2: function (index) {
+                      }
+                  });
+
+                  break;
+
+              case 'unlock' :
+                  parent.layer.open({
+                      content: '是否确定解锁该终端设备',
+                      btn: ['确定','取消'],
+                      yes: function (index) {
+                          $.post("{% url 'ukey:unlock' %}", fid, function (data) {
+                              if (data.result=='0') {
+                                  window.parent.document.getElementById('Ukey').contentWindow.location.reload();
+                              } else if (data.result=='1') {
+                                  parent.layer.alert('设备解锁失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                              }
+
+                          },"json");
+
+                          parent.layer.close(index);
+                      },
+                      btn2: function (index) {
+                      }
+                  });
+
+                  break;
+
+              case 'lock' :
+                  parent.layer.open({
+                      content: '是否确定锁定该终端设备',
+                      btn: ['确定','取消'],
+                      yes: function (index) {
+                          $.post("{% url 'ukey:lock' %}", fid, function (data) {
+                              if (data.result=='0') {
+                                  window.parent.document.getElementById('Ukey').contentWindow.location.reload();
+                              } else if (data.result=='1') {
+                                  parent.layer.alert('UKEY设备请在网控主机管理中关闭端口',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+
+                              } else if (data.result=='2') {
+                                  parent.layer.alert('设备锁定失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                              }
+
+                          },"json");
+
+                          parent.layer.close(index);
+                      },
+                      btn2: function (index) {
+                      }
+                  });
+
+                  break;
+
+
+              case 'loglist' :
+                  parent.layer.open({
+                      type:   2,
+                      title:  '端口一览',
+                      area: ['1000px','600px'],
+                      fixed: false,
+                      content: "{% url 'device:devport' %}?fid="+data.FPdev_id,
+                      resize: false,
+                      move: false
+                  });
+
+                  break;
+          }
+      });
+  });
+</script>
+
+<!--显示组织隔离模板-->
+
+<!--显示启用状态模板-->
+<script type="text/html" id="tpState">
+    {% verbatim %}
+        {{#  if(d.FUkey_state == 0){ }}
+        <span style="color: purple; font-weight: bold">注册</span>
+        {{#  } else if(d.FUkey_state == 1) { }}
+        <span style="color: green; font-weight: bold">正常</span>
+        {{#  } else if(d.FUkey_state == 2) { }}
+        <span style="color: orange; font-weight: bold">锁定</span>
+        {{#  } else { }}
+        <span style="color: red; font-weight: bold">禁用</span>
+        {{#  } }}
+    {% endverbatim %}
+</script>
+
+<script type="text/html" id="tpType">
+    {% verbatim %}
+        {{#  if(d.FUkey_type == 0){ }}
+        <span>UKEY</span>
+        {{#  } else if(d.FUkey_type == 1) { }}
+        <span>PC</span>
+        {{#  } }}
+    {% endverbatim %}
+</script>
+
+
+<!--生成操作工具栏-->
+<script type="text/html" id="tlbar">
+    {% verbatim %}
+        <div class="layui-btn-group">
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>编辑</a>
+            {{# if(d.FUkey_state == 2){  }}
+                <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="unlock"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>解锁</a>
+            {{# } else {  }}
+                <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="lock"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>锁定</a>
+            {{# }  }}
+
+            {{# if(d.FUkey_state == 3){ }}
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="unlock"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>启用</a>
+            {{# } else if(d.FUkey_state == 2){ }}
+                <a class="layui-btn layui-btn-disabled layui-btn-xs"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>
+            {{# } else { }}
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>
+            {{# } }}
+
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="loglist"><i class="iconfont icon-bianji"></i>日志一览</a>
+        </div>
+    {% endverbatim %}
+</script>
+
+</body>
+</html>
