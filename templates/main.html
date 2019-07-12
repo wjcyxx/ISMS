@@ -45,8 +45,9 @@
 <script>
     $(document).ready(function(){
 			var height = $(window).height();   // 浏览器的高度
-			$("#box").height(height-60)  // 浏览器的高度加在类名为box的DIV 上
-	})
+			$("#box").height(height-60);  // 浏览器的高度加在类名为box的DIV 上
+
+    });
 </script>
 
 <script>
@@ -113,8 +114,23 @@
             tabAdd(data.title, data.id, 'show?url='+data.url)
         });
 
+
+            $("a[name='prj_click']").click(function(){
+                window.top.layer.open({
+                    type: 2,
+                    title: '切换项目',
+                    fixed: false,
+                    resize: false,
+                    move: false,
+                    area: ['900px', '500px'],
+                    content: "{% url 'login:login_showPrj' %}?orgid={{ request.session.UserOrg }}"
+                });
+            });
+
+
     });
 </script>
+
 
 </body>
 </html>

@@ -4,7 +4,7 @@ from django.forms import widgets as Fwidgets
 from .models import *
 
 class OrganizeModelForm(ModelForm):
-    FOrgtypeID = forms.ChoiceField(widget=forms.Select(attrs={'lay-verify': 'required'}))
+    FOrgtypeID = forms.ChoiceField(widget=forms.Select(attrs={'lay-verify': 'required'}), required=False)
 
     class Meta:
         model = organize
@@ -33,6 +33,11 @@ class OrganizeModelForm(ModelForm):
             'FStatus': Fwidgets.Select(attrs={'lay-verify': 'required'}),
             'FScope': Fwidgets.Textarea(attrs={'class': 'layui-input', 'autocomplete': 'off'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super(OrganizeModelForm, self).__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.error_messages = {'required': '*'}
 
 
 class OrganizeQualiModeForm(ModelForm):

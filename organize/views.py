@@ -34,12 +34,15 @@ def get_datasource(request):
 
     return  JsonResponse(resultdict, safe=False)
 
+def ref_dropdowndata(obj, request):
+    Orgtype_info = base.objects.filter(Q(FPID='9defe198a17f11e992e7708bcdb9b39a'))
+    obj.fields['FOrgtypeID'].choices = get_dict_object(request, Orgtype_info, 'FID', 'FBase')
+
 #链接增加模板
 def add(request):
     obj = OrganizeModelForm()
 
-    Orgtype_info = base.objects.filter(Q(FPID='9defe198a17f11e992e7708bcdb9b39a'))
-    obj.fields['FOrgtypeID'].choices = get_dict_object(request, Orgtype_info, 'FID', 'FBase')
+    ref_dropdowndata(obj, request)
 
     return render(request, "content/organize/organizeadd.html" , {'obj': obj, 'action': 'insert'})
 
@@ -51,53 +54,60 @@ def edit(request):
 
     obj = OrganizeModelForm(instance=Organize_info)
 
-    Orgtype_info = base.objects.filter(Q(FPID='9defe198a17f11e992e7708bcdb9b39a'))
-    obj.fields['FOrgtypeID'].choices = get_dict_object(request, Orgtype_info, 'FID', 'FBase')
+    ref_dropdowndata(obj, request)
 
     return render(request, "content/organize/organizeadd.html", {'obj': obj, 'Organize_info': Organize_info, 'action': 'update' })
 
 #处理新增及保存
 def insert(request):
-    if request.method == 'POST':
-        response_data = {}
+    try:
+        if request.method == 'POST':
+            response_data = {}
 
-        if request.GET.get('actype') == 'insert':
-            obj = OrganizeModelForm(request.POST)
-        elif request.GET.get('actype') == 'update':
-            fid = request.POST.get('FID')
-            Organize_info = T_Organize.objects.get(FID=fid)
-            obj = OrganizeModelForm(request.POST, instance=Organize_info)
-        else:
-            response_data['result'] = '2'
-            return HttpResponse(json.dumps(response_data))
-
-
-        Orgtype_info = base.objects.filter(Q(FPID='9defe198a17f11e992e7708bcdb9b39a'))
-        obj.fields['FOrgtypeID'].choices = get_dict_object(request, Orgtype_info, 'FID', 'FBase')
-
-        try:
-            if obj.is_valid():
-                temp = obj.save(commit=False)
-                temp.FIssplit = True
-                temp.FStatus = True
-                temp.CREATED_ORG = request.session['UserOrg']
-                temp.CREATED_BY = request.session['UserID']
-                temp.UPDATED_BY = request.session['UserID']
-                temp.CREATED_TIME = timezone.now()
-
-                temp.save()
-                response_data['result'] = '0'
+            if request.GET.get('actype') == 'insert':
+                obj = OrganizeModelForm(request.POST)
+            elif request.GET.get('actype') == 'update':
+                fid = request.POST.get('FID')
+                Organize_info = T_Organize.objects.get(FID=fid)
+                obj = OrganizeModelForm(request.POST, instance=Organize_info)
             else:
-                response_data['msg'] = obj.errors
+                response_data['result'] = '2'
+                return HttpResponse(json.dumps(response_data))
+
+            ref_dropdowndata(obj, request)
+
+            try:
+                if obj.is_valid():
+                    temp = obj.save(commit=False)
+                    if request.GET.get('actype') == 'insert':
+                        temp.FIssplit = True
+                        temp.FStatus = True
+                    temp.CREATED_ORG = request.session['UserOrg']
+                    temp.CREATED_BY = request.session['UserID']
+                    temp.UPDATED_BY = request.session['UserID']
+                    temp.CREATED_TIME = timezone.now()
+
+                    temp.save()
+                    response_data['result'] = '0'
+                else:
+                    #response_data['msg'] = obj.errors
+                    #response_data['result'] = '1'
+
+                    ErrorDict = obj.errors
+
+                    Error_Str = json.dumps(ErrorDict)
+
+                    Error_Dict = json.loads(Error_Str)
+
+                return HttpResponse(json.dumps(response_data))
+
+            except Exception as e:
+                response_data['msg'] = e
                 response_data['result'] = '1'
 
-            return HttpResponse(json.dumps(response_data))
-
-        except Exception as e:
-            response_data['msg'] = e
-            response_data['result'] = '1'
-
-            return HttpResponse(json.dumps(response_data))
+                return HttpResponse(json.dumps(response_data))
+    except Exception as e:
+        print(e)
 
 
 #处理禁用/启用组织

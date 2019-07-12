@@ -48,7 +48,6 @@ def login_showPrj(request):
 
         return render(request, "content/login/showproject.html", {'orgid': orgid})
 
-
 def get_project(request):
     if request.method == "POST":
         orgid = request.GET.get('orgid')
@@ -67,6 +66,7 @@ def login_ok(request):
         prjid = ''.join(str(prjid).split('-'))
 
         prj_info = project.objects.get(Q(FID=prjid))
+        request.session['PrjID'] = prjid
 
         return render(request, "main.html", {'prjinfo': prj_info})
 

@@ -5,7 +5,7 @@
 </head>
 <body style="overflow: hidden;">
 
-  <!--UKEY设备信息列表  -->
+  <!--项目区域信息列表  -->
 
     <!-- 工具条 -->
       <!-- 查询框 -->
@@ -15,7 +15,7 @@
               <div class="layui-colla-content">
                   <form class="layui-form" method="post">
                       <div class="layui-inline">
-                          <input type="text" name="serinput" placeholder="输入项目名称" autocomplete="off" class="layui-input" value="" style="width: 120%">
+                          <input type="text" name="serinput" placeholder="输入区域名称" autocomplete="off" class="layui-input" value="" style="width: 120%">
                       </div>
 
                       <div class="layui-inline" style="margin-left: 35px">
@@ -27,7 +27,7 @@
       </div>
 
       <div style="padding-top: 10px" >
-        <a href="javascript:;" class="layui-btn layui-btn-normal" id="btnAdd">新增</a>
+        <a href="javascript:;" class="layui-btn layui-btn-normal" id="btnAdd">增加</a>
         <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
       </div>
 
@@ -38,11 +38,6 @@
 {% include "common/jsfiles.html" %}
 
 <script>
-  var Prjtype = {{ prjtype|safe }};
-  var Prjuse = {{ prjuse|safe }};
-  var Prjstate = {{ prjstate|safe }};
-  var Prjstruc = {{ prjstruc|safe }};
-  var Prjmanorg = {{ prjmanorg|safe }};
 
   layui.use(['element', 'layer', 'table'], function(){
       var $ = layui.jquery
@@ -51,17 +46,17 @@
           ,layer = layui.layer;
 
       $("#btnClose").click(function () {
-          window.parent.layui.element.tabDelete('tabMain','Project');
+          window.parent.layui.element.tabDelete('tabMain','Area');
       });
 
       //新增按钮事件
       $("#btnAdd").click(function () {
           parent.layer.open({
               type:   2,
-              title:  '新增项目信息',
-              area: ['1100px','670px'],
+              title:  '新增项目区域',
+              area: ['920px','430px'],
               fixed: false,
-              content: "{% url 'project:add' %}",
+              content: "{% url 'area:add' %}",
               resize: false,
               move: false
           });
@@ -72,24 +67,14 @@
           page: true,
           limit: 20,
           elem: '#datasource',
-          url: "{% url 'project:get_datasource' %}",
+          url: "{% url 'area:get_datasource' %}",
           cols: [[
-              {field:'FPrjID', width: '15%', title: '项目编码', sort: true},
-              {field:'FPrjname', width: '25%', title: '项目名称', sort: true},
-              {field:'FShortname', width: '15%', title: '项目简称', sort: true},
-              {field:'FPrjtypeID', width: '15%', title: '工程类别', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPrjtypeID, Prjtype)}}{% endverbatim %}</div>'},
-              {field:'FPrjuseID', width: '15%', title: '工程用途', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPrjuseID, Prjuse)}}{% endverbatim %}</div>'},
-              {field:'FPrjstate', width: '15%', title: '工程状态', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPrjstate, Prjstate)}}{% endverbatim %}</div>'},
-              {field:'FStructypeID', width: '15%', title: '结构类型', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FStructypeID, Prjstruc)}}{% endverbatim %}</div>'},
-              {field:'FArea', width: '15%', title: '建筑面积', sort: true},
-              {field:'FPrjcost', width: '15%', title: '工程造价', sort: true},
-              {field:'FPrjcost', width: '15%', title: '工程造价', sort: true},
-              {field:'FPrjmanager', width: '15%', title: '项目经理', sort: true},
-              {field:'FPrjmanagertel', width: '15%', title: '项目经理电话', sort: true},
-              {field:'FAddress', width: '15%', title: '项目地址', sort: true},
-              {field:'FManageORG', width: '15%', title: '管理组织', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FManageORG, Prjmanorg)}}{% endverbatim %}</div>'},
+              {field:'FName', width: '15%', title: '区域名称', sort: true},
+              {field:'FPosition', width: '20%', title: '区域位置', sort: true},
+              {field:'FIsCheckworkatten', width: '10%', title: '是否考勤', sort: true, templet: '#tpSwitch', unresize: true},
+              {field:'FPrjdesc', width: '25%', title: '区域描述', sort: true},
               {field:'FStatus', width: '15%', title: '状态', sort: true, templet: '#tpStatus'},
-              {field:'', title: '操作', width: '25%', toolbar: '#tlbar', fixed: 'right'}
+              {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
           ]],
           id: 'runreload'
       });
@@ -98,7 +83,7 @@
         form.on('submit(formsubmit)', function (data) {
             var serinput = $("input[name='serinput']").val();
             //alert(serinput);
-            table.reload('runreload', {where: {resultdict:{FPrjname: serinput}}});
+            table.reload('runreload', {where: {resultdict:{FName: serinput}}});
 
             return false;
         });
@@ -115,10 +100,10 @@
               case 'edit' :              //编辑按钮事件
                   parent.layer.open({
                       type:   2,
-                      title:  '编辑项目信息',
-                      area: ['1100px','670px'],
+                      title:  '编辑项目区域',
+                      area: ['920px','430px'],
                       fixed: false,
-                      content: "{% url 'project:edit' %}?fid="+data.FID,
+                      content: "{% url 'area:edit' %}?fid="+data.FID,
                       resize: false,
                       move: false
                   });
@@ -127,15 +112,15 @@
 
               case 'disabled' :               //禁用按钮事件
                   parent.layer.open({
-                      content: '是否确定禁用该项目',
+                      content: '是否确定禁用该区域',
                       btn: ['确定','取消'],
                       yes: function (index) {
-                          $.post("{% url 'project:disabled' %}?type=lock", fid, function (data) {
+                          $.post("{% url 'area:disabled' %}?type=lock", fid, function (data) {
                               if (data.result=='0') {
                                   //window.parent.document.getElementById('Project').contentWindow.location.reload();
-                                  table.reload('runreload', {where: {resultdict:{FPrjname: ''}}});
+                                  table.reload('runreload', {where: {resultdict:{FName: ''}}});
                               } else if (data.result=='2') {
-                                  parent.layer.alert('组织禁用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                                  parent.layer.alert('区域禁用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
                               }
 
                           },"json");
@@ -150,15 +135,15 @@
 
               case 'enabled' :
                   parent.layer.open({
-                      content: '是否确定启用该项目',
+                      content: '是否确定启用该区域',
                       btn: ['确定','取消'],
                       yes: function (index) {
-                          $.post("{% url 'project:disabled' %}?type=unlock", fid, function (data) {
+                          $.post("{% url 'area:disabled' %}?type=unlock", fid, function (data) {
                               if (data.result=='0') {
                                   //window.parent.document.getElementById('Organize').contentWindow.location.reload();
-                                  table.reload('runreload', {where: {resultdict:{FPrjname: ''}}});
+                                  table.reload('runreload', {where: {resultdict:{FName: ''}}});
                               } else if (data.result=='2') {
-                                  parent.layer.alert('组织启用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                                  parent.layer.alert('区域启用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
                               }
 
                           },"json");
@@ -172,25 +157,29 @@
 
                   break;
 
-
-
           }
       });
   });
 </script>
 
+<!--显示是否考勤模板-->
+
+<script type="text/html" id="tpSwitch">
+    {% verbatim %}
+        <input type="checkbox" name="FIsCheckworkatten" value="{{d.FIsCheckworkatten}}" lay-skin="switch" lay-text="是|否" disabled="disabled"  {{ d.FIsCheckworkatten == true ? 'checked' : '' }} >
+    {% endverbatim %}
+</script>
 
 <!--显示启用状态模板-->
 <script type="text/html" id="tpStatus">
-    {% verbatim %}
+      {% verbatim %}
         {{#  if(d.FStatus == false){ }}
             <span style="color: red">禁用</span>
         {{#  } else if(d.FStatus == true) { }}
             <span style="color: green">启用</span>
         {{#  } }}
-    {% endverbatim %}
+      {% endverbatim %}
 </script>
-
 
 <!--生成操作工具栏-->
 <script type="text/html" id="tlbar">
@@ -199,11 +188,11 @@
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>编辑</a>
 
             {{# if(d.FStatus == true){ }}
-                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>
             {{# } else if(d.FStatus == false){ }}
-                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="enabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>启用</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="enabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>启用</a>
             {{# } else { }}
-                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>
             {{# } }}
 
         </div>
