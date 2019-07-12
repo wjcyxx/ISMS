@@ -9,86 +9,289 @@
 <form class="layui-form layui-form-pane" accept-charset="utf-8">
     <!-- 工具栏按钮 -->
     <div style="padding-top: 1%; padding-left: 1%">
-      <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formsubmit" >
-          {% if action == 'insert' %}
-          注册
-          {% else %}
-          更新
-          {% endif %}
-      </button>
+      <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formsubmit" >保存</button>
       <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnC">关闭</a>
     </div>
-    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-      <legend>终端注册信息</legend>
-    </fieldset>
-    <!-- 表单内容 -->
-    <div class="layui-row layui-col-space10" style="padding-left: 2%">
-      <div class="layui-col-xs4">
-          <label class="layui-form-label" style="color: red">序列号</label>
-          <div class="layui-input-block">
-              {{ obj.FUkey_id }}
-              {{ obj.FUkey_serial }}
-          </div>
-      </div>
-      <div class="layui-col-xs4">
-          <label class="layui-form-label" style="color: red">主机端口号</label>
-          <div class="layui-input-block">
-              {{ obj.FUkey_devportid }}
-          </div>
-      </div>
-      <div class="layui-col-xs4">
-          <label class="layui-form-label" style="color: red">终端状态</label>
-          <div class="layui-input-block">
-              {{ obj.FUkey_state }}
-          </div>
-      </div>
+
+
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li class="layui-this">项目基本信息</li>
+            <li>项目扩展信息</li>
+        </ul>
+
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                    <legend>项目概貌</legend>
+                </fieldset>
+                <!-- 表单内容 -->
+                <div class="layui-row layui-col-space10" style="padding-left: 2%">
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label" style="color: red">项目编码</label>
+                        <div class="layui-input-block">
+                            {{ obj.FID }}
+                            {{ obj.FPrjID }}
+                        </div>
+                    </div>
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label" style="color: red">项目名称</label>
+                        <div class="layui-input-block">
+                            {{ obj.FPrjname }}
+                        </div>
+                    </div>
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">项目简称</label>
+                        <div class="layui-input-block">
+                            {{ obj.FShortname }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-row layui-col-space10" style="padding-left: 2%">
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label" style="color: red">管理组织</label>
+                        <div class="layui-input-block">
+                            {{ obj.FManageORG }}
+                        </div>
+                    </div>
+
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">项目经理</label>
+                        <div class="layui-input-block">
+                            {{ obj.FPrjmanager }}
+                        </div>
+                    </div>
+
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">联系电话</label>
+                        <div class="layui-input-block">
+                            {{ obj.FPrjmanagertel }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-row layui-col-space10" style="padding-left: 2%">
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label" style="color: red">工程类别</label>
+                        <div class="layui-input-block">
+                            {{ obj.FPrjtypeID }}
+                        </div>
+                    </div>
+
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label" style="color: red">工程用途</label>
+                        <div class="layui-input-block">
+                            {{ obj.FPrjuseID }}
+                        </div>
+                    </div>
+
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label" style="color: red">工程状态</label>
+                        <div class="layui-input-block">
+                            {{ obj.FPrjstate }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-row layui-col-space10" style="padding-left: 2%">
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label" style="color: red">工程结构</label>
+                        <div class="layui-input-block">
+                            {{ obj.FStructypeID }}
+                        </div>
+                    </div>
+
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">工程造价</label>
+                        <div class="layui-input-block">
+                            {{ obj.FPrjcost }}
+                        </div>
+                    </div>
+
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">建筑面积</label>
+                        <div class="layui-input-block">
+                            {{ obj.FArea }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-row layui-col-space10" style="padding-left: 2%">
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label" style="color: red">项目地点</label>
+                        <div class="layui-input-block">
+                            {{ obj.FAddress }}
+                        </div>
+                    </div>
+
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">经度</label>
+                        <div class="layui-input-block">
+                            {{ obj.FLong }}
+                        </div>
+                    </div>
+
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">纬度</label>
+                        <div class="layui-input-block">
+                            {{ obj.FLat }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-row layui-col-space10" style="padding-left: 2%">
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">合同签订</label>
+                        <div class="layui-input-block">
+                            {{ obj.FSigDate }}
+                        </div>
+                    </div>
+
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">合同工期</label>
+                        <div class="layui-input-block">
+                            {{ obj.FSigbeginDate }}
+                        </div>
+                    </div>
+
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">实际工期</label>
+                        <div class="layui-input-block">
+                            {{ obj.FBeginDate }}
+                        </div>
+                    </div>
+                </div>
+
+                <fieldset class="layui-elem-field layui-field-title">
+                </fieldset>
+
+                <div class="layui-row layui-col-space10" style="padding-left: 2%">
+                    <div class="layui-col-xs12">
+                        <label class="layui-form-label">项目概况</label>
+                        <div class="layui-input-block">
+                            {{ obj.FPrjdesc }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-tab-item">
+                <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                    <legend>项目关联单位</legend>
+                </fieldset>
+                <!-- 表单内容 -->
+                <div class="layui-row layui-col-space10" style="padding-left: 2%">
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">中标单位</label>
+                        <div class="layui-input-block">
+                            {{ obj.FWinOrgID }}
+                        </div>
+                    </div>
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">联系人</label>
+                        <div class="layui-input-block">
+                            {{ obj.FWinAtten }}
+                        </div>
+                    </div>
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">联系方式</label>
+                        <div class="layui-input-block">
+                            {{ obj.FWinAttenTel }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-row layui-col-space10" style="padding-left: 2%">
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">建设单位</label>
+                        <div class="layui-input-block">
+                            {{ obj.FBuildOrgID }}
+                        </div>
+                    </div>
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">联系人</label>
+                        <div class="layui-input-block">
+                            {{ obj.FBuildAtten }}
+                        </div>
+                    </div>
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">联系方式</label>
+                        <div class="layui-input-block">
+                            {{ obj.FBuildAttenTel }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-row layui-col-space10" style="padding-left: 2%">
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">设计单位</label>
+                        <div class="layui-input-block">
+                            {{ obj.FDesignOrgID }}
+                        </div>
+                    </div>
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">联系人</label>
+                        <div class="layui-input-block">
+                            {{ obj.FDesignAtten }}
+                        </div>
+                    </div>
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">联系方式</label>
+                        <div class="layui-input-block">
+                            {{ obj.FDesignAttenTel }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-row layui-col-space10" style="padding-left: 2%">
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">监理单位</label>
+                        <div class="layui-input-block">
+                            {{ obj.FSuperviseOrgID }}
+                        </div>
+                    </div>
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">联系人</label>
+                        <div class="layui-input-block">
+                            {{ obj.FSuperviseAtten }}
+                        </div>
+                    </div>
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">联系方式</label>
+                        <div class="layui-input-block">
+                            {{ obj.FSuperviseAttenTel }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-row layui-col-space10" style="padding-left: 2%">
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">业主单位</label>
+                        <div class="layui-input-block">
+                            {{ obj.FUserOrgID }}
+                        </div>
+                    </div>
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">联系人</label>
+                        <div class="layui-input-block">
+                            {{ obj.FUserAtten }}
+                        </div>
+                    </div>
+                    <div class="layui-col-xs4">
+                        <label class="layui-form-label">联系方式</label>
+                        <div class="layui-input-block">
+                            {{ obj.FUserAttenTel }}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
-    <div class="layui-row layui-col-space10" style="padding-left: 2%">
-        <div class="layui-col-xs4">
-            <label class="layui-form-label" style="color: red">终端类型</label>
-            <div class="layui-input-block">
-                {{ obj.FUkey_type }}
-            </div>
-        </div>
-
-        <div class="layui-col-xs4">
-            <label class="layui-form-label">设备标签</label>
-            <div class="layui-input-block">
-                {{ obj.FUkey_label }}
-            </div>
-        </div>
-
-        <div class="layui-col-xs4">
-            <label class="layui-form-label">外联单位</label>
-            <div class="layui-input-block">
-                {{ obj.FUkey_unionid }}
-            </div>
-        </div>
-    </div>
-
-
-
-    <fieldset class="layui-elem-field layui-field-title">
-    </fieldset>
-
-    <div class="layui-row layui-col-space10" style="padding-left: 2%">
-        <div class="layui-col-xs8">
-            <label class="layui-form-label">规则版本</label>
-            <div class="layui-input-block">
-                {{ obj.FUkey_ruleversion }}
-            </div>
-        </div>
-    </div>
-
-    <div class="layui-row layui-col-space10" style="padding-left: 2%">
-        <div class="layui-col-xs12">
-            <label class="layui-form-label">描    述</label>
-            <div class="layui-input-block">
-                {{ obj.FUkey_desc }}
-            </div>
-        </div>
-    </div>
 </form>
 
 <style>
@@ -100,10 +303,11 @@
 {% include "common/jsfiles.html" %}
 
 <script>
-layui.use(['element','layer','form'], function () {
+layui.use(['element','layer','form', 'laydate'], function () {
     var element = layui.element
         , layer = layui.layer
-        , form = layui.form;
+        , form = layui.form
+        , laydate = layui.laydate;
 
 
     //关闭按钮
@@ -112,17 +316,37 @@ layui.use(['element','layer','form'], function () {
         parent.layer.close(index);
     });
 
+    laydate.render({
+        elem: '#id_FSigDate'
+    });
+
+    laydate.render({
+        elem: '#id_FSigbeginDate',
+        range: true
+    });
+
+    laydate.render({
+        elem: '#id_FBeginDate',
+        range: true
+    });
+
+
+    lay('.takeDate').each(function() {
+        laydate.render({
+            elem: this
+        });
+    });
 
     //监听窗口提交
     form.on('submit(formsubmit)', function (data) {
         $.ajax({
             type: "POST",
-            url:  "{% url 'ukey:insert' %}?actype={{ action }}",
+            url:  "{% url 'project:insert' %}?actype={{ action }}",
             data: data.field,
             dataType: "json",
             success: function (data) {
                 if (data.result=='0') {
-                    window.parent.document.getElementById('Ukey').contentWindow.location.reload();
+                    window.parent.document.getElementById('Project').contentWindow.location.reload();
 
                     var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
                     parent.layer.close(index);
@@ -140,32 +364,7 @@ layui.use(['element','layer','form'], function () {
         return false;
     });
 
-    form.on('select(selport)', function(data){
-        //alert(data.value);
-        var fid = {'fid': data.value};
-
-        $.post("{% url 'ukey:get_unionsel' %}", fid, function(d){
-            if (d.result == '0'){
-                //alert(d.union_id);
-                $("#id_FUkey_unionid").val(d.union_id);
-                form.render('select');
-            }
-        }, "json" );
-    });
-
 })
-</script>
-
-<script type="text/html" id="tpPortstate">
-    {% verbatim %}
-        {{#  if(d.FPdevD_state == 0){ }}
-        <span style="color: yellow; font-weight: bold ">关闭</span>
-        {{#  } else if(d.FPdevD_state == 1) { }}
-        <span style="color: green; font-weight: bold">打开</span>
-        {{#  } else { }}
-        <span style="color: red; font-weight: bold">禁用</span>
-        {{#  } }}
-    {% endverbatim %}
 </script>
 
 </body>

@@ -65,8 +65,8 @@ def insert(request):
             obj = OrganizeModelForm(request.POST)
         elif request.GET.get('actype') == 'update':
             fid = request.POST.get('FID')
-            Orgtype_info = T_Organize.objects.get(FID=fid)
-            obj = OrganizeModelForm(request.POST, instance=Orgtype_info)
+            Organize_info = T_Organize.objects.get(FID=fid)
+            obj = OrganizeModelForm(request.POST, instance=Organize_info)
         else:
             response_data['result'] = '2'
             return HttpResponse(json.dumps(response_data))
@@ -155,7 +155,7 @@ def show_upload(request):
 def get_quailfications(request):
 
     if request.method == 'POST':
-        fpid = request.GET.get('fid')
+        fpid = ''.join(str(request.GET.get('fid')).split('-'))
 
         Qualifications_info = T_OrgQualifications.objects.filter(Q(FPID=fpid))
 

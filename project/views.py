@@ -33,7 +33,7 @@ def project(request):
 
     #传递管理组织字典到前台页面
     prjmanorg_info = T_Organize.objects.filter(Q(FStatus=True))
-    prjmanorg = get_dict_table(prjmanorg_info, 'FID', 'FBase')
+    prjmanorg = get_dict_table(prjmanorg_info, 'FID', 'FOrgname')
 
     #传递所有变量至前台模板
     return render(request, 'content/project/projectinfo.html', locals())
@@ -49,16 +49,100 @@ def get_datasource(request):
 
     return  JsonResponse(resultdict, safe=False)
 
+#刷新下拉列表框数据
+def ref_dropdowndata(obj, request):
+    prjtype_info = base.objects.filter(Q(FPID='4a94b19ea3d811e9b984708bcdb9b39a'))
+    prjuse_info = base.objects.filter(Q(FPID='71921f42a3d911e9920c708bcdb9b39a'))
+    prjstate_info = base.objects.filter(Q(FPID='22682ae6a3da11e9920c708bcdb9b39a'))
+    prjstruc_info = base.objects.filter(Q(FPID='97cfc154a3da11e9920c708bcdb9b39a'))
+    prjmanorg_info = T_Organize.objects.filter(Q(FStatus=True))
+
+    obj.fields['FPrjtypeID'].choices = get_dict_object(request, prjtype_info, 'FID', 'FBase')
+    obj.fields['FPrjuseID'].choices = get_dict_object(request, prjuse_info, 'FID', 'FBase')
+    obj.fields['FPrjstate'].choices = get_dict_object(request, prjstate_info, 'FID', 'FBase')
+    obj.fields['FStructypeID'].choices = get_dict_object(request, prjstruc_info, 'FID', 'FBase')
+    obj.fields['FManageORG'].choices = get_dict_object(request, prjmanorg_info, 'FID', 'FOrgname')
+
+
 #链接增加模板
 def add(request):
     obj = ProjectModelForm()
 
-    prjtype_info = base.objects.filter(Q(FPID='4a94b19ea3d811e9b984708bcdb9b39a'))
-    obj.fields['FPrjtypeID'].choices = get_dict_object(request, prjtype_info, 'FID', 'FBase')
-
-    prjuse_info = base.objects.filter(Q(FPID='71921f42a3d911e9920c708bcdb9b39a'))
-    obj.fields['FPrjtypeID'].choices = get_dict_object(request, prjuse_info, 'FID', 'FBase')
-
-
+    ref_dropdowndata(obj, request)
     return render(request, "content/project/projectadd.html" , {'obj': obj, 'action': 'insert'})
 
+#链接编辑模板
+def edit(request):
+    fid = request.GET.get('fid')
+
+    Project_info = T_Project.objects.get(Q(FID=fid))
+    obj = ProjectModelForm(instance=Project_info)
+
+    ref_dropdowndata(obj, request)
+    return render(request, "content/project/projectadd.html", {'obj': obj, 'action': 'update'})
+
+#处理新增及保存
+def insert(request):
+    if request.method == 'POST':
+        response_data = {}
+
+        if request.GET.get('actype') == 'insert':
+            obj = ProjectModelForm(request.POST)
+        elif request.GET.get('actype') == 'update':
+            fid = request.POST.get('FID')
+            Project_info = T_Project.objects.get(FID=fid)
+            obj = ProjectModelForm(request.POST, instance=Project_info)
+        else:
+            response_data['result'] = '2'
+            return HttpResponse(json.dumps(response_data))
+
+        ref_dropdowndata(obj, request)
+
+        try:
+            if obj.is_valid():
+                temp = obj.save(commit=False)
+                temp.FStatus = True
+                temp.CREATED_ORG = request.session['UserOrg']
+                temp.CREATED_BY = request.session['UserID']
+                temp.UPDATED_BY = request.session['UserID']
+                temp.CREATED_TIME = timezone.now()
+
+                temp.save()
+                response_data['result'] = '0'
+            else:
+                response_data['msg'] = obj.errors
+                response_data['result'] = '1'
+
+            return HttpResponse(json.dumps(response_data))
+
+        except Exception as e:
+            response_data['msg'] = e
+            response_data['result'] = '1'
+
+            return HttpResponse(json.dumps(response_data))
+
+#处理禁用/启用项目
+def disabled(request):
+    response_data = {}
+    if request.method == 'POST':
+        fid = request.POST.get('fid')
+
+        try:
+            Project_info = T_Project.objects.get(FID=fid)
+
+            if request.GET.get('type') == 'lock':
+                Project_info.FStatus = False
+            elif request.GET.get('type') == 'unlock':
+                Project_info.FStatus = True
+
+            Project_info.save()
+
+            response_data['result'] = '0'
+            return HttpResponse(json.dumps(response_data))
+        except ObjectDoesNotExist:
+            response_data['result'] = '2'
+            return HttpResponse(json.dumps(response_data))
+
+    else:
+        response_data['result'] = '2'
+        return HttpResponse(json.dumps(response_data))

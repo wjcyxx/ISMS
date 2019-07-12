@@ -55,7 +55,7 @@ def get_project(request):
 
         serinput = request.POST.get("resultdict[FPrjname]", '')
 
-        prj_info = project.objects.filter(Q(FManageORG=orgid), Q(FPrjname__contains=serinput))
+        prj_info = project.objects.filter(Q(FManageORG=orgid), Q(FPrjname__contains=serinput), Q(FStatus=True))
         dict = convert_to_dicts(prj_info)
 
         resultdict = {'code': 0, 'msg': "", 'count': prj_info.count(), 'data': dict}

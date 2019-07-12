@@ -1001,6 +1001,7 @@
     <column id="259" parent="232" name="FQualification">
       <Position>3</Position>
       <DataType>varchar(32)|0s</DataType>
+      <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
     <column id="260" parent="232" name="FFilename">
@@ -1011,7 +1012,6 @@
     <column id="261" parent="232" name="FFilepath">
       <Position>5</Position>
       <DataType>varchar(100)|0s</DataType>
-      <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
     <column id="262" parent="232" name="CREATED_ORG">
@@ -1251,25 +1251,21 @@
     <column id="307" parent="234" name="FPrjtypeID">
       <Position>5</Position>
       <DataType>varchar(32)|0s</DataType>
-      <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
     <column id="308" parent="234" name="FPrjuseID">
       <Position>6</Position>
       <DataType>varchar(32)|0s</DataType>
-      <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
     <column id="309" parent="234" name="FPrjstate">
       <Position>7</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
+      <DataType>varchar(32)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
     <column id="310" parent="234" name="FStructypeID">
       <Position>8</Position>
       <DataType>varchar(32)|0s</DataType>
-      <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
     <column id="311" parent="234" name="FPrjcost">

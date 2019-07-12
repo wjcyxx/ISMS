@@ -374,6 +374,7 @@ layui.use(['element','layer','form', 'laydate', 'table'], function () {
                                 table.reload('runreload', {page: {curr: 1}, where: {resultdict: {FPID: ''}}});
                             } else if (data.result=='1') {
                                 parent.layer.alert('文件不存在,已移除数据记录',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                                table.reload('runreload', {page: {curr: 1}, where: {resultdict: {FPID: ''}}});
                             } else if (data.result=='2') {
                                 parent.layer.alert('删除失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
                             }

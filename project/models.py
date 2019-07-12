@@ -7,30 +7,24 @@ from django.utils.encoding import python_2_unicode_compatible
 @python_2_unicode_compatible
 
 class project(models.Model):
-    PRJSTATE_CHOICES = (
-        (0, '立项'),
-        (1, '在建'),
-        (2, '完工')
-    )
 
-
-    FID = models.UUIDField(primary_key=True, default=uuid.uuid1, editable=False)
+    FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
     FPrjID = models.CharField(max_length=32, verbose_name='项目编码')
     FPrjname = models.CharField(max_length=128, verbose_name='项目名称')
     FShortname = models.CharField(max_length=128, verbose_name='项目简称', blank=True, null=True)
-    FPrjtypeID = models.CharField(max_length=32, verbose_name='工程类别')
-    FPrjuseID = models.CharField(max_length=32, verbose_name='工程用途')
-    FPrjstate = models.IntegerField(default=0, choices=PRJSTATE_CHOICES, verbose_name='工程状态')
-    FStructypeID = models.CharField(max_length=32, verbose_name='结构类型')
+    FPrjtypeID = models.CharField(max_length=32, verbose_name='工程类别', blank=True, null=True)
+    FPrjuseID = models.CharField(max_length=32, verbose_name='工程用途', blank=True, null=True)
+    FPrjstate = models.CharField(max_length=32, verbose_name='工程状态', blank=True, null=True)
+    FStructypeID = models.CharField(max_length=32, verbose_name='结构类型', blank=True, null=True)
     FPrjcost = models.FloatField(verbose_name='工程造价', default=0.0, blank=True, null=True)
     FArea = models.FloatField(verbose_name='建筑面积', default=0.0, blank=True, null=True)
     FAddress = models.CharField(max_length=128, verbose_name='项目地址', blank=True, null=True)
     FLong = models.FloatField(verbose_name='经度', blank=True, null=True)
     FLat = models.FloatField(verbose_name='经度', blank=True, null=True)
     FSigDate = models.DateField(verbose_name='合同签订日期', blank=True, null=True)
-    FSigbeginDate = models.DateField(verbose_name='合同起始日期', blank=True, null=True)
+    FSigbeginDate = models.CharField(max_length=100, verbose_name='合同工期', blank=True, null=True)
     FSigendDate = models.DateField(verbose_name='合同截止日期', blank=True, null=True)
-    FBeginDate = models.DateField(verbose_name='实际起始工期', blank=True, null=True)
+    FBeginDate = models.CharField(max_length=100, verbose_name='实际工期', blank=True, null=True)
     FEndDate = models.DateField(verbose_name='实际截止日期', blank=True, null=True)
     FPrjmanager = models.CharField(max_length=32, verbose_name='项目经理', blank=True, null=True)
     FPrjmanagertel = models.CharField(max_length=32, verbose_name='项目经理电话', blank=True, null=True)
