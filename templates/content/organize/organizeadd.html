@@ -6,7 +6,7 @@
 <body style="overflow: hidden">
 
 
-<form class="layui-form layui-form-pane" accept-charset="utf-8">
+<form class="layui-form layui-form-pane" accept-charset="utf-8" enctype="multipart/form-data">
     <!-- 工具栏按钮 -->
     <div style="padding-top: 1%; padding-left: 1%">
       <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formsubmit" >保存</button>
@@ -297,9 +297,9 @@ layui.use(['element','layer','form', 'laydate', 'table'], function () {
     fid = $("#id_FID").val();
 
     table.render({
-        method: 'post',
-        page: true,
-        limit: 15,
+        //method: 'post',
+        //page: true,
+        //limit: 15,
         elem: '#datasource',
         url: "{% url 'organize:get_quailfications' %}?fid="+fid,
         cols: [[
@@ -393,7 +393,7 @@ layui.use(['element','layer','form', 'laydate', 'table'], function () {
 })
 </script>
 
-<!--显示用户类型模板-->
+<!--显示图片模板-->
 <script type="text/html" id="tpImg">
     {% verbatim %}
     <div>
@@ -405,7 +405,7 @@ layui.use(['element','layer','form', 'laydate', 'table'], function () {
 <!--生成操作工具栏-->
 <script type="text/html" id="tlbar">
     <div class="layui-btn-group">
-        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="delete"><i class="fa fa-trash-o" aria-hidden="true"></i>移除</a>
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="delete"><i class="fa fa-trash-o" aria-hidden="true"></i>删除</a>
     </div>
 </script>
 

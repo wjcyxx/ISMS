@@ -28,7 +28,8 @@ urlpatterns = [
     path('genuuid/', generate_uuid, name='genuuid'),
     path('basedata/', include('basedata.urls'), name='basedata'),
     path('user/', include('user.urls'), name='user'),
-    path('area/', include('area.urls'), name='area')
+    path('area/', include('area.urls'), name='area'),
+    path('projectmap/', include('projectmap.urls'), name='projectmap')
 
 ]
 

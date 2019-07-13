@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  {% include "common/resfiles.html" %}
+</head>
+<body style="overflow: hidden">
+
+
+<form class="layui-form layui-form-pane" action="{{ request.path }}" method="post" enctype="multipart/form-data">
+    <!-- 工具栏按钮 -->
+    <div style="padding-top: 1%; padding-left: 1%">
+      <!-- <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formsubmit" >上传</button> -->
+      <button type="submit" class="layui-btn layui-btn-normal">上传</button>
+      <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnC">关闭</a>
+    </div>
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+      <legend>组织资质信息</legend>
+    </fieldset>
+    <!-- 表单内容 -->
+    <div class="layui-row layui-col-space10" style="padding-left: 2%">
+      <div class="layui-col-xs8">
+          <label class="layui-form-label" style="color: red">平面图名称</label>
+          <div class="layui-input-block">
+              {{ obj.FID }}
+              {{ obj.FMapdesc }}
+          </div>
+      </div>
+
+      <div class="layui-col-xs4">
+          <label class="layui-form-label" style="color: red">平面图类型</label>
+          <div class="layui-input-block">
+              {{ obj.FMaptypeID }}
+          </div>
+      </div>
+
+    </div>
+
+    <div class="layui-row layui-col-space10" style="padding-left: 2%">
+        <div class="layui-col-xs12">
+            <label class="layui-form-label" style="color: red">项目平面图</label>
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn layui-btn-normal" id="btnUpload">选择平面图文件</button>
+                {{ obj.FFilepath }}
+                <span id="document_name">未上传文件</span>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+<!-- <script src="//res.layui.com/layui/build/layui.js" charset="utf-8"></script> -->
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+
+<style>
+    .layui-unselect dl { max-height:110px; }
+</style>
+
+{% include "common/jsfiles.html" %}
+
+<script>
+layui.use(['element','layer','form', 'laydate'], function () {
+    var element = layui.element
+        , layer = layui.layer
+        , form = layui.form
+        , laydate = layui.laydate
+        , table = layui.table;
+
+
+    //关闭按钮
+    $("#btnC").click(function () {
+        //window.parent.layer.table.reload('runreload', {where: {resultdict:{FMapdesc: serinput}}});
+        window.parent.document.getElementById('Prjmap').contentWindow.location.reload();
+        var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
+        parent.layer.close(index);
+    });
+
+        $("#btnUpload").click(function () {
+            $("#id_FFilepath").click()
+        });
+
+        $("#id_FFilepath").change(function(e){
+	        var name=e.currentTarget.files[0].name;
+	        $("#document_name").html(name);
+        });
+})
+</script>
+
+
+</body>
+</html>

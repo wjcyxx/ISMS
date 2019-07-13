@@ -29,7 +29,7 @@ class OrganizeModelForm(ModelForm):
             'FHrcharge': Fwidgets.Input(attrs={'class': 'layui-input', 'autocomplete': 'off'}),
             'FHrIDcard': Fwidgets.Input(attrs={'class': 'layui-input', 'autocomplete': 'off'}),
             'FHrtel': Fwidgets.Input(attrs={'class': 'layui-input', 'autocomplete': 'off'}),
-            'FIssplit': Fwidgets.CheckboxInput(attrs={'lay-skin': 'primary'}),
+            'FIssplit': Fwidgets.CheckboxInput(attrs={'lay-skin': 'switch', 'lay-text': '是|否'}),
             'FStatus': Fwidgets.Select(attrs={'lay-verify': 'required'}),
             'FScope': Fwidgets.Textarea(attrs={'class': 'layui-input', 'autocomplete': 'off'}),
         }

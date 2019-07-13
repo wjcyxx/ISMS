@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include "common/resfiles.html" %}
+</head>
+<body style="overflow: hidden;">
+
+  <!--项目区域信息列表  -->
+
+    <!-- 工具条 -->
+      <!-- 查询框 -->
+      <div class="layui-collapse">
+          <div class="layui-colla-item">
+              <h2 class="layui-colla-title">查询条件</h2>
+              <div class="layui-colla-content">
+                  <form class="layui-form" method="post">
+                      <div class="layui-inline">
+                          <input type="text" name="serinput" placeholder="输入平面图名称" autocomplete="off" class="layui-input" value="" style="width: 120%">
+                      </div>
+
+                      <div class="layui-inline" style="margin-left: 35px">
+                          <input type="button" class="layui-btn layui-btn-small layui-btn-normal layui-icon" lay-submit lay-filter="formsubmit" value="&#xe615;查  询"/>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+
+      <div style="padding-top: 10px" >
+        <a href="javascript:;" class="layui-btn layui-btn-normal" id="btnAdd">增加</a>
+        <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
+      </div>
+
+      <!-- 数据列表 -->
+
+      <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
+
+{% include "common/jsfiles.html" %}
+
+<style>
+
+      .layui-table-cell{
+          height: auto!important;
+          white-space: normal;
+      }
+
+</style>
+
+
+<script>
+  var Prjmaptype = {{ prjmaptype|safe }};
+
+  layui.use(['element', 'layer', 'table'], function(){
+      var $ = layui.jquery
+          ,element = layui.element
+          ,table = layui.table
+          ,layer = layui.layer;
+
+      $("#btnClose").click(function () {
+          window.parent.layui.element.tabDelete('tabMain','Prjmap');
+      });
+
+      //新增按钮事件
+      $("#btnAdd").click(function () {
+          parent.layer.open({
+              type:   2,
+              title:  '上传平面图',
+              area: ['800px','280px'],
+              fixed: false,
+              content: "{% url 'projectmap:prjmap_upload' %}",
+              resize: false,
+              move: false,
+              closeBtn: 0
+          });
+      });
+
+      table.render({
+          method: 'post',
+          page: true,
+          limit: 20,
+          elem: '#datasource',
+          url: "{% url 'projectmap:get_datasource' %}",
+          cols: [[
+              {field:'FMapdesc', width: '15%', title: '平面图名称', sort: true},
+              {field:'FMaptypeID', width: '15%', title: '平面图类型', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FMaptypeID, Prjmaptype)}}{% endverbatim %}</div>'},
+              {field:'FFilepath', width: '50%', title: '项目平面图', sort: true, templet: '#tpImg'},
+              {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
+          ]],
+          id: 'runreload',
+          done : function (res, curr, count) {
+              // 处理图片弹出预览框
+              if ($('.layer-photos-demo').length > 0) {
+                  $('.layer-photos-demo').on('click', function () {
+                      var img_src = $(this).attr('src');
+                      var img_alt = $(this).attr('alt');
+                      layer.photos({
+                          photos: {
+                              'title': '查看图片',
+                              'data': [{
+                                  'src': img_src,
+                                  'alt': img_alt
+                              }]
+                          },
+                          anim: 5
+                      });
+                  });
+              }
+          }
+      });
+
+      // 实现滚轮缩放图片
+      $(document).on("mousewheel DOMMouseScroll", ".layui-layer-phimg img", function(e) {
+          var delta = (e.originalEvent.wheelDelta && (e.originalEvent.wheelDelta > 0 ? 1 : -1)) || // chrome & ie
+              (e.originalEvent.detail && (e.originalEvent.detail > 0 ? -1 : 1)); // firefox
+          var imagep = $(".layui-layer-phimg").parent().parent();
+          var image = $(".layui-layer-phimg").parent();
+          var h = image.height();
+          var w = image.width();
+          if(delta > 0) {
+              h = h * 1.05;
+              w = w * 1.05;
+          } else if(delta < 0) {
+              if(h > 100) {
+                  h = h * 0.95;
+                  w = w * 0.95;
+              }
+          }
+          imagep.css("top", (window.innerHeight - h) / 2);
+          imagep.css("left", (window.innerWidth - w) / 2);
+          image.height(h);
+          image.width(w);
+          imagep.height(h);
+          imagep.width(w);
+      });
+
+
+
+      //监听查询条件提交
+        form.on('submit(formsubmit)', function (data) {
+            var serinput = $("input[name='serinput']").val();
+            //alert(serinput);
+            table.reload('runreload', {where: {resultdict:{FMapdesc: serinput}}});
+
+            return false;
+        });
+
+
+      //监听工具栏按钮事件
+      table.on('tool(toolbar)', function (obj) {
+          var data = obj.data;           //获取当前行数据
+          var layEvent = obj.event;      //获取当前行事件
+          var tr = obj.tr;               //获取当前行tr的DOM数据
+          var fid = {"fid":data.FID};
+
+          switch (layEvent){
+              case 'delete' :              //删除按钮事件
+                  parent.layer.open({
+                      content: '是否删除该平面图',
+                      btn: ['确定','取消'],
+                      yes: function (index) {
+                          $.post("{% url 'projectmap:delete' %}", fid, function (data) {
+                              if (data.result=='0') {
+                                  table.reload('runreload', {page: {curr: 1}, where: {resultdict: {FMapdesc: ''}}});
+                              } else if (data.result=='1') {
+                                  parent.layer.alert('文件不存在,已移除数据记录',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                                  table.reload('runreload', {page: {curr: 1}, where: {resultdict: {FMapdesc: ''}}});
+                              } else if (data.result=='2') {
+                                  parent.layer.alert('删除失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                              }
+
+                          },"json");
+
+                          parent.layer.close(index);
+                      },
+                      btn2: function (index) {
+                      }
+                  });
+
+                  break;
+          }
+      });
+  });
+</script>
+
+
+  <!--显示图片模板-->
+<script type="text/html" id="tpImg">
+  {% verbatim %}
+      <div>
+          <img class="layer-photos-demo" layer-scr="/media/{{ d.FFilepath }}" src="/media/{{ d.FFilepath }}" alt="" />
+      </div>
+  {% endverbatim %}
+</script>
+
+
+<!--生成操作工具栏-->
+<script type="text/html" id="tlbar">
+    {% verbatim %}
+        <div class="layui-btn-group">
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="delete"><i class="iconfont icon-bianji"></i>删除</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event=""><i class="iconfont icon-bianji"></i>定位区域设置</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event=""><i class="iconfont icon-bianji"></i>区域定位查看</a>
+        </div>
+    {% endverbatim %}
+</script>
+
+</body>
+</html>

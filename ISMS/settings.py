@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'project',
     'common',
     'basedata',
-    'area'
+    'area',
+    'projectmap',
+    'user'
 ]
 
 MIDDLEWARE = [

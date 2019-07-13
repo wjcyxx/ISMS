@@ -164,7 +164,7 @@ def show_upload(request):
 #图片明细数据源
 def get_quailfications(request):
 
-    if request.method == 'POST':
+    if request.method == 'GET':
         fpid = ''.join(str(request.GET.get('fid')).split('-'))
 
         Qualifications_info = T_OrgQualifications.objects.filter(Q(FPID=fpid))
@@ -174,6 +174,7 @@ def get_quailfications(request):
 
         return  JsonResponse(resultdict, safe=False)
 
+#删除资质文件
 def delete(request):
     response_data = {}
     if request.method == 'POST':
