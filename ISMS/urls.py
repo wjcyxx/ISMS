@@ -29,7 +29,8 @@ urlpatterns = [
     path('basedata/', include('basedata.urls'), name='basedata'),
     path('user/', include('user.urls'), name='user'),
     path('area/', include('area.urls'), name='area'),
-    path('projectmap/', include('projectmap.urls'), name='projectmap')
+    path('projectmap/', include('projectmap.urls'), name='projectmap'),
+    path('team/', include('team.urls'), name='team')
 
 ]
 

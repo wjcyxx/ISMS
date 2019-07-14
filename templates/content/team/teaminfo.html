@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include "common/resfiles.html" %}
+</head>
+<body style="overflow: hidden;">
+
+  <!--项目区域信息列表  -->
+
+    <!-- 工具条 -->
+      <!-- 查询框 -->
+      <div class="layui-collapse">
+          <div class="layui-colla-item">
+              <h2 class="layui-colla-title">查询条件</h2>
+              <div class="layui-colla-content">
+                  <form class="layui-form" method="post">
+                      <div class="layui-inline">
+                          <input type="text" name="serinput" placeholder="输入施工队名称" autocomplete="off" class="layui-input" value="" style="width: 120%">
+                      </div>
+
+                      <div class="layui-inline" style="margin-left: 35px">
+                          <input type="button" class="layui-btn layui-btn-small layui-btn-normal layui-icon" lay-submit lay-filter="formsubmit" value="&#xe615;查  询"/>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+
+      <div style="padding-top: 10px" >
+        <a href="javascript:;" class="layui-btn layui-btn-normal" id="btnAdd">增加</a>
+        <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
+      </div>
+
+      <!-- 数据列表 -->
+
+      <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
+
+{% include "common/jsfiles.html" %}
+
+<script>
+  var Orginfo = {{ orginfo|safe }};
+
+  layui.use(['element', 'layer', 'table'], function(){
+      var $ = layui.jquery
+          ,element = layui.element
+          ,table = layui.table
+          ,layer = layui.layer;
+
+      $("#btnClose").click(function () {
+          window.parent.layui.element.tabDelete('tabMain','Team');
+      });
+
+      //新增按钮事件
+      $("#btnAdd").click(function () {
+          parent.layer.open({
+              type:   2,
+              title:  '新增施工队',
+              area: ['920px','430px'],
+              fixed: false,
+              content: "{% url 'team:add' %}",
+              resize: false,
+              move: false
+          });
+      });
+
+      table.render({
+          method: 'post',
+          page: true,
+          limit: 20,
+          elem: '#datasource',
+          url: "{% url 'team:get_datasource' %}",
+          cols: [[
+              {field:'FName', width: '20%', title: '施工队名称', sort: true},
+              {field:'FOrgID', width: '15%', title: '所属分包商', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FOrgID, Orginfo)}}{% endverbatim %}</div>'},
+              {field:'FTeammgr', width: '10%', title: '项目经理', sort: true},
+              {field:'FMgrtel', width: '10%', title: '联系方式', sort: true},
+              {field:'FFirstDate', width: '10%', title: '合同签订日期', sort: true},
+              {field:'FScope', width: '20%', title: '承包范围', sort: true},
+              {field:'FAmount', width: '20%', title: '承包金额', sort: true},
+              {field:'FEvaluate', width: '15%', title: '评价', sort: true, templet: '#tpEval'},
+              {field:'FScale', width: '20%', title: '队伍规模', sort: true},
+              {field:'FSource', width: '20%', title: '队伍来源', sort: true},
+              {field:'FStatus', width: '15%', title: '状态', sort: true, templet: '#tpStatus'},
+              {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
+          ]],
+          id: 'runreload'
+      });
+
+      //监听查询条件提交
+        form.on('submit(formsubmit)', function (data) {
+            var serinput = $("input[name='serinput']").val();
+            //alert(serinput);
+            table.reload('runreload', {where: {resultdict:{FName: serinput}}});
+
+            return false;
+        });
+
+
+      //监听工具栏按钮事件
+      table.on('tool(toolbar)', function (obj) {
+          var data = obj.data;           //获取当前行数据
+          var layEvent = obj.event;      //获取当前行事件
+          var tr = obj.tr;               //获取当前行tr的DOM数据
+          var fid = {"fid":data.FID};
+
+          switch (layEvent){
+              case 'edit' :              //编辑按钮事件
+                  parent.layer.open({
+                      type:   2,
+                      title:  '编辑施工队',
+                      area: ['920px','430px'],
+                      fixed: false,
+                      content: "{% url 'team:edit' %}?fid="+data.FID,
+                      resize: false,
+                      move: false
+                  });
+
+                  break;
+
+              case 'disabled' :               //禁用按钮事件
+                  parent.layer.open({
+                      content: '是否确定禁用该施工队',
+                      btn: ['确定','取消'],
+                      yes: function (index) {
+                          $.post("{% url 'team:disabled' %}?type=lock", fid, function (data) {
+                              if (data.result=='0') {
+                                  //window.parent.document.getElementById('Project').contentWindow.location.reload();
+                                  table.reload('runreload', {where: {resultdict:{FName: ''}}});
+                              } else if (data.result=='2') {
+                                  parent.layer.alert('施工队禁用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                              }
+
+                          },"json");
+
+                          parent.layer.close(index);
+                      },
+                      btn2: function (index) {
+                      }
+                  });
+
+                  break;
+
+              case 'enabled' :
+                  parent.layer.open({
+                      content: '是否确定启用该施工队',
+                      btn: ['确定','取消'],
+                      yes: function (index) {
+                          $.post("{% url 'team:disabled' %}?type=unlock", fid, function (data) {
+                              if (data.result=='0') {
+                                  //window.parent.document.getElementById('Organize').contentWindow.location.reload();
+                                  table.reload('runreload', {where: {resultdict:{FName: ''}}});
+                              } else if (data.result=='2') {
+                                  parent.layer.alert('施工队启用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                              }
+
+                          },"json");
+
+                          parent.layer.close(index);
+                      },
+                      btn2: function (index) {
+                      }
+                  });
+
+
+                  break;
+
+          }
+      });
+  });
+</script>
+
+<!--显示是否考勤模板-->
+
+<script type="text/html" id="tpEval">
+    {% verbatim %}
+        {{#  if(d.FEvaluate == 1){ }}
+            <span style="color: red">不合格</span>
+        {{#  } else if(d.FStatus == 0) { }}
+            <span style="color: green">合格</span>
+        {{#  } }}
+    {% endverbatim %}
+</script>
+
+<!--显示启用状态模板-->
+<script type="text/html" id="tpStatus">
+      {% verbatim %}
+        {{#  if(d.FStatus == false){ }}
+            <span style="color: red">禁用</span>
+        {{#  } else if(d.FStatus == true) { }}
+            <span style="color: green">启用</span>
+        {{#  } }}
+      {% endverbatim %}
+</script>
+
+<!--生成操作工具栏-->
+<script type="text/html" id="tlbar">
+    {% verbatim %}
+        <div class="layui-btn-group">
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>编辑</a>
+
+            {{# if(d.FStatus == true){ }}
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>
+            {{# } else if(d.FStatus == false){ }}
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="enabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>启用</a>
+            {{# } else { }}
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>
+            {{# } }}
+
+        </div>
+    {% endverbatim %}
+</script>
+
+</body>
+</html>
