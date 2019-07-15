@@ -22,5 +22,5 @@ class TeamModelForm(ModelForm):
             'FScale': Fwidgets.Input(attrs={'class': 'layui-input', 'autocomplete': 'off'}),
             'FEvaluate': Fwidgets.Select(attrs={'lay-verify': 'required'}),
             'FSource': Fwidgets.Input(attrs={'class': 'layui-input', 'autocomplete': 'off'}),
-            'FDesc': Fwidgets.Textarea(attrs={'class': 'layui-textarea', 'autocomplete': 'off', 'rows': '0'}),
+            'FDesc': Fwidgets.Textarea(attrs={'class': 'layui-textarea', 'autocomplete': 'off', 'rows': '1'}),
         }

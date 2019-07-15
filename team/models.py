@@ -12,7 +12,6 @@ class team(models.Model):
         (1, '不合格')
     )
 
-
     FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
     FOrgID = models.CharField(max_length=32, verbose_name='所属分包商', blank=True, null=True)
     FName = models.CharField(max_length=32, verbose_name='施工队名称', blank=True, null=True)
@@ -36,3 +35,5 @@ class team(models.Model):
 
     class Meta:
         db_table = "T_Team"
+
+

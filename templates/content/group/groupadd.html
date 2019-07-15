@@ -15,27 +15,27 @@
         <div class="layui-row layui-col-space10" style="padding-top: 1%">
             <div class="layui-col-md12">
                 <div class="layui-card">
-                    <div class="layui-card-header">施工队信息</div>
+                    <div class="layui-card-header">班组信息</div>
                     <!-- 表单内容 -->
                     <div class="layui-card-body">
                         <div class="layui-row layui-col-space15">
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">施工队名称</label>
+                                <label class="layui-form-label" style="color: red">班组名称</label>
                                 <div class="layui-input-block">
                                     {{ obj.FID }}
-                                    {{ obj.FName }}
+                                    {{ obj.FGroup }}
                                 </div>
                             </div>
 
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">所属分包商</label>
+                                <label class="layui-form-label" style="color: red">所属施工队</label>
                                 <div class="layui-input-block">
                                     {{ obj.FOrgID }}
                                 </div>
                             </div>
 
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">评价</label>
+                                <label class="layui-form-label" style="color: red">班组工种</label>
                                 <div class="layui-input-block">
                                     {{ obj.FEvaluate }}
                                 </div>

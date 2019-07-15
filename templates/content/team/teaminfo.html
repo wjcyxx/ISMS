@@ -55,7 +55,7 @@
           parent.layer.open({
               type:   2,
               title:  '新增施工队',
-              area: ['920px','430px'],
+              area: ['920px','470px'],
               fixed: false,
               content: "{% url 'team:add' %}",
               resize: false,
@@ -70,18 +70,18 @@
           elem: '#datasource',
           url: "{% url 'team:get_datasource' %}",
           cols: [[
-              {field:'FName', width: '20%', title: '施工队名称', sort: true},
-              {field:'FOrgID', width: '15%', title: '所属分包商', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FOrgID, Orginfo)}}{% endverbatim %}</div>'},
-              {field:'FTeammgr', width: '10%', title: '项目经理', sort: true},
-              {field:'FMgrtel', width: '10%', title: '联系方式', sort: true},
-              {field:'FFirstDate', width: '10%', title: '合同签订日期', sort: true},
+              {field:'FName', width: '15%', title: '施工队名称', sort: true},
+              {field:'FOrgID', width: '20%', title: '所属分包商', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FOrgID, Orginfo)}}{% endverbatim %}</div>'},
+              {field:'FTeammgr', width: '15%', title: '项目经理', sort: true},
+              {field:'FMgrtel', width: '15%', title: '联系方式', sort: true},
+              {field:'FFirstDate', width: '15%', title: '合同签订日期', sort: true},
               {field:'FScope', width: '20%', title: '承包范围', sort: true},
               {field:'FAmount', width: '20%', title: '承包金额', sort: true},
-              {field:'FEvaluate', width: '15%', title: '评价', sort: true, templet: '#tpEval'},
+              {field:'FEvaluate', width: '10%', title: '评价', sort: true, templet: '#tpEval'},
               {field:'FScale', width: '20%', title: '队伍规模', sort: true},
               {field:'FSource', width: '20%', title: '队伍来源', sort: true},
               {field:'FStatus', width: '15%', title: '状态', sort: true, templet: '#tpStatus'},
-              {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
+              {field:'', title: '操作', width: '25%', toolbar: '#tlbar', fixed: 'right'}
           ]],
           id: 'runreload'
       });
@@ -108,7 +108,7 @@
                   parent.layer.open({
                       type:   2,
                       title:  '编辑施工队',
-                      area: ['920px','430px'],
+                      area: ['920px','470px'],
                       fixed: false,
                       content: "{% url 'team:edit' %}?fid="+data.FID,
                       resize: false,
@@ -175,7 +175,7 @@
     {% verbatim %}
         {{#  if(d.FEvaluate == 1){ }}
             <span style="color: red">不合格</span>
-        {{#  } else if(d.FStatus == 0) { }}
+        {{#  } else if(d.FEvaluate == 0) { }}
             <span style="color: green">合格</span>
         {{#  } }}
     {% endverbatim %}
@@ -197,6 +197,7 @@
     {% verbatim %}
         <div class="layui-btn-group">
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>编辑</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="group"><i class="fa fa-users" aria-hidden="true"></i>添加班组</a>
 
             {{# if(d.FStatus == true){ }}
             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>

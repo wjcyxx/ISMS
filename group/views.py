@@ -2,8 +2,9 @@ from django.shortcuts import render
 from django.shortcuts import HttpResponse
 from django.shortcuts import redirect
 from django.db.models import Q
-from .models import team as T_Team
-from organize.models import organize
+from .models import group as T_Group
+from team.models import team
+from basedata.models import base
 from common.views import *
 from django.http import JsonResponse
 from .forms import *
@@ -13,52 +14,57 @@ from django.forms import widgets as Fwidge
 from django.core.exceptions import ObjectDoesNotExist
 
 # Create your views here.
-
 #施工队管理控制器入口
-def team(request):
-    org_info = organize.objects.filter(Q(FStatus=True))
-    orginfo = get_dict_table(org_info, 'FID', 'FOrgname')
+def group(request):
+    prj_id = request.session['PrjID']
 
-    return render(request, 'content/team/teaminfo.html', {'orginfo': orginfo})
+    team_info = team.objects.filter(Q(FStatus=True), Q(CREATED_PRJ=prj_id))
+    teaminfo = get_dict_table(team_info, 'FID', 'FName')
+
+    worktype_info = base.objects.filter(Q(FPID='2137f046a6a711e9b7367831c1d24216'))
+    worktypeinfo = get_dict_table(worktype_info, 'FID', 'FBase')
+
+    return render(request, 'content/group/groupinfo.html', {'teaminfo': teaminfo, 'worktypeinfo': worktypeinfo})
 
 
 #返回table数据及查询结果
 def get_datasource(request):
-    serinput = request.POST.get("resultdict[FName]", '')
+    serinput = request.POST.get("resultdict[FGroup]", '')
 
     prj_id = request.session['PrjID']
 
-    Team_info =  T_Team.objects.filter(Q(FName__contains=serinput), Q(CREATED_PRJ=prj_id))
+    Group_info =  T_Group.objects.filter(Q(FGroup__contains=serinput), Q(CREATED_PRJ=prj_id))
 
-    dict = convert_to_dicts(Team_info)
-    resultdict = {'code':0, 'msg':"", 'count': Team_info.count(), 'data': dict}
+    dict = convert_to_dicts(Group_info)
+    resultdict = {'code':0, 'msg':"", 'count': Group_info.count(), 'data': dict}
 
     return  JsonResponse(resultdict, safe=False)
 
 #刷新下拉列表框数据
 def ref_dropdowndata(obj, request):
-    org_info = organize.objects.filter(Q(FStatus=True))
+    team_info = team.objects.filter(Q(FStatus=True), Q(CREATED_PRJ=request.session['PrjID']))
+    worktype_info = base.objects.filter(Q(FPID='2137f046a6a711e9b7367831c1d24216'))
 
-    obj.fields['FOrgID'].choices = get_dict_object(request, org_info, 'FID', 'FOrgname')
-
+    obj.fields['FTeamID'].choices = get_dict_object(request, team_info, 'FID', 'FName')
+    obj.fields['FWorktypeID'].choices = get_dict_object(request, worktype_info, 'FID', 'FBase')
 
 #链接增加模板
 def add(request):
-    obj = TeamModelForm()
+    obj = GroupModelForm()
 
     ref_dropdowndata(obj, request)
-    return render(request, "content/team/teamadd.html" , {'obj': obj, 'action': 'insert'})
+    return render(request, "content/group/groupadd.html" , {'obj': obj, 'action': 'insert'})
 
 #链接编辑模板
 def edit(request):
     fid = request.GET.get('fid')
 
-    Team_info = T_Team.objects.get(Q(FID=fid))
-    obj = TeamModelForm(instance=Team_info)
+    Group_info = T_Group.objects.get(Q(FID=fid))
+    obj = GroupModelForm(instance=Group_info)
 
     ref_dropdowndata(obj, request)
 
-    return render(request, "content/team/teamadd.html", {'obj': obj, 'action': 'update'})
+    return render(request, "content/group/groupadd.html", {'obj': obj, 'action': 'update'})
 
 #处理新增及保存
 def insert(request):
@@ -66,11 +72,11 @@ def insert(request):
         response_data = {}
 
         if request.GET.get('actype') == 'insert':
-            obj = TeamModelForm(request.POST)
+            obj = GroupModelForm(request.POST)
         elif request.GET.get('actype') == 'update':
             fid = request.POST.get('FID')
-            Team_info = T_Team.objects.get(FID=fid)
-            obj = TeamModelForm(request.POST, instance=Team_info)
+            Group_info = T_Group.objects.get(FID=fid)
+            obj = GroupModelForm(request.POST, instance=Group_info)
         else:
             response_data['result'] = '2'
             return HttpResponse(json.dumps(response_data))
@@ -82,7 +88,6 @@ def insert(request):
                 temp = obj.save(commit=False)
                 if request.GET.get('actype') == 'insert':
                     temp.FStatus = True
-                    temp.FEvaluate = 0
                 temp.CREATED_PRJ = request.session['PrjID']
                 temp.CREATED_ORG = request.session['UserOrg']
                 temp.CREATED_BY = request.session['UserID']
@@ -110,14 +115,14 @@ def disabled(request):
         fid = request.POST.get('fid')
 
         try:
-            Team_info = T_Team.objects.get(FID=fid)
+            Group_info = T_Group.objects.get(FID=fid)
 
             if request.GET.get('type') == 'lock':
-                Team_info.FStatus = False
+                Group_info.FStatus = False
             elif request.GET.get('type') == 'unlock':
-                Team_info.FStatus = True
+                Group_info.FStatus = True
 
-            Team_info.save()
+            Group_info.save()
 
             response_data['result'] = '0'
             return HttpResponse(json.dumps(response_data))
@@ -128,6 +133,7 @@ def disabled(request):
     else:
         response_data['result'] = '2'
         return HttpResponse(json.dumps(response_data))
+
 
 
 
