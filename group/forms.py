@@ -5,7 +5,7 @@ from .models import *
 
 class GroupModelForm(ModelForm):
     FTeamID = forms.ChoiceField(widget=forms.Select(attrs={'lay-verify': 'required'}), required=False)
-    FWorktypeID = forms.ChoiceField(widget=forms.Select(attrs={'lay-verify': 'required'}), required=False)
+    FWorktypeID = forms.ChoiceField(widget=forms.Select(attrs={'lay-verify': 'required', 'lay-filter': 'selworktype'}), required=False)
 
     class Meta:
         model = group

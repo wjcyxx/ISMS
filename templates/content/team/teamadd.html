@@ -117,6 +117,18 @@
             </div>
         </div>
 
+        <div class="layui-row layui-col-space10" style="padding-top: 1%">
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header">班组信息</div>
+                    <!-- 表单内容 -->
+                    <div class="layui-card-body">
+                        <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
 </form>
@@ -130,10 +142,13 @@
 {% include "common/jsfiles.html" %}
 
 <script>
-layui.use(['element','layer','form', 'laydate'], function () {
+var Worktypeinfo = {{ worktypeinfo|safe }};
+
+layui.use(['element','layer','form', 'laydate', 'table'], function () {
     var element = layui.element
         , layer = layui.layer
         , form = layui.form
+        , table = layui.table
         , laydate = layui.laydate;
 
     //关闭按钮
@@ -173,8 +188,36 @@ layui.use(['element','layer','form', 'laydate'], function () {
         });
         return false;
     });
+
+    var fid = $("#id_FID").val();
+
+    table.render({
+        method: 'post',
+        elem: '#datasource',
+        url: "{% url 'team:get_workdatasource' %}?fid="+fid,
+        cols: [[
+            {field:'FWorktypeID', width: '20%', title: '班组工种', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FWorktypeID, Worktypeinfo)}}{% endverbatim %}</div>'},
+            {field:'FGroup', width: '20%', title: '班组名称', sort: true},
+            {field:'FDesc', width: '45%', title: '备注', sort: true},
+            {field:'FStatus', width: '15%', title: '状态', sort: true, templet: '#tpStatus'},
+        ]],
+    });
+
 })
 </script>
+
+
+<!--显示启用状态模板-->
+<script type="text/html" id="tpStatus">
+    {% verbatim %}
+    {{#  if(d.FStatus == false){ }}
+    <span style="color: red">禁用</span>
+    {{#  } else if(d.FStatus == true) { }}
+    <span style="color: green">启用</span>
+    {{#  } }}
+    {% endverbatim %}
+</script>
+
 
 </body>
 </html>

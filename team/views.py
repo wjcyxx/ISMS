@@ -4,6 +4,8 @@ from django.shortcuts import redirect
 from django.db.models import Q
 from .models import team as T_Team
 from organize.models import organize
+from group.models import group
+from basedata.models import base
 from common.views import *
 from django.http import JsonResponse
 from .forms import *
@@ -35,6 +37,18 @@ def get_datasource(request):
 
     return  JsonResponse(resultdict, safe=False)
 
+#返回班组数据列表
+def get_workdatasource(request):
+
+    fid = request.GET.get('fid')
+    group_info = group.objects.filter(Q(FTeamID=fid))
+
+    dict = convert_to_dicts(group_info)
+    resultdict = {'code':0, 'msg':"", 'count': group_info.count(), 'data': dict}
+
+    return  JsonResponse(resultdict, safe=False)
+
+
 #刷新下拉列表框数据
 def ref_dropdowndata(obj, request):
     org_info = organize.objects.filter(Q(FStatus=True))
@@ -58,7 +72,11 @@ def edit(request):
 
     ref_dropdowndata(obj, request)
 
-    return render(request, "content/team/teamadd.html", {'obj': obj, 'action': 'update'})
+    worktype_info = base.objects.filter(Q(FPID='2137f046a6a711e9b7367831c1d24216'))
+    worktypeinfo = get_dict_table(worktype_info, 'FID', 'FBase')
+
+
+    return render(request, "content/team/teamadd.html", {'obj': obj, 'worktypeinfo': worktypeinfo, 'action': 'update'})
 
 #处理新增及保存
 def insert(request):

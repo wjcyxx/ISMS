@@ -5,13 +5,68 @@
 </head>
 <body>
 
-
 <form class="layui-form layui-form-pane" accept-charset="utf-8">
     <div style="padding: 10px; background-color: #F2F2F2;">
         <div>
             <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formsubmit" >保存</button>
             <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnC">关闭</a>
         </div>
+
+        <div class="layui-row layui-col-space10" style="padding-top: 1%">
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header">班组信息</div>
+                    <div class="layui-card-body">
+                        <div class="layui-row layui-col-space15">
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label">施工队名称</label>
+                                <div class="layui-input-block">
+                                    {{ TeamForm.FName }}
+                                </div>
+                            </div>
+
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label">所属分包商</label>
+                                <div class="layui-input-block">
+                                    {{ TeamForm.FOrgID }}
+                                </div>
+                            </div>
+
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label">评价</label>
+                                <div class="layui-input-block">
+                                    {{ TeamForm.FEvaluate }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layui-row layui-col-space10">
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label">项目经理</label>
+                                <div class="layui-input-block">
+                                    {{ TeamForm.FTeammgr }}
+                                </div>
+                            </div>
+
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label">联系方式</label>
+                                <div class="layui-input-block">
+                                    {{ TeamForm.FMgrtel }}
+                                </div>
+                            </div>
+
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label">身份证号</label>
+                                <div class="layui-input-block">
+                                    {{ TeamForm.FIDcard }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="layui-row layui-col-space10" style="padding-top: 1%">
             <div class="layui-col-md12">
                 <div class="layui-card">
@@ -19,6 +74,13 @@
                     <!-- 表单内容 -->
                     <div class="layui-card-body">
                         <div class="layui-row layui-col-space15">
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label" style="color: red">班组工种</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FWorktypeID }}
+                                </div>
+                            </div>
+
                             <div class="layui-col-xs4">
                                 <label class="layui-form-label" style="color: red">班组名称</label>
                                 <div class="layui-input-block">
@@ -30,76 +92,7 @@
                             <div class="layui-col-xs4">
                                 <label class="layui-form-label" style="color: red">所属施工队</label>
                                 <div class="layui-input-block">
-                                    {{ obj.FOrgID }}
-                                </div>
-                            </div>
-
-                            <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">班组工种</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FEvaluate }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="layui-row layui-col-space10">
-                            <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">项目经理</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FTeammgr }}
-                                </div>
-                            </div>
-
-                            <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">联系方式</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FMgrtel }}
-                                </div>
-                            </div>
-
-                            <div class="layui-col-xs4">
-                                <label class="layui-form-label">身份证号</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FIDcard }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="layui-row layui-col-space10">
-                            <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">合同日期</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FFirstDate }}
-                                </div>
-                            </div>
-
-                            <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">承包范围</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FScope }}
-                                </div>
-                            </div>
-
-                            <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">承包金额</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FAmount }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="layui-row layui-col-space10">
-                            <div class="layui-col-xs4">
-                                <label class="layui-form-label">队伍规模</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FScale }}
-                                </div>
-                            </div>
-
-                            <div class="layui-col-xs4">
-                                <label class="layui-form-label">队伍来源</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FSource }}
+                                    {{ obj.FTeamID }}
                                 </div>
                             </div>
                         </div>
@@ -122,7 +115,7 @@
 </form>
 
 <style>
-    .layui-unselect dl { max-height:160px; }
+    .layui-unselect dl { max-height:200px; }
 </style>
 
 <!-- <script src="//res.layui.com/layui/build/layui.js" charset="utf-8"></script> -->
@@ -147,16 +140,26 @@ layui.use(['element','layer','form', 'laydate'], function () {
         trigger: 'click'
     });
 
+    $("#id_FTeamID").val('{{ fteamid }}');
+    form.render('select');
+
+    form.on('select(selworktype)', function(data){
+        //alert($("#id_FWorktypeID").find("option:selected").text());
+        var seltext = $("#id_FWorktypeID").find("option:selected").text()+'班组';
+        $("#id_FGroup").val(seltext);
+    });
+
+
     //监听窗口提交
     form.on('submit(formsubmit)', function (data) {
         $.ajax({
             type: "POST",
-            url:  "{% url 'team:insert' %}?actype={{ action }}",
+            url:  "{% url 'group:insert' %}?actype={{ action }}&fteamid={{ fteamid }}",
             data: data.field,
             dataType: "json",
             success: function (data) {
                 if (data.result=='0') {
-                    window.parent.document.getElementById('Team').contentWindow.location.reload();
+                    //window.parent.document.getElementById('Team').contentWindow.location.reload();
 
                     var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
                     parent.layer.close(index);
@@ -174,6 +177,19 @@ layui.use(['element','layer','form', 'laydate'], function () {
         return false;
     });
 })
+</script>
+
+<script>
+    var setattrs=function(){
+        $("input[name='FName']").attr('readonly', 'true');
+        $("input[name='FTeammgr']").attr('readonly', 'true');
+        $("select[name='FOrgID']").attr('disabled', 'disabled');
+        $("select[name='FEvaluate']").attr("disabled","disabled");
+        $("select[name='FTeamID']").attr("disabled","disabled");
+        $("input[name='FMgrtel']").attr("readonly", "true");
+        $("input[name='FIDcard']").attr("readonly", "true");
+    };
+    setattrs();
 </script>
 
 </body>

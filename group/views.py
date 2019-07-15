@@ -8,6 +8,8 @@ from basedata.models import base
 from common.views import *
 from django.http import JsonResponse
 from .forms import *
+from team.forms import TeamModelForm
+from organize.models import organize
 import json
 from django.utils import timezone
 from django.forms import widgets as Fwidge
@@ -50,10 +52,19 @@ def ref_dropdowndata(obj, request):
 
 #链接增加模板
 def add(request):
-    obj = GroupModelForm()
+    if request.method == 'GET':
+        fteamid = ''.join(str(request.GET.get('fid')).split('-'))
 
-    ref_dropdowndata(obj, request)
-    return render(request, "content/group/groupadd.html" , {'obj': obj, 'action': 'insert'})
+        obj = GroupModelForm()
+
+        team_info = team.objects.get(Q(FID=fteamid))
+        TeamForm = TeamModelForm(instance=team_info)
+
+        org_info = organize.objects.filter(Q(FStatus=True))
+        TeamForm.fields['FOrgID'].choices = get_dict_object(request, org_info, 'FID', 'FOrgname')
+
+        ref_dropdowndata(obj, request)
+        return render(request, "content/group/groupadd.html" , {'obj': obj, 'TeamForm': TeamForm, 'fteamid': fteamid, 'action': 'insert'})
 
 #链接编辑模板
 def edit(request):
@@ -70,6 +81,8 @@ def edit(request):
 def insert(request):
     if request.method == 'POST':
         response_data = {}
+
+        fteamid = request.GET.get('fteamid')
 
         if request.GET.get('actype') == 'insert':
             obj = GroupModelForm(request.POST)
@@ -88,6 +101,7 @@ def insert(request):
                 temp = obj.save(commit=False)
                 if request.GET.get('actype') == 'insert':
                     temp.FStatus = True
+                temp.FTeamID = fteamid
                 temp.CREATED_PRJ = request.session['PrjID']
                 temp.CREATED_ORG = request.session['UserOrg']
                 temp.CREATED_BY = request.session['UserID']

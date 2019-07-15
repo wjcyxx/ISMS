@@ -108,9 +108,22 @@
                   parent.layer.open({
                       type:   2,
                       title:  '编辑施工队',
-                      area: ['920px','470px'],
+                      area: ['920px','600px'],
                       fixed: false,
                       content: "{% url 'team:edit' %}?fid="+data.FID,
+                      resize: false,
+                      move: false
+                  });
+
+                  break;
+
+              case 'group' :
+                  parent.layer.open({
+                      type:   2,
+                      title:  '添加班组',
+                      area: ['920px','490px'],
+                      fixed: false,
+                      content: "{% url 'group:add' %}?fid="+data.FID,
                       resize: false,
                       move: false
                   });
