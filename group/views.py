@@ -16,7 +16,7 @@ from django.forms import widgets as Fwidge
 from django.core.exceptions import ObjectDoesNotExist
 
 # Create your views here.
-#施工队管理控制器入口
+#班组管理控制器入口
 def group(request):
     prj_id = request.session['PrjID']
 
@@ -71,11 +71,15 @@ def edit(request):
     fid = request.GET.get('fid')
 
     Group_info = T_Group.objects.get(Q(FID=fid))
+    fteamid = Group_info.FTeamID
     obj = GroupModelForm(instance=Group_info)
+
+    team_info = team.objects.get(Q(FID=fteamid))
+    TeamForm = TeamModelForm(instance=team_info)
 
     ref_dropdowndata(obj, request)
 
-    return render(request, "content/group/groupadd.html", {'obj': obj, 'action': 'update'})
+    return render(request, "content/group/groupadd.html", {'obj': obj, 'fteamid': fteamid, 'TeamForm': TeamForm, 'action': 'update'})
 
 #处理新增及保存
 def insert(request):

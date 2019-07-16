@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'projectmap',
     'user',
     'team',
-    'group'
+    'group',
+    'personnel'
 ]
 
 MIDDLEWARE = [

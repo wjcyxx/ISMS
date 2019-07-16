@@ -15,4 +15,7 @@ class GroupModelForm(ModelForm):
             'FID': Fwidgets.Input(attrs={'type': 'hidden'}),
             'FGroup': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
             'FDesc': Fwidgets.Textarea(attrs={'class': 'layui-textarea', 'autocomplete': 'off', 'rows': '1'}),
+            'FStatus': Fwidgets.CheckboxInput(attrs={'lay-skin': 'switch', 'lay-text': '启用|禁用', 'disabled': 'disabled'}),
+
+
         }
