@@ -31,7 +31,8 @@ urlpatterns = [
     path('area/', include('area.urls'), name='area'),
     path('projectmap/', include('projectmap.urls'), name='projectmap'),
     path('team/', include('team.urls'), name='team'),
-    path('group/', include('group.urls'), name='group')
+    path('group/', include('group.urls'), name='group'),
+    path('personnel/', include('personnel.urls'), name='personnel')
 
 ]
 

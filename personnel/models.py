@@ -2,12 +2,11 @@ from django.db import models
 import uuid
 from django.utils.encoding import python_2_unicode_compatible
 
+
 # Create your models here.
 
 @python_2_unicode_compatible
-
 class personnel(models.Model):
-
     TYPE_CHOICES = (
         (0, '管理人员'),
         (1, '班组长'),
@@ -25,6 +24,16 @@ class personnel(models.Model):
         (2, '离异')
     )
 
+    CONSTATE_CHOICES = (
+        (0, '未签合同'),
+        (1, '已签合同')
+    )
+
+    STATUS_CHOICES = (
+        (0, '登记'),
+        (1, '退场'),
+        (2, '禁用')
+    )
 
     FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
     FName = models.CharField(max_length=32, verbose_name='人员姓名', blank=True, null=True)
@@ -57,8 +66,11 @@ class personnel(models.Model):
     FBankaccount = models.CharField(max_length=32, verbose_name='银行账号', blank=True, null=True)
     FEmercontact = models.CharField(max_length=32, verbose_name='紧急联系人', blank=True, null=True)
     FEmercontacttel = models.CharField(max_length=32, verbose_name='紧急联系人电话', blank=True, null=True)
+    FPhoto = models.ImageField(upload_to='hrpic/', default='', verbose_name='照片', blank=True, null=True)
+    FContractState = models.IntegerField(choices=CONSTATE_CHOICES, verbose_name='合同状态', blank=True, null=True)
+    FQuitDate = models.DateTimeField(blank=True, null=True, verbose_name='退场日期')
     FDesc = models.CharField(max_length=1024, verbose_name='备注', blank=True, null=True)
-    FStatus = models.BooleanField(default=True, verbose_name='状态')
+    FStatus = models.IntegerField(choices=STATUS_CHOICES, default=0, verbose_name='状态')
     CREATED_PRJ = models.CharField(max_length=32, verbose_name='所属项目', blank=True, null=True)
     CREATED_ORG = models.CharField(max_length=32, verbose_name='创建组织', blank=True, null=True)
     CREATED_BY = models.CharField(max_length=32, verbose_name='创建人', blank=True, null=True)
@@ -68,3 +80,6 @@ class personnel(models.Model):
 
     class Meta:
         db_table = 'T_Personnel'
+
+
+

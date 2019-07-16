@@ -126,7 +126,7 @@ def insert(request):
 
             return HttpResponse(json.dumps(response_data))
 
-#处理禁用/启用施工队
+#处理禁用/启用班组
 def disabled(request):
     response_data = {}
     if request.method == 'POST':
