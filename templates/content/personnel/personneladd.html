@@ -9,6 +9,7 @@
     <div style="padding: 10px; background-color: #F2F2F2;">
         <div>
             <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formsubmit" >保存</button>
+            <a href="javascript:;" class="layui-btn layui-btn-normal" id="readID">读取身份证</a>
             <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnC">关闭</a>
         </div>
 
@@ -51,50 +52,7 @@
 
                     </div>
                 </div>
-            </div>
 
-            <div class="layui-col-md2">
-                <ul class="layui-timeline">
-                    <li class="layui-timeline-item">
-                        <i class="layui-icon layui-timeline-axis">&#xe641;</i>
-                        <div class="layui-timeline-content layui-text">
-                            <div class="layui-timeline-title"><a href="#divOrg">组织信息</a></div>
-                        </div>
-                    </li>
-
-                    <li class="layui-timeline-item">
-                        <i class="layui-icon layui-timeline-axis">&#xe770;</i>
-                        <div class="layui-timeline-content layui-text">
-                            <div class="layui-timeline-title"><a href="#divID">身份信息</a> </div>
-                        </div>
-                    </li>
-
-                    <li class="layui-timeline-item">
-                        <i class="layui-icon layui-timeline-axis">&#xe62a;</i>
-                        <div class="layui-timeline-content layui-text">
-                            <div class="layui-timeline-title"><a href="#divDetail">详细信息</a> </div>
-                        </div>
-                    </li>
-
-                    <li class="layui-timeline-item">
-                        <i class="layui-icon layui-timeline-axis">&#xe679;</i>
-                        <div class="layui-timeline-content layui-text">
-                            <div class="layui-timeline-title"><a href="">入场教育</a> </div>
-                        </div>
-                    </li>
-
-                    <li class="layui-timeline-item">
-                        <i class="layui-icon layui-timeline-axis">&#xe656;</i>
-                        <div class="layui-timeline-content layui-text">
-                            <div class="layui-timeline-title"><a href="">资格证书</a> </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="layui-row layui-col-space10" style="padding-top: 1%">
-            <div class="layui-col-md10">
                 <div class="layui-card">
                     <div class="layui-card-header" id="divID">人员身份信息</div>
                     <!-- 表单内容 -->
@@ -207,9 +165,48 @@
                         </div>
                     </div>
                 </div>
+
+            </div>
+
+            <div class="layui-col-md2">
+                <ul class="layui-timeline">
+                    <li class="layui-timeline-item">
+                        <i class="layui-icon layui-timeline-axis">&#xe641;</i>
+                        <div class="layui-timeline-content layui-text">
+                            <div class="layui-timeline-title"><a href="#divOrg">组织信息</a></div>
+                        </div>
+                    </li>
+
+                    <li class="layui-timeline-item">
+                        <i class="layui-icon layui-timeline-axis">&#xe770;</i>
+                        <div class="layui-timeline-content layui-text">
+                            <div class="layui-timeline-title"><a href="#divID">身份信息</a> </div>
+                        </div>
+                    </li>
+
+                    <li class="layui-timeline-item">
+                        <i class="layui-icon layui-timeline-axis">&#xe62a;</i>
+                        <div class="layui-timeline-content layui-text">
+                            <div class="layui-timeline-title"><a href="#divDetail">详细信息</a> </div>
+                        </div>
+                    </li>
+
+                    <li class="layui-timeline-item">
+                        <i class="layui-icon layui-timeline-axis">&#xe679;</i>
+                        <div class="layui-timeline-content layui-text">
+                            <div class="layui-timeline-title"><a href="">入场教育</a> </div>
+                        </div>
+                    </li>
+
+                    <li class="layui-timeline-item">
+                        <i class="layui-icon layui-timeline-axis">&#xe656;</i>
+                        <div class="layui-timeline-content layui-text">
+                            <div class="layui-timeline-title"><a href="">资格证书</a> </div>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
-
 
         <div class="layui-row layui-col-space10" style="padding-top: 1%">
             <div class="layui-col-md12">

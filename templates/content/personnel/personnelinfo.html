@@ -69,14 +69,14 @@
           elem: '#datasource',
           url: "{% url 'personnel:get_datasource' %}",
           cols: [[
-              {field:'FPhoto', width: '15%', title: '', sort: true, templet: '#tpImg'},
-              {field:'FName', width: '20%', title: '人员名称', sort: true},
+              {field:'FPhoto', width: '10%', title: '', sort: true, templet: '#tpImg'},
+              {field:'FName', width: '10%', title: '人员名称', sort: true},
               {field:'FType', width: '15%', title: '员工类型', sort: true, templet: '#tpType'},
               {field:'FWorktypeID', width: '15%', title: '所属工种', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FWorktypeID, Worktypeinfo)}}{% endverbatim %}</div>'},
               {field:'FGroupID', width: '15%', title: '所属班组', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FGroupID, Groupinfo)}}{% endverbatim %}</div>'},
               {field:'FTeamID', width: '15%', title: '所属施工队', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FTeamID, Teaminfo)}}{% endverbatim %}</div>'},
-              {field:'CREATED_TIME', width: '20%', title: '进场日期', sort: true},
-              {field:'FQuitDate', width: '20%', title: '退场日期', sort: true},
+              {field:'CREATED_TIME', width: '15%', title: '进场日期', sort: true},
+              {field:'FQuitDate', width: '15%', title: '退场日期', sort: true},
               {field:'FContractState', width: '15%', title: '合同状态', sort: true, templet: '#tpConstate'},
               {field:'FStatus', width: '15%', title: '状态', sort: true, templet: '#tpStatus'},
               {field:'', title: '操作', width: '25%', toolbar: '#tlbar'}
@@ -160,6 +160,51 @@
                   });
 
                   break;
+
+              case 'signout' :
+                  parent.layer.open({
+                      content: '是否确定该人员退场',
+                      btn: ['确定','取消'],
+                      yes: function (index) {
+                          $.post("{% url 'personnel:sign' %}?type=out", fid, function (data) {
+                              if (data.result=='0') {
+                                  table.reload('runreload', {where: {resultdict:{FName: ''}}});
+                              } else if (data.result=='2') {
+                                  parent.layer.alert('人员退场失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                              }
+
+                          },"json");
+
+                          parent.layer.close(index);
+                      },
+                      btn2: function (index) {
+                      }
+                  });
+
+                  break;
+
+              case 'signin' :
+                  parent.layer.open({
+                      content: '是否确定该人员返场',
+                      btn: ['确定','取消'],
+                      yes: function (index) {
+                          $.post("{% url 'personnel:sign' %}?type=in", fid, function (data) {
+                              if (data.result=='0') {
+                                  table.reload('runreload', {where: {resultdict:{FName: ''}}});
+                              } else if (data.result=='2') {
+                                  parent.layer.alert('人员返场失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                              }
+
+                          },"json");
+
+                          parent.layer.close(index);
+                      },
+                      btn2: function (index) {
+                      }
+                  });
+
+                  break;
+
           }
       });
   });
@@ -224,6 +269,13 @@
         <div class="layui-btn-group">
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>编辑</a>
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="group"><i class="fa fa-users" aria-hidden="true"></i>授权</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="group"><i class="fa fa-users" aria-hidden="true"></i>上传资格证书</a>
+
+            {{# if(d.FStatus != 1){ }}
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="signout"><i class="fa fa-sign-out" aria-hidden="true"></i>退场</a>
+            {{# } else { }}
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="signin"><i class="fa fa-sign-in" aria-hidden="true"></i>返场</a>
+            {{# } }}
 
             {{# if(d.FStatus == 0){ }}
             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>

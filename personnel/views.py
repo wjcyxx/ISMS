@@ -173,3 +173,33 @@ def disabled(request):
         return HttpResponse(json.dumps(response_data))
 
 
+#处理退场/返场
+def sign(request):
+    response_data = {}
+    if request.method == 'POST':
+        fid = request.POST.get('fid')
+
+        try:
+            Person_info = T_Personnel.objects.get(FID=fid)
+
+            if request.GET.get('type') == 'out':
+                Person_info.FStatus = 1
+                Person_info.FQuitDate = timezone.now()
+            elif request.GET.get('type') == 'in':
+                Person_info.FStatus = 0
+                Person_info.FQuitDate = None
+
+            Person_info.save()
+
+            response_data['result'] = '0'
+            return HttpResponse(json.dumps(response_data))
+        except ObjectDoesNotExist:
+            response_data['result'] = '2'
+            return HttpResponse(json.dumps(response_data))
+
+    else:
+        response_data['result'] = '2'
+        return HttpResponse(json.dumps(response_data))
+
+
+

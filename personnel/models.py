@@ -67,7 +67,7 @@ class personnel(models.Model):
     FEmercontacttel = models.CharField(max_length=32, verbose_name='紧急联系人电话', blank=True, null=True)
     FPhoto = models.ImageField(upload_to='hrpic/', default='', verbose_name='照片', blank=True, null=True)
     FContractState = models.BooleanField(default=True, verbose_name='劳动合同')
-    FQuitDate = models.DateField(blank=True, null=True, verbose_name='退场日期')
+    FQuitDate = models.DateTimeField(blank=True, null=True, verbose_name='退场日期')
     FDesc = models.CharField(max_length=1024, verbose_name='备注', blank=True, null=True)
     FStatus = models.IntegerField(choices=STATUS_CHOICES, default=0, verbose_name='状态')
     CREATED_PRJ = models.CharField(max_length=32, verbose_name='所属项目', blank=True, null=True)
@@ -79,6 +79,14 @@ class personnel(models.Model):
 
     class Meta:
         db_table = 'T_Personnel'
+
+
+class personcertif(models.Model):
+
+    FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
+    class Meta:
+        db_table = 'T_PersonnelCertificate'
+
 
 
 
