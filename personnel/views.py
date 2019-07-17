@@ -51,11 +51,9 @@ def get_datasource(request):
 def ref_dropdowndata(obj, request):
     team_info = team.objects.filter(Q(FStatus=True), Q(CREATED_PRJ=request.session['PrjID']))
     worktype_info = base.objects.filter(Q(FPID='2137f046a6a711e9b7367831c1d24216'))
-    group_info = group.objects.filter(Q(FStatus=True), Q(CREATED_PRJ=request.session['PrjID']))
 
     obj.fields['FTeamID'].choices = get_dict_object(request, team_info, 'FID', 'FName')
     obj.fields['FWorktypeID'].choices = get_dict_object(request, worktype_info, 'FID', 'FBase')
-    obj.fields['FWorktypeID'].choices = get_dict_object(request, group_info, 'FID', 'FGroup')
 
 #链接增加模板
 def add(request):
@@ -64,11 +62,17 @@ def add(request):
 
         obj = PersonModelForm()
 
-        group_info = team.objects.get(Q(FID=fgroupid))
+        group_info = group.objects.get(Q(FID=fgroupid))
         GroupForm = GroupModelForm(instance=group_info)
 
+        team_info = team.objects.filter(Q(FStatus=True), Q(CREATED_PRJ=request.session['PrjID']))
+        GroupForm.fields['FTeamID'].choices = get_dict_object(request, team_info, 'FID', 'FName')
+
+        worktype_info = base.objects.filter(Q(FPID='2137f046a6a711e9b7367831c1d24216'))
+        GroupForm.fields['FWorktypeID'].choices = get_dict_object(request, worktype_info, 'FID', 'FBase')
+
         ref_dropdowndata(obj, request)
-        return render(request, "content/personnel/personneladd.html" , {'obj': obj, 'GroupForm': GroupForm, 'action': 'insert'})
+        return render(request, "content/personnel/personneladd.html" , {'obj': obj, 'GroupForm': GroupForm, 'fgroupid': fgroupid, 'action': 'insert'})
 
 
 #链接编辑模板
@@ -79,8 +83,16 @@ def edit(request):
     fgroupid = Person_info.FGroupID
     obj = PersonModelForm(instance=Person_info)
 
-    group_info = team.objects.get(Q(FID=fgroupid))
+    group_info = group.objects.get(Q(FID=fgroupid))
     GroupForm = GroupModelForm(instance=group_info)
+
+
+    team_info = team.objects.filter(Q(FStatus=True), Q(CREATED_PRJ=request.session['PrjID']))
+    GroupForm.fields['FTeamID'].choices = get_dict_object(request, team_info, 'FID', 'FName')
+
+    worktype_info = base.objects.filter(Q(FPID='2137f046a6a711e9b7367831c1d24216'))
+    GroupForm.fields['FWorktypeID'].choices = get_dict_object(request, worktype_info, 'FID', 'FBase')
+
 
     ref_dropdowndata(obj, request)
 
@@ -104,14 +116,16 @@ def insert(request):
             response_data['result'] = '2'
             return HttpResponse(json.dumps(response_data))
 
-        ref_dropdowndata(obj, request)
+        #ref_dropdowndata(obj, request)
 
         try:
             if obj.is_valid():
                 temp = obj.save(commit=False)
                 if request.GET.get('actype') == 'insert':
-                    temp.FStatus = True
+                    temp.FStatus = 0
                 temp.FGroupID = fgroupid
+                temp.FTeamID = request.POST.get('FTeamID')
+                temp.FWorktypeID = request.POST.get('FWorktypeID')
                 temp.CREATED_PRJ = request.session['PrjID']
                 temp.CREATED_ORG = request.session['UserOrg']
                 temp.CREATED_BY = request.session['UserID']
@@ -142,9 +156,9 @@ def disabled(request):
             Person_info = T_Personnel.objects.get(FID=fid)
 
             if request.GET.get('type') == 'lock':
-                Person_info.FStatus = False
+                Person_info.FStatus = 2
             elif request.GET.get('type') == 'unlock':
-                Person_info.FStatus = True
+                Person_info.FStatus = 0
 
             Person_info.save()
 

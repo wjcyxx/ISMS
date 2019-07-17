@@ -13,52 +13,195 @@
         </div>
 
         <div class="layui-row layui-col-space10" style="padding-top: 1%">
-            <div class="layui-col-md12">
+            <div class="layui-col-md10">
                 <div class="layui-card">
-                    <div class="layui-card-header">班组信息</div>
+                    <div class="layui-card-header" id="divOrg">所属组织信息</div>
                     <div class="layui-card-body">
                         <div class="layui-row layui-col-space15">
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label">施工队名称</label>
+                                <label class="layui-form-label">所属施工队</label>
                                 <div class="layui-input-block">
-                                    {{ TeamForm.FName }}
+                                    {{ GroupForm.FTeamID }}
                                 </div>
                             </div>
 
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label">所属分包商</label>
+                                <label class="layui-form-label">所属班组</label>
                                 <div class="layui-input-block">
-                                    {{ TeamForm.FOrgID }}
+                                    {{ GroupForm.FGroup }}
                                 </div>
                             </div>
 
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label">评价</label>
+                                <label class="layui-form-label">班组工种</label>
                                 <div class="layui-input-block">
-                                    {{ TeamForm.FEvaluate }}
+                                    {{ GroupForm.FWorktypeID }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layui-row layui-col-space15">
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label">人员类型</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FType }}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-col-md2">
+                <ul class="layui-timeline">
+                    <li class="layui-timeline-item">
+                        <i class="layui-icon layui-timeline-axis">&#xe641;</i>
+                        <div class="layui-timeline-content layui-text">
+                            <div class="layui-timeline-title"><a href="#divOrg">组织信息</a></div>
+                        </div>
+                    </li>
+
+                    <li class="layui-timeline-item">
+                        <i class="layui-icon layui-timeline-axis">&#xe770;</i>
+                        <div class="layui-timeline-content layui-text">
+                            <div class="layui-timeline-title"><a href="#divID">身份信息</a> </div>
+                        </div>
+                    </li>
+
+                    <li class="layui-timeline-item">
+                        <i class="layui-icon layui-timeline-axis">&#xe62a;</i>
+                        <div class="layui-timeline-content layui-text">
+                            <div class="layui-timeline-title"><a href="#divDetail">详细信息</a> </div>
+                        </div>
+                    </li>
+
+                    <li class="layui-timeline-item">
+                        <i class="layui-icon layui-timeline-axis">&#xe679;</i>
+                        <div class="layui-timeline-content layui-text">
+                            <div class="layui-timeline-title"><a href="">入场教育</a> </div>
+                        </div>
+                    </li>
+
+                    <li class="layui-timeline-item">
+                        <i class="layui-icon layui-timeline-axis">&#xe656;</i>
+                        <div class="layui-timeline-content layui-text">
+                            <div class="layui-timeline-title"><a href="">资格证书</a> </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="layui-row layui-col-space10" style="padding-top: 1%">
+            <div class="layui-col-md10">
+                <div class="layui-card">
+                    <div class="layui-card-header" id="divID">人员身份信息</div>
+                    <!-- 表单内容 -->
+                    <div class="layui-card-body">
+                        <div class="layui-row layui-col-space15">
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label">人员状态</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FStatus }}
+                                </div>
+                            </div>
+
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label">劳动合同</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FContractState }}
+                                </div>
+                            </div>
+
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label">操作特种设备</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FSpecialequ }}
                                 </div>
                             </div>
                         </div>
 
                         <div class="layui-row layui-col-space10">
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label">项目经理</label>
+                                <label class="layui-form-label" style="color: red">人员姓名</label>
                                 <div class="layui-input-block">
-                                    {{ TeamForm.FTeammgr }}
+                                    {{ obj.FName }}
+                                </div>
+                            </div>
+
+                            <div class="layui-col-xs8">
+                                <label class="layui-form-label" style="color: red">身份证号</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FID }}
+                                    {{ obj.FIDcard }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layui-row layui-col-space10">
+                            <div class="layui-col-xs8">
+                                <label class="layui-form-label">有效日期</label>
+                                <div class="layui-input-inline">
+                                    {{ obj.FIDcardbeginDate }}
+                                </div>
+                                <div class="layui-input-inline">
+                                    {{ obj.FIDcardendDate }}
+                                </div>
+
+                            </div>
+
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label">长期有效</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FIDcardIsIndefinite }}
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="layui-row layui-col-space10">
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label">性别</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FSex }}
                                 </div>
                             </div>
 
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label">联系方式</label>
+                                <label class="layui-form-label">民族</label>
                                 <div class="layui-input-block">
-                                    {{ TeamForm.FMgrtel }}
+                                    {{ obj.FNation }}
                                 </div>
                             </div>
 
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label">身份证号</label>
+                                <label class="layui-form-label">籍贯</label>
                                 <div class="layui-input-block">
-                                    {{ TeamForm.FIDcard }}
+                                    {{ obj.FNaviveplace }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layui-row layui-col-space10">
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label">出生日期</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FBirthday }}
+                                </div>
+                            </div>
+
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label">家庭住址</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FHomeaddress }}
+                                </div>
+                            </div>
+
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label">签发机关</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FSignorg }}
                                 </div>
                             </div>
                         </div>
@@ -67,46 +210,93 @@
             </div>
         </div>
 
+
         <div class="layui-row layui-col-space10" style="padding-top: 1%">
             <div class="layui-col-md12">
                 <div class="layui-card">
-                    <div class="layui-card-header">班组信息</div>
+                    <div class="layui-card-header" id="divDetail">人员详细信息</div>
                     <!-- 表单内容 -->
                     <div class="layui-card-body">
+
                         <div class="layui-row layui-col-space15">
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">班组工种</label>
+                                <label class="layui-form-label">婚姻状况</label>
                                 <div class="layui-input-block">
-                                    {{ obj.FWorktypeID }}
+                                    {{ obj.FMarital }}
                                 </div>
                             </div>
 
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">班组名称</label>
+                                <label class="layui-form-label">政治面貌</label>
                                 <div class="layui-input-block">
-                                    {{ obj.FID }}
-                                    {{ obj.FGroup }}
+                                    {{ obj.FPolitident }}
                                 </div>
                             </div>
 
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">所属施工队</label>
+                                <label class="layui-form-label">特长</label>
                                 <div class="layui-input-block">
-                                    {{ obj.FTeamID }}
+                                    {{ obj.FSpeciality }}
                                 </div>
                             </div>
                         </div>
 
-                        <div class="layui-row layui-col-space10">
-                            <div class="layui-col-xs12">
-                                <label class="layui-form-label">状态</label>
+                        <div class="layui-row layui-col-space15">
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label">文化程度</label>
                                 <div class="layui-input-block">
-                                    {{ obj.FStatus }}
+                                    {{ obj.FLevelofedu }}
+                                </div>
+                            </div>
+
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label">联系方式</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FTel }}
+                                </div>
+                            </div>
+
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label">暂住地址</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FTempaddress }}
                                 </div>
                             </div>
                         </div>
 
-                        <div class="layui-row layui-col-space10">
+                        <div class="layui-row layui-col-space15">
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label">开户银行</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FBank }}
+                                </div>
+                            </div>
+
+                            <div class="layui-col-xs8">
+                                <label class="layui-form-label">银行卡号</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FBankaccount }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layui-row layui-col-space15">
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label">紧急联系人</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FEmercontact }}
+                                </div>
+                            </div>
+
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label">联系电话</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FEmercontacttel }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layui-row layui-col-space15">
                             <div class="layui-col-xs12">
                                 <label class="layui-form-label">备注</label>
                                 <div class="layui-input-block">
@@ -114,7 +304,9 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
+
                 </div>
             </div>
         </div>
@@ -145,18 +337,20 @@ layui.use(['element','layer','form', 'laydate'], function () {
     });
 
     laydate.render({
-        elem: '#id_FFirstDate',
+        elem: '#id_FIDcardbeginDate',
         trigger: 'click'
     });
 
-    $("#id_FTeamID").val('{{ fteamid }}');
-    form.render('select');
-
-    form.on('select(selworktype)', function(data){
-        //alert($("#id_FWorktypeID").find("option:selected").text());
-        var seltext = $("#id_FWorktypeID").find("option:selected").text()+'班组';
-        $("#id_FGroup").val(seltext);
+    laydate.render({
+        elem: '#id_FIDcardendDate',
+        trigger: 'click'
     });
+
+    laydate.render({
+        elem: '#id_FBirthday',
+        trigger: 'click'
+    });
+
 
     var actype = "{{ action }}";
 
@@ -164,13 +358,13 @@ layui.use(['element','layer','form', 'laydate'], function () {
     form.on('submit(formsubmit)', function (data) {
         $.ajax({
             type: "POST",
-            url:  "{% url 'group:insert' %}?actype={{ action }}&fteamid={{ fteamid }}",
+            url:  "{% url 'personnel:insert' %}?actype={{ action }}&fgroupid={{ fgroupid }}",
             data: data.field,
             dataType: "json",
             success: function (data) {
                 if (data.result=='0') {
                     if (actype == 'update') {
-                        window.parent.document.getElementById('Group').contentWindow.location.reload();
+                        window.parent.document.getElementById('Personnel').contentWindow.location.reload();
                     }
 
                     var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
@@ -193,13 +387,9 @@ layui.use(['element','layer','form', 'laydate'], function () {
 
 <script>
     var setattrs=function(){
-        $("input[name='FName']").attr('readonly', 'true');
-        $("input[name='FTeammgr']").attr('readonly', 'true');
-        $("select[name='FOrgID']").attr('disabled', 'disabled');
-        $("select[name='FEvaluate']").attr("disabled","disabled");
-        $("select[name='FTeamID']").attr("disabled","disabled");
-        $("input[name='FMgrtel']").attr("readonly", "true");
-        $("input[name='FIDcard']").attr("readonly", "true");
+        $("select[name='FTeamID']").attr('disabled', 'disabled');
+        $("input[name='FGroup']").attr('readonly', 'true');
+        $("select[name='FWorktypeID']").attr('disabled', 'disabled');
     };
     setattrs();
 </script>

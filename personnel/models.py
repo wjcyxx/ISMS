@@ -8,28 +8,27 @@ from django.utils.encoding import python_2_unicode_compatible
 @python_2_unicode_compatible
 class personnel(models.Model):
     TYPE_CHOICES = (
+        (None, '请选择数据'),
         (0, '管理人员'),
         (1, '班组长'),
         (2, '员工')
     )
 
     SEX_CHOICES = (
+        (None, '请选择数据'),
         (0, '男'),
         (1, '女')
     )
 
     MARITAL_CHOICES = (
+        (None, '请选择数据'),
         (0, '未婚'),
         (1, '已婚'),
         (2, '离异')
     )
 
-    CONSTATE_CHOICES = (
-        (0, '未签合同'),
-        (1, '已签合同')
-    )
-
     STATUS_CHOICES = (
+        (None, '请选择数据'),
         (0, '登记'),
         (1, '退场'),
         (2, '禁用')
@@ -42,17 +41,17 @@ class personnel(models.Model):
     FGroupID = models.CharField(max_length=32, verbose_name='所属班组', blank=True, null=True)
     FTeamID = models.CharField(max_length=32, verbose_name='所属施工队', blank=True, null=True)
     FIsSafetrain = models.BooleanField(default=True, verbose_name='是否进行安全培训')
-    FSpecialequ = models.BooleanField(default=True, verbose_name='是否操作特种设备')
+    FSpecialequ = models.BooleanField(default=False, verbose_name='是否操作特种设备')
     FSafetrainDate = models.DateTimeField(blank=True, null=True, verbose_name='培训时间')
     FSafetrainHour = models.IntegerField(verbose_name='培训课时', blank=True, null=True)
     FEntranceannex = models.ImageField(upload_to='hrpic/', verbose_name='进场附件', blank=True, null=True)
     FIDcard = models.CharField(max_length=18, verbose_name='身份证号', blank=True, null=True)
-    FIDcardbeginDate = models.DateTimeField(blank=True, null=True, verbose_name='身份证有效起始日期')
-    FIDcardendDate = models.DateTimeField(blank=True, null=True, verbose_name='身份证有效结束日期')
-    FIDcardIsIndefinite = models.BooleanField(default=True, verbose_name='身份证产期有效')
+    FIDcardbeginDate = models.DateField(blank=True, null=True, verbose_name='身份证有效起始日期')
+    FIDcardendDate = models.DateField(blank=True, null=True, verbose_name='身份证有效结束日期')
+    FIDcardIsIndefinite = models.BooleanField(default=False, verbose_name='身份证长期有效')
     FSex = models.IntegerField(choices=SEX_CHOICES, verbose_name='性别', blank=True, null=True)
     FNation = models.CharField(max_length=32, verbose_name='民族', blank=True, null=True)
-    FBirthday = models.DateTimeField(blank=True, null=True, verbose_name='出生日期')
+    FBirthday = models.DateField(blank=True, null=True, verbose_name='出生日期')
     FNaviveplace = models.CharField(max_length=32, verbose_name='籍贯', blank=True, null=True)
     FHomeaddress = models.CharField(max_length=128, verbose_name='家庭住址', blank=True, null=True)
     FSignorg = models.CharField(max_length=32, verbose_name='签发机关', blank=True, null=True)
@@ -67,8 +66,8 @@ class personnel(models.Model):
     FEmercontact = models.CharField(max_length=32, verbose_name='紧急联系人', blank=True, null=True)
     FEmercontacttel = models.CharField(max_length=32, verbose_name='紧急联系人电话', blank=True, null=True)
     FPhoto = models.ImageField(upload_to='hrpic/', default='', verbose_name='照片', blank=True, null=True)
-    FContractState = models.IntegerField(choices=CONSTATE_CHOICES, verbose_name='合同状态', blank=True, null=True)
-    FQuitDate = models.DateTimeField(blank=True, null=True, verbose_name='退场日期')
+    FContractState = models.BooleanField(default=True, verbose_name='劳动合同')
+    FQuitDate = models.DateField(blank=True, null=True, verbose_name='退场日期')
     FDesc = models.CharField(max_length=1024, verbose_name='备注', blank=True, null=True)
     FStatus = models.IntegerField(choices=STATUS_CHOICES, default=0, verbose_name='状态')
     CREATED_PRJ = models.CharField(max_length=32, verbose_name='所属项目', blank=True, null=True)

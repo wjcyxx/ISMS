@@ -34,6 +34,16 @@
 
       <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
 
+<style>
+  .layui-unselect dl { max-height:260px; }
+
+  .layui-table-cell{
+      height: auto!important;
+      white-space: normal;
+  }
+
+</style>
+
 {% include "common/jsfiles.html" %}
 
 <script>
@@ -59,17 +69,17 @@
           elem: '#datasource',
           url: "{% url 'personnel:get_datasource' %}",
           cols: [[
-              {field:'FFilepath', width: '15%', title: '', sort: true, templet: '#tpImg'},
+              {field:'FPhoto', width: '15%', title: '', sort: true, templet: '#tpImg'},
               {field:'FName', width: '20%', title: '人员名称', sort: true},
               {field:'FType', width: '15%', title: '员工类型', sort: true, templet: '#tpType'},
               {field:'FWorktypeID', width: '15%', title: '所属工种', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FWorktypeID, Worktypeinfo)}}{% endverbatim %}</div>'},
-              {field:'FGroupID', width: '15%', title: '所属班组', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FGroupID, Worktypeinfo)}}{% endverbatim %}</div>'},
+              {field:'FGroupID', width: '15%', title: '所属班组', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FGroupID, Groupinfo)}}{% endverbatim %}</div>'},
               {field:'FTeamID', width: '15%', title: '所属施工队', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FTeamID, Teaminfo)}}{% endverbatim %}</div>'},
               {field:'CREATED_TIME', width: '20%', title: '进场日期', sort: true},
               {field:'FQuitDate', width: '20%', title: '退场日期', sort: true},
               {field:'FContractState', width: '15%', title: '合同状态', sort: true, templet: '#tpConstate'},
               {field:'FStatus', width: '15%', title: '状态', sort: true, templet: '#tpStatus'},
-              {field:'', title: '操作', width: '25%', toolbar: '#tlbar', fixed: 'right'}
+              {field:'', title: '操作', width: '25%', toolbar: '#tlbar'}
           ]],
           id: 'runreload'
       });
@@ -96,7 +106,7 @@
                   parent.layer.open({
                       type:   2,
                       title:  '编辑人员',
-                      area: ['1100px','720px'],
+                      area: ['1280px','720px'],
                       fixed: false,
                       content: "{% url 'personnel:edit' %}?fid="+data.FID,
                       resize: false,
@@ -116,7 +126,7 @@
                                   //window.parent.document.getElementById('Project').contentWindow.location.reload();
                                   table.reload('runreload', {where: {resultdict:{FName: ''}}});
                               } else if (data.result=='2') {
-                                  parent.layer.alert('班组禁用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                                  parent.layer.alert('人员禁用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
                               }
 
                           },"json");
@@ -131,14 +141,14 @@
 
               case 'enabled' :
                   parent.layer.open({
-                      content: '是否确定启用该施工队',
+                      content: '是否确定启用该人员',
                       btn: ['确定','取消'],
                       yes: function (index) {
-                          $.post("{% url 'group:disabled' %}?type=unlock", fid, function (data) {
+                          $.post("{% url 'personnel:disabled' %}?type=unlock", fid, function (data) {
                               if (data.result=='0') {
                                   table.reload('runreload', {where: {resultdict:{FName: ''}}});
                               } else if (data.result=='2') {
-                                  parent.layer.alert('班组启用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                                  parent.layer.alert('人员启用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
                               }
 
                           },"json");
@@ -149,9 +159,7 @@
                       }
                   });
 
-
                   break;
-
           }
       });
   });
@@ -160,24 +168,66 @@
 <!--显示启用状态模板-->
 <script type="text/html" id="tpStatus">
       {% verbatim %}
-        {{#  if(d.FStatus == false){ }}
+        {{#  if(d.FStatus == 2){ }}
             <span style="color: red">禁用</span>
-        {{#  } else if(d.FStatus == true) { }}
-            <span style="color: green">启用</span>
+        {{#  } else if(d.FStatus == 0) { }}
+            <span style="color: green">登记</span>
+        {{#  } else if(d.FStatus == 1) { }}
+            <span style="color: orangered">退场</span>
         {{#  } }}
       {% endverbatim %}
 </script>
+
+<!--显示员工类型模板-->
+<script type="text/html" id="tpType">
+      {% verbatim %}
+          {{#  if(d.FType == 0){ }}
+              <span>管理人员</span>
+          {{#  } else if(d.FType == 1) { }}
+              <span>班组长</span>
+          {{#  } else if(d.FType == 2) { }}
+              <span>员工</span>
+          {{#  } }}
+      {% endverbatim %}
+</script>
+
+<!--显示合同状态模板-->
+<script type="text/html" id="tpConstate">
+  {% verbatim %}
+     {{#  if(d.FContractState == false){ }}
+        <span style="color: red">未签订</span>
+     {{#  } else if(d.FContractState == true) { }}
+        <span style="color: green">已签订</span>
+     {{#  } }}
+  {% endverbatim %}
+</script>
+
+<!--显示图片模板-->
+<script type="text/html" id="tpImg">
+      {% verbatim %}
+        {{#  if(d.FPhoto == ''){ }}
+            <div>
+                <img class="layer-photos-demo" layer-scr="/static/images/photoimg.png" src="/static/images/photoimg.png" alt="" />
+            </div>
+        {{#  } else { }}
+            <span>非空</span>
+        {{#  } }}
+
+      {% endverbatim %}
+</script>
+
+
 
 <!--生成操作工具栏-->
 <script type="text/html" id="tlbar">
     {% verbatim %}
         <div class="layui-btn-group">
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>编辑</a>
-            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="group"><i class="fa fa-users" aria-hidden="true"></i>添加人员</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="group"><i class="fa fa-users" aria-hidden="true"></i>授权</a>
 
-            {{# if(d.FStatus == true){ }}
+            {{# if(d.FStatus == 0){ }}
             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>
-            {{# } else if(d.FStatus == false){ }}
+            {{# } else if(d.FStatus == 2){ }}
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="enabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>启用</a>
             {{# } else { }}
             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>

@@ -4,9 +4,9 @@ from django.forms import widgets as Fwidgets
 from .models import *
 
 class PersonModelForm(ModelForm):
-    FTeamID = forms.ChoiceField(widget=forms.Select(attrs={'lay-verify': 'required'}), required=False)
-    FGroupID = forms.ChoiceField(widget=forms.Select(attrs={'lay-verify': 'required'}), required=False)
-    FWorktypeID = forms.ChoiceField(widget=forms.Select(attrs={'lay-verify': 'required', 'lay-filter': 'selworktype'}), required=False)
+    #FTeamID = forms.ChoiceField(widget=forms.Select(attrs={'lay-verify': 'required'}), required=False)
+    #FGroupID = forms.ChoiceField(widget=forms.Select(attrs={'lay-verify': 'required'}), required=False)
+    #FWorktypeID = forms.ChoiceField(widget=forms.Select(attrs={'lay-verify': 'required', 'lay-filter': 'selworktype'}), required=False)
 
     class Meta:
         model = personnel
@@ -14,16 +14,16 @@ class PersonModelForm(ModelForm):
 
         widgets = {
             'FID': Fwidgets.Input(attrs={'type': 'hidden'}),
-            'FGroup': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
+            'FName': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
             'FType': Fwidgets.Select(attrs={'lay-verify': 'required'}),
-            'FIsSafetrain': Fwidgets.CheckboxInput(attrs={'lay-skin': 'switch', 'lay-text': '是|否', 'disabled': 'disabled'}),
-            'FSpecialequ': Fwidgets.CheckboxInput(attrs={'lay-skin': 'switch', 'lay-text': '是|否', 'disabled': 'disabled'}),
+            'FIsSafetrain': Fwidgets.CheckboxInput(attrs={'lay-skin': 'switch', 'lay-text': '是|否'}),
+            'FSpecialequ': Fwidgets.CheckboxInput(attrs={'lay-skin': 'switch', 'lay-text': '是|否'}),
             'FSafetrainDate': Fwidgets.Input(attrs={'class': 'layui-input', 'autocomplete': 'off'}),
             'FSafetrainHour': Fwidgets.Input(attrs={'class': 'layui-input', 'autocomplete': 'off'}),
             'FIDcard': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
             'FIDcardbeginDate': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
             'FIDcardendDate': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
-            'FIDcardIsIndefinite': Fwidgets.CheckboxInput(attrs={'lay-skin': 'switch', 'lay-text': '是|否', 'disabled': 'disabled'}),
+            'FIDcardIsIndefinite': Fwidgets.CheckboxInput(attrs={'lay-skin': 'switch', 'lay-text': '是|否'}),
             'FSex': Fwidgets.Select(attrs={'lay-verify': 'required'}),
             'FNation': Fwidgets.Input(attrs={'class': 'layui-input', 'autocomplete': 'off'}),
             'FBirthday': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
@@ -41,5 +41,8 @@ class PersonModelForm(ModelForm):
             'FEmercontact': Fwidgets.Input(attrs={'class': 'layui-input', 'autocomplete': 'off'}),
             'FEmercontacttel': Fwidgets.Input(attrs={'class': 'layui-input', 'autocomplete': 'off'}),
             'FDesc': Fwidgets.Textarea(attrs={'class': 'layui-textarea', 'autocomplete': 'off', 'rows': '1'}),
-            'FStatus': Fwidgets.CheckboxInput(attrs={'lay-skin': 'switch', 'lay-text': '启用|禁用', 'disabled': 'disabled'}),
+            'FStatus': Fwidgets.Select(attrs={'lay-verify': 'required', 'disabled': 'disabled'}),
+
+            'FContractState': Fwidgets.CheckboxInput(attrs={'lay-skin': 'switch', 'lay-text': '已签订|未签订'}),
+
         }
