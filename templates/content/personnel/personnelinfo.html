@@ -114,6 +114,18 @@
 
                   break;
 
+              case 'auth' :              //编辑按钮事件
+                  parent.layer.open({
+                      type:   2,
+                      title:  '施工人员授权',
+                      area: ['1280px','720px'],
+                      fixed: false,
+                      content: "{% url 'personauth:add' %}?fid="+data.FID,
+                      resize: false,
+                      move: false
+                  });
+
+                  break;
 
               case 'disabled' :               //禁用按钮事件
                   parent.layer.open({
@@ -279,7 +291,7 @@
     {% verbatim %}
         <div class="layui-btn-group">
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>编辑</a>
-            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="group"><i class="fa fa-users" aria-hidden="true"></i>授权</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="auth"><i class="fa fa-users" aria-hidden="true"></i>授权</a>
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="uploadcer"><i class="fa fa-users" aria-hidden="true"></i>上传资格证书</a>
 
             {{# if(d.FStatus != 1){ }}

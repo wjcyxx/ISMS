@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'user',
     'team',
     'group',
-    'personnel'
+    'personnel',
+    'personauth'
 ]
 
 MIDDLEWARE = [

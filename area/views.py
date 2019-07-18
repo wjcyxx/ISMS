@@ -24,7 +24,6 @@ def get_datasource(request):
     prj_id = request.session['PrjID']
 
     Area_info =  T_Area.objects.filter(Q(FName__contains=serinput), Q(CREATED_PRJ=prj_id))
-
     dict = convert_to_dicts(Area_info)
     resultdict = {'code':0, 'msg':"", 'count': Area_info.count(), 'data': dict}
 

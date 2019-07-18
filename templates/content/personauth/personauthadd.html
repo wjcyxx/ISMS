@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  {% include "common/resfiles.html" %}
+</head>
+<body>
+
+<form class="layui-form layui-form-pane" accept-charset="utf-8">
+    <div style="padding: 10px; background-color: #F2F2F2;">
+        <div>
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formsubmit" >授权</button>
+            <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnC">关闭</a>
+        </div>
+
+        <div id="test1" class="demo-transfer"></div>
+        <div class="layui-row layui-col-space10" style="padding-top: 1%">
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header">授权区域</div>
+                    <div class="layui-card-body">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-row layui-col-space10" style="padding-top: 1%">
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header">授权方式</div>
+                    <!-- 表单内容 -->
+                    <div class="layui-card-body">
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</form>
+
+<!-- <script src="//res.layui.com/layui/build/layui.js" charset="utf-8"></script> -->
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+{% include "common/jsfiles.html" %}
+
+<script>
+var areaData = {{ resultdict|safe }}
+layui.use(['transfer', 'layer'], function(){
+  var $ = layui.$
+  ,transfer = layui.transfer
+  ,layer = layui.layer
+  ,util = layui.util;
+
+  //模拟数据
+  var data1 = [
+    {"value": "1", "title": "李白"}
+    ,{"value": "2", "title": "杜甫"}
+    ,{"value": "3", "title": "苏轼"}
+    ,{"value": "4", "title": "李清照"}
+    ,{"value": "5", "title": "鲁迅", "disabled": true}
+    ,{"value": "6", "title": "巴金"}
+    ,{"value": "7", "title": "冰心"}
+    ,{"value": "8", "title": "矛盾"}
+    ,{"value": "9", "title": "贤心"}
+  ];
+
+
+  //基础效果
+  transfer.render({
+    elem: '#test1'
+    ,data: areaData
+  });
+
+
+});
+
+</script>
+
+
+</body>
+</html>

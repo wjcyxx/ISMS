@@ -270,10 +270,17 @@ def showTrain_upload(request):
         else:
             Person_info.FIsSafetrain = False
 
-        Person_info.FSafetrainDate = request.POST.get('FSafetrainDate')
-        Person_info.FSafetrainHour = request.POST.get('FSafetrainHour')
-        Person_info.FEntranceannex = request.FILES.get('FEntranceannex')
+        if request.POST.get('FSafetrainDate') == '':
+            Person_info.FSafetrainDate = None
+        else:
+            Person_info.FSafetrainDate = request.POST.get('FSafetrainDate')
 
+        if Person_info.FSafetrainHour == '':
+            Person_info.FSafetrainHour = 0
+        else:
+            Person_info.FSafetrainHour = request.POST.get('FSafetrainHour')
+
+        Person_info.FEntranceannex = request.FILES.get('FEntranceannex')
         Person_info.save()
 
         url = '/personnel/showTrain_upload?fid='+request.POST.get('FPID')

@@ -372,14 +372,15 @@ layui.use(['element','layer','form', 'laydate', 'table'], function () {
 
     //入场安全教育按钮
     $("#btnTrain").click(function () {
-        parent.layer.open({
+        layer.open({
             type:   2,
             title:  '上传入场安全培训附件',
             area: ['900px','320px'],
             fixed: false,
             content: "{% url 'personnel:showTrain_upload' %}?fid="+fid,
             resize: false,
-            move: false
+            move: false,
+            closeBtn: false
         });
     });
 
@@ -435,7 +436,7 @@ layui.use(['element','layer','form', 'laydate', 'table'], function () {
         elem: '#datasourceTrain',
         url: "{% url 'personnel:get_safetrain' %}?fid="+fid,
         cols: [[
-            {field:'FIsSafetrain', width: '20%', title: '是否进行安全培训', sort: true},
+            {field:'FIsSafetrain', width: '20%', title: '是否进行安全培训', sort: true, templet: '#tpSwitch'},
             {field:'FSafetrainDate', width: '15%', title: '培训日期', sort: true},
             {field:'FSafetrainHour', width: '15%', title: '培训课时', sort: true},
             {field:'FEntranceannex', width: '50%', title: '培训记录', sort: true, templet: '#tpImgTrain'},
@@ -543,6 +544,12 @@ layui.use(['element','layer','form', 'laydate', 'table'], function () {
     {% endverbatim %}
 </script>
 
+<!--显示是否培训开关模板-->
+<script type="text/html" id="tpSwitch">
+    {% verbatim %}
+    <input type="checkbox" name="FIsSafetrain" value="{{d.FIsSafetrain}}" lay-skin="switch" lay-text="是|否" disabled="disabled"  {{ d.FIsSafetrain == true ? 'checked' : '' }} >
+    {% endverbatim %}
+</script>
 
 
 <!--显示技能等级模板-->
