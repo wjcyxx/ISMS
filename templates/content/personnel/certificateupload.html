@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+  {% include "common/resfiles.html" %}
+</head>
+<body style="overflow: hidden">
+
+
+<form class="layui-form layui-form-pane" action="{{ request.path }}" method="post" enctype="multipart/form-data">
+    <!-- 工具栏按钮 -->
+<div style="padding: 10px; background-color: #F2F2F2;">
+    <div>
+      <button type="submit" class="layui-btn layui-btn-normal"><i class="fa fa-file-image-o" aria-hidden="true"></i>&nbsp; 本地上传</button>
+      <a href="javascript:;" class="layui-btn layui-btn-normal"><i class="fa fa-video-camera" aria-hidden="true"></i>&nbsp; 拍照</a>
+      <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnC">关闭</a>
+    </div>
+
+    <!-- 表单内容 -->
+
+    <div class="layui-row layui-col-space10" style="padding-top: 1%">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">证书信息</div>
+                <div class="layui-card-body">
+                    <div class="layui-row layui-col-space15" style="padding-left: 2%">
+                        <div class="layui-col-xs4">
+                            <label class="layui-form-label" style="color: red">证书编号</label>
+                            <div class="layui-input-block">
+                                {{ obj.FID }}
+                                <input type="hidden" name="FPID" id="FPID" value="{{ fid }}">
+                                {{ obj.FCertificateNo }}
+                            </div>
+                        </div>
+
+                        <div class="layui-col-xs4">
+                            <label class="layui-form-label" style="color: red">证书类别</label>
+                            <div class="layui-input-block">
+                                {{ obj.FCertitypeID }}
+                            </div>
+                        </div>
+
+                        <div class="layui-col-xs4">
+                            <label class="layui-form-label">技能等级</label>
+                            <div class="layui-input-block">
+                                {{ obj.FSkilllevel }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-row layui-col-space15" style="padding-left: 2%">
+                        <div class="layui-col-xs4">
+                            <label class="layui-form-label" style="color: red">发证机关</label>
+                            <div class="layui-input-block">
+                                {{ obj.FIssueOrg }}
+                            </div>
+                        </div>
+
+                        <div class="layui-col-xs4">
+                            <label class="layui-form-label" style="color: red">发证日期</label>
+                            <div class="layui-input-block">
+                                {{ obj.FIssueDate }}
+                            </div>
+                        </div>
+
+                        <div class="layui-col-xs4">
+                            <label class="layui-form-label" style="color: red">有效日期</label>
+                            <div class="layui-input-block">
+                                {{ obj.FLimitDate }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-row layui-col-space15" style="padding-left: 2%">
+                        <div class="layui-col-xs12">
+                            <label class="layui-form-label">备注</label>
+                            <div class="layui-input-block">
+                                {{ obj.FDesc }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-row layui-col-space10" style="padding-top: 1%">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">证书图片</div>
+                <div class="layui-card-body">
+                    <div class="layui-row layui-col-space15" style="padding-left: 2%">
+                        <div class="layui-col-xs12">
+                            <label class="layui-form-label" style="color: red">证书图片</label>
+                            <div class="layui-input-block">
+                                <button type="button" class="layui-btn layui-btn-normal" id="btnUpload">选择证书文件</button>
+                                {{ obj.FCertiFilepath }}
+                                <span id="document_name">未上传文件</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+
+<!-- <script src="//res.layui.com/layui/build/layui.js" charset="utf-8"></script> -->
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+{% include "common/jsfiles.html" %}
+
+<script>
+layui.use(['element','layer','form', 'laydate'], function () {
+    var element = layui.element
+        , layer = layui.layer
+        , form = layui.form
+        , laydate = layui.laydate;
+
+
+    //关闭按钮
+    $("#btnC").click(function () {
+        var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
+        parent.layer.close(index);
+    });
+
+    //上传按钮事件
+    $("#btnUpload").click(function () {
+        $("#id_FCertiFilepath").click()
+    });
+
+    $("#id_FCertiFilepath").change(function(e){
+        var name=e.currentTarget.files[0].name;
+        $("#document_name").html(name);
+    });
+
+    laydate.render({
+        elem: '#id_FIssueDate',
+        trigger: 'click'
+    });
+
+    laydate.render({
+        elem: '#id_FLimitDate',
+        trigger: 'click'
+    });
+
+})
+</script>
+
+
+</body>
+</html>

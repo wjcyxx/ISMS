@@ -191,19 +191,21 @@
                         </div>
                     </li>
 
-                    <li class="layui-timeline-item">
-                        <i class="layui-icon layui-timeline-axis">&#xe679;</i>
-                        <div class="layui-timeline-content layui-text">
-                            <div class="layui-timeline-title"><a href="">入场教育</a> </div>
-                        </div>
-                    </li>
+                    {% if action == 'update' %}
+                        <li class="layui-timeline-item">
+                            <i class="layui-icon layui-timeline-axis">&#xe679;</i>
+                            <div class="layui-timeline-content layui-text">
+                                <div class="layui-timeline-title"><a href="#divTrain">入场安全培训</a> </div>
+                            </div>
+                        </li>
 
-                    <li class="layui-timeline-item">
-                        <i class="layui-icon layui-timeline-axis">&#xe656;</i>
-                        <div class="layui-timeline-content layui-text">
-                            <div class="layui-timeline-title"><a href="">资格证书</a> </div>
-                        </div>
-                    </li>
+                        <li class="layui-timeline-item">
+                            <i class="layui-icon layui-timeline-axis">&#xe656;</i>
+                            <div class="layui-timeline-content layui-text">
+                                <div class="layui-timeline-title"><a href="#divCertif">资格证书</a> </div>
+                            </div>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
@@ -301,19 +303,50 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
-
                 </div>
             </div>
         </div>
 
-    </div>
+        {% if action == 'update' %}
+            <div class="layui-row layui-col-space10" style="padding-top: 1%">
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header" id="divTrain">入场安全培训</div>
+                        <!-- 表单内容 -->
+                        <div class="layui-card-body">
+                            <div>
+                                <a href="javascript:;" class="layui-btn layui-btn-normal" id="btnTrain">编辑</a>
+                            </div>
+                            <table class="layui-table" id="datasourceTrain"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
+            <div class="layui-row layui-col-space10" style="padding-top: 1%">
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header" id="divCertif">资格证书</div>
+                        <!-- 表单内容 -->
+                        <div class="layui-card-body">
+                            <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
 </form>
 
 <style>
     .layui-unselect dl { max-height:200px; }
+
+    .layui-table-cell{
+        height: auto!important;
+        white-space: normal;
+    }
 </style>
 
 <!-- <script src="//res.layui.com/layui/build/layui.js" charset="utf-8"></script> -->
@@ -321,16 +354,33 @@
 {% include "common/jsfiles.html" %}
 
 <script>
-layui.use(['element','layer','form', 'laydate'], function () {
+var Caritf = {{ certifinfo|safe }}
+var fid = $("#id_FID").val();
+
+layui.use(['element','layer','form', 'laydate', 'table'], function () {
     var element = layui.element
         , layer = layui.layer
         , form = layui.form
+        ,table = layui.table
         , laydate = layui.laydate;
 
     //关闭按钮
     $("#btnC").click(function () {
         var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
         parent.layer.close(index);
+    });
+
+    //入场安全教育按钮
+    $("#btnTrain").click(function () {
+        parent.layer.open({
+            type:   2,
+            title:  '上传入场安全培训附件',
+            area: ['900px','320px'],
+            fixed: false,
+            content: "{% url 'personnel:showTrain_upload' %}?fid="+fid,
+            resize: false,
+            move: false
+        });
     });
 
     laydate.render({
@@ -379,7 +429,142 @@ layui.use(['element','layer','form', 'laydate'], function () {
         });
         return false;
     });
+
+    //入场安全培训table
+    table.render({
+        elem: '#datasourceTrain',
+        url: "{% url 'personnel:get_safetrain' %}?fid="+fid,
+        cols: [[
+            {field:'FIsSafetrain', width: '20%', title: '是否进行安全培训', sort: true},
+            {field:'FSafetrainDate', width: '15%', title: '培训日期', sort: true},
+            {field:'FSafetrainHour', width: '15%', title: '培训课时', sort: true},
+            {field:'FEntranceannex', width: '50%', title: '培训记录', sort: true, templet: '#tpImgTrain'},
+        ]],
+        done : function (res, curr, count) {
+            // 处理图片弹出预览框
+            if ($('.layer-photos-demo').length > 0) {
+                $('.layer-photos-demo').on('click', function () {
+                    var img_src = $(this).attr('src');
+                    var img_alt = $(this).attr('alt');
+                    layer.photos({
+                        photos: {
+                            'title': '查看图片',
+                            'data': [{
+                                'src': img_src,
+                                'alt': img_alt
+                            }]
+                        },
+                        anim: 5
+                    });
+                });
+            }
+        }
+    });
+
+
+    table.render({
+        elem: '#datasource',
+        url: "{% url 'personnel:get_certificate' %}?fid="+fid,
+        cols: [[
+            {field:'FCertificateNo', width: '10%', title: '证书编号', sort: true},
+            {field:'FCertitypeID', width: '10%', title: '证书类别', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FCertitypeID, Caritf)}}{% endverbatim %}</div>'},
+            {field:'FSkilllevel', width: '10%', title: '技能等级', sort: true, templet: '#tpSkill'},
+            {field:'FIssueOrg', width: '10%', title: '发证机关', sort: true},
+            {field:'FIssueDate', width: '15%', title: '发证日期', sort: true},
+            {field:'FLimitDate', width: '15%', title: '有效日期', sort: true},
+            {field:'FCertiFilepath', width: '15%', title: '证书文件', sort: true, templet: '#tpImg'},
+            {field:'', title: '操作', width: '15%', toolbar: '#tlbar'}
+        ]],
+        id: 'runreload',
+        done : function (res, curr, count) {
+            // 处理图片弹出预览框
+            if ($('.layer-photos-demo').length > 0) {
+                $('.layer-photos-demo').on('click', function () {
+                    var img_src = $(this).attr('src');
+                    var img_alt = $(this).attr('alt');
+                    layer.photos({
+                        photos: {
+                            'title': '查看图片',
+                            'data': [{
+                                'src': img_src,
+                                'alt': img_alt
+                            }]
+                        },
+                        anim: 5
+                    });
+                });
+            }
+        }
+    });
+
+    // 实现滚轮缩放图片
+    $(document).on("mousewheel DOMMouseScroll", ".layui-layer-phimg img", function(e) {
+        var delta = (e.originalEvent.wheelDelta && (e.originalEvent.wheelDelta > 0 ? 1 : -1)) || // chrome & ie
+            (e.originalEvent.detail && (e.originalEvent.detail > 0 ? -1 : 1)); // firefox
+        var imagep = $(".layui-layer-phimg").parent().parent();
+        var image = $(".layui-layer-phimg").parent();
+        var h = image.height();
+        var w = image.width();
+        if(delta > 0) {
+            h = h * 1.05;
+            w = w * 1.05;
+        } else if(delta < 0) {
+            if(h > 100) {
+                h = h * 0.95;
+                w = w * 0.95;
+            }
+        }
+        imagep.css("top", (window.innerHeight - h) / 2);
+        imagep.css("left", (window.innerWidth - w) / 2);
+        image.height(h);
+        image.width(w);
+        imagep.height(h);
+        imagep.width(w);
+    });
+
+
 })
+</script>
+
+<!--显示图片模板-->
+<script type="text/html" id="tpImg">
+    {% verbatim %}
+    <div>
+        <img class="layer-photos-demo" layer-scr="/media/{{ d.FCertiFilepath }}" src="/media/{{ d.FCertiFilepath }}" alt="" />
+    </div>
+    {% endverbatim %}
+</script>
+
+<script type="text/html" id="tpImgTrain">
+    {% verbatim %}
+    <div>
+        <img class="layer-photos-demo" layer-scr="/media/{{ d.FEntranceannex }}" src="/media/{{ d.FEntranceannex }}" alt="" />
+    </div>
+    {% endverbatim %}
+</script>
+
+
+
+<!--显示技能等级模板-->
+<script type="text/html" id="tpSkill">
+    {% verbatim %}
+        {{#  if(d.FSkilllevel == 0){ }}
+            <span>初级</span>
+        {{#  } else if(d.FSkilllevel == 1) { }}
+            <span>中级</span>
+        {{#  } else if(d.FSkilllevel == 2) { }}
+            <span>高级</span>
+        {{#  } else if(d.FSkilllevel == 3) { }}
+            <span>特种工</span>
+        {{#  } }}
+    {% endverbatim %}
+</script>
+
+<!--生成操作工具栏-->
+<script type="text/html" id="tlbar">
+    <div class="layui-btn-group">
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="delete"><i class="fa fa-trash-o" aria-hidden="true"></i>删除</a>
+    </div>
 </script>
 
 <script>

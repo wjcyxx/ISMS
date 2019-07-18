@@ -11,4 +11,9 @@ urlpatterns = [
     path('insert/', views.insert, name='insert'),
     path('disable/', views.disabled, name='disabled'),
     path('sign/', views.sign, name='sign'),
+    path('show_upload/', views.show_upload, name='show_upload'),
+    path('get_certificate/', views.get_certificate, name='get_certificate'),
+    path('showTrain_upload/', views.showTrain_upload, name='showTrain_upload'),
+    path('get_safetrain/', views.get_safetrain, name='get_safetrain')
+
 ]

@@ -7,6 +7,7 @@ class PersonModelForm(ModelForm):
     #FTeamID = forms.ChoiceField(widget=forms.Select(attrs={'lay-verify': 'required'}), required=False)
     #FGroupID = forms.ChoiceField(widget=forms.Select(attrs={'lay-verify': 'required'}), required=False)
     #FWorktypeID = forms.ChoiceField(widget=forms.Select(attrs={'lay-verify': 'required', 'lay-filter': 'selworktype'}), required=False)
+    FEntranceannex = forms.ImageField(required=False, widget=forms.FileInput(attrs={'class': 'layui-input', 'style': 'display: none'}))
 
     class Meta:
         model = personnel
@@ -45,4 +46,25 @@ class PersonModelForm(ModelForm):
 
             'FContractState': Fwidgets.CheckboxInput(attrs={'lay-skin': 'switch', 'lay-text': '已签订|未签订'}),
 
+        }
+
+
+
+class PersonnelCertificateModeForm(ModelForm):
+    FCertitypeID = forms.ChoiceField(widget=forms.Select(attrs={'lay-verify': 'required'}), required=False)
+    FCertiFilepath = forms.ImageField(required=False, widget=forms.FileInput(attrs={'class': 'layui-input', 'style': 'display: none'}))
+
+    class Meta:
+        model = personcertif
+        fields = '__all__'
+
+        widgets = {
+            'FID': Fwidgets.Input(attrs={'type': 'hidden'}),
+            'FPID': Fwidgets.Input(attrs={'type': 'hidden'}),
+            'FCertificateNo': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
+            'FIssueOrg': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
+            'FIssueDate': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
+            'FLimitDate': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
+            'FDesc': Fwidgets.Textarea(attrs={'class': 'layui-textarea', 'autocomplete': 'off', 'rows': '1'}),
+            'FSkilllevel': Fwidgets.Select()
         }

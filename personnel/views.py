@@ -3,6 +3,7 @@ from django.shortcuts import HttpResponse
 from django.shortcuts import redirect
 from django.db.models import Q
 from .models import personnel as T_Personnel
+from .models import personcertif as T_PersonnelCertificate
 from group.models import group
 from team.models import team
 from basedata.models import base
@@ -93,10 +94,12 @@ def edit(request):
     worktype_info = base.objects.filter(Q(FPID='2137f046a6a711e9b7367831c1d24216'))
     GroupForm.fields['FWorktypeID'].choices = get_dict_object(request, worktype_info, 'FID', 'FBase')
 
+    certif_info = base.objects.filter(Q(FPID='691fd5e2a90711e9866b7831c1d24216'))
+    certifinfo = get_dict_table(certif_info, 'FID', 'FBase')
 
     ref_dropdowndata(obj, request)
 
-    return render(request, "content/personnel/personneladd.html", {'obj': obj, 'fgroupid': fgroupid, 'GroupForm': GroupForm, 'action': 'update'})
+    return render(request, "content/personnel/personneladd.html", {'obj': obj, 'fgroupid': fgroupid, 'GroupForm': GroupForm, 'certifinfo': certifinfo, 'action': 'update'})
 
 
 #处理新增及保存
@@ -203,3 +206,92 @@ def sign(request):
 
 
 
+#刷新下拉列表框数据
+def ref_certidropdowndata(obj, request):
+    certiftype_info = base.objects.filter(Q(FPID='691fd5e2a90711e9866b7831c1d24216'))
+    obj.fields['FCertitypeID'].choices = get_dict_object(request, certiftype_info, 'FID', 'FBase')
+
+
+#链接上传图片窗口
+def show_upload(request):
+    obj = PersonnelCertificateModeForm()
+    fid = ''.join(str(request.GET.get('fid')).split('-'))
+
+    ref_certidropdowndata(obj, request)
+
+    if request.method == 'POST':
+        obj = PersonnelCertificateModeForm(request.POST, request.FILES)
+        ref_certidropdowndata(obj, request)
+
+        if obj.is_valid():
+            temp = obj.save(commit=False)
+            temp.FPID = request.POST.get('FPID')
+            temp.CREATED_PRJ = request.session['PrjID']
+            temp.CREATED_ORG = request.session['UserOrg']
+            temp.CREATED_BY = request.session['UserID']
+            temp.UPDATED_BY = request.session['UserID']
+            temp.CREATED_TIME = timezone.now()
+
+            temp.save()
+
+            url = '/personnel/show_upload?fid='+request.POST.get('FPID')
+            return redirect(url)
+
+    else:
+        return render(request, "content/personnel/certificateupload.html", {'obj': obj, 'fid': fid})
+
+#图片明细数据源
+def get_certificate(request):
+
+    if request.method == 'GET':
+        fpid = ''.join(str(request.GET.get('fid')).split('-'))
+
+        Certificate_info = T_PersonnelCertificate.objects.filter(Q(FPID=fpid))
+
+        dict = convert_to_dicts(Certificate_info)
+        resultdict = {'code':0, 'msg':"", 'count': Certificate_info.count(), 'data': dict}
+
+        return  JsonResponse(resultdict, safe=False)
+
+
+
+#链接上传入场安全培训窗口
+def showTrain_upload(request):
+    fid = ''.join(str(request.GET.get('fid')).split('-'))
+
+    obj = PersonModelForm()
+
+    if request.method == 'POST':
+        fid = request.POST.get('FPID')
+        Person_info = T_Personnel.objects.get(Q(FID=fid))
+
+        if request.POST.get('FIsSafetrain') == 'on':
+            Person_info.FIsSafetrain = True
+        else:
+            Person_info.FIsSafetrain = False
+
+        Person_info.FSafetrainDate = request.POST.get('FSafetrainDate')
+        Person_info.FSafetrainHour = request.POST.get('FSafetrainHour')
+        Person_info.FEntranceannex = request.FILES.get('FEntranceannex')
+
+        Person_info.save()
+
+        url = '/personnel/showTrain_upload?fid='+request.POST.get('FPID')
+        return redirect(url)
+
+    else:
+        return render(request, "content/personnel/safetrainupload.html", {'obj': obj, 'fid': fid})
+
+
+#入场安全培训数据源
+def get_safetrain(request):
+
+    if request.method == 'GET':
+        fid = ''.join(str(request.GET.get('fid')).split('-'))
+
+        Person_info = T_Personnel.objects.filter(Q(FID=fid))
+
+        dict = convert_to_dicts(Person_info)
+        resultdict = {'code':0, 'msg':"", 'count': Person_info.count(), 'data': dict}
+
+        return  JsonResponse(resultdict, safe=False)

@@ -61,7 +61,6 @@
           window.parent.layui.element.tabDelete('tabMain','Personnel');
       });
 
-
       table.render({
           method: 'post',
           page: true,
@@ -69,7 +68,7 @@
           elem: '#datasource',
           url: "{% url 'personnel:get_datasource' %}",
           cols: [[
-              {field:'FPhoto', width: '10%', title: '', sort: true, templet: '#tpImg'},
+              {field:'FPhoto', width: '12%', title: '', sort: true, templet: '#tpImg'},
               {field:'FName', width: '10%', title: '人员名称', sort: true},
               {field:'FType', width: '15%', title: '员工类型', sort: true, templet: '#tpType'},
               {field:'FWorktypeID', width: '15%', title: '所属工种', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FWorktypeID, Worktypeinfo)}}{% endverbatim %}</div>'},
@@ -105,7 +104,7 @@
               case 'edit' :              //编辑按钮事件
                   parent.layer.open({
                       type:   2,
-                      title:  '编辑人员',
+                      title:  '施工人员档案',
                       area: ['1280px','720px'],
                       fixed: false,
                       content: "{% url 'personnel:edit' %}?fid="+data.FID,
@@ -205,6 +204,18 @@
 
                   break;
 
+              case 'uploadcer' :
+                  parent.layer.open({
+                      type:   2,
+                      title:  '上传证书文件',
+                      area: ['900px','490px'],
+                      fixed: false,
+                      content: "{% url 'personnel:show_upload' %}?fid="+data.FID,
+                      resize: false,
+                      move: false
+                  });
+
+                  break;
           }
       });
   });
@@ -269,7 +280,7 @@
         <div class="layui-btn-group">
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>编辑</a>
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="group"><i class="fa fa-users" aria-hidden="true"></i>授权</a>
-            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="group"><i class="fa fa-users" aria-hidden="true"></i>上传资格证书</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="uploadcer"><i class="fa fa-users" aria-hidden="true"></i>上传资格证书</a>
 
             {{# if(d.FStatus != 1){ }}
                 <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="signout"><i class="fa fa-sign-out" aria-hidden="true"></i>退场</a>
