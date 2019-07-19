@@ -5,4 +5,5 @@ app_name="personauth"
 
 urlpatterns = [
     path('add/', views.add, name='add'),
+    path('auth/', views.auth, name='auth')
 ]

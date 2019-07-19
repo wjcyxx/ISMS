@@ -8,16 +8,16 @@
 <form class="layui-form layui-form-pane" accept-charset="utf-8">
     <div style="padding: 10px; background-color: #F2F2F2;">
         <div>
-            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formsubmit" >授权</button>
+            <a href="javascript:;" class="layui-btn layui-btn-normal" id="btnAuth">授权</a>
             <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnC">关闭</a>
         </div>
 
-        <div id="test1" class="demo-transfer"></div>
         <div class="layui-row layui-col-space10" style="padding-top: 1%">
             <div class="layui-col-md12">
                 <div class="layui-card">
                     <div class="layui-card-header">授权区域</div>
                     <div class="layui-card-body">
+                        <div id="arealist" class="demo-transfer"></div>
                     </div>
                 </div>
             </div>
@@ -29,13 +29,67 @@
                     <div class="layui-card-header">授权方式</div>
                     <!-- 表单内容 -->
                     <div class="layui-card-body">
+                        <div style="padding: 10px; background-color: #F2F2F2">
+                            <div class="layui-row layui-col-space15">
+                                <div class="layui-col-xs3">
+                                    <div class="layui-card">
+                                        <div class="layui-card-header">IC 卡</div>
+                                        <div class="layui-card-body">
+                                            <img src="/static/images/hr/iccard.png" width="128px" height="128px" alt="">&nbsp;&nbsp;
+                                            <a href="javascript:;" class="layui-btn layui-btn-normal" id="">制卡</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="layui-col-xs3">
+                                    <div class="layui-card">
+                                        <div class="layui-card-header">RFID 卡</div>
+                                        <div class="layui-card-body">
+                                            <img src="/static/images/hr/iccard.png" width="128px" height="128px" alt="">&nbsp;&nbsp;
+                                            <a href="javascript:;" class="layui-btn layui-btn-normal" id="">制卡</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="layui-col-xs3">
+                                    <div class="layui-card">
+                                        <div class="layui-card-header">人脸</div>
+                                        <div class="layui-card-body">
+                                            <img src="/static/images/hr/face.png" width="128px" height="128px" alt="">&nbsp;&nbsp;
+                                            <a href="javascript:;" class="layui-btn layui-btn-normal" id="">采集</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="layui-col-xs3">
+                                    <div class="layui-card">
+                                        <div class="layui-card-header">身份证</div>
+                                        <div class="layui-card-body">
+                                            <img src="/static/images/hr/idcard.png" width="128px" height="128px" alt="">&nbsp;&nbsp;
+                                            <a href="javascript:;" class="layui-btn layui-btn-normal" id="">开启</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
 
+                            <div class="layui-row layui-col-space15">
+                                <div class="layui-col-xs3">
+                                    <div class="layui-card">
+                                        <div class="layui-card-header">定位设备</div>
+                                        <div class="layui-card-body">
+                                            <img src="/static/images/hr/gps.png" width="128px" height="128px" alt="">&nbsp;&nbsp;
+                                            <a href="javascript:;" class="layui-btn layui-btn-normal" id="">发放</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 
 </form>
@@ -46,31 +100,45 @@
 
 <script>
 var areaData = {{ resultdict|safe }}
-layui.use(['transfer', 'layer'], function(){
-  var $ = layui.$
-  ,transfer = layui.transfer
-  ,layer = layui.layer
-  ,util = layui.util;
 
-  //模拟数据
-  var data1 = [
-    {"value": "1", "title": "李白"}
-    ,{"value": "2", "title": "杜甫"}
-    ,{"value": "3", "title": "苏轼"}
-    ,{"value": "4", "title": "李清照"}
-    ,{"value": "5", "title": "鲁迅", "disabled": true}
-    ,{"value": "6", "title": "巴金"}
-    ,{"value": "7", "title": "冰心"}
-    ,{"value": "8", "title": "矛盾"}
-    ,{"value": "9", "title": "贤心"}
-  ];
+layui.use(['transfer', 'layer', 'util'], function(){
+    var $ = layui.$
+    ,transfer = layui.transfer
+    ,layer = layui.layer
+    ,util = layui.util ;
 
 
-  //基础效果
-  transfer.render({
-    elem: '#test1'
-    ,data: areaData
-  });
+    //渲染区域列表穿梭框
+    transfer.render({
+        elem: '#arealist'
+        , title: ['区域列表', '授权区域']
+        , data: areaData
+        , id: 'areaauth'
+    });
+
+    //关闭按钮
+    $("#btnC").click(function () {
+        var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
+        parent.layer.close(index);
+    });
+
+    //授权按钮
+    $("#btnAuth").click(function () {
+        var getChoicesArea = transfer.getData('areaauth');
+
+        var dataid = {'areafid': JSON.stringify(getChoicesArea)};
+
+        $.post("{% url 'personauth:auth' %}", dataid, function(data){
+
+
+        }, "json");
+
+        //alert(JSON.stringify(getChoicesArea));
+    });
+
+    util.fixbar({
+        bgcolor: '#01AAED'
+    });
 
 
 });

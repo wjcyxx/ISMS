@@ -270,7 +270,7 @@ def get_dict_transfer(model, fid, fname, disabledfield):
         dict['value'] = suuid
         dict['title'] = getattr(obj, fname)
 
-        if getattr(obj, disabledfield) == True:
+        if getattr(obj, disabledfield) == False:
             dict['disabled'] = 'true'
         else:
             dict['disabled'] = ''

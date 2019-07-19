@@ -19,3 +19,12 @@ def add(request):
     resultdict = get_dict_transfer(area_info, 'FID', 'FName', 'FStatus')
 
     return render(request, "content/personauth/personauthadd.html", {'resultdict' : resultdict})
+
+
+def auth(request):
+    if request.method == 'POST':
+        aa = request.POST.get('areafid')
+
+        jj =  json.loads(aa)
+
+        return
