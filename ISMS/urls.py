@@ -34,6 +34,7 @@ urlpatterns = [
     path('group/', include('group.urls'), name='group'),
     path('personnel/', include('personnel.urls'), name='personnel'),
     path('personauth/', include('personauth.urls'), name='personauth'),
+    path('device/', include('device.urls'), name='device')
 
 ]
 
