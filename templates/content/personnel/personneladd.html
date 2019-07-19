@@ -354,20 +354,26 @@
 {% include "common/jsfiles.html" %}
 
 <script>
-var Caritf = {{ certifinfo|safe }}
+var Caritf = {{ certifinfo|safe }};
 var fid = $("#id_FID").val();
 
-layui.use(['element','layer','form', 'laydate', 'table'], function () {
+layui.use(['element','layer','form', 'laydate', 'table', 'util'], function () {
     var element = layui.element
         , layer = layui.layer
         , form = layui.form
-        ,table = layui.table
-        , laydate = layui.laydate;
+        , table = layui.table
+        , laydate = layui.laydate
+        , util = layui.util;
 
     //关闭按钮
     $("#btnC").click(function () {
         var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
         parent.layer.close(index);
+    });
+
+
+    util.fixbar({
+        bgcolor: '#01AAED'
     });
 
     //入场安全教育按钮

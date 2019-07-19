@@ -99,7 +99,8 @@
 {% include "common/jsfiles.html" %}
 
 <script>
-var areaData = {{ resultdict|safe }}
+var areaData = {{ resultdict|safe }};
+var authList = {{ authList|safe }}
 
 layui.use(['transfer', 'layer', 'util'], function(){
     var $ = layui.$
@@ -107,6 +108,7 @@ layui.use(['transfer', 'layer', 'util'], function(){
     ,layer = layui.layer
     ,util = layui.util ;
 
+    //alert(authList);
 
     //渲染区域列表穿梭框
     transfer.render({
@@ -114,6 +116,7 @@ layui.use(['transfer', 'layer', 'util'], function(){
         , title: ['区域列表', '授权区域']
         , data: areaData
         , id: 'areaauth'
+        , value: authList
     });
 
     //关闭按钮
@@ -126,10 +129,15 @@ layui.use(['transfer', 'layer', 'util'], function(){
     $("#btnAuth").click(function () {
         var getChoicesArea = transfer.getData('areaauth');
 
-        var dataid = {'areafid': JSON.stringify(getChoicesArea)};
+        var dataid = {'areafid': JSON.stringify(getChoicesArea), 'fid': '{{ fid }}'};
 
         $.post("{% url 'personauth:auth' %}", dataid, function(data){
-
+            if (data.result=='0') {
+                var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
+                parent.layer.close(index);
+            } else {
+                parent.layer.alert('授权失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+            }
 
         }, "json");
 
@@ -139,7 +147,6 @@ layui.use(['transfer', 'layer', 'util'], function(){
     util.fixbar({
         bgcolor: '#01AAED'
     });
-
 
 });
 

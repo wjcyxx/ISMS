@@ -72,8 +72,11 @@ def add(request):
         worktype_info = base.objects.filter(Q(FPID='2137f046a6a711e9b7367831c1d24216'))
         GroupForm.fields['FWorktypeID'].choices = get_dict_object(request, worktype_info, 'FID', 'FBase')
 
+        certif_info = base.objects.filter(Q(FPID='691fd5e2a90711e9866b7831c1d24216'))
+        certifinfo = get_dict_table(certif_info, 'FID', 'FBase')
+
         ref_dropdowndata(obj, request)
-        return render(request, "content/personnel/personneladd.html" , {'obj': obj, 'GroupForm': GroupForm, 'fgroupid': fgroupid, 'action': 'insert'})
+        return render(request, "content/personnel/personneladd.html" , {'obj': obj, 'GroupForm': GroupForm, 'fgroupid': fgroupid, 'certifinfo':certifinfo, 'action': 'insert'})
 
 
 #链接编辑模板
