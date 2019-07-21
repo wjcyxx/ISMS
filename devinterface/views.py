@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.shortcuts import HttpResponse
 from django.shortcuts import redirect
 from django.db.models import Q
-from .models import device as T_Device
+from .models import devinterface as T_DevInterface
+from device.models import device
 from basedata.models import base
 from common.views import *
 from django.http import JsonResponse
@@ -13,46 +14,51 @@ from django.forms import widgets as Fwidge
 from django.core.exceptions import ObjectDoesNotExist
 
 # Create your views here.
-#设备管理控制器入口
-def device(request):
-    devicetype_info = base.objects.filter(Q(FPID='8feb17b2aaf211e99741708bcdb9b39a'))
-    devicetypeinfo = get_dict_table(devicetype_info, 'FID', 'FBase')
+#接口管理控制器入口
+def devinterface(request):
+    device_info = device.objects.filter(Q(FStatus=True))
+    deviceinfo = get_dict_table(device_info, 'FID', 'FDevice')
 
-    return render(request, 'content/device/deviceinfo.html', {'devicetypeinfo': devicetypeinfo})
+    interfacetype_info = base.objects.filter(Q(FPID='08a3e2b0ab7a11e9891f708bcdb9b39a'))
+    interfacetypeinfo = get_dict_table(interfacetype_info, 'FID', 'FBase')
+
+    return render(request, 'content/devinterface/devinterfaceinfo.html', {'deviceinfo': deviceinfo, 'interfacetypeinfo': interfacetypeinfo})
 
 
 #返回table数据及查询结果
 def get_datasource(request):
     serinput = request.POST.get("resultdict[FDevice]", '')
 
-    Device_info =  T_Device.objects.filter(Q(FDevice__contains=serinput))
+    Devinterface_info =  T_DevInterface.objects.filter(Q(FName__contains=serinput))
 
-    dict = convert_to_dicts(Device_info)
-    resultdict = {'code':0, 'msg':"", 'count': Device_info.count(), 'data': dict}
+    dict = convert_to_dicts(Devinterface_info)
+    resultdict = {'code':0, 'msg':"", 'count': Devinterface_info.count(), 'data': dict}
 
     return  JsonResponse(resultdict, safe=False)
 
 #刷新下拉列表框数据
 def ref_dropdowndata(obj, request):
-    devicetype_info = base.objects.filter(Q(FPID='8feb17b2aaf211e99741708bcdb9b39a'))
+    device_info = device.objects.filter(Q(FStatus=True))
+    interfacetype_info = base.objects.filter(Q(FPID='08a3e2b0ab7a11e9891f708bcdb9b39a'))
 
-    obj.fields['FDevtypeID'].choices = get_dict_object(request, devicetype_info, 'FID', 'FBase')
+    obj.fields['FDevID'].choices = get_dict_object(request, device_info, 'FID', 'FDevice')
+    obj.fields['FInterfaceTypeID'].choices = get_dict_object(request, interfacetype_info, 'FID', 'FBase')
 
 #链接增加模板
 def add(request):
     if request.method == 'GET':
 
-        obj = DeviceModelForm()
+        obj = DeviceInterfaceModelForm()
 
         ref_dropdowndata(obj, request)
-        return render(request, "content/device/deviceadd.html" , {'obj': obj, 'action': 'insert'})
+        return render(request, "content/devinterface/devinterfaceadd.html" , {'obj': obj, 'action': 'insert'})
 
 #链接编辑模板
 def edit(request):
     fid = request.GET.get('fid')
 
-    Device_info = T_Device.objects.get(Q(FID=fid))
-    obj = DeviceModelForm(instance=Device_info)
+    Devinterface_info = T_DevInterface.objects.get(Q(FID=fid))
+    obj = DeviceInterfaceModelForm(instance=Devinterface_info)
 
     ref_dropdowndata(obj, request)
 
@@ -64,11 +70,11 @@ def insert(request):
         response_data = {}
 
         if request.GET.get('actype') == 'insert':
-            obj = DeviceModelForm(request.POST)
+            obj = DeviceInterfaceModelForm(request.POST)
         elif request.GET.get('actype') == 'update':
             fid = request.POST.get('FID')
-            Device_info = T_Device.objects.get(FID=fid)
-            obj = DeviceModelForm(request.POST, instance=Device_info)
+            Devinterface_info = T_DevInterface.objects.get(FID=fid)
+            obj = DeviceInterfaceModelForm(request.POST, instance=Devinterface_info)
         else:
             response_data['result'] = '2'
             return HttpResponse(json.dumps(response_data))
@@ -107,14 +113,14 @@ def disabled(request):
         fid = request.POST.get('fid')
 
         try:
-            Device_info = T_Device.objects.get(FID=fid)
+            Devinterface_info = T_DevInterface.objects.get(FID=fid)
 
             if request.GET.get('type') == 'lock':
-                Device_info.FStatus = False
+                Devinterface_info.FStatus = False
             elif request.GET.get('type') == 'unlock':
-                Device_info.FStatus = True
+                Devinterface_info.FStatus = True
 
-            Device_info.save()
+            Devinterface_info.save()
 
             response_data['result'] = '0'
             return HttpResponse(json.dumps(response_data))

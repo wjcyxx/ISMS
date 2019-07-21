@@ -1,10 +1,10 @@
 from django.urls import path
 from . import views
 
-app_name="device"
+app_name="devinterface"
 
 urlpatterns = [
-    path('device/', views.device, name='device'),
+    path('devinterface/', views.devinterface, name='devinterface'),
     path('get_datasource/', views.get_datasource, name='get_datasource'),
     path('add/', views.add, name='add'),
     path('edit/', views.edit, name='edit'),

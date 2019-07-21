@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'group',
     'personnel',
     'personauth',
-    'device'
+    'device',
+    'devinterface'
 ]
 
 MIDDLEWARE = [
