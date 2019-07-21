@@ -10,4 +10,6 @@ urlpatterns = [
     path('edit/', views.edit, name='edit'),
     path('insert/', views.insert, name='insert'),
     path('disable/', views.disabled, name='disabled'),
+    path('addparam/', views.addparam, name='addparam'),
+    path('param_insert/', views.param_insert, name='param_insert')
 ]

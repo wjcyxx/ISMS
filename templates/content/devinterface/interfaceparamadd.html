@@ -19,68 +19,79 @@
                     <div class="layui-card-body">
                         <div class="layui-row layui-col-space15">
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">接口名称</label>
+                                <label class="layui-form-label">接口名称</label>
                                 <div class="layui-input-block">
-                                    {{ obj.FID }}
-                                    {{ obj.FName }}
+                                    {{ DeviceInterfaceForm.FName }}
                                 </div>
                             </div>
 
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">接口方式</label>
+                                <label class="layui-form-label">接口方式</label>
                                 <div class="layui-input-block">
-                                    {{ obj.FInterfaceTypeID }}
+                                    {{ DeviceInterfaceForm.FInterfaceTypeID }}
                                 </div>
                             </div>
 
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">绑定设备</label>
+                                <label class="layui-form-label">绑定设备</label>
                                 <div class="layui-input-block">
-                                    {{ obj.FDevID }}
+                                    {{ DeviceInterfaceForm.FDevID }}
                                 </div>
                             </div>
                         </div>
 
                         <div class="layui-row layui-col-space10">
                             <div class="layui-col-xs8">
-                                <label class="layui-form-label" style="color: red">访问地址</label>
+                                <label class="layui-form-label">访问地址</label>
                                 <div class="layui-input-block">
-                                    {{ obj.FAddress }}
+                                    {{ DeviceInterfaceForm.FAddress }}
                                 </div>
                             </div>
 
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">设备端口</label>
+                                <label class="layui-form-label">设备端口</label>
                                 <div class="layui-input-block">
-                                    {{ obj.FPort }}
+                                    {{ DeviceInterfaceForm.FPort }}
                                 </div>
                             </div>
                         </div>
 
-                        <div class="layui-row layui-col-space10">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-row layui-col-space10" style="padding-top: 1%">
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header">接口参数</div>
+                    <!-- 表单内容 -->
+                    <div class="layui-card-body">
+                        <div class="layui-row layui-col-space15">
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label">传输方式</label>
+                                <label class="layui-form-label" style="color: red">参数名称</label>
                                 <div class="layui-input-block">
-                                    {{ obj.FTransmode }}
+                                    {{ obj.FID }}
+                                    {{ obj.FParam }}
                                 </div>
                             </div>
 
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label">间隔时间</label>
+                                <label class="layui-form-label" style="color: red">参数值</label>
                                 <div class="layui-input-block">
-                                    {{ obj.FInterval }}
+                                    {{ obj.FValue }}
                                 </div>
                             </div>
 
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label">状态</label>
+                                <label class="layui-form-label" style="color: red">参数类型</label>
                                 <div class="layui-input-block">
-                                    {{ obj.FStatus }}
+                                    {{ obj.FTypeID }}
                                 </div>
                             </div>
                         </div>
 
-                        <div class="layui-row layui-col-space10">
+                        <div class="layui-row layui-col-space15">
                             <div class="layui-col-xs12">
                                 <label class="layui-form-label">备注</label>
                                 <div class="layui-input-block">
@@ -93,20 +104,6 @@
                 </div>
             </div>
         </div>
-
-        {% if action == 'update' %}
-            <div class="layui-row layui-col-space10" style="padding-top: 1%">
-                <div class="layui-col-md12">
-                    <div class="layui-card">
-                        <div class="layui-card-header">接口参数</div>
-                        <!-- 表单内容 -->
-                        <div class="layui-card-body">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        {% endif %}
 
     </div>
 
@@ -137,7 +134,7 @@ layui.use(['element','layer','form', 'laydate'], function () {
     form.on('submit(formsubmit)', function (data) {
         $.ajax({
             type: "POST",
-            url:  "{% url 'devinterface:insert' %}?actype={{ action }}",
+            url:  "{% url 'devinterface:param_insert' %}?actype={{ action }}&fpid={{ fpid }}",
             data: data.field,
             dataType: "json",
             success: function (data) {
@@ -161,6 +158,18 @@ layui.use(['element','layer','form', 'laydate'], function () {
     });
 })
 </script>
+
+<script>
+    var setattrs=function(){
+        $("input[name='FName']").attr('readonly', 'true');
+        $("input[name='FAddress']").attr('readonly', 'true');
+        $("select[name='FInterfaceTypeID']").attr('disabled', 'disabled');
+        $("select[name='FDevID']").attr("disabled","disabled");
+        $("input[name='FPort']").attr("readonly", "true");
+    };
+    setattrs();
+</script>
+
 
 
 </body>

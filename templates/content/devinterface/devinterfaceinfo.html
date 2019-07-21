@@ -56,7 +56,7 @@
           parent.layer.open({
               type:   2,
               title:  '新增接口',
-              area: ['920px','540px'],
+              area: ['920px','420px'],
               fixed: false,
               content: "{% url 'devinterface:add' %}",
               resize: false,
@@ -73,9 +73,10 @@
           cols: [[
               {field:'FName', width: '20%', title: '接口名称', sort: true},
               {field:'FInterfaceTypeID', width: '15%', title: '接口方式', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FInterfaceTypeID, InterfaceType)}}{% endverbatim %}</div>'},
-              {field:'FTransmode', width: '15%', title: '传输方式', sort: true, templet: '#tpTransmode'},
-              {field:'FAddress', width: '15%', title: '接口地址', sort: true},
               {field:'FDevID', width: '15%', title: '绑定设备', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FDevID, Deviceinfo)}}{% endverbatim %}</div>'},
+              {field:'FAddress', width: '15%', title: '接口地址', sort: true},
+              {field:'FPort', width: '10%', title: '使用端口', sort: true},
+              {field:'FTransmode', width: '15%', title: '传输方式', sort: true, templet: '#tpTransmode'},
               {field:'FDesc', width: '25%', title: '接口描述', sort: true},
               {field:'FStatus', width: '15%', title: '状态', sort: true, templet: '#tpStatus'},
               {field:'', title: '操作', width: '25%', toolbar: '#tlbar', fixed: 'right'}
@@ -105,7 +106,7 @@
                   parent.layer.open({
                       type:   2,
                       title:  '编辑接口',
-                      area: ['920px','540px'],
+                      area: ['920px','490px'],
                       fixed: false,
                       content: "{% url 'devinterface:edit' %}?fid="+data.FID,
                       resize: false,
@@ -113,6 +114,21 @@
                   });
 
                   break;
+
+
+              case 'addparam' :              //编辑按钮事件
+                  parent.layer.open({
+                      type:   2,
+                      title:  '添加接口参数',
+                      area: ['920px','505px'],
+                      fixed: false,
+                      content: "{% url 'devinterface:addparam' %}?fid="+data.FID,
+                      resize: false,
+                      move: false
+                  });
+
+                  break;
+
 
               case 'disabled' :               //禁用按钮事件
                   parent.layer.open({
@@ -194,6 +210,7 @@
     {% verbatim %}
         <div class="layui-btn-group">
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>编辑</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="addparam"><i class="fa fa-plug" aria-hidden="true"></i>添加接口参数</a>
 
             {{# if(d.FStatus == true){ }}
             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>

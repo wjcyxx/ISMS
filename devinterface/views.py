@@ -3,6 +3,7 @@ from django.shortcuts import HttpResponse
 from django.shortcuts import redirect
 from django.db.models import Q
 from .models import devinterface as T_DevInterface
+from .models import interfaceparam as T_InterfaceParam
 from device.models import device
 from basedata.models import base
 from common.views import *
@@ -27,7 +28,7 @@ def devinterface(request):
 
 #返回table数据及查询结果
 def get_datasource(request):
-    serinput = request.POST.get("resultdict[FDevice]", '')
+    serinput = request.POST.get("resultdict[FName]", '')
 
     Devinterface_info =  T_DevInterface.objects.filter(Q(FName__contains=serinput))
 
@@ -62,7 +63,7 @@ def edit(request):
 
     ref_dropdowndata(obj, request)
 
-    return render(request, "content/device/deviceadd.html", {'obj': obj, 'action': 'update'})
+    return render(request, "content/devinterface/devinterfaceadd.html", {'obj': obj, 'action': 'update'})
 
 #处理新增及保存
 def insert(request):
@@ -106,7 +107,7 @@ def insert(request):
 
             return HttpResponse(json.dumps(response_data))
 
-#处理禁用/启用班组
+#处理禁用/启用参数
 def disabled(request):
     response_data = {}
     if request.method == 'POST':
@@ -131,6 +132,68 @@ def disabled(request):
     else:
         response_data['result'] = '2'
         return HttpResponse(json.dumps(response_data))
+
+
+def ref_paramdropdown(obj, request):
+    type_info = base.objects.filter(Q(FPID='8ad84c1aabb811e996a1708bcdb9b39a'))
+
+    obj.fields['FTypeID'].choices = get_dict_object(request, type_info, 'FID', 'FBase')
+
+
+def addparam(request):
+
+    if request.method == 'GET':
+        fpid = ''.join(str(request.GET.get('fid')).split('-'))
+
+        obj = InterfaceParamModelForm()
+        ref_paramdropdown(obj, request)
+
+        devinterface_info = T_DevInterface.objects.get(Q(FID=fpid))
+        DeviceInterfaceForm = DeviceInterfaceModelForm(instance=devinterface_info)
+        ref_dropdowndata(DeviceInterfaceForm, request)
+
+        return render(request, "content/devinterface/interfaceparamadd.html" , {'obj': obj, 'DeviceInterfaceForm': DeviceInterfaceForm, 'fpid': fpid, 'action': 'insert'})
+
+def param_insert(request):
+    if request.method == 'POST':
+        response_data = {}
+
+        if request.GET.get('actype') == 'insert':
+            obj = InterfaceParamModelForm(request.POST)
+        elif request.GET.get('actype') == 'update':
+            fid = request.POST.get('FID')
+            InterfaceParam_info = T_InterfaceParam.objects.get(FID=fid)
+            obj = InterfaceParamModelForm(request.POST, instance=InterfaceParam_info)
+        else:
+            response_data['result'] = '2'
+            return HttpResponse(json.dumps(response_data))
+
+        ref_paramdropdown(obj, request)
+
+        try:
+            if obj.is_valid():
+                temp = obj.save(commit=False)
+                temp.FPID = request.GET.get('fpid')
+                temp.CREATED_PRJ = request.session['PrjID']
+                temp.CREATED_ORG = request.session['UserOrg']
+                temp.CREATED_BY = request.session['UserID']
+                temp.UPDATED_BY = request.session['UserID']
+                temp.CREATED_TIME = timezone.now()
+
+                temp.save()
+                response_data['result'] = '0'
+            else:
+                response_data['msg'] = obj.errors
+                response_data['result'] = '1'
+
+            return HttpResponse(json.dumps(response_data))
+
+        except Exception as e:
+            response_data['msg'] = e
+            response_data['result'] = '1'
+
+            return HttpResponse(json.dumps(response_data))
+
 
 
 
