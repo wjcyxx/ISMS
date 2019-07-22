@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'personnel',
     'personauth',
     'device',
-    'devinterface'
+    'devinterface',
+    'pedpassage'
 ]
 
 MIDDLEWARE = [

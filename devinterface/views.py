@@ -47,12 +47,10 @@ def ref_dropdowndata(obj, request):
 
 #链接增加模板
 def add(request):
-    if request.method == 'GET':
+    obj = DeviceInterfaceModelForm()
 
-        obj = DeviceInterfaceModelForm()
-
-        ref_dropdowndata(obj, request)
-        return render(request, "content/devinterface/devinterfaceadd.html" , {'obj': obj, 'action': 'insert'})
+    ref_dropdowndata(obj, request)
+    return render(request, "content/devinterface/devinterfaceadd.html" , {'obj': obj, 'action': 'insert'})
 
 #链接编辑模板
 def edit(request):
@@ -60,10 +58,13 @@ def edit(request):
 
     Devinterface_info = T_DevInterface.objects.get(Q(FID=fid))
     obj = DeviceInterfaceModelForm(instance=Devinterface_info)
-
     ref_dropdowndata(obj, request)
 
-    return render(request, "content/devinterface/devinterfaceadd.html", {'obj': obj, 'action': 'update'})
+    paramtype_info = base.objects.filter(Q(FPID='8ad84c1aabb811e996a1708bcdb9b39a'))
+    paramtypeinfo = get_dict_table(paramtype_info, 'FID', 'FBase')
+
+
+    return render(request, "content/devinterface/devinterfaceadd.html", {'obj': obj, 'paramtypeinfo': paramtypeinfo, 'action': 'update'})
 
 #处理新增及保存
 def insert(request):
@@ -154,6 +155,22 @@ def addparam(request):
 
         return render(request, "content/devinterface/interfaceparamadd.html" , {'obj': obj, 'DeviceInterfaceForm': DeviceInterfaceForm, 'fpid': fpid, 'action': 'insert'})
 
+def editparam(request):
+    if request.method == 'GET':
+        fpid = ''.join(str(request.GET.get('fpid')).split('-'))
+        fid = ''.join(str(request.GET.get('fid')).split('-'))
+
+        param_info = T_InterfaceParam.objects.get(Q(FID=fid))
+        obj = InterfaceParamModelForm(instance=param_info)
+        ref_paramdropdown(obj, request)
+
+        devinterface_info = T_DevInterface.objects.get(Q(FID=fpid))
+        DeviceInterfaceForm = DeviceInterfaceModelForm(instance=devinterface_info)
+        ref_dropdowndata(DeviceInterfaceForm, request)
+
+        return render(request, "content/devinterface/interfaceparamadd.html" , {'obj': obj, 'DeviceInterfaceForm': DeviceInterfaceForm, 'fpid': fpid, 'action': 'update'})
+
+
 def param_insert(request):
     if request.method == 'POST':
         response_data = {}
@@ -196,5 +213,29 @@ def param_insert(request):
 
 
 
+def get_paramdatasource(request):
+    serinput = request.POST.get("resultdict[FParam]", '')
+    fpid = ''.join(str(request.GET.get('fpid')).split('-'))
+
+    InterfaceParam_info =  T_InterfaceParam.objects.filter(Q(FPID=fpid), Q(FParam__contains=serinput))
+
+    dict = convert_to_dicts(InterfaceParam_info)
+    resultdict = {'code':0, 'msg':"", 'count': InterfaceParam_info.count(), 'data': dict}
+
+    return  JsonResponse(resultdict, safe=False)
+
+def param_delete(request):
+    if request.method == 'POST':
+
+        response_data = {}
+        fid = request.POST.get('currfid')
+
+        try:
+            T_InterfaceParam.objects.get(FID=fid).delete()
+            response_data['result'] = '0'
+        except:
+            response_data['result'] = '1'
+
+        return HttpResponse(json.dumps(response_data))
 
 

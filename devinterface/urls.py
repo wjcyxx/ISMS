@@ -11,5 +11,8 @@ urlpatterns = [
     path('insert/', views.insert, name='insert'),
     path('disable/', views.disabled, name='disabled'),
     path('addparam/', views.addparam, name='addparam'),
-    path('param_insert/', views.param_insert, name='param_insert')
+    path('editparam/', views.editparam, name='editparam'),
+    path('param_insert/', views.param_insert, name='param_insert'),
+    path('get_paramdatasource/', views.get_paramdatasource, name='get_paramdatasource'),
+    path('param_delete/', views.param_delete, name='param_delete')
 ]

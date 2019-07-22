@@ -101,7 +101,7 @@
                         <div class="layui-card-header">接口参数</div>
                         <!-- 表单内容 -->
                         <div class="layui-card-body">
-
+                            <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
                         </div>
                     </div>
                 </div>
@@ -121,11 +121,13 @@
 {% include "common/jsfiles.html" %}
 
 <script>
-layui.use(['element','layer','form', 'laydate'], function () {
+var Paramtype = {{ paramtypeinfo|safe }}
+
+layui.use(['element','layer','form', 'table'], function () {
     var element = layui.element
         , layer = layui.layer
         , form = layui.form
-        , laydate = layui.laydate;
+        , table = layui.table;
 
     //关闭按钮
     $("#btnC").click(function () {
@@ -159,8 +161,85 @@ layui.use(['element','layer','form', 'laydate'], function () {
         });
         return false;
     });
+
+    var fid = $("#id_FID").val();
+
+    table.render({
+        method: 'get',
+        page: true,
+        limit: 20,
+        elem: '#datasource',
+        url: "{% url 'devinterface:get_paramdatasource' %}?fpid="+fid,
+        cols: [[
+            {field:'FParam', width: '15%', title: '参数名称', sort: true},
+            {field:'FValue', width: '20%', title: '参数值', sort: true},
+            {field:'FTypeID', width: '15%', title: '参数类型', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FTypeID, Paramtype)}}{% endverbatim %}</div>'},
+            {field:'FDesc', width: '30%', title: '备注', sort: true},
+            {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
+        ]],
+
+        id: 'runreload'
+    });
+
+
+    //监听工具栏按钮事件
+    table.on('tool(toolbar)', function (obj) {
+        var data = obj.data;           //获取当前行数据
+        var layEvent = obj.event;      //获取当前行事件
+        var tr = obj.tr;               //获取当前行tr的DOM数据
+        var currfid = {"currfid":data.FID};
+
+        switch (layEvent){
+            case 'edit' :              //编辑按钮事件
+                layer.open({
+                    type:   2,
+                    title:  '编辑接口参数',
+                    area: ['920px','505px'],
+                    fixed: false,
+                    content: "{% url 'devinterface:editparam' %}?fid="+data.FID+"&fpid="+fid,
+                    resize: false,
+                    move: false
+                });
+
+                break;
+
+            case 'del' :               //删除按钮事件
+                parent.layer.open({
+                    content: '是否确定删除该数据',
+                    btn: ['确定','取消'],
+                    yes: function (index) {
+                        $.post("{% url 'devinterface:param_delete' %}", currfid, function (data) {
+                            if (data.result == '0'){
+                                table.reload('runreload', {where: {resultdict:{FParam: ''}}});
+                            } else if (data.result == '1')  {
+                                parent.layer.alert('删除失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                            }
+                        },"json");
+
+                        parent.layer.close(index);
+                    },
+                    btn2: function (index) {
+
+                    }
+                });
+
+                break;
+        }
+    });
+
 })
 </script>
+
+<!--生成操作工具栏-->
+<script type="text/html" id="tlbar">
+    {% verbatim %}
+    <div class="layui-btn-group">
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>编辑</a>
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="del"><i class="iconfont icon-shanchu"></i>删除</a>
+    </div>
+    {% endverbatim %}
+</script>
+
 
 
 </body>
