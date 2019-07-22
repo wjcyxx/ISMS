@@ -41,3 +41,20 @@ class personauth(models.Model):
 
     class Meta:
         db_table = 'T_PersonPassAuth'
+
+
+class personauthmode(models.Model):
+
+    FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
+    FPersonID = models.CharField(max_length=32, verbose_name='人员ID', blank=True, null=True)
+    FAuthtypeID = models.CharField(max_length=32, verbose_name='授权类型', blank=True, null=True)
+    FFeaturevalue = models.CharField(max_length=3072, verbose_name='特征值', blank=True, null=True)
+    CREATED_PRJ = models.CharField(max_length=32, verbose_name='所属项目', blank=True, null=True)
+    CREATED_ORG = models.CharField(max_length=32, verbose_name='创建组织', blank=True, null=True)
+    CREATED_BY = models.CharField(max_length=32, verbose_name='创建人', blank=True, null=True)
+    CREATED_TIME = models.DateTimeField(blank=True, null=True, verbose_name='创建时间')
+    UPDATED_BY = models.CharField(max_length=32, verbose_name='更新人', blank=True, null=True)
+    UPDATED_TIME = models.DateTimeField(auto_now=True, verbose_name='更新时间')
+
+    class Meta:
+        db_table = 'T_PersonAuthMode'
