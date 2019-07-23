@@ -52,7 +52,8 @@ INSTALLED_APPS = [
     'device',
     'devinterface',
     'pedpassage',
-    'passagerecord'
+    'passagerecord',
+    'hatrule'
 ]
 
 MIDDLEWARE = [

@@ -38,9 +38,10 @@
 {% include "common/jsfiles.html" %}
 
 <script>
-  var Personinfo = {{ personinfo|safe }};
-  var Passageinfo = {{ passageinfo|safe }};
   var Authtypeinfo = {{ authtypeinfo|safe }};
+  var Areainfo = {{ areainfo|safe }}
+  var Groupinfo = {{ groupinfo|safe }}
+  var Worktypeinfo = {{ worktypeinfo|safe }}
 
   layui.use(['element', 'layer', 'table'], function(){
       var $ = layui.jquery
@@ -72,7 +73,14 @@
           elem: '#datasource',
           url: "{% url 'passagerecord:get_datasource' %}",
           cols: [[
-              {field:'FPersonID__FName', width: '15%', title: '人员姓名', sort: true},
+              {field:'FPersonID__FName', width: '10%', title: '人员姓名', sort: true},
+              {field:'FPersonID__FGroupID', width: '15%', title: '所属班组', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPersonID__FGroupID, Groupinfo)}}{% endverbatim %}</div>'},
+              {field:'FPersonID__FWorktypeID', width: '15%', title: '工种', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPersonID__FWorktypeID, Worktypeinfo)}}{% endverbatim %}</div>'},
+              {field:'FPassageID__FAreaID', width: '15%', title: '考勤区域', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPassageID__FAreaID, Areainfo)}}{% endverbatim %}</div>'},
+              {field:'FPassageID__FPassage', width: '10%', title: '通道', sort: true},
+              {field:'FPassageID__FType', width: '10%', title: '通道类型', sort: true, templet: '#tpType'},
+              {field:'FAuthtypeID', width: '15%', title: '通行授权方式', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FAuthtypeID, Authtypeinfo)}}{% endverbatim %}</div>'},
+              {field:'CREATED_TIME', width: '20%', title: '发生时间', sort: true},
           ]],
           id: 'runreload'
       });
@@ -94,25 +102,14 @@
 <!--显示启用状态模板-->
 <script type="text/html" id="tpType">
      {% verbatim %}
-        {{#  if(d.FType == 0){ }}
-            <span>入口</span>
-        {{#  } else if(d.FType == 1) { }}
-            <span>出口</span>
+        {{#  if(d.FPassageID__FType == 0){ }}
+            <span style="color: green">入口</span>
+        {{#  } else if(d.FPassageID__FType == 1) { }}
+            <span style="color: red">出口</span>
         {{#  } }}
      {% endverbatim %}
 </script>
 
-
-<!--显示启用状态模板-->
-<script type="text/html" id="tpStatus">
-      {% verbatim %}
-        {{#  if(d.FStatus == false){ }}
-            <span style="color: red">禁用</span>
-        {{#  } else if(d.FStatus == true) { }}
-            <span style="color: green">启用</span>
-        {{#  } }}
-      {% endverbatim %}
-</script>
 
 </body>
 </html>
