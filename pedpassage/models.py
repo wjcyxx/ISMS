@@ -1,4 +1,5 @@
 from django.db import models
+from personnel.models import personnel
 import uuid
 from django.utils.encoding import python_2_unicode_compatible
 
@@ -35,7 +36,8 @@ class pedpassage(models.Model):
 class passagerecord(models.Model):
 
     FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
-    FPersonID = models.CharField(max_length=32, verbose_name='人员ID', blank=True, null=True)
+    FPersonID = models.ForeignKey(personnel, to_field='FID', on_delete=models.CASCADE, blank=True, null=True, verbose_name='人员ID')
+    #FPersonID = models.CharField(max_length=32, verbose_name='人员ID', blank=True, null=True)
     FPassageID = models.CharField(max_length=32, verbose_name='人行通道ID', blank=True, null=True)
     FAuthtypeID = models.CharField(max_length=32, verbose_name='通行授权方式', blank=True, null=True)
     CREATED_PRJ = models.CharField(max_length=32, verbose_name='所属项目', blank=True, null=True)

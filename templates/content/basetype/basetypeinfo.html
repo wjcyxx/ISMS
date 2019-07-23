@@ -52,8 +52,6 @@
 
       table.render({
           method: 'post',
-          page: true,
-          limit: 15,
           elem: '#datasource',
           url: "{% url 'basedata:get_datasource' %}",
           cols: [[

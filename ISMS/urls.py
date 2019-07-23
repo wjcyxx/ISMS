@@ -36,7 +36,8 @@ urlpatterns = [
     path('personauth/', include('personauth.urls'), name='personauth'),
     path('device/', include('device.urls'), name='device'),
     path('devinterface/', include('devinterface.urls'), name='devinterface'),
-    path('pedpassage/', include('pedpassage.urls'), name='pedpassage')
+    path('pedpassage/', include('pedpassage.urls'), name='pedpassage'),
+    path('passagerecord/', include('passagerecord.urls'), name='passagerecord')
 
 ]
 
