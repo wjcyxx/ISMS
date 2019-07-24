@@ -42,6 +42,8 @@ def login_chk(request):
         request.session['UserOrg'] = user_info.FOrgID
         return HttpResponse(json.dumps(response_data))
 
+    return HttpResponse(request)
+
 def login_showPrj(request):
     if request.method == "GET":
         orgid = request.GET.get('orgid')

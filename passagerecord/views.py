@@ -14,10 +14,10 @@ import json
 from django.utils import timezone
 from django.forms import widgets as Fwidge
 from django.core.exceptions import ObjectDoesNotExist
-from django.forms.models import model_to_dict
 
 # Create your views here.
 #通道记录(考勤查询)控制器入口
+@login_decorator
 def passagerecord(request):
     prj_id = request.session['PrjID']
 

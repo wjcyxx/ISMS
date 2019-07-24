@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import HttpResponse
+from django.shortcuts import redirect
 import time
 import base64
 import hmac
@@ -280,4 +281,15 @@ def get_dict_transfer(model, fid, fname, disabledfield):
     return json.dumps(dict_transfer)
 
 
+def login_decorator(func):
+    def wrapper(self, request, *args, **kwargs):
+        #print('自定义装饰器被调用了')
+        #print('请求路径%s' % request.path)
+        prj_id = request.session.get('PrjID')
+
+        if not prj_id:
+            return redirect('/login/index/')
+
+        return func(self, request, *args, **kwargs)
+    return wrapper
 
