@@ -19,13 +19,8 @@ from django.views.generic import View
 class hatrule(EntranceView):
 
     EntranceView.template_name = 'content/hatrule/hatruleinfo.html'
-
-    def set_context(self, request):
-        dev_info = device.objects.filter(Q(FStatus=True))
-        devinfo = get_dict_table(dev_info, 'FID', 'FDevice')
-
-        context = {'device': devinfo}
-        return  context
+    EntranceView.query_sets = [device.objects.filter(Q(FStatus=True))]
+    EntranceView.quer_set_fieldnames = ['FDevice']
 
 
 class get_datasourcea(get_datasource):
