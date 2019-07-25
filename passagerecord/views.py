@@ -24,7 +24,7 @@ def passagerecord(request):
     authtype_info = base.objects.filter(Q(FPID='2cd8b28cacf111e991437831c1d24216'))
     authtypeinfo = get_dict_table(authtype_info, 'FID', 'FBase')
 
-    area_info = area.objects.filter(Q(FStatus=True), Q(CREATED_PRJ=prj_id))
+    area_info = area.objects.filter(Q(FStatus=True), Q(FIsCheckworkatten=True), Q(CREATED_PRJ=prj_id))
     areainfo = get_dict_table(area_info, 'FID', 'FName')
 
     group_info = group.objects.filter(Q(FStatus=True), Q(CREATED_PRJ=prj_id))
