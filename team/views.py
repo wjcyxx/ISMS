@@ -59,9 +59,12 @@ def ref_dropdowndata(obj, request):
 #链接增加模板
 def add(request):
     obj = TeamModelForm()
-
     ref_dropdowndata(obj, request)
-    return render(request, "content/team/teamadd.html" , {'obj': obj, 'action': 'insert'})
+
+    worktype_info = base.objects.filter(Q(FPID='2137f046a6a711e9b7367831c1d24216'))
+    worktypeinfo = get_dict_table(worktype_info, 'FID', 'FBase')
+
+    return render(request, "content/team/teamadd.html" , {'obj': obj, 'worktypeinfo': worktypeinfo, 'action': 'insert'})
 
 #链接编辑模板
 def edit(request):

@@ -39,6 +39,7 @@
 
 <script>
   var Devinfo = {{ device|safe }}
+  var Areainfo = {{ area|safe }}
 
   layui.use(['element', 'layer', 'table'], function(){
       var $ = layui.jquery
@@ -57,7 +58,7 @@
               title:  '新增安全帽监测规则',
               area: ['920px','430px'],
               fixed: false,
-              content: "",
+              content: "{% url 'hatrule:add' %}",
               resize: false,
               move: false
           });
@@ -68,10 +69,13 @@
           page: true,
           limit: 20,
           elem: '#datasource',
-          url: "{% url 'hatrule:get_datasourcea' %}",
+          url: "{% url 'hatrule:get_datasource' %}",
           cols: [[
               {field:'FRule', width: '15%', title: '规则名称', sort: true},
-              {field:'FDevID', width: '20%', title: '抓拍设备', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FDevID, Devinfo)}}{% endverbatim %}</div>'},
+              {field:'FDevID', width: '20%', title: '监测设备', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FDevID, Devinfo)}}{% endverbatim %}</div>'},
+              {field:'FAreaID', width: '20%', title: '监测区域', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FAreaID, Areainfo)}}{% endverbatim %}</div>'},
+              {field:'FType', width: '15%', title: '响应类型', sort: true, templet: '#tpType'},
+              {field:'FStatus', width: '15%', title: '状态', sort: true, templet: '#tpStatus'},
               {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
           ]],
           id: 'runreload'
@@ -159,6 +163,19 @@
       });
   });
 </script>
+
+
+<!--显示启用状态模板-->
+<script type="text/html" id="tpType">
+      {% verbatim %}
+          {{#  if(d.FType == 0){ }}
+            <span style="color: red">报警</span>
+          {{#  } else if(d.FType == 1) { }}
+            <span style="color: purple">记录</span>
+          {{#  } }}
+      {% endverbatim %}
+  </script>
+
 
 <!--显示启用状态模板-->
 <script type="text/html" id="tpStatus">

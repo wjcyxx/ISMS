@@ -16,5 +16,5 @@ class HatRuleModelForm(ModelForm):
             'FRule': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
             'FType': Fwidgets.Select(attrs={'lay-verify': 'required'}),
             'FStatus': Fwidgets.CheckboxInput(attrs={'lay-skin': 'switch', 'lay-text': '启用|禁用', 'disabled': 'disabled'}),
-
+            'FDesc': Fwidgets.Textarea(attrs={'class': 'layui-textarea', 'autocomplete': 'off', 'rows': '1'})
         }

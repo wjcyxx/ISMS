@@ -10,20 +10,27 @@ from django.utils import timezone
 from django.forms import widgets as Fwidge
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic import View
+import requests
 
 # Create your views here.
 
-class EntranceView(View):
+class EntranceView_base(View):
     template_name = ''
     query_sets = []
     quer_set_fieldnames = []
     context = {}
+    request = None
 
     @login_decorator
     def get(self, request, *args):
+        self.request = request
+        self.set_view(self)
         return render(self.request, self.template_name,  self.set_context(self))
 
     def post(self, request):
+        pass
+
+    def set_view(self, request):
         pass
 
     def set_context(self, request):
@@ -39,7 +46,7 @@ class EntranceView(View):
             pass
 
 
-class get_datasource(View):
+class get_datasource_base(View):
     request = None
 
     def get(self, request):
@@ -59,7 +66,7 @@ class get_datasource(View):
     def get_queryset(self, reqeust):
         pass
 
-class add(View):
+class add_base(View):
     template_name = ''
     objForm = None
     query_sets = []
@@ -70,7 +77,7 @@ class add(View):
 
     def get(self, request):
         self.request = request
-
+        self.set_view(self)
         if len(self.query_sets) > 0:
             self.ref_dropdown(self)
 
@@ -84,6 +91,9 @@ class add(View):
     def ref_dropdown(self, request):
         if len(self.query_sets) == len(self.query_set_idfields) and len(self.query_set_idfields)== len(self.query_set_valuefields):
             for i in range(len(self.query_sets)):
-                self.objForm.fields[self.query_set_idfields[i]].choices = get_dict_object(request, self.query_sets, 'FID', self.query_set_valuefields[i])
+                self.objForm.fields[self.query_set_idfields[i]].choices = get_dict_object(request, self.query_sets[i], 'FID', self.query_set_valuefields[i])
         else:
             pass
+
+    def set_view(self, request):
+        pass

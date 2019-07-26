@@ -117,17 +117,19 @@
             </div>
         </div>
 
-        <div class="layui-row layui-col-space10" style="padding-top: 1%">
-            <div class="layui-col-md12">
-                <div class="layui-card">
-                    <div class="layui-card-header">班组信息</div>
-                    <!-- 表单内容 -->
-                    <div class="layui-card-body">
-                        <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
+        {% if action == 'update' %}
+            <div class="layui-row layui-col-space10" style="padding-top: 1%">
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header">班组信息</div>
+                        <!-- 表单内容 -->
+                        <div class="layui-card-body">
+                            <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        {% endif %}
 
     </div>
 
@@ -142,6 +144,7 @@
 {% include "common/jsfiles.html" %}
 
 <script>
+
 var Worktypeinfo = {{ worktypeinfo|safe }};
 
 layui.use(['element','layer','form', 'laydate', 'table'], function () {
