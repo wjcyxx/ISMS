@@ -17,15 +17,12 @@ from baseframe.baseframe import *
 from django.views.generic import View
 # Create your views here.
 
-query_sets = []
-
 
 class hatrule(EntranceView_base):
     def set_view(self, request):
-        global query_sets
         query_sets = [
             device.objects.filter(Q(FStatus=True)),
-            area.objects.filter(Q(CREATED_PRJ=self.request.session['PrjID']))
+            area.objects.filter(Q(CREATED_PRJ=self.request.session['PrjID']), Q(FStatus=True))
         ]
 
         self.template_name = 'content/hatrule/hatruleinfo.html'
@@ -43,17 +40,51 @@ class get_datasource(get_datasource_base):
 
 class add(add_base):
     def set_view(self, request):
-        global query_sets
-
         self.template_name = 'content/hatrule/hatruleadd.html'
         self.objForm = HatRuleModelForm()
-        self.query_sets = query_sets
-        self.query_set_idfields = [
-            'FDevID', 'FAreaID'
+        self.query_sets = [
+            device.objects.filter(Q(FStatus=True)),
+            area.objects.filter(Q(CREATED_PRJ=self.request.session['PrjID']), Q(FStatus=True))
         ]
-        self.query_set_valuefields = [
-            'FDevice', 'FName'
+        self.query_set_idfields = ['FDevID', 'FAreaID']
+        self.query_set_valuefields = ['FDevice', 'FName']
+
+class edit(edit_base):
+    def set_view(self, request):
+        self.template_name = 'content/hatrule/hatruleadd.html'
+        fid = ''.join(str(self.request.GET.get('fid')).split('-'))
+        self.model = T_HatRule.objects.get(Q(FID=fid))
+        self.objForm = HatRuleModelForm(instance=self.model)
+        self.query_sets = [
+            device.objects.filter(Q(FStatus=True)),
+            area.objects.filter(Q(CREATED_PRJ=self.request.session['PrjID']), Q(FStatus=True))
         ]
+        self.query_set_idfields = ['FDevID', 'FAreaID']
+        self.query_set_valuefields = ['FDevice', 'FName']
+
+
+class insert(insert_base):
+    def set_view(self, request):
+        try:
+            if self.request.GET.get('actype') == 'insert':
+                self.objForm = HatRuleModelForm(self.request.POST)
+            elif self.request.GET.get('actype') == 'update':
+                fid = self.request.POST.get('FID')
+                self.model = T_HatRule.objects.get(Q(FID=fid))
+                self.objForm = HatRuleModelForm(self.request.POST, instance=self.model)
+            else:
+                self.response_data['result'] = '2'
+
+            self.query_sets = [
+                device.objects.filter(Q(FStatus=True)),
+                area.objects.filter(Q(CREATED_PRJ=self.request.session['PrjID']), Q(FStatus=True))
+            ]
+            self.query_set_idfields = ['FDevID', 'FAreaID']
+            self.query_set_valuefields = ['FDevice', 'FName']
+        except Exception as e:
+            erorr = e
+
+
 
 
 

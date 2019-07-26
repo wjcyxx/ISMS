@@ -105,7 +105,7 @@
                       title:  '编辑安全膜监测规则',
                       area: ['920px','430px'],
                       fixed: false,
-                      content: "",
+                      content: "{% url 'hatrule:edit' %}?fid="+data.FID,
                       resize: false,
                       move: false
                   });

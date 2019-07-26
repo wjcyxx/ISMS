@@ -6,6 +6,8 @@ app_name="hatrule"
 urlpatterns = [
     path('hatrule/', views.hatrule.as_view(), name='hatrule'),
     path('get_datasource/', views.get_datasource.as_view(), name='get_datasource'),
-    path('add/', views.add.as_view(), name='add')
+    path('add/', views.add.as_view(), name='add'),
+    path('edit/', views.edit.as_view(), name='edit'),
+    path('insert/', views.insert.as_view(), name='insert')
 
 ]

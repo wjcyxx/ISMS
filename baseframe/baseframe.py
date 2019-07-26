@@ -10,7 +10,6 @@ from django.utils import timezone
 from django.forms import widgets as Fwidge
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic import View
-import requests
 
 # Create your views here.
 
@@ -87,6 +86,97 @@ class add_base(View):
 
     def post(self, request):
         pass
+
+    def ref_dropdown(self, request):
+        if len(self.query_sets) == len(self.query_set_idfields) and len(self.query_set_idfields)== len(self.query_set_valuefields):
+            for i in range(len(self.query_sets)):
+                self.objForm.fields[self.query_set_idfields[i]].choices = get_dict_object(request, self.query_sets[i], 'FID', self.query_set_valuefields[i])
+        else:
+            pass
+
+    def set_view(self, request):
+        pass
+
+
+class edit_base(View):
+    template_name = ''
+    model = None
+    objForm = None
+    query_sets = []
+    query_set_idfields = []
+    query_set_valuefields = []
+    context = {}
+    request = None
+
+    def get(self, request):
+        self.request = request
+        self.set_view(self)
+
+        if len(self.query_sets) > 0:
+            self.ref_dropdown(self)
+
+        self.context = {'obj': self.objForm, 'action': 'update'}
+
+        return render(self.request, self.template_name, self.context)
+
+    def post(self, request):
+        pass
+
+    def ref_dropdown(self, request):
+
+        if len(self.query_sets) == len(self.query_set_idfields) and len(self.query_set_idfields)== len(self.query_set_valuefields):
+            for i in range(len(self.query_sets)):
+                self.objForm.fields[self.query_set_idfields[i]].choices = get_dict_object(request, self.query_sets[i], 'FID', self.query_set_valuefields[i])
+        else:
+            pass
+
+    def set_view(self, request):
+        pass
+
+
+class insert_base(View):
+    model = None
+    objForm = None
+    query_sets = []
+    query_set_idfields = []
+    query_set_valuefields = []
+    request = None
+    response_data = {}
+
+    def get(self, request):
+        pass
+
+    def post(self, request):
+        self.request = request
+        self.set_view(self)
+
+        if len(self.query_sets) > 0:
+            self.ref_dropdown(self)
+
+        try:
+            if self.objForm.is_valid():
+                temp = self.objForm.save(commit=False)
+                if self.request.GET.get('actype') == 'insert':
+                    temp.FStatus = True
+                temp.CREATED_PRJ = self.request.session['PrjID']
+                temp.CREATED_ORG = self.request.session['UserOrg']
+                temp.CREATED_BY = self.request.session['UserID']
+                temp.UPDATED_BY = self.request.session['UserID']
+                temp.CREATED_TIME = timezone.now()
+
+                temp.save()
+                self.response_data['result'] = '0'
+            else:
+                self.response_data['msg'] = self.objForm.errors
+                self.response_data['result'] = '1'
+
+            return HttpResponse(json.dumps(self.response_data))
+
+        except Exception as e:
+            self.response_data['msg'] = e
+            self.response_data['result'] = '1'
+
+            return HttpResponse(json.dumps(self.response_data))
 
     def ref_dropdown(self, request):
         if len(self.query_sets) == len(self.query_set_idfields) and len(self.query_set_idfields)== len(self.query_set_valuefields):
