@@ -38,7 +38,8 @@ urlpatterns = [
     path('devinterface/', include('devinterface.urls'), name='devinterface'),
     path('pedpassage/', include('pedpassage.urls'), name='pedpassage'),
     path('passagerecord/', include('passagerecord.urls'), name='passagerecord'),
-    path('hatrule/', include('hatrule.urls'), name='hatrule')
+    path('hatrule/', include('hatrule.urls'), name='hatrule'),
+    path('hatalertlog/', include('hatalertlog.urls'), name='hatalertlog')
 
 ]
 

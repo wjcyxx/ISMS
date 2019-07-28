@@ -47,6 +47,7 @@ class EntranceView_base(View):
 
 class get_datasource_base(View):
     request = None
+    type = 0
 
     def get(self, request):
         pass
@@ -55,7 +56,11 @@ class get_datasource_base(View):
         try:
             self.request = request
             query_set = self.get_queryset(self)
-            dict = convert_to_dicts(query_set)
+            if self.type == 0:
+                dict = convert_to_dicts(query_set)
+            else:
+                dict = list(query_set)
+
             resultdict = {'code':0, 'msg':"", 'count': query_set.count(), 'data': dict}
 
             return  JsonResponse(resultdict, safe=False)
@@ -68,6 +73,7 @@ class get_datasource_base(View):
 class add_base(View):
     template_name = ''
     objForm = None
+    obj = None
     query_sets = []
     query_set_idfields = []
     query_set_valuefields = []
@@ -77,10 +83,13 @@ class add_base(View):
     def get(self, request):
         self.request = request
         self.set_view(self)
+
+        self.obj = self.objForm()
+
         if len(self.query_sets) > 0:
             self.ref_dropdown(self)
 
-        self.context = {'obj': self.objForm, 'action': 'insert'}
+        self.context = {'obj': self.obj, 'action': 'insert'}
 
         return render(self.request, self.template_name,  self.context)
 
@@ -90,7 +99,7 @@ class add_base(View):
     def ref_dropdown(self, request):
         if len(self.query_sets) == len(self.query_set_idfields) and len(self.query_set_idfields)== len(self.query_set_valuefields):
             for i in range(len(self.query_sets)):
-                self.objForm.fields[self.query_set_idfields[i]].choices = get_dict_object(request, self.query_sets[i], 'FID', self.query_set_valuefields[i])
+                self.obj.fields[self.query_set_idfields[i]].choices = get_dict_object(request, self.query_sets[i], 'FID', self.query_set_valuefields[i])
         else:
             pass
 
@@ -102,6 +111,7 @@ class edit_base(View):
     template_name = ''
     model = None
     objForm = None
+    obj = None
     query_sets = []
     query_set_idfields = []
     query_set_valuefields = []
@@ -112,10 +122,15 @@ class edit_base(View):
         self.request = request
         self.set_view(self)
 
+        fid = ''.join(str(self.request.GET.get('fid')).split('-'))
+        objmodel =  self.model.objects.get(Q(FID=fid))
+        self.obj = self.objForm(instance=objmodel)
+
+
         if len(self.query_sets) > 0:
             self.ref_dropdown(self)
 
-        self.context = {'obj': self.objForm, 'action': 'update'}
+        self.context = {'obj': self.obj, 'action': 'update'}
 
         return render(self.request, self.template_name, self.context)
 
@@ -126,7 +141,7 @@ class edit_base(View):
 
         if len(self.query_sets) == len(self.query_set_idfields) and len(self.query_set_idfields)== len(self.query_set_valuefields):
             for i in range(len(self.query_sets)):
-                self.objForm.fields[self.query_set_idfields[i]].choices = get_dict_object(request, self.query_sets[i], 'FID', self.query_set_valuefields[i])
+                self.obj.fields[self.query_set_idfields[i]].choices = get_dict_object(request, self.query_sets[i], 'FID', self.query_set_valuefields[i])
         else:
             pass
 
@@ -137,6 +152,7 @@ class edit_base(View):
 class insert_base(View):
     model = None
     objForm = None
+    obj = None
     query_sets = []
     query_set_idfields = []
     query_set_valuefields = []
@@ -150,12 +166,22 @@ class insert_base(View):
         self.request = request
         self.set_view(self)
 
+        if self.request.GET.get('actype') == 'insert':
+            self.obj = self.objForm(self.request.POST)
+        elif self.request.GET.get('actype') == 'update':
+            fid = self.request.POST.get('FID')
+            objmodel = self.model.objects.get(Q(FID=fid))
+            self.obj = self.objForm(self.request.POST, instance=objmodel)
+        else:
+            self.response_data['result'] = '2'
+
+
         if len(self.query_sets) > 0:
             self.ref_dropdown(self)
 
         try:
-            if self.objForm.is_valid():
-                temp = self.objForm.save(commit=False)
+            if self.obj.is_valid():
+                temp = self.obj.save(commit=False)
                 if self.request.GET.get('actype') == 'insert':
                     temp.FStatus = True
                 temp.CREATED_PRJ = self.request.session['PrjID']
@@ -181,9 +207,45 @@ class insert_base(View):
     def ref_dropdown(self, request):
         if len(self.query_sets) == len(self.query_set_idfields) and len(self.query_set_idfields)== len(self.query_set_valuefields):
             for i in range(len(self.query_sets)):
-                self.objForm.fields[self.query_set_idfields[i]].choices = get_dict_object(request, self.query_sets[i], 'FID', self.query_set_valuefields[i])
+                self.obj.fields[self.query_set_idfields[i]].choices = get_dict_object(request, self.query_sets[i], 'FID', self.query_set_valuefields[i])
         else:
             pass
 
     def set_view(self, request):
         pass
+
+
+class disabled_base(View):
+    response_data ={}
+    model = None
+    request = None
+
+    def get(self, request):
+        pass
+
+    def post(self, request):
+        self.request = request
+        self.set_view(self)
+
+        try:
+            fid = self.request.POST.get('fid')
+
+            obj = self.model.objects.get(Q(FID=fid))
+
+            if self.request.GET.get('type') == 'lock':
+                obj.FStatus = False
+            elif self.request.GET.get('type') == 'unlock':
+                obj.FStatus = True
+
+            obj.save()
+
+            self.response_data['result'] = '0'
+            return HttpResponse(json.dumps(self.response_data))
+        except Exception as e:
+            self.response_data['result'] = e
+            return HttpResponse(json.dumps(self.response_data))
+
+
+    def set_view(self, request):
+        pass
+

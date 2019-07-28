@@ -56,7 +56,7 @@
           parent.layer.open({
               type:   2,
               title:  '新增安全帽监测规则',
-              area: ['920px','430px'],
+              area: ['920px','380px'],
               fixed: false,
               content: "{% url 'hatrule:add' %}",
               resize: false,
@@ -103,7 +103,7 @@
                   parent.layer.open({
                       type:   2,
                       title:  '编辑安全膜监测规则',
-                      area: ['920px','430px'],
+                      area: ['920px','380px'],
                       fixed: false,
                       content: "{% url 'hatrule:edit' %}?fid="+data.FID,
                       resize: false,
@@ -117,7 +117,7 @@
                       content: '是否确定禁用该规则',
                       btn: ['确定','取消'],
                       yes: function (index) {
-                          $.post("", fid, function (data) {
+                          $.post("{% url 'hatrule:disabled' %}?type=lock", fid, function (data) {
                               if (data.result=='0') {
                                   //window.parent.document.getElementById('Project').contentWindow.location.reload();
                                   table.reload('runreload', {where: {resultdict:{FRule: ''}}});
@@ -140,7 +140,7 @@
                       content: '是否确定启用该规则',
                       btn: ['确定','取消'],
                       yes: function (index) {
-                          $.post("", fid, function (data) {
+                          $.post("{% url 'hatrule:disabled' %}?type=unlock", fid, function (data) {
                               if (data.result=='0') {
                                   //window.parent.document.getElementById('Organize').contentWindow.location.reload();
                                   table.reload('runreload', {where: {resultdict:{FRule: ''}}});

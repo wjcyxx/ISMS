@@ -17,7 +17,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 # Create your views here.
 #通道记录(考勤查询)控制器入口
-@login_decorator
+#@login_decorator
 def passagerecord(request):
     prj_id = request.session['PrjID']
 

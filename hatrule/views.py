@@ -32,16 +32,16 @@ class hatrule(EntranceView_base):
 
 class get_datasource(get_datasource_base):
     def get_queryset(self, request):
-        prjid = self.request.session['PrjID']
+        prj_id = self.request.session['PrjID']
         serinput = self.request.POST.get("resultdict[FRule]", '')
-        hatrule_info = T_HatRule.objects.filter(Q(CREATED_PRJ=prjid), Q(FRule__contains=serinput))
+        hatrule_info = T_HatRule.objects.filter(Q(CREATED_PRJ=prj_id), Q(FRule__contains=serinput))
 
         return hatrule_info
 
 class add(add_base):
     def set_view(self, request):
         self.template_name = 'content/hatrule/hatruleadd.html'
-        self.objForm = HatRuleModelForm()
+        self.objForm = HatRuleModelForm
         self.query_sets = [
             device.objects.filter(Q(FStatus=True)),
             area.objects.filter(Q(CREATED_PRJ=self.request.session['PrjID']), Q(FStatus=True))
@@ -52,9 +52,8 @@ class add(add_base):
 class edit(edit_base):
     def set_view(self, request):
         self.template_name = 'content/hatrule/hatruleadd.html'
-        fid = ''.join(str(self.request.GET.get('fid')).split('-'))
-        self.model = T_HatRule.objects.get(Q(FID=fid))
-        self.objForm = HatRuleModelForm(instance=self.model)
+        self.model = T_HatRule
+        self.objForm = HatRuleModelForm
         self.query_sets = [
             device.objects.filter(Q(FStatus=True)),
             area.objects.filter(Q(CREATED_PRJ=self.request.session['PrjID']), Q(FStatus=True))
@@ -65,27 +64,16 @@ class edit(edit_base):
 
 class insert(insert_base):
     def set_view(self, request):
-        try:
-            if self.request.GET.get('actype') == 'insert':
-                self.objForm = HatRuleModelForm(self.request.POST)
-            elif self.request.GET.get('actype') == 'update':
-                fid = self.request.POST.get('FID')
-                self.model = T_HatRule.objects.get(Q(FID=fid))
-                self.objForm = HatRuleModelForm(self.request.POST, instance=self.model)
-            else:
-                self.response_data['result'] = '2'
-
-            self.query_sets = [
-                device.objects.filter(Q(FStatus=True)),
-                area.objects.filter(Q(CREATED_PRJ=self.request.session['PrjID']), Q(FStatus=True))
-            ]
-            self.query_set_idfields = ['FDevID', 'FAreaID']
-            self.query_set_valuefields = ['FDevice', 'FName']
-        except Exception as e:
-            erorr = e
+        self.model = T_HatRule
+        self.objForm = HatRuleModelForm
+        self.query_sets = [
+            device.objects.filter(Q(FStatus=True)),
+            area.objects.filter(Q(CREATED_PRJ=self.request.session['PrjID']), Q(FStatus=True))
+        ]
+        self.query_set_idfields = ['FDevID', 'FAreaID']
+        self.query_set_valuefields = ['FDevice', 'FName']
 
 
-
-
-
-
+class disabled(disabled_base):
+    def set_view(self, request):
+        self.model = T_HatRule

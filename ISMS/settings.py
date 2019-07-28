@@ -53,7 +53,8 @@ INSTALLED_APPS = [
     'devinterface',
     'pedpassage',
     'passagerecord',
-    'hatrule'
+    'hatrule',
+    'hatalertlog'
 ]
 
 MIDDLEWARE = [
