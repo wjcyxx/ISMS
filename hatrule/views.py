@@ -14,7 +14,6 @@ from django.utils import timezone
 from django.forms import widgets as Fwidge
 from django.core.exceptions import ObjectDoesNotExist
 from baseframe.baseframe import *
-from django.views.generic import View
 # Create your views here.
 
 

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include "common/resfiles.html" %}
+</head>
+<body style="overflow: hidden;">
+
+  <!--设备管理信息列表  -->
+
+    <!-- 工具条 -->
+      <!-- 查询框 -->
+      <div class="layui-collapse">
+          <div class="layui-colla-item">
+              <h2 class="layui-colla-title">查询条件</h2>
+              <div class="layui-colla-content">
+                  <form class="layui-form" method="post">
+                      <div class="layui-inline">
+                          <input type="text" name="serinput" placeholder="输入人员名称" autocomplete="off" class="layui-input" value="" style="width: 120%">
+                      </div>
+
+                      <div class="layui-inline" style="margin-left: 35px">
+                          <input type="button" class="layui-btn layui-btn-small layui-btn-normal layui-icon" lay-submit lay-filter="formsubmit" value="&#xe615;查  询"/>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+
+      <div style="padding-top: 10px; padding-left: 15px" >
+          <a href="javascript:;" class="layui-btn layui-btn-normal" id="btnSelect">选择</a>
+          <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
+      </div>
+
+      <!-- 数据列表 -->
+
+      <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
+
+{% include "common/jsfiles.html" %}
+
+<script>
+  var Groupinfo = {{ group|safe }};
+  var Teaminfo = {{ team|safe }};
+  var Worktypeinfo = {{ base|safe }};
+
+  layui.use(['element', 'layer', 'table'], function(){
+      var $ = layui.jquery
+          ,element = layui.element
+          ,table = layui.table
+          ,layer = layui.layer;
+
+      $("#btnClose").click(function () {
+          var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
+          parent.layer.close(index);
+      });
+
+      $("#btnSelect").click(function () {
+          var checkStatus = table.checkStatus('runreload');
+          data = checkStatus.data;
+          //layer.alert(JSON.stringify(data));
+          $.post("{% url '' %}")
+
+      });
+
+
+      table.render({
+          method: 'post',
+          page: true,
+          limit: 20,
+          elem: '#datasource',
+          url: "{% url 'safetrain:get_selperson_datasource' %}",
+          cols: [[
+              {type: 'checkbox', fixed: 'left'},
+              {field:'FName', width: '20%', title: '人员姓名', sort: true},
+              {field:'FSex', width: '10%', title: '性别', sort: true, templet: 'tpSex'},
+              {field:'FIDcard', width: '25%', title: '身份证号', sort: true},
+              {field:'FTeamID', width: '15%', title: '所属施工队', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FTeamID, Teaminfo)}}{% endverbatim %}</div>'},
+              {field:'FGroupID', width: '15%', title: '所属班组', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FGroupID, Groupinfo)}}{% endverbatim %}</div>'},
+              {field:'FWorktypeID', width: '15%', title: '工种', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FWorktypeID, Worktypeinfo)}}{% endverbatim %}</div>'},
+          ]],
+          id: 'runreload',
+
+      });
+
+      //监听查询条件提交
+        form.on('submit(formsubmit)', function (data) {
+            var serinput = $("input[name='serinput']").val();
+            //alert(serinput);
+            table.reload('runreload', {where: {resultdict:{FPersonID__FName: serinput}}});
+
+            return false;
+        });
+
+
+  });
+</script>
+
+<!--显示合同状态模板-->
+<script type="text/html" id="tpConstate">
+     {% verbatim %}
+        {{#  if(d.FSex == 0){ }}
+            <span>男</span>
+        {{#  } else if(d.FSex == 1) { }}
+            <span>女</span>
+        {{#  } }}
+     {% endverbatim %}
+</script>
+
+
+
+</body>
+</html>

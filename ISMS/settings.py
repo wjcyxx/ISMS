@@ -54,7 +54,8 @@ INSTALLED_APPS = [
     'pedpassage',
     'passagerecord',
     'hatrule',
-    'hatalertlog'
+    'hatalertlog',
+    'safetrain'
 ]
 
 MIDDLEWARE = [

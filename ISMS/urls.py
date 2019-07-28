@@ -39,7 +39,8 @@ urlpatterns = [
     path('pedpassage/', include('pedpassage.urls'), name='pedpassage'),
     path('passagerecord/', include('passagerecord.urls'), name='passagerecord'),
     path('hatrule/', include('hatrule.urls'), name='hatrule'),
-    path('hatalertlog/', include('hatalertlog.urls'), name='hatalertlog')
+    path('hatalertlog/', include('hatalertlog.urls'), name='hatalertlog'),
+    path('safetrain/', include('safetrain.urls'), name='safetrain')
 
 ]
 
