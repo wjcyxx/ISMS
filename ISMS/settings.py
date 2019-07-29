@@ -55,7 +55,8 @@ INSTALLED_APPS = [
     'passagerecord',
     'hatrule',
     'hatalertlog',
-    'safetrain'
+    'safetrain',
+    'envdatalog'
 ]
 
 MIDDLEWARE = [

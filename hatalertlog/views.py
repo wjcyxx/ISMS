@@ -38,7 +38,7 @@ class get_datasource(get_datasource_base):
     def get_queryset(self, reqeust):
         self.type = 1
         prj_id = self.request.session['PrjID']
-        serinput = self.request.POST.get("resultdict[FPersonID__FName]", '')
+        serinput = self.request.GET.get("resultdict[FPersonID__FName]", '')
         hatalertlog_info =  T_HatAlertLog.objects.filter(Q(FPersonID__FName__contains=serinput), Q(CREATED_PRJ=prj_id)).values('FPersonID__FName', 'FPersonID__FTeamID','FPersonID__FGroupID', 'FPersonID__FWorktypeID', 'FRuleID__FAreaID', 'FPicPath', 'CREATED_TIME' )
 
         return hatalertlog_info

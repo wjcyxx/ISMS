@@ -33,7 +33,7 @@ class entrance(EntranceView_base):
 class get_datasource(get_datasource_base):
     def get_queryset(self, reqeust):
         prj_id = self.request.session['PrjID']
-        serinput = self.request.POST.get("resultdict[FSubject]", '')
+        serinput = self.request.GET.get("resultdict[FSubject]", '')
         safetrain_info =  T_SafeTrain.objects.filter(Q(CREATED_PRJ=prj_id), Q(FSubject__contains=serinput))
 
         return safetrain_info
@@ -49,6 +49,10 @@ class add(add_base):
         ]
         self.query_set_idfields = ['FTraintypeID']
         self.query_set_valuefields = ['FBase']
+
+        self.context['team'] = 'null'
+        self.context['group'] = 'null'
+        self.context['worktype'] = 'null'
 
 
 #链接编辑模板
@@ -67,9 +71,11 @@ class edit(edit_base):
 
         team_info = get_dict_table(team.objects.filter(Q(FStatus=True),Q(CREATED_PRJ=prj_id)), 'FID', 'FName')
         group_info = get_dict_table(group.objects.filter(Q(FStatus=True), Q(CREATED_PRJ=prj_id)), 'FID', 'FGroup')
+        worktype_info = get_dict_table(base.objects.filter(Q(FPID='2137f046a6a711e9b7367831c1d24216')), 'FID', 'FBase')
 
         self.context['team'] = team_info
         self.context['group'] = group_info
+        self.context['worktype'] = worktype_info
 
 
 #处理新增及保存数据
@@ -146,7 +152,7 @@ class get_person_datasource(get_datasource_base):
         self.type = 1
 
         fpid = self.request.GET.get('fid')
-        trainperson_info = T_SafeTrainPerson.objects.filter(Q(FPID=fpid)).values('FPersonID__FName', 'FPersonID__FSex', 'FPersonID__FIDcard', 'FPersonID__FTeamID', 'FPersonID__FGroupID')
+        trainperson_info = T_SafeTrainPerson.objects.filter(Q(FPID=fpid)).values('FPersonID__FName', 'FPersonID__FSex', 'FPersonID__FIDcard', 'FPersonID__FTeamID', 'FPersonID__FGroupID', 'FPersonID__FWorktypeID', 'FIsQualified', 'FScore')
 
         return  trainperson_info
 

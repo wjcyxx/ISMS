@@ -32,7 +32,7 @@ class hatrule(EntranceView_base):
 class get_datasource(get_datasource_base):
     def get_queryset(self, request):
         prj_id = self.request.session['PrjID']
-        serinput = self.request.POST.get("resultdict[FRule]", '')
+        serinput = self.request.GET.get("resultdict[FRule]", '')
         hatrule_info = T_HatRule.objects.filter(Q(CREATED_PRJ=prj_id), Q(FRule__contains=serinput))
 
         return hatrule_info

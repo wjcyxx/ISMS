@@ -50,9 +50,6 @@ class get_datasource_base(View):
     type = 0
 
     def get(self, request):
-        pass
-
-    def post(self, request):
         try:
             self.request = request
             query_set = self.get_queryset(self)
@@ -66,6 +63,9 @@ class get_datasource_base(View):
             return  JsonResponse(resultdict, safe=False)
         except  Exception as e:
             return  e
+
+    def post(self, request):
+        pass
 
     def get_queryset(self, reqeust):
         pass
@@ -89,7 +89,8 @@ class add_base(View):
         if len(self.query_sets) > 0:
             self.ref_dropdown(self)
 
-        self.context = {'obj': self.obj, 'action': 'insert'}
+        self.context['obj'] = self.obj
+        self.context['action'] = 'insert'
 
         return render(self.request, self.template_name,  self.context)
 

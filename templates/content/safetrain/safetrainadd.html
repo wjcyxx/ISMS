@@ -105,7 +105,7 @@
 var fid = $("#id_FID").val();
 var Groupinfo = {{ group|safe }};
 var Teaminfo = {{ team|safe }};
-//var Worktypeinfo = {{ base|safe }};
+var Worktypeinfo = {{ worktype|safe }};
 
 layui.use(['element','layer','form', 'laydate', 'table'], function () {
     var element = layui.element
@@ -130,7 +130,6 @@ layui.use(['element','layer','form', 'laydate', 'table'], function () {
 
     //入场安全培训table
     table.render({
-        method: 'post',
         elem: '#datasourceTrain',
         url: "{% url 'safetrain:get_person_datasource' %}?fid="+fid,
         cols: [[
@@ -138,7 +137,11 @@ layui.use(['element','layer','form', 'laydate', 'table'], function () {
             {field:'FPersonID__FSex', width: '10%', title: '性别', sort: true, templet: '#tpSex'},
             {field:'FPersonID__FIDcard', width: '25%', title: '身份证号', sort: true},
             {field:'FPersonID__FTeamID', width: '15%', title: '所属施工队', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPersonID__FTeamID, Teaminfo)}}{% endverbatim %}</div>'},
-            {field:'FPersonID__FGroupID', width: '15%', title: '所属班组', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPersonID__FGroupID, Groupinfo)}}{% endverbatim %}</div>'}
+            {field:'FPersonID__FGroupID', width: '15%', title: '所属班组', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPersonID__FGroupID, Groupinfo)}}{% endverbatim %}</div>'},
+            {field:'FPersonID__FWorktypeID', width: '15%', title: '工种', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPersonID__FWorktypeID, Worktypeinfo)}}{% endverbatim %}</div>'},
+            {field:'FIsQualified', width: '15%', title: '是否合格', sort: true, templet: '#tpSwitch'},
+            {field:'FScore', width: '15%', title: '得分', sort: true, edit: 'text'},
+
         ]],
     });
 
@@ -179,6 +182,13 @@ layui.use(['element','layer','form', 'laydate', 'table'], function () {
     {{#  } else if(d.FPersonID__FSex == 1) { }}
     <span>女</span>
     {{#  } }}
+    {% endverbatim %}
+</script>
+
+<!--显示是否合格开关模板-->
+<script type="text/html" id="tpSwitch">
+    {% verbatim %}
+    <input type="checkbox" name="FIsSafetrain" value="{{d.FIsQualified}}" lay-skin="switch" lay-text="是|否"  {{ d.FIsQualified == true ? 'checked' : '' }} >
     {% endverbatim %}
 </script>
 
