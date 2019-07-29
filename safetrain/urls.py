@@ -11,6 +11,7 @@ urlpatterns = [
     path('insert/', views.insert.as_view(), name='insert'),
     path('get_selperson_datasource/', views.get_selperson_datasource.as_view(), name='get_selperson_datasource'),
     path('selperson/', views.selperson.as_view(), name='selperson'),
-    path('insert_selperson/', views.insert_person.as_view(), name='insert_selperson')
+    path('insert_selperson/', views.insert_person.as_view(), name='insert_selperson'),
+    path('get_person_datasource/', views.get_person_datasource.as_view(), name='get_person_datasource')
 
 ]

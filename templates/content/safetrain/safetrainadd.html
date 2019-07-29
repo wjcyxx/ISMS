@@ -71,6 +71,19 @@
             </div>
         </div>
 
+        {% if action == 'update' %}
+            <div class="layui-row layui-col-space10" style="padding-top: 1%">
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header" id="divTrain">安全培训人员名单</div>
+                        <!-- 表单内容 -->
+                        <div class="layui-card-body">
+                            <table class="layui-table" id="datasourceTrain"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </div>
 
 </form>
@@ -89,11 +102,19 @@
 
 
 <script>
-layui.use(['element','layer','form', 'laydate'], function () {
+var fid = $("#id_FID").val();
+var Groupinfo = {{ group|safe }};
+var Teaminfo = {{ team|safe }};
+//var Worktypeinfo = {{ base|safe }};
+
+layui.use(['element','layer','form', 'laydate', 'table'], function () {
     var element = layui.element
         , layer = layui.layer
         , form = layui.form
-        , laydate = layui.laydate;
+        , laydate = layui.laydate
+        , table = layui.table;
+
+    //alert(Groupinfo);
 
     //关闭按钮
     $("#btnC").click(function () {
@@ -104,6 +125,21 @@ layui.use(['element','layer','form', 'laydate'], function () {
     laydate.render({
         elem: '#id_FTrainDate',
         trigger: 'click'
+    });
+
+
+    //入场安全培训table
+    table.render({
+        method: 'post',
+        elem: '#datasourceTrain',
+        url: "{% url 'safetrain:get_person_datasource' %}?fid="+fid,
+        cols: [[
+            {field:'FPersonID__FName', width: '20%', title: '人员姓名', sort: true},
+            {field:'FPersonID__FSex', width: '10%', title: '性别', sort: true, templet: '#tpSex'},
+            {field:'FPersonID__FIDcard', width: '25%', title: '身份证号', sort: true},
+            {field:'FPersonID__FTeamID', width: '15%', title: '所属施工队', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPersonID__FTeamID, Teaminfo)}}{% endverbatim %}</div>'},
+            {field:'FPersonID__FGroupID', width: '15%', title: '所属班组', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPersonID__FGroupID, Groupinfo)}}{% endverbatim %}</div>'}
+        ]],
     });
 
     //监听窗口提交
@@ -135,6 +171,16 @@ layui.use(['element','layer','form', 'laydate'], function () {
 })
 </script>
 
+<!--显示性别模板-->
+<script type="text/html" id="tpSex">
+    {% verbatim %}
+    {{#  if(d.FPersonID__FSex == 0){ }}
+    <span>男</span>
+    {{#  } else if(d.FPersonID__FSex == 1) { }}
+    <span>女</span>
+    {{#  } }}
+    {% endverbatim %}
+</script>
 
 </body>
 </html>

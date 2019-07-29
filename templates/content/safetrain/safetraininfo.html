@@ -76,7 +76,7 @@
               {field:'FTrainTeacher', width: '15%', title: '培训人', sort: true},
               {field:'FTrainHour', width: '15%', title: '培训课时', sort: true},
               {field:'FDesc', width: '30%', title: '备注', sort: true},
-              {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
+              {field:'', title: '操作', width: '23%', toolbar: '#tlbar', fixed: 'right'}
           ]],
           id: 'runreload'
       });
@@ -117,7 +117,7 @@
                   parent.layer.open({
                       type:   2,
                       title:  '选择参与培训的工人',
-                      area: ['1100px','700px'],
+                      area: ['1100px','640px'],
                       fixed: false,
                       content: "{% url 'safetrain:selperson' %}?fid="+data.FID,
                       resize: false,

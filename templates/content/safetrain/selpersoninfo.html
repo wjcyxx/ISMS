@@ -56,9 +56,14 @@
       $("#btnSelect").click(function () {
           var checkStatus = table.checkStatus('runreload');
           data = checkStatus.data;
-          //layer.alert(JSON.stringify(data));
-          $.post("{% url '' %}")
 
+          var persondata = {'fid': "{{ fid|safe }}", 'seldata': JSON.stringify(data)};
+          $.post("{% url 'safetrain:insert_selperson' %}", persondata, function (data) {
+                if (data.result == '0') {
+                    $("#btnClose").click();
+                }
+
+          }, "json" );
       });
 
 
@@ -71,7 +76,7 @@
           cols: [[
               {type: 'checkbox', fixed: 'left'},
               {field:'FName', width: '20%', title: '人员姓名', sort: true},
-              {field:'FSex', width: '10%', title: '性别', sort: true, templet: 'tpSex'},
+              {field:'FSex', width: '10%', title: '性别', sort: true, templet: '#tpSex'},
               {field:'FIDcard', width: '25%', title: '身份证号', sort: true},
               {field:'FTeamID', width: '15%', title: '所属施工队', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FTeamID, Teaminfo)}}{% endverbatim %}</div>'},
               {field:'FGroupID', width: '15%', title: '所属班组', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FGroupID, Groupinfo)}}{% endverbatim %}</div>'},
@@ -90,12 +95,11 @@
             return false;
         });
 
-
   });
 </script>
 
-<!--显示合同状态模板-->
-<script type="text/html" id="tpConstate">
+<!--显示性别模板-->
+<script type="text/html" id="tpSex">
      {% verbatim %}
         {{#  if(d.FSex == 0){ }}
             <span>男</span>

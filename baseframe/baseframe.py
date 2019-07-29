@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import HttpResponse
 from django.shortcuts import redirect
 from django.db.models import Q
+from django.db.models import QuerySet
 from django.db import models
 from common.views import *
 from django.http import JsonResponse
@@ -17,6 +18,8 @@ class EntranceView_base(View):
     template_name = ''
     query_sets = []
     quer_set_fieldnames = []
+    param_sets = []
+    param_value = []
     context = {}
     request = None
 
@@ -33,17 +36,14 @@ class EntranceView_base(View):
         pass
 
     def set_context(self, request):
-
         if len(self.query_sets) == len(self.quer_set_fieldnames):
             for i in range(len(self.query_sets)):
+                if isinstance(self.query_sets[i], QuerySet):
+                    self.context[self.query_sets[i].model.__name__] = get_dict_table(self.query_sets[i] , 'FID', self.quer_set_fieldnames[i])
+                else:
+                    self.context[self.query_sets[i]] = self.quer_set_fieldnames[i]
 
-                 self.context[self.query_sets[i].model.__name__] = get_dict_table(self.query_sets[i] , 'FID', self.quer_set_fieldnames[i])
-
-            return self.context
-
-        else:
-            pass
-
+        return self.context
 
 class get_datasource_base(View):
     request = None
@@ -126,11 +126,12 @@ class edit_base(View):
         objmodel =  self.model.objects.get(Q(FID=fid))
         self.obj = self.objForm(instance=objmodel)
 
+        self.context['obj'] = self.obj
+        self.context['action'] = 'update'
 
         if len(self.query_sets) > 0:
             self.ref_dropdown(self)
 
-        self.context = {'obj': self.obj, 'action': 'update'}
 
         return render(self.request, self.template_name, self.context)
 
