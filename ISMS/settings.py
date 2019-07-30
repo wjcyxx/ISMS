@@ -56,7 +56,8 @@ INSTALLED_APPS = [
     'hatrule',
     'hatalertlog',
     'safetrain',
-    'envdatalog'
+    'envdatalog',
+    'envrule'
 ]
 
 MIDDLEWARE = [

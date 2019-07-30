@@ -15,44 +15,69 @@
         <div class="layui-row layui-col-space10" style="padding-top: 1%">
             <div class="layui-col-md12">
                 <div class="layui-card">
-                    <div class="layui-card-header">安全培训记录</div>
+                    <div class="layui-card-header">环境监测报警策略</div>
                     <div class="layui-card-body">
                         <div class="layui-row layui-col-space15">
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">培训类型</label>
+                                <label class="layui-form-label" style="color: red">规则名称</label>
                                 <div class="layui-input-block">
                                     {{ obj.FID }}
-                                    {{ obj.FTraintypeID }}
+                                    {{ obj.FRule }}
                                 </div>
                             </div>
 
-                            <div class="layui-col-xs8">
-                                <label class="layui-form-label" style="color: red">培训主题</label>
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label" style="color: red">监测设备</label>
                                 <div class="layui-input-block">
-                                    {{ obj.FSubject }}
+                                    {{ obj.FDevID }}
+                                </div>
+                            </div>
+
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label">监测区域</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FAreaID }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layui-row layui-col-space15">
+                            <div class="layui-col-xs8">
+                                <label class="layui-form-label" style="color: red">节点名称</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FNodename }}
                                 </div>
                             </div>
                         </div>
 
                         <div class="layui-row layui-col-space10">
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">培训日期</label>
+                                <label class="layui-form-label" style="color: red">监测项目</label>
                                 <div class="layui-input-block">
-                                    {{ obj.FTrainDate }}
+                                    {{ obj.FMonitoritem }}
                                 </div>
                             </div>
 
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">培训讲师</label>
+                                <label class="layui-form-label" style="color: red">监测条件</label>
                                 <div class="layui-input-block">
-                                    {{ obj.FTrainTeacher }}
+                                    {{ obj.FMonitorcondition }}
                                 </div>
                             </div>
 
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">培训课时</label>
+                                <label class="layui-form-label" style="color: red">监测值</label>
                                 <div class="layui-input-block">
-                                    {{ obj.FTrainHour }}
+                                    {{ obj.FMonitorvalue }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layui-row layui-col-space10">
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label">状态</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FStatus }}
                                 </div>
                             </div>
                         </div>
@@ -88,29 +113,20 @@
 
 </form>
 
+<style>
+    .layui-unselect dl { max-height:200px; }
+</style>
+
 <!-- <script src="//res.layui.com/layui/build/layui.js" charset="utf-8"></script> -->
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 {% include "common/jsfiles.html" %}
 
-<style>
-    .layui-unselect dl { max-height:150px; }
-</style>
-
-
 <script>
-var fid = $("#id_FID").val();
-var Groupinfo = {{ group|safe }};
-var Teaminfo = {{ team|safe }};
-var Worktypeinfo = {{ worktype|safe }};
-
-layui.use(['element','layer','form', 'laydate', 'table'], function () {
+layui.use(['element','layer','form', 'table'], function () {
     var element = layui.element
         , layer = layui.layer
         , form = layui.form
-        , laydate = layui.laydate
         , table = layui.table;
-
-    //alert(Groupinfo);
 
     //关闭按钮
     $("#btnC").click(function () {
@@ -118,34 +134,12 @@ layui.use(['element','layer','form', 'laydate', 'table'], function () {
         parent.layer.close(index);
     });
 
-    laydate.render({
-        elem: '#id_FTrainDate',
-        trigger: 'click'
-    });
-
-
-    //入场安全培训table
-    table.render({
-        elem: '#datasourceTrain',
-        url: "{% url 'safetrain:get_person_datasource' %}?fid="+fid,
-        cols: [[
-            {field:'FPersonID__FName', width: '20%', title: '人员姓名', sort: true},
-            {field:'FPersonID__FSex', width: '10%', title: '性别', sort: true, templet: '#tpSex'},
-            {field:'FPersonID__FIDcard', width: '25%', title: '身份证号', sort: true},
-            {field:'FPersonID__FTeamID', width: '15%', title: '所属施工队', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPersonID__FTeamID, Teaminfo)}}{% endverbatim %}</div>'},
-            {field:'FPersonID__FGroupID', width: '15%', title: '所属班组', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPersonID__FGroupID, Groupinfo)}}{% endverbatim %}</div>'},
-            {field:'FPersonID__FWorktypeID', width: '15%', title: '工种', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPersonID__FWorktypeID, Worktypeinfo)}}{% endverbatim %}</div>'},
-            {field:'FIsQualified', width: '15%', title: '是否合格', sort: true, templet: '#tpSwitch'},
-            {field:'FScore', width: '15%', title: '得分', sort: true, edit: 'text'},
-
-        ]],
-    });
 
     //监听窗口提交
     form.on('submit(formsubmit)', function (data) {
         $.ajax({
             type: "POST",
-            url:  "{% url 'safetrain:insert' %}?actype={{ action }}",
+            url:  "{% url 'envrule:insert' %}?actype={{ action }}",
             data: data.field,
             dataType: "json",
             success: function (data) {
@@ -168,24 +162,6 @@ layui.use(['element','layer','form', 'laydate', 'table'], function () {
         return false;
     });
 })
-</script>
-
-<!--显示性别模板-->
-<script type="text/html" id="tpSex">
-    {% verbatim %}
-    {{#  if(d.FPersonID__FSex == 0){ }}
-    <span>男</span>
-    {{#  } else if(d.FPersonID__FSex == 1) { }}
-    <span>女</span>
-    {{#  } }}
-    {% endverbatim %}
-</script>
-
-<!--显示是否合格开关模板-->
-<script type="text/html" id="tpSwitch">
-    {% verbatim %}
-    <input type="checkbox" name="FIsSafetrain" value="{{d.FIsQualified}}" lay-skin="switch" lay-text="是|否"  {{ d.FIsQualified == true ? 'checked' : '' }} >
-    {% endverbatim %}
 </script>
 
 </body>

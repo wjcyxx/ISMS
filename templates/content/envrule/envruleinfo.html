@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include "common/resfiles.html" %}
+</head>
+<body style="overflow: hidden;">
+
+  <!--安全帽规则信息列表  -->
+
+    <!-- 工具条 -->
+      <!-- 查询框 -->
+      <div class="layui-collapse">
+          <div class="layui-colla-item">
+              <h2 class="layui-colla-title">查询条件</h2>
+              <div class="layui-colla-content">
+                  <form class="layui-form" method="post">
+                      <div class="layui-inline">
+                          <input type="text" name="serinput" placeholder="输入规则名称" autocomplete="off" class="layui-input" value="" style="width: 120%">
+                      </div>
+
+                      <div class="layui-inline" style="margin-left: 35px">
+                          <input type="button" class="layui-btn layui-btn-small layui-btn-normal layui-icon" lay-submit lay-filter="formsubmit" value="&#xe615;查  询"/>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+
+      <div style="padding-top: 10px" >
+        <a href="javascript:;" class="layui-btn layui-btn-normal" id="btnAdd">增加</a>
+        <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
+      </div>
+
+      <!-- 数据列表 -->
+
+      <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
+
+{% include "common/jsfiles.html" %}
+
+<script>
+  var Devinfo = {{ device|safe }}
+  var Areainfo = {{ area|safe }}
+
+  layui.use(['element', 'layer', 'table'], function(){
+      var $ = layui.jquery
+          ,element = layui.element
+          ,table = layui.table
+          ,layer = layui.layer;
+
+      $("#btnClose").click(function () {
+          window.parent.layui.element.tabDelete('tabMain','Envrule');
+      });
+
+      //新增按钮事件
+      $("#btnAdd").click(function () {
+          parent.layer.open({
+              type:   2,
+              title:  '新增报警策略',
+              area: ['920px','380px'],
+              fixed: false,
+              content: "{% url 'envrule:add' %}",
+              resize: false,
+              move: false
+          });
+      });
+
+      table.render({
+          page: true,
+          limit: 20,
+          elem: '#datasource',
+          url: "{% url 'envrule:get_datasource' %}",
+          cols: [[
+              {field:'FRule', width: '15%', title: '规则名称', sort: true},
+              {field:'FDevID', width: '20%', title: '监测设备', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FDevID, Devinfo)}}{% endverbatim %}</div>'},
+              {field:'FAreaID', width: '20%', title: '监测区域', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FAreaID, Areainfo)}}{% endverbatim %}</div>'},
+              {field:'FNodename', width: '25%', title: '传感器节点名称', sort: true},
+              {field:'FMonitoritem', width: '15%', title: '监测项目', sort: true},
+              {field:'FMonitorcondition', width: '15%', title: '监测条件', sort: true, templet: '#tpCond'},
+              {field:'FMonitorvalue', width: '15%', title: '监测值', sort: true},
+              {field:'FDesc', width: '30%', title: '备注', sort: true},
+              {field:'FStatus', width: '15%', title: '状态', sort: true, templet: '#tpStatus'},
+              {field:'', title: '操作', width: '23%', toolbar: '#tlbar', fixed: 'right'}
+          ]],
+          id: 'runreload'
+      });
+
+      //监听查询条件提交
+        form.on('submit(formsubmit)', function (data) {
+            var serinput = $("input[name='serinput']").val();
+            //alert(serinput);
+            table.reload('runreload', {where: {resultdict:{FRule: serinput}}});
+
+            return false;
+        });
+
+
+      //监听工具栏按钮事件
+      table.on('tool(toolbar)', function (obj) {
+          var data = obj.data;           //获取当前行数据
+          var layEvent = obj.event;      //获取当前行事件
+          var tr = obj.tr;               //获取当前行tr的DOM数据
+          var fid = {"fid":data.FID};
+
+          switch (layEvent){
+              case 'edit' :              //编辑按钮事件
+                  parent.layer.open({
+                      type:   2,
+                      title:  '编辑报警策略',
+                      area: ['920px','550px'],
+                      fixed: false,
+                      content: "{% url 'envrule:edit' %}?fid="+data.FID,
+                      resize: false,
+                      move: false
+                  });
+
+                  break;
+
+
+              case 'selperson'  :       //选择工人按钮事件
+                  parent.layer.open({
+                      type:   2,
+                      title:  '选择参与培训的工人',
+                      area: ['1100px','640px'],
+                      fixed: false,
+                      content: "{% url 'safetrain:selperson' %}?fid="+data.FID,
+                      resize: false,
+                      move: false
+                  });
+
+                  break
+          }
+      });
+  });
+</script>
+
+
+<!--显示启用状态模板-->
+<script type="text/html" id="tpStatus">
+     {% verbatim %}
+        {{#  if(d.FStatus == false){ }}
+            <span style="color: red">禁用</span>
+        {{#  } else if(d.FStatus == true) { }}
+            <span style="color: green">启用</span>
+        {{#  } }}
+     {% endverbatim %}
+</script>
+
+<!--显示监测条件模板-->
+<script type="text/html" id="tpCond">
+    {% verbatim %}
+        {{#  if(d.FStatus == 0){ }}
+            <span>等于</span>
+        {{#  } else if(d.FStatus == 1) { }}
+            <span>大于</span>
+        {{#  } else if(d.FStatus == 2) { }}
+            <span>小于</span>
+        {{#  } else if(d.FStatus == 3) { }}
+            <span>大于等于</span>
+        {{#  } else if(d.FStatus == 4) { }}
+            <span>小于等于</span>
+        {{#  } else if(d.FStatus == 5) { }}
+            <span>不等于</span>
+        {{#  } }}
+    {% endverbatim %}
+</script>
+
+<!--生成操作工具栏-->
+<script type="text/html" id="tlbar">
+    {% verbatim %}
+        <div class="layui-btn-group">
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>编辑</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="selperson"><i class="fa fa-users" aria-hidden="true"></i>选择工人</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="import"><i class="fa fa-table" aria-hidden="true"></i>从excel导入</a>
+
+        </div>
+    {% endverbatim %}
+</script>
+
+</body>
+</html>

@@ -15,7 +15,7 @@
               <div class="layui-colla-content">
                   <form class="layui-form" method="post">
                       <div class="layui-inline">
-                          <input type="text" name="serinput" placeholder="输入人员名称" autocomplete="off" class="layui-input" value="" style="width: 120%">
+                          <input type="text" name="serinput" placeholder="输入节点名称" autocomplete="off" class="layui-input" value="" style="width: 120%">
                       </div>
 
                       <div class="layui-inline" style="margin-left: 35px">
@@ -33,21 +33,10 @@
       <!-- 数据列表 -->
 
       <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
-<style>
-  .layui-table-cell{
-      height: auto!important;
-      white-space: normal;
-  }
-</style>
 
 {% include "common/jsfiles.html" %}
 
 <script>
-  var Areainfo = {{ area|safe }};
-  var Groupinfo = {{ group|safe }};
-  var Teaminfo = {{ team|safe }};
-  var Worktypeinfo = {{ base|safe }};
-
   layui.use(['element', 'layer', 'table'], function(){
       var $ = layui.jquery
           ,element = layui.element
@@ -55,7 +44,7 @@
           ,layer = layui.layer;
 
       $("#btnClose").click(function () {
-          window.parent.layui.element.tabDelete('tabMain','Hatalertlog');
+          window.parent.layui.element.tabDelete('tabMain','Envdatalog');
       });
 
 
@@ -63,84 +52,29 @@
           page: true,
           limit: 20,
           elem: '#datasource',
-          url: "{% url 'hatalertlog:get_datasource' %}",
+          url: "{% url 'envdatalog:get_datasource' %}",
           cols: [[
-              {field:'FPersonID__FName', width: '10%', title: '人员姓名', sort: true},
-              {field:'FPersonID__FTeamID', width: '15%', title: '所属施工队', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPersonID__FTeamID, Teaminfo)}}{% endverbatim %}</div>'},
-              {field:'FPersonID__FGroupID', width: '15%', title: '所属班组', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPersonID__FGroupID, Groupinfo)}}{% endverbatim %}</div>'},
-              {field:'FPersonID__FWorktypeID', width: '15%', title: '工种', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPersonID__FWorktypeID, Worktypeinfo)}}{% endverbatim %}</div>'},
-              {field:'FRuleID__FAreaID', width: '15%', title: '违规区域', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FRuleID__FAreaID, Areainfo)}}{% endverbatim %}</div>'},
-              {field:'FPicPath', width: '30%', title: '违规图片', sort: true, templet: '#tpImg'},
-              {field:'CREATED_TIME', width: '20%', title: '发生时间', sort: true},
+              {field:'FNodename', width: '15%', title: '节点名称', sort: true},
+              {field:'FMonitoritem1', width: '20%', title: '监测内容（一）', sort: true},
+              {field:'FMonitorvalue1', width: '15%', title: '监测值', sort: true},
+              {field:'FMonitoritem2', width: '20%', title: '监测内容（二）', sort: true},
+              {field:'FMonitorvalue2', width: '15%', title: '监测值', sort: true},
+              {field:'CREATED_TIME', width: '20%', title: '监测时间', sort: true},
           ]],
-          id: 'runreload',
-
-          done : function (res, curr, count) {
-              // 处理图片弹出预览框
-              if ($('.layer-photos-demo').length > 0) {
-                  $('.layer-photos-demo').on('click', function () {
-                      var img_src = $(this).attr('src');
-                      var img_alt = $(this).attr('alt');
-                      layer.photos({
-                          photos: {
-                              'title': '查看图片',
-                              'data': [{
-                                  'src': img_src,
-                                  'alt': img_alt
-                              }]
-                          },
-                          anim: 5
-                      });
-                  });
-              }
-          }
-      });
-
-      // 实现滚轮缩放图片
-      $(document).on("mousewheel DOMMouseScroll", ".layui-layer-phimg img", function(e) {
-          var delta = (e.originalEvent.wheelDelta && (e.originalEvent.wheelDelta > 0 ? 1 : -1)) || // chrome & ie
-              (e.originalEvent.detail && (e.originalEvent.detail > 0 ? -1 : 1)); // firefox
-          var imagep = $(".layui-layer-phimg").parent().parent();
-          var image = $(".layui-layer-phimg").parent();
-          var h = image.height();
-          var w = image.width();
-          if(delta > 0) {
-              h = h * 1.05;
-              w = w * 1.05;
-          } else if(delta < 0) {
-              if(h > 100) {
-                  h = h * 0.95;
-                  w = w * 0.95;
-              }
-          }
-          imagep.css("top", (window.innerHeight - h) / 2);
-          imagep.css("left", (window.innerWidth - w) / 2);
-          image.height(h);
-          image.width(w);
-          imagep.height(h);
-          imagep.width(w);
+          id: 'runreload'
       });
 
       //监听查询条件提交
         form.on('submit(formsubmit)', function (data) {
             var serinput = $("input[name='serinput']").val();
             //alert(serinput);
-            table.reload('runreload', {where: {resultdict:{FPersonID__FName: serinput}}});
+            table.reload('runreload', {where: {resultdict:{FNodename: serinput}}});
 
             return false;
         });
 
 
   });
-</script>
-
-<!--显示图片模板-->
-<script type="text/html" id="tpImg">
-  {% verbatim %}
-     <div>
-          <img class="layer-photos-demo" layer-scr="/media/{{ d.FPicPath }}" src="/media/{{ d.FPicPath }}" alt="" />
-     </div>
-  {% endverbatim %}
 </script>
 
 

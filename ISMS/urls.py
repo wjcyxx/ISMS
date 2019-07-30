@@ -40,7 +40,9 @@ urlpatterns = [
     path('passagerecord/', include('passagerecord.urls'), name='passagerecord'),
     path('hatrule/', include('hatrule.urls'), name='hatrule'),
     path('hatalertlog/', include('hatalertlog.urls'), name='hatalertlog'),
-    path('safetrain/', include('safetrain.urls'), name='safetrain')
+    path('safetrain/', include('safetrain.urls'), name='safetrain'),
+    path('envdatalog/', include('envdatalog.urls'), name='envdatalog'),
+    path('envrule/', include('envrule.urls'), name='envrule')
 
 ]
 
