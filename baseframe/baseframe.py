@@ -160,6 +160,7 @@ class insert_base(View):
     query_set_valuefields = []
     request = None
     response_data = {}
+    type = 0
 
     def get(self, request):
         pass
@@ -186,6 +187,8 @@ class insert_base(View):
                 temp = self.obj.save(commit=False)
                 if self.request.GET.get('actype') == 'insert':
                     temp.FStatus = True
+                if self.type == 1:
+                    temp.FPID = self.request.POST.get('FPID')
                 temp.CREATED_PRJ = self.request.session['PrjID']
                 temp.CREATED_ORG = self.request.session['UserOrg']
                 temp.CREATED_BY = self.request.session['UserID']
@@ -251,3 +254,28 @@ class disabled_base(View):
     def set_view(self, request):
         pass
 
+
+class delete_base(View):
+    response_data ={}
+    model = None
+    request = None
+
+    def get(self, request):
+        pass
+
+    def post(self, request):
+        self.request = request
+        self.set_view(self)
+
+        fid = request.POST.get('fid')
+
+        try:
+            self.model.objects.get(FID=fid).delete()
+            self.response_data['result'] = '0'
+        except:
+            self.response_data['result'] = '1'
+
+        return HttpResponse(json.dumps(self.response_data))
+
+    def set_view(self,request):
+        pass

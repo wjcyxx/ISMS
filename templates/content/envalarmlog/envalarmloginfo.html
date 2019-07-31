@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include "common/resfiles.html" %}
+</head>
+<body style="overflow: hidden;">
+
+  <!--设备管理信息列表  -->
+
+    <!-- 工具条 -->
+      <!-- 查询框 -->
+      <div class="layui-collapse">
+          <div class="layui-colla-item">
+              <h2 class="layui-colla-title">查询条件</h2>
+              <div class="layui-colla-content">
+                  <form class="layui-form" method="post">
+                      <div class="layui-inline">
+                          <input type="text" name="serinput" placeholder="输入触发规则" autocomplete="off" class="layui-input" value="" style="width: 120%">
+                      </div>
+
+                      <div class="layui-inline" style="margin-left: 35px">
+                          <input type="button" class="layui-btn layui-btn-small layui-btn-normal layui-icon" lay-submit lay-filter="formsubmit" value="&#xe615;查  询"/>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+
+      <div style="padding-top: 10px" >
+          <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
+      </div>
+
+      <!-- 数据列表 -->
+
+      <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
+
+{% include "common/jsfiles.html" %}
+
+<script>
+  var Areainfo = {{ area|safe }};
+
+  layui.use(['element', 'layer', 'table'], function(){
+      var $ = layui.jquery
+          ,element = layui.element
+          ,table = layui.table
+          ,layer = layui.layer;
+
+      $("#btnClose").click(function () {
+          window.parent.layui.element.tabDelete('tabMain','Envalarmlog');
+      });
+
+
+      table.render({
+          page: true,
+          limit: 20,
+          elem: '#datasource',
+          url: "{% url 'envalarmlog:get_datasource' %}",
+          cols: [[
+              {field:'FRuleID__FRule', width: '15%', title: '触发规则', sort: true},
+              {field:'FDesc', width: '25%', title: '触发规则描述', sort: true},
+              {field:'FPortID__FPort', width: '15%', title: '继电器端口号', sort: true},
+              {field:'FPortID__FDriverdevice', width: '15%', title: '链接外设', sort: true},
+              {field:'FPortID__FStatus', width: '20%', title: '继电器状态', sort: true},
+              {field:'FRuleID__FAreaID', width: '15%', title: '报警区域', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FRuleID__FAreaID, Areainfo)}}{% endverbatim %}</div>'},
+              {field:'CREATED_TIME', width: '20%', title: '触发时间', sort: true},
+          ]],
+          id: 'runreload'
+      });
+
+      //监听查询条件提交
+        form.on('submit(formsubmit)', function (data) {
+            var serinput = $("input[name='serinput']").val();
+            //alert(serinput);
+            table.reload('runreload', {where: {resultdict:{FRuleID__FRule: serinput}}});
+
+            return false;
+        });
+
+
+  });
+</script>
+
+
+</body>
+</html>

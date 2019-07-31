@@ -9,4 +9,10 @@ urlpatterns = [
     path('add/', views.add.as_view(), name='add'),
     path('edit/', views.edit.as_view(), name='edit'),
     path('insert/', views.insert.as_view(), name='insert'),
+    path('disabled/', views.disabled.as_view(), name='disabled'),
+    path('add_switch/', views.add_switch.as_view(), name='add_switch'),
+    path('insert_switch/', views.insert_switch.as_view(), name='insert_switch'),
+    path('get_switch_datasource/', views.get_switch_datasource.as_view(), name='get_switch_datasource'),
+    path('delete_switch/', views.delete_switch.as_view(), name='delete_switch')
+
 ]

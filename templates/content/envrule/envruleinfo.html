@@ -56,7 +56,7 @@
           parent.layer.open({
               type:   2,
               title:  '新增报警策略',
-              area: ['920px','380px'],
+              area: ['920px','475px'],
               fixed: false,
               content: "{% url 'envrule:add' %}",
               resize: false,
@@ -115,14 +115,60 @@
 
                   break;
 
+              case 'disabled' :               //禁用按钮事件
+                  parent.layer.open({
+                      content: '是否确定禁用该规则',
+                      btn: ['确定','取消'],
+                      yes: function (index) {
+                          $.post("{% url 'envrule:disabled' %}?type=lock", fid, function (data) {
+                              if (data.result=='0') {
+                                  //window.parent.document.getElementById('Project').contentWindow.location.reload();
+                                  table.reload('runreload', {where: {resultdict:{FRule: ''}}});
+                              } else if (data.result=='2') {
+                                  parent.layer.alert('规则禁用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                              }
 
-              case 'selperson'  :       //选择工人按钮事件
+                          },"json");
+
+                          parent.layer.close(index);
+                      },
+                      btn2: function (index) {
+                      }
+                  });
+
+                  break;
+
+              case 'enabled' :
+                  parent.layer.open({
+                      content: '是否确定启用该规则',
+                      btn: ['确定','取消'],
+                      yes: function (index) {
+                          $.post("{% url 'envrule:disabled' %}?type=unlock", fid, function (data) {
+                              if (data.result=='0') {
+                                  //window.parent.document.getElementById('Organize').contentWindow.location.reload();
+                                  table.reload('runreload', {where: {resultdict:{FRule: ''}}});
+                              } else if (data.result=='2') {
+                                  parent.layer.alert('规则启用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                              }
+
+                          },"json");
+
+                          parent.layer.close(index);
+                      },
+                      btn2: function (index) {
+                      }
+                  });
+
+
+                  break;
+
+              case 'addswitch'  :           //添加控制策略按钮
                   parent.layer.open({
                       type:   2,
-                      title:  '选择参与培训的工人',
-                      area: ['1100px','640px'],
+                      title:  '添加控制策略',
+                      area: ['920px','380px'],
                       fixed: false,
-                      content: "{% url 'safetrain:selperson' %}?fid="+data.FID,
+                      content: "{% url 'envrule:add_switch' %}?fid="+data.FID,
                       resize: false,
                       move: false
                   });
@@ -169,8 +215,16 @@
     {% verbatim %}
         <div class="layui-btn-group">
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>编辑</a>
-            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="selperson"><i class="fa fa-users" aria-hidden="true"></i>选择工人</a>
-            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="import"><i class="fa fa-table" aria-hidden="true"></i>从excel导入</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="addswitch"><i class="fa fa-power-off" aria-hidden="true"></i>添加控制策略</a>
+
+            {{# if(d.FStatus == true){ }}
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>
+            {{# } else if(d.FStatus == false){ }}
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="enabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>启用</a>
+            {{# } else { }}
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>
+            {{# } }}
+
 
         </div>
     {% endverbatim %}

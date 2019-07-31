@@ -42,7 +42,9 @@ urlpatterns = [
     path('hatalertlog/', include('hatalertlog.urls'), name='hatalertlog'),
     path('safetrain/', include('safetrain.urls'), name='safetrain'),
     path('envdatalog/', include('envdatalog.urls'), name='envdatalog'),
-    path('envrule/', include('envrule.urls'), name='envrule')
+    path('envrule/', include('envrule.urls'), name='envrule'),
+    path('envalarmlog/', include('envalarmlog.urls'), name='envalarmlog'),
+    path('vehiclegate/', include('vehiclegate.urls'), name='vehiclegate')
 
 ]
 

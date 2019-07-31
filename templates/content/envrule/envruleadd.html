@@ -100,10 +100,10 @@
             <div class="layui-row layui-col-space10" style="padding-top: 1%">
                 <div class="layui-col-md12">
                     <div class="layui-card">
-                        <div class="layui-card-header" id="divTrain">安全培训人员名单</div>
+                        <div class="layui-card-header" id="divTrain">联动控制开关</div>
                         <!-- 表单内容 -->
                         <div class="layui-card-body">
-                            <table class="layui-table" id="datasourceTrain"></table>
+                            <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
                         </div>
                     </div>
                 </div>
@@ -122,11 +122,14 @@
 {% include "common/jsfiles.html" %}
 
 <script>
-layui.use(['element','layer','form', 'table'], function () {
+var fid = $("#id_FID").val();
+
+layui.use(['element','layer','form', 'table', 'util'], function () {
     var element = layui.element
         , layer = layui.layer
         , form = layui.form
-        , table = layui.table;
+        , table = layui.table
+        , util = layui.util;
 
     //关闭按钮
     $("#btnC").click(function () {
@@ -134,6 +137,9 @@ layui.use(['element','layer','form', 'table'], function () {
         parent.layer.close(index);
     });
 
+    util.fixbar({
+        bgcolor: '#01AAED'
+    });
 
     //监听窗口提交
     form.on('submit(formsubmit)', function (data) {
@@ -144,7 +150,7 @@ layui.use(['element','layer','form', 'table'], function () {
             dataType: "json",
             success: function (data) {
                 if (data.result=='0') {
-                    window.parent.document.getElementById('Safetrain').contentWindow.location.reload();
+                    window.parent.document.getElementById('Envrule').contentWindow.location.reload();
 
                     var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
                     parent.layer.close(index);
@@ -161,7 +167,80 @@ layui.use(['element','layer','form', 'table'], function () {
         });
         return false;
     });
+
+
+    //控制策略列表table
+    table.render({
+        elem: '#datasource',
+        url: "{% url 'envrule:get_switch_datasource' %}?fid="+fid,
+        cols: [[
+            {field:'FPort', width: '15%', title: '继电器端口', sort: true},
+            {field:'FDriverdevice', width: '20%', title: '控制外设', sort: true},
+            {field:'FStatus', width: '15%', title: '继电器状态', sort: true, templet: '#tpSwitch'},
+            {field:'FCommand', width: '25%', title: '继电器指令', sort: true},
+            {field:'FDesc', width: '30%', title: '描述', sort: true},
+            {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
+        ]],
+    });
+
+
+    //监听工具栏按钮事件
+    table.on('tool(toolbar)', function (obj) {
+        var data = obj.data;           //获取当前行数据
+        var layEvent = obj.event;      //获取当前行事件
+        var tr = obj.tr;               //获取当前行tr的DOM数据
+        var fid_delete = {"fid":data.FID};
+
+        switch (layEvent){
+            case 'delete' :              //编辑按钮事件
+                parent.layer.open({
+                    content: '是否确定删除该数据',
+                    btn: ['确定','取消'],
+                    yes: function (index) {
+                        $.post("{% url 'envrule:delete_switch' %}", fid_delete, function (data) {
+                            if (data.result == '0'){
+                                location.reload();
+                            } else if (data.result == '1')  {
+                                parent.layer.alert('删除失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                            }
+                        },"json");
+
+                        parent.layer.close(index);
+                    },
+                    btn2: function (index) {
+
+                    }
+                });
+
+                break;
+
+            case '':
+                break;
+        }
+    });
+
+
+
 })
+</script>
+
+
+<!--显示是否合格开关模板-->
+<script type="text/html" id="tpSwitch">
+    {% verbatim %}
+    <input type="checkbox" name="FStatus" value="{{d.FStatus}}" lay-skin="switch" lay-text="是|否" disabled="disabled"  {{ d.FStatus == true ? 'checked' : '' }} >
+    {% endverbatim %}
+</script>
+
+<!--生成操作工具栏-->
+<script type="text/html" id="tlbar">
+    {% verbatim %}
+        <div class="layui-btn-group">
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>编辑</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="delete"><i class="fa fa-trash" aria-hidden="true"></i>删除</a>
+
+        </div>
+    {% endverbatim %}
 </script>
 
 </body>

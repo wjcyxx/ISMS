@@ -22,3 +22,21 @@ class EnvRuleModelForm(ModelForm):
             'FDesc': Fwidgets.Textarea(attrs={'class': 'layui-textarea', 'autocomplete': 'off', 'rows': '1'})
 
         }
+
+
+class EnvRuleSwitchModelForm(ModelForm):
+
+    class Meta:
+        model = envruleswitch
+        fields = '__all__'
+
+        widgets = {
+            'FID': Fwidgets.Input(attrs={'type': 'hidden'}),
+            'FPID': Fwidgets.Input(attrs={'type': 'hidden'}),
+            'FPort': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
+            'FStatus': Fwidgets.CheckboxInput(attrs={'lay-skin': 'switch', 'lay-text': '通|断'}),
+            'FCommand': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
+            'FDriverdevice': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
+            'FDesc': Fwidgets.Textarea(attrs={'class': 'layui-textarea', 'autocomplete': 'off', 'rows': '1'})
+
+        }
