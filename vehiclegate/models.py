@@ -37,3 +37,24 @@ class vehiclegate(models.Model):
 
     class Meta:
         db_table = 'T_VehicleGate'
+
+
+class vehiclesigin(models.Model):
+
+    FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
+    FPID = models.CharField(max_length=32, verbose_name='FPID', blank=True, null=True)
+    FVehtypeID = models.CharField(max_length=32, verbose_name='车辆类型', blank=True, null=True)
+    FIsCurrent = models.BooleanField(verbose_name='通行策略', default=True)
+    FBegindate = models.DateField(verbose_name='起始时间', blank=True, null=True)
+    FEnddate = models.DateField(verbose_name='截止时间', blank=True, null=True)
+    FIsIndefinite = models.BooleanField(default=False, verbose_name='长期有效')
+    FDesc = models.CharField(max_length=1024, verbose_name='备注', blank=True, null=True)
+    CREATED_PRJ = models.CharField(max_length=32, verbose_name='所属项目', blank=True, null=True)
+    CREATED_ORG = models.CharField(max_length=32, verbose_name='创建组织', blank=True, null=True)
+    CREATED_BY = models.CharField(max_length=32, verbose_name='创建人', blank=True, null=True)
+    CREATED_TIME = models.DateTimeField(blank=True, null=True, verbose_name='创建时间')
+    UPDATED_BY = models.CharField(max_length=32, verbose_name='更新人', blank=True, null=True)
+    UPDATED_TIME = models.DateTimeField(auto_now=True, verbose_name='更新时间')
+
+    class Meta:
+        db_table = 'T_VehicleSigin'

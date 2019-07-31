@@ -55,10 +55,10 @@
       $("#btnAdd").click(function () {
           parent.layer.open({
               type:   2,
-              title:  '新增车行通道',
+              title:  '新增车辆出入口',
               area: ['920px','380px'],
               fixed: false,
-              content: "{% url 'safetrain:add' %}",
+              content: "{% url 'vehiclegate:add' %}",
               resize: false,
               move: false
           });
@@ -73,10 +73,10 @@
               {field:'FGate', width: '20%', title: '通道名称', sort: true},
               {field:'FDevID', width: '15%', title: '通道设备', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FDevID, Devinfo)}}{% endverbatim %}</div>'},
               {field:'FAreaID', width: '15%', title: '所属区域', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FAreaID, Areainfo)}}{% endverbatim %}</div>'},
-              {field:'FSubject', width: '25%', title: '培训主题', sort: true},
-              {field:'FTrainTeacher', width: '15%', title: '培训人', sort: true},
-              {field:'FTrainHour', width: '15%', title: '培训课时', sort: true},
+              {field:'FGatetype', width: '25%', title: '通道类型', sort: true, templet: '#tpType'},
+              {field:'FGateattr', width: '15%', title: '通道属性', sort: true, templet: '#tpAttr'},
               {field:'FDesc', width: '30%', title: '备注', sort: true},
+              {field:'FStatus', width: '15%', title: '状态', sort: true, templet: '#tpStatus'},
               {field:'', title: '操作', width: '23%', toolbar: '#tlbar', fixed: 'right'}
           ]],
           id: 'runreload'
@@ -103,24 +103,70 @@
               case 'edit' :              //编辑按钮事件
                   parent.layer.open({
                       type:   2,
-                      title:  '编辑安全培训',
+                      title:  '编辑车辆出入口',
                       area: ['920px','550px'],
                       fixed: false,
-                      content: "{% url 'safetrain:edit' %}?fid="+data.FID,
+                      content: "{% url 'vehiclegate:edit' %}?fid="+data.FID,
                       resize: false,
                       move: false
                   });
 
                   break;
 
+              case 'disabled' :               //禁用按钮事件
+                  parent.layer.open({
+                      content: '是否确定禁用该车行通道',
+                      btn: ['确定','取消'],
+                      yes: function (index) {
+                          $.post("{% url 'vehiclegate:disabled' %}?type=lock", fid, function (data) {
+                              if (data.result=='0') {
+                                  //window.parent.document.getElementById('Project').contentWindow.location.reload();
+                                  table.reload('runreload', {where: {resultdict:{FGate: ''}}});
+                              } else if (data.result=='2') {
+                                  parent.layer.alert('规则禁用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                              }
 
-              case 'selperson'  :       //选择工人按钮事件
+                          },"json");
+
+                          parent.layer.close(index);
+                      },
+                      btn2: function (index) {
+                      }
+                  });
+
+                  break;
+
+              case 'enabled' :
+                  parent.layer.open({
+                      content: '是否确定启用该车行通道',
+                      btn: ['确定','取消'],
+                      yes: function (index) {
+                          $.post("{% url 'vehiclegate:disabled' %}?type=unlock", fid, function (data) {
+                              if (data.result=='0') {
+                                  //window.parent.document.getElementById('Organize').contentWindow.location.reload();
+                                  table.reload('runreload', {where: {resultdict:{FGate: ''}}});
+                              } else if (data.result=='2') {
+                                  parent.layer.alert('规则启用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                              }
+
+                          },"json");
+
+                          parent.layer.close(index);
+                      },
+                      btn2: function (index) {
+                      }
+                  });
+
+
+                  break;
+
+              case 'sigin'  :       //选择工人按钮事件
                   parent.layer.open({
                       type:   2,
-                      title:  '选择参与培训的工人',
-                      area: ['1100px','640px'],
+                      title:  '增加车辆通行策略',
+                      area: ['920px','380px'],
                       fixed: false,
-                      content: "{% url 'safetrain:selperson' %}?fid="+data.FID,
+                      content: "{% url 'vehiclegate:add_sigin' %}?fid="+data.FID,
                       resize: false,
                       move: false
                   });
@@ -131,14 +177,54 @@
   });
 </script>
 
+<!--显示通道类型状态模板-->
+<script type="text/html" id="tpType">
+     {% verbatim %}
+        {{#  if(d.FGatetype == 0){ }}
+            <span>入口</span>
+        {{#  } else if(d.FGatetype == 1) { }}
+            <span>出口</span>
+        {{#  } }}
+     {% endverbatim %}
+</script>
+
+<!--显示通道属性模板-->
+<script type="text/html" id="tpAttr">
+     {% verbatim %}
+        {{#  if(d.FGateattr == 0){ }}
+            <span>普通通道</span>
+        {{#  } else if(d.FGateattr == 1) { }}
+            <span>货运称重通道</span>
+        {{#  } }}
+     {% endverbatim %}
+</script>
+
+<!--显示启用状态模板-->
+<script type="text/html" id="tpStatus">
+    {% verbatim %}
+        {{#  if(d.FStatus == false){ }}
+            <span style="color: red">禁用</span>
+        {{#  } else if(d.FStatus == true) { }}
+            <span style="color: green">启用</span>
+        {{#  } }}
+    {% endverbatim %}
+</script>
+
+
 <!--生成操作工具栏-->
 <script type="text/html" id="tlbar">
     {% verbatim %}
         <div class="layui-btn-group">
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>编辑</a>
-            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="selperson"><i class="fa fa-users" aria-hidden="true"></i>选择工人</a>
-            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="import"><i class="fa fa-table" aria-hidden="true"></i>从excel导入</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="sigin"><i class="fa fa-sign-in" aria-hidden="true"></i>通行策略</a>
 
+            {{# if(d.FStatus == true){ }}
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>
+            {{# } else if(d.FStatus == false){ }}
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="enabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>启用</a>
+            {{# } else { }}
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>
+            {{# } }}
         </div>
     {% endverbatim %}
 </script>

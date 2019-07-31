@@ -22,21 +22,15 @@
                                 <label class="layui-form-label" style="color: red">通道名称</label>
                                 <div class="layui-input-block">
                                     {{ obj.FID }}
-                                    {{ obj.FGate }}
+                                    <input type="hidden" name="FPID" id="FPID" value="{{ fid }}">
+                                    {{ obj.FVehtypeID }}
                                 </div>
                             </div>
 
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">通道设备</label>
+                                <label class="layui-form-label" style="color: red">通行策略</label>
                                 <div class="layui-input-block">
-                                    {{ obj.FDevID }}
-                                </div>
-                            </div>
-
-                            <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">所属区域</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FAreaID }}
+                                    {{ obj.FIsCurrent }}
                                 </div>
                             </div>
 
@@ -44,23 +38,23 @@
 
                         <div class="layui-row layui-col-space10">
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">通道类型</label>
+                                <label class="layui-form-label" style="color: red">起始时间</label>
                                 <div class="layui-input-block">
-                                    {{ obj.FGatetype }}
+                                    {{ obj.FBegindate }}
                                 </div>
                             </div>
 
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">通道属性</label>
+                                <label class="layui-form-label" style="color: red">截止时间</label>
                                 <div class="layui-input-block">
-                                    {{ obj.FGateattr }}
+                                    {{ obj.FEnddate }}
                                 </div>
                             </div>
 
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">状态</label>
+                                <label class="layui-form-label" style="color: red">长期有效</label>
                                 <div class="layui-input-block">
-                                    {{ obj.FStatus }}
+                                    {{ obj.FIsIndefinite }}
                                 </div>
                             </div>
                         </div>
@@ -122,19 +116,28 @@ layui.use(['element','layer','form', 'laydate', 'table'], function () {
     });
 
 
+    laydate.render({
+        elem: '#id_FBegindate',
+        trigger: 'click'
+    });
+
+    laydate.render({
+        elem: '#id_FEnddate',
+        trigger: 'click'
+    });
+
+
     //车辆通行策略table
 
     //监听窗口提交
     form.on('submit(formsubmit)', function (data) {
         $.ajax({
             type: "POST",
-            url:  "{% url 'vehiclegate:insert' %}?actype={{ action }}",
+            url:  "{% url 'vehiclegate:insert_sigin' %}?actype={{ action }}",
             data: data.field,
             dataType: "json",
             success: function (data) {
                 if (data.result=='0') {
-                    window.parent.document.getElementById('Vehiclegate').contentWindow.location.reload();
-
                     var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
                     parent.layer.close(index);
                 } else if (data.result=='1'){

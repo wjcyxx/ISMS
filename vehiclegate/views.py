@@ -4,8 +4,10 @@ from django.http import HttpRequest
 from django.shortcuts import redirect
 from django.db.models import Q
 from .models import vehiclegate as T_VehicleGate
+from .models import vehiclesigin as T_VehicleSigin
 from device.models import device
 from area.models import area
+from basedata.models import base
 from common.views import *
 from django.http import JsonResponse
 from .forms import *
@@ -37,4 +39,76 @@ class get_datasource(get_datasource_base):
         vehiclegate_info =  T_VehicleGate.objects.filter(Q(CREATED_PRJ=prj_id), Q(FGate__contains=serinput))
 
         return vehiclegate_info
+
+
+#链接增加模板
+class add(add_base):
+    def set_view(self, request):
+        self.template_name = 'content/vehiclegate/vehiclegateadd.html'
+        self.objForm = VehicleGateModelForm
+        self.query_sets = [
+            device.objects.filter(Q(FStatus=True)),
+            area.objects.filter(Q(CREATED_PRJ=self.request.session['PrjID']), Q(FStatus=True))
+        ]
+        self.query_set_idfields = ['FDevID', 'FAreaID']
+        self.query_set_valuefields = ['FDevice', 'FName']
+
+#链接编辑模板
+class edit(edit_base):
+    def set_view(self, request):
+        self.template_name = 'content/vehiclegate/vehiclegateadd.html'
+        self.model = T_VehicleGate
+        self.objForm = VehicleGateModelForm
+        self.query_sets = [
+            device.objects.filter(Q(FStatus=True)),
+            area.objects.filter(Q(CREATED_PRJ=self.request.session['PrjID']), Q(FStatus=True))
+        ]
+        self.query_set_idfields = ['FDevID', 'FAreaID']
+        self.query_set_valuefields = ['FDevice', 'FName']
+
+#处理新增及保存数据
+class insert(insert_base):
+    def set_view(self, request):
+        self.model = T_VehicleGate
+        self.objForm = VehicleGateModelForm
+        self.query_sets = [
+            device.objects.filter(Q(FStatus=True)),
+            area.objects.filter(Q(CREATED_PRJ=self.request.session['PrjID']), Q(FStatus=True))
+        ]
+        self.query_set_idfields = ['FDevID', 'FAreaID']
+        self.query_set_valuefields = ['FDevice', 'FName']
+
+
+#处理禁用/启用
+class disabled(disabled_base):
+    def set_view(self, request):
+        self.model = T_VehicleGate
+
+
+#链接新增通行策略模板
+class add_sigin(add_base):
+    def set_view(self, request):
+        fid = ''.join(str(self.request.GET.get('fid')).split('-'))
+
+        self.template_name = 'content/vehiclegate/vehiclesiginadd.html'
+        self.objForm = VehicleSiginModelForm
+        self.query_sets = [
+            base.objects.filter(Q(FPID='571076ccb39311e98ed5708bcdb9b39a'))
+        ]
+        self.query_set_idfields = ['FVehtypeID']
+        self.query_set_valuefields = ['FBase']
+        self.context['fid'] = fid
+
+
+#处理通行策略新增及保存数据
+class insert_sigin(insert_base):
+    def set_view(self, request):
+        self.model = T_VehicleSigin
+        self.objForm = VehicleSiginModelForm
+        self.type = 1
+        self.query_sets = [
+            base.objects.filter(Q(FPID='571076ccb39311e98ed5708bcdb9b39a'))
+        ]
+        self.query_set_idfields = ['FVehtypeID']
+        self.query_set_valuefields = ['FBase']
 
