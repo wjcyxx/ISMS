@@ -38,9 +38,7 @@
 {% include "common/jsfiles.html" %}
 
 <script>
-  var Orginfo = {{ organize|safe }}
-  var Devinfo = {{ device|safe }};
-  var Typeinfo = {{ base|safe }}
+  var Plateinfo = {{ vehiclefiles|safe }};
 
   layui.use(['element', 'layer', 'table'], function(){
       var $ = layui.jquery
@@ -49,17 +47,17 @@
           ,layer = layui.layer;
 
       $("#btnClose").click(function () {
-          window.parent.layui.element.tabDelete('tabMain','Vehiclefiles');
+          window.parent.layui.element.tabDelete('tabMain','Elecfencle');
       });
 
       //新增按钮事件
       $("#btnAdd").click(function () {
           parent.layer.open({
               type:   2,
-              title:  '新增车辆档案',
-              area: ['1000px','480px'],
+              title:  '新增电子围栏',
+              area: ['960px','390px'],
               fixed: false,
-              content: "{% url 'vehiclefiles:add' %}",
+              content: "{% url 'elecfencle:add' %}",
               resize: false,
               move: false
           });
@@ -69,17 +67,14 @@
           page: true,
           limit: 20,
           elem: '#datasource',
-          url: "{% url 'vehiclefiles:get_datasource' %}",
+          url: "{% url 'elecfencle:get_datasource' %}",
           cols: [[
-              {field:'FPlate', width: '20%', title: '车牌号码', sort: true},
-              {field:'FDrivers', width: '20%', title: '驾驶人', sort: true},
-              {field:'FOrgID', width: '20%', title: '所属单位', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FOrgID, Orginfo)}}{% endverbatim %}</div>'},
-              {field:'FVehicletypeID', width: '20%', title: '车辆类型', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FVehicletypeID, Typeinfo)}}{% endverbatim %}</div>'},
-              {field:'FValiddate', width: '20%', title: '有效日期', sort: true},
-              {field:'FRfidcard', width: '20%', title: 'RFID卡号', sort: true},
-              {field:'FDevID', width: '20%', title: 'GPS设备', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FDevID, Devinfo)}}{% endverbatim %}</div>'},
-              {field:'FIsMonitor', width: '15%', title: '电子围栏监控', sort: true, templet: '#tpSwitch'},
-              {field:'FTare', width: '15%', title: '车辆皮重', sort: true},
+              {field:'FElecFence', width: '20%', title: '围栏名称', sort: true},
+              {field:'FMonitortype', width: '20%', title: '监控方式', sort: true, templet: '#tpType'},
+              {field:'FPlate', width: '20%', title: '监控车牌号码', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPlate, Plateinfo)}}{% endverbatim %}</div>'},
+              {field:'FElecFenceCoordinate', width: '30%', title: '围栏坐标', sort: true},
+              {field:'FDeviation', width: '20%', title: '报警偏离距离', sort: true},
+              {field:'FCoordinatetype', width: '15%', title: '坐标类型', sort: true, templet: '#tpCoord'},
               {field:'FDesc', width: '30%', title: '备注', sort: true},
               {field:'FStatus', width: '15%', title: '状态', sort: true, templet: '#tpStatus'},
               {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
@@ -91,7 +86,7 @@
         form.on('submit(formsubmit)', function (data) {
             var serinput = $("input[name='serinput']").val();
             //alert(serinput);
-            table.reload('runreload', {where: {resultdict:{FPlate: serinput}}});
+            table.reload('runreload', {where: {resultdict:{FElecFence: serinput}}});
 
             return false;
         });
@@ -109,9 +104,9 @@
                   parent.layer.open({
                       type:   2,
                       title:  '编辑车辆档案',
-                      area: ['1000px','480px'],
+                      area: ['960px','390px'],
                       fixed: false,
-                      content: "{% url 'vehiclefiles:edit' %}?fid="+data.FID,
+                      content: "{% url 'elecfencle:edit' %}?fid="+data.FID,
                       resize: false,
                       move: false
                   });
@@ -120,15 +115,15 @@
 
               case 'disabled' :               //禁用按钮事件
                   parent.layer.open({
-                      content: '是否确定禁用该车辆',
+                      content: '是否确定禁用该电子围栏',
                       btn: ['确定','取消'],
                       yes: function (index) {
-                          $.post("{% url 'vehiclefiles:disabled' %}?type=lock", fid, function (data) {
+                          $.post("{% url 'elecfencle:disabled' %}?type=lock", fid, function (data) {
                               if (data.result=='0') {
                                   //window.parent.document.getElementById('Project').contentWindow.location.reload();
-                                  table.reload('runreload', {where: {resultdict:{FPlate: ''}}});
+                                  table.reload('runreload', {where: {resultdict:{FElecFence: ''}}});
                               } else if (data.result=='2') {
-                                  parent.layer.alert('车辆禁用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                                  parent.layer.alert('围栏禁用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
                               }
 
                           },"json");
@@ -146,10 +141,10 @@
                       content: '是否确定启用该车辆',
                       btn: ['确定','取消'],
                       yes: function (index) {
-                          $.post("{% url 'vehiclefiles:disabled' %}?type=unlock", fid, function (data) {
+                          $.post("{% url 'elecfencle:disabled' %}?type=unlock", fid, function (data) {
                               if (data.result=='0') {
                                   //window.parent.document.getElementById('Organize').contentWindow.location.reload();
-                                  table.reload('runreload', {where: {resultdict:{FPlate: ''}}});
+                                  table.reload('runreload', {where: {resultdict:{FElecFence: ''}}});
                               } else if (data.result=='2') {
                                   parent.layer.alert('车辆启用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
                               }
@@ -169,13 +164,29 @@
   });
 </script>
 
+  <!--显示监控方式模板-->
+  <script type="text/html" id="tpType">
+      {% verbatim %}
+      {{#  if(d.FMonitortype == 0){ }}
+      <span>所有车辆</span>
+      {{#  } else if(d.FMonitortype == 1) { }}
+      <span>选定车辆</span>
+      {{#  } }}
+      {% endverbatim %}
+  </script>
 
-<!--显示通行策略开关模板-->
-<script type="text/html" id="tpSwitch">
-    {% verbatim %}
-        <input type="checkbox" name="FIsMonitor" value="{{d.FIsMonitor}}" disabled="disabled" lay-skin="switch" lay-text="是|否"  {{ d.FIsMonitor == true ? 'checked' : '' }} >
-    {% endverbatim %}
-</script>
+  <!--显示坐标类型模板-->
+  <script type="text/html" id="tpCoord">
+      {% verbatim %}
+      {{#  if(d.FCoordinatetype == 0){ }}
+      <span>百度坐标</span>
+      {{#  } else if(d.FCoordinatetype == 1) { }}
+      <span>GPS坐标</span>
+      {{#  } else if(d.FCoordinatetype == 2) { }}
+      <span>国测局经纬度</span>
+      {{#  } }}
+      {% endverbatim %}
+  </script>
 
 <!--显示启用状态模板-->
 <script type="text/html" id="tpStatus">

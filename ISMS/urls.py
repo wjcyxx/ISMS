@@ -46,7 +46,8 @@ urlpatterns = [
     path('envalarmlog/', include('envalarmlog.urls'), name='envalarmlog'),
     path('vehiclegate/', include('vehiclegate.urls'), name='vehiclegate'),
     path('vehiclefiles/', include('vehiclefiles.urls'), name='vehiclefiles'),
-    path('vehiclepasslog/', include('vehiclepasslog.urls'), name='vehiclepasslog')
+    path('vehiclepasslog/', include('vehiclepasslog.urls'), name='vehiclepasslog'),
+    path('elecfencle/', include('elecfencle.urls'), name='elecfencle')
 
 ]
 
