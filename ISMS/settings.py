@@ -59,7 +59,9 @@ INSTALLED_APPS = [
     'envdatalog',
     'envrule',
     'envalarmlog',
-    'vehiclegate'
+    'vehiclegate',
+    'vehiclefiles',
+    'vehiclepasslog'
 ]
 
 MIDDLEWARE = [

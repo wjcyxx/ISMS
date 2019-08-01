@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include "common/resfiles.html" %}
+</head>
+<body style="overflow: hidden;">
+
+  <!--安全帽规则信息列表  -->
+
+    <!-- 工具条 -->
+      <!-- 查询框 -->
+      <div class="layui-collapse">
+          <div class="layui-colla-item">
+              <h2 class="layui-colla-title">查询条件</h2>
+              <div class="layui-colla-content">
+                  <form class="layui-form" method="post">
+                      <div class="layui-inline">
+                          <input type="text" name="serinput" placeholder="输入车牌号码" autocomplete="off" class="layui-input" value="" style="width: 120%">
+                      </div>
+
+                      <div class="layui-inline" style="margin-left: 35px">
+                          <input type="button" class="layui-btn layui-btn-small layui-btn-normal layui-icon" lay-submit lay-filter="formsubmit" value="&#xe615;查  询"/>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+
+      <div style="padding-top: 10px" >
+        <a href="javascript:;" class="layui-btn layui-btn-normal" id="btnAdd">增加</a>
+        <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
+      </div>
+
+      <!-- 数据列表 -->
+
+      <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
+
+{% include "common/jsfiles.html" %}
+
+<script>
+  var Orginfo = {{ organize|safe }}
+  var Devinfo = {{ device|safe }};
+  var Typeinfo = {{ base|safe }}
+
+  layui.use(['element', 'layer', 'table'], function(){
+      var $ = layui.jquery
+          ,element = layui.element
+          ,table = layui.table
+          ,layer = layui.layer;
+
+      $("#btnClose").click(function () {
+          window.parent.layui.element.tabDelete('tabMain','Vehiclefiles');
+      });
+
+      //新增按钮事件
+      $("#btnAdd").click(function () {
+          parent.layer.open({
+              type:   2,
+              title:  '新增车辆档案',
+              area: ['1000px','480px'],
+              fixed: false,
+              content: "{% url 'vehiclefiles:add' %}",
+              resize: false,
+              move: false
+          });
+      });
+
+      table.render({
+          page: true,
+          limit: 20,
+          elem: '#datasource',
+          url: "{% url 'vehiclefiles:get_datasource' %}",
+          cols: [[
+              {field:'FPlate', width: '20%', title: '车牌号码', sort: true},
+              {field:'FDrivers', width: '20%', title: '驾驶人', sort: true},
+              {field:'FOrgID', width: '20%', title: '所属单位', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FOrgID, Orginfo)}}{% endverbatim %}</div>'},
+              {field:'FVehicletypeID', width: '20%', title: '车辆类型', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FVehicletypeID, Typeinfo)}}{% endverbatim %}</div>'},
+              {field:'FValiddate', width: '20%', title: '有效日期', sort: true},
+              {field:'FRfidcard', width: '20%', title: 'RFID卡号', sort: true},
+              {field:'FDevID', width: '20%', title: 'GPS设备', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FDevID, Devinfo)}}{% endverbatim %}</div>'},
+              {field:'FIsMonitor', width: '15%', title: '电子围栏监控', sort: true, templet: '#tpSwitch'},
+              {field:'FTare', width: '15%', title: '车辆皮重', sort: true},
+              {field:'FDesc', width: '30%', title: '备注', sort: true},
+              {field:'FStatus', width: '15%', title: '状态', sort: true, templet: '#tpStatus'},
+              {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
+          ]],
+          id: 'runreload'
+      });
+
+      //监听查询条件提交
+        form.on('submit(formsubmit)', function (data) {
+            var serinput = $("input[name='serinput']").val();
+            //alert(serinput);
+            table.reload('runreload', {where: {resultdict:{FPlate: serinput}}});
+
+            return false;
+        });
+
+
+      //监听工具栏按钮事件
+      table.on('tool(toolbar)', function (obj) {
+          var data = obj.data;           //获取当前行数据
+          var layEvent = obj.event;      //获取当前行事件
+          var tr = obj.tr;               //获取当前行tr的DOM数据
+          var fid = {"fid":data.FID};
+
+          switch (layEvent){
+              case 'edit' :              //编辑按钮事件
+                  parent.layer.open({
+                      type:   2,
+                      title:  '编辑车辆档案',
+                      area: ['1000px','480px'],
+                      fixed: false,
+                      content: "{% url 'vehiclefiles:edit' %}?fid="+data.FID,
+                      resize: false,
+                      move: false
+                  });
+
+                  break;
+
+              case 'disabled' :               //禁用按钮事件
+                  parent.layer.open({
+                      content: '是否确定禁用该车辆',
+                      btn: ['确定','取消'],
+                      yes: function (index) {
+                          $.post("{% url 'vehiclefiles:disabled' %}?type=lock", fid, function (data) {
+                              if (data.result=='0') {
+                                  //window.parent.document.getElementById('Project').contentWindow.location.reload();
+                                  table.reload('runreload', {where: {resultdict:{FGate: ''}}});
+                              } else if (data.result=='2') {
+                                  parent.layer.alert('车辆禁用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                              }
+
+                          },"json");
+
+                          parent.layer.close(index);
+                      },
+                      btn2: function (index) {
+                      }
+                  });
+
+                  break;
+
+              case 'enabled' :
+                  parent.layer.open({
+                      content: '是否确定启用该车辆',
+                      btn: ['确定','取消'],
+                      yes: function (index) {
+                          $.post("{% url 'vehiclefiles:disabled' %}?type=unlock", fid, function (data) {
+                              if (data.result=='0') {
+                                  //window.parent.document.getElementById('Organize').contentWindow.location.reload();
+                                  table.reload('runreload', {where: {resultdict:{FGate: ''}}});
+                              } else if (data.result=='2') {
+                                  parent.layer.alert('车辆启用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                              }
+
+                          },"json");
+
+                          parent.layer.close(index);
+                      },
+                      btn2: function (index) {
+                      }
+                  });
+
+
+                  break;
+          }
+      });
+  });
+</script>
+
+
+<!--显示通行策略开关模板-->
+<script type="text/html" id="tpSwitch">
+    {% verbatim %}
+        <input type="checkbox" name="FIsMonitor" value="{{d.FIsMonitor}}" disabled="disabled" lay-skin="switch" lay-text="是|否"  {{ d.FIsMonitor == true ? 'checked' : '' }} >
+    {% endverbatim %}
+</script>
+
+<!--显示启用状态模板-->
+<script type="text/html" id="tpStatus">
+    {% verbatim %}
+        {{#  if(d.FStatus == false){ }}
+            <span style="color: red">禁用</span>
+        {{#  } else if(d.FStatus == true) { }}
+            <span style="color: green">启用</span>
+        {{#  } }}
+    {% endverbatim %}
+</script>
+
+
+<!--生成操作工具栏-->
+<script type="text/html" id="tlbar">
+    {% verbatim %}
+        <div class="layui-btn-group">
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>编辑</a>
+
+            {{# if(d.FStatus == true){ }}
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>
+            {{# } else if(d.FStatus == false){ }}
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="enabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>启用</a>
+            {{# } else { }}
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>
+            {{# } }}
+        </div>
+    {% endverbatim %}
+</script>
+
+</body>
+</html>

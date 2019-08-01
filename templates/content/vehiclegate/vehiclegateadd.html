@@ -86,7 +86,7 @@
                         <div class="layui-card-header" id="divTrain">车辆通行策略</div>
                         <!-- 表单内容 -->
                         <div class="layui-card-body">
-                            <table class="layui-table" id="datasource"></table>
+                            <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
                         </div>
                     </div>
                 </div>
@@ -107,6 +107,7 @@
 
 <script>
 var fid = $("#id_FID").val();
+var Vehtype = {{ vehtype|safe }};
 
 layui.use(['element','layer','form', 'laydate', 'table'], function () {
     var element = layui.element
@@ -123,6 +124,58 @@ layui.use(['element','layer','form', 'laydate', 'table'], function () {
 
 
     //车辆通行策略table
+    table.render({
+        page: true,
+        limit: 20,
+        elem: '#datasource',
+        url: "{% url 'vehiclegate:get_sigin_datasource' %}?fid="+fid,
+        cols: [[
+            {field:'FVehtypeID', width: '20%', title: '车辆类型', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FVehtypeID, Vehtype)}}{% endverbatim %}</div>'},
+            {field:'FIsCurrent', width: '15%', title: '通行策略', sort: true, templet: '#tpSwitch'},
+            {field:'FBegindate', width: '20%', title: '起始时间', sort: true},
+            {field:'FEnddate', width: '20%', title: '截止时间', sort: true},
+            {field:'FIsIndefinite', width: '15%', title: '长期有效', sort: true, templet: '#tpLong'},
+            {field:'FDesc', width: '30%', title: '备注', sort: true},
+            {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
+        ]],
+    });
+
+
+    //监听工具栏按钮事件
+    table.on('tool(toolbar)', function (obj) {
+        var data = obj.data;           //获取当前行数据
+        var layEvent = obj.event;      //获取当前行事件
+        var tr = obj.tr;               //获取当前行tr的DOM数据
+        var fid_delete = {"fid":data.FID};
+
+        switch (layEvent){
+            case 'delete' :              //编辑按钮事件
+                parent.layer.open({
+                    content: '是否确定删除该数据',
+                    btn: ['确定','取消'],
+                    yes: function (index) {
+                        $.post("{% url 'vehiclegate:delete_sigin' %}", fid_delete, function (data) {
+                            if (data.result == '0'){
+                                location.reload();
+                            } else if (data.result == '1')  {
+                                parent.layer.alert('删除失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                            }
+                        },"json");
+
+                        parent.layer.close(index);
+                    },
+                    btn2: function (index) {
+
+                    }
+                });
+
+                break;
+
+            case '':
+                break;
+        }
+    });
+
 
     //监听窗口提交
     form.on('submit(formsubmit)', function (data) {
@@ -151,6 +204,31 @@ layui.use(['element','layer','form', 'laydate', 'table'], function () {
         return false;
     });
 })
+</script>
+
+<!--显示通行策略开关模板-->
+<script type="text/html" id="tpSwitch">
+    {% verbatim %}
+    <input type="checkbox" name="FIsCurrent" value="{{d.FIsCurrent}}" disabled="disabled" lay-skin="switch" lay-text="允许通行|禁止通行"  {{ d.FIsCurrent == true ? 'checked' : '' }} >
+    {% endverbatim %}
+</script>
+
+<!--显示长期有效开关模板-->
+<script type="text/html" id="tpLong">
+    {% verbatim %}
+    <input type="checkbox" name="FIsIndefinite" value="{{d.FIsIndefinite}}" disabled="disabled" lay-skin="switch" lay-text="是|否"  {{ d.FIsIndefinite == true ? 'checked' : '' }} >
+    {% endverbatim %}
+</script>
+
+<!--生成操作工具栏-->
+<script type="text/html" id="tlbar">
+    {% verbatim %}
+    <div class="layui-btn-group">
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>编辑</a>
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="delete"><i class="fa fa-trash" aria-hidden="true"></i>删除</a>
+
+    </div>
+    {% endverbatim %}
 </script>
 
 

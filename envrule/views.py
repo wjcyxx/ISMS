@@ -101,6 +101,7 @@ class add_switch(add_base):
         self.objForm = EnvRuleSwitchModelForm
         self.context['fid'] = fid
 
+#返回控制策略数据table
 class get_switch_datasource(get_datasource_base):
     def get_queryset(self, reqeust):
 

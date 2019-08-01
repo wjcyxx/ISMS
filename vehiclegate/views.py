@@ -52,6 +52,7 @@ class add(add_base):
         ]
         self.query_set_idfields = ['FDevID', 'FAreaID']
         self.query_set_valuefields = ['FDevice', 'FName']
+        self.context['vehtype'] = 'null'
 
 #链接编辑模板
 class edit(edit_base):
@@ -65,6 +66,11 @@ class edit(edit_base):
         ]
         self.query_set_idfields = ['FDevID', 'FAreaID']
         self.query_set_valuefields = ['FDevice', 'FName']
+
+        vehicletype_info = get_dict_table(base.objects.filter(Q(FPID='571076ccb39311e98ed5708bcdb9b39a')), 'FID', 'FBase')
+        self.context['vehtype'] = vehicletype_info
+
+
 
 #处理新增及保存数据
 class insert(insert_base):
@@ -100,6 +106,17 @@ class add_sigin(add_base):
         self.context['fid'] = fid
 
 
+
+#返回控制策略数据table
+class get_sigin_datasource(get_datasource_base):
+    def get_queryset(self, reqeust):
+
+        fid = self.request.GET.get('fid')
+
+        vehiclesigin_info = T_VehicleSigin.objects.filter(Q(FPID=fid))
+        return vehiclesigin_info
+
+
 #处理通行策略新增及保存数据
 class insert_sigin(insert_base):
     def set_view(self, request):
@@ -111,4 +128,10 @@ class insert_sigin(insert_base):
         ]
         self.query_set_idfields = ['FVehtypeID']
         self.query_set_valuefields = ['FBase']
+
+
+#处理控制策略删除
+class delete_sigin(delete_base):
+    def set_view(self,request):
+        self.model = T_VehicleSigin
 
