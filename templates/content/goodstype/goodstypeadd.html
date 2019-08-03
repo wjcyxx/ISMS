@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+  {% include "common/resfiles.html" %}
+</head>
+<body>
+
+<form class="layui-form layui-form-pane" accept-charset="utf-8">
+    <div style="padding: 10px; background-color: #F2F2F2;">
+        <div>
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formsubmit" >保存</button>
+            <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnC">关闭</a>
+        </div>
+
+        <div class="layui-row layui-col-space10" style="padding-top: 1%">
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header">物料大类</div>
+                    <div class="layui-card-body">
+                        <div class="layui-row layui-col-space15">
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label" style="color: red">大类编码</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FID }}
+                                    {{ obj.FGoodsTypeID }}
+                                </div>
+                            </div>
+
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label" style="color: red">大类名称</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FGoodsType }}
+                                </div>
+                            </div>
+
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label">偏差类别</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FDeviationType }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layui-row layui-col-space15">
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label" style="color: red">正偏差</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FPositiveDeviation }}
+                                </div>
+                            </div>
+
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label" style="color: red">负偏差</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FNegativeDeviation }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layui-row layui-col-space10">
+                            <div class="layui-col-xs12">
+                                <label class="layui-form-label">备注</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FDesc }}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if action == 'update' %}
+            <div class="layui-row layui-col-space10" style="padding-top: 1%">
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header" id="divTrain">物料子类</div>
+                        <!-- 表单内容 -->
+                        <div class="layui-card-body">
+                            <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+</form>
+
+<style>
+    .layui-unselect dl { max-height:200px; }
+</style>
+
+<!-- <script src="//res.layui.com/layui/build/layui.js" charset="utf-8"></script> -->
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+{% include "common/jsfiles.html" %}
+
+<script>
+var fid = $("#id_FID").val();
+
+layui.use(['element','layer','form', 'table', 'util'], function () {
+    var element = layui.element
+        , layer = layui.layer
+        , form = layui.form
+        , table = layui.table
+        , util = layui.util;
+
+    //关闭按钮
+    $("#btnC").click(function () {
+        var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
+        parent.layer.close(index);
+    });
+
+    util.fixbar({
+        bgcolor: '#01AAED'
+    });
+
+    //监听窗口提交
+    form.on('submit(formsubmit)', function (data) {
+        $.ajax({
+            type: "POST",
+            url:  "{% url 'goodstype:insert' %}?actype={{ action }}",
+            data: data.field,
+            dataType: "json",
+            success: function (data) {
+                if (data.result=='0') {
+                    window.parent.document.getElementById('Goodstype').contentWindow.location.reload();
+
+                    var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
+                    parent.layer.close(index);
+                } else if (data.result=='1'){
+                    for (item in data["msg"]){
+                        if (data["msg"][item]){
+                            layer.tips(data["msg"][item], $("input[name='"+item+"']"));
+                        }
+                    }
+                } else if (data.result=='2') {
+                    layer.alert('无效的执行方法');
+                }
+            }
+        });
+        return false;
+    });
+
+
+    //控制策略列表table
+    table.render({
+        elem: '#datasource',
+        url: "{% url 'envrule:get_switch_datasource' %}?fid="+fid,
+        cols: [[
+            {field:'FPort', width: '15%', title: '继电器端口', sort: true},
+            {field:'FDriverdevice', width: '20%', title: '控制外设', sort: true},
+            {field:'FStatus', width: '15%', title: '继电器状态', sort: true, templet: '#tpSwitch'},
+            {field:'FCommand', width: '25%', title: '继电器指令', sort: true},
+            {field:'FDesc', width: '30%', title: '描述', sort: true},
+            {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
+        ]],
+    });
+
+
+    //监听工具栏按钮事件
+    table.on('tool(toolbar)', function (obj) {
+        var data = obj.data;           //获取当前行数据
+        var layEvent = obj.event;      //获取当前行事件
+        var tr = obj.tr;               //获取当前行tr的DOM数据
+        var fid_delete = {"fid":data.FID};
+
+        switch (layEvent){
+            case 'delete' :              //编辑按钮事件
+                parent.layer.open({
+                    content: '是否确定删除该数据',
+                    btn: ['确定','取消'],
+                    yes: function (index) {
+                        $.post("{% url 'envrule:delete_switch' %}", fid_delete, function (data) {
+                            if (data.result == '0'){
+                                location.reload();
+                            } else if (data.result == '1')  {
+                                parent.layer.alert('删除失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                            }
+                        },"json");
+
+                        parent.layer.close(index);
+                    },
+                    btn2: function (index) {
+
+                    }
+                });
+
+                break;
+
+            case '':
+                break;
+        }
+    });
+
+
+
+})
+</script>
+
+<!--生成操作工具栏-->
+<script type="text/html" id="tlbar">
+    {% verbatim %}
+        <div class="layui-btn-group">
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>编辑</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="delete"><i class="fa fa-trash" aria-hidden="true"></i>删除</a>
+
+        </div>
+    {% endverbatim %}
+</script>
+
+</body>
+</html>

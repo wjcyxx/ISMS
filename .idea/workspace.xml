@@ -2,17 +2,35 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="13368a02-f9aa-4424-a3e8-8adb41529488" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/vehiclefiles/forms.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vehiclepasslog/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/elecalarm/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/elecalarm/admin.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/elecalarm/apps.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/elecalarm/migrations/0001_initial.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/elecalarm/migrations/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/elecalarm/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/elecalarm/tests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/elecalarm/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/elecalarm/views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/goodstype/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/goodstype/admin.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/goodstype/apps.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/goodstype/forms.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/goodstype/migrations/0001_initial.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/goodstype/migrations/0002_goodstype_fdesc.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/goodstype/migrations/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/goodstype/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/goodstype/tests.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/goodstype/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/goodstype/views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/content/elecalarm/elecalarminfo.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/content/goodstype/goodssubtypeadd.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/content/goodstype/goodstypeadd.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/content/goodstype/goodstypeinfo.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/f89171a7-feb3-4368-b6c5-08e5d6fb4599.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/f89171a7-feb3-4368-b6c5-08e5d6fb4599.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ISMS/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/ISMS/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ISMS/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/ISMS/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/envrule/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/envrule/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/common/sidebar.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/common/sidebar.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/content/vehiclegate/vehiclegateadd.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/content/vehiclegate/vehiclegateadd.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehiclegate/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/vehiclegate/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehiclegate/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/vehiclegate/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -58,56 +76,72 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vehiclepasslog/models.py">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/goodstype/forms.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="15" column="52" selection-start-line="15" selection-start-column="52" selection-end-line="15" selection-end-column="52" />
+            <state relative-caret-position="468">
+              <caret line="26" column="24" selection-start-line="26" selection-start-column="24" selection-end-line="26" selection-end-column="24" />
+              <folding>
+                <element signature="e#0#34#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/goodstype/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="695">
+              <caret line="61" column="9" selection-start-line="61" selection-start-column="9" selection-end-line="61" selection-end-column="9" />
+              <folding>
+                <element signature="e#0#35#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/envrule/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="505">
+              <caret line="94" selection-start-line="94" selection-end-line="94" />
+              <folding>
+                <element signature="e#0#35#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/content/goodstype/goodstypeadd.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1189">
+              <caret line="201" selection-start-line="201" selection-end-line="201" />
+              <folding>
+                <element signature="n#style#0;n#label#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#label#0;n#div#1;n#div#1;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/content/goodstype/goodstypeinfo.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-475">
+              <caret line="71" column="45" selection-start-line="71" selection-start-column="45" selection-end-line="71" selection-end-column="45" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/goodstype/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="414">
+              <caret line="23" column="21" selection-start-line="23" selection-start-column="21" selection-end-line="23" selection-end-column="21" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/vehiclepasslog/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="464">
-              <caret line="40" column="12" selection-start-line="40" selection-start-column="12" selection-end-line="40" selection-end-column="12" />
-              <folding>
-                <element signature="e#0#35#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/baseframe/baseframe.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="69" column="8" selection-start-line="69" selection-start-column="8" selection-end-line="69" selection-end-column="8" />
-              <folding>
-                <element signature="e#0#35#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/content/vehiclepasslog/vehiclepassloginfo.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="64" column="38" selection-start-line="64" selection-start-column="38" selection-end-line="64" selection-end-column="38" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/content/hatalertlog/hatalertinfo.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="98" selection-start-line="98" selection-end-line="98" />
             </state>
           </provider>
         </entry>
@@ -127,29 +161,11 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/hatalertlog/urls.py" />
-        <option value="$PROJECT_DIR$/templates/content/passagerecord/passagerecordinfo.html" />
-        <option value="$PROJECT_DIR$/templates/content/hatalertlog/hatalertinfo.html" />
-        <option value="$PROJECT_DIR$/hatalertlog/views.py" />
-        <option value="$PROJECT_DIR$/safetrain/forms.py" />
-        <option value="$PROJECT_DIR$/hatrule/views.py" />
-        <option value="$PROJECT_DIR$/templates/content/hatrule/hatruleinfo.html" />
-        <option value="$PROJECT_DIR$/templates/content/personnel/personneladd.html" />
-        <option value="$PROJECT_DIR$/safetrain/models.py" />
-        <option value="$PROJECT_DIR$/templates/content/safetrain/safetraininfo.html" />
-        <option value="$PROJECT_DIR$/safetrain/urls.py" />
-        <option value="$PROJECT_DIR$/templates/content/safetrain/selpersoninfo.html" />
-        <option value="$PROJECT_DIR$/envdatalog/views.py" />
-        <option value="$PROJECT_DIR$/envdatalog/urls.py" />
-        <option value="$PROJECT_DIR$/templates/content/envdatalog/envdataloginfo.html" />
-        <option value="$PROJECT_DIR$/templates/content/pedpassage/pedpassageinfo.html" />
-        <option value="$PROJECT_DIR$/safetrain/views.py" />
         <option value="$PROJECT_DIR$/templates/content/envrule/envruleinfo.html" />
         <option value="$PROJECT_DIR$/templates/content/envrule/envruleswitchadd.html" />
         <option value="$PROJECT_DIR$/templates/content/safetrain/safetrainadd.html" />
         <option value="$PROJECT_DIR$/baseframe/baseframe.py" />
         <option value="$PROJECT_DIR$/envrule/urls.py" />
-        <option value="$PROJECT_DIR$/templates/content/basedata/basedatainfo.html" />
         <option value="$PROJECT_DIR$/envalarmlog/models.py" />
         <option value="$PROJECT_DIR$/envalarmlog/urls.py" />
         <option value="$PROJECT_DIR$/templates/content/envalarmlog/envalarmloginfo.html" />
@@ -168,16 +184,34 @@
         <option value="$PROJECT_DIR$/vehiclefiles/forms.py" />
         <option value="$PROJECT_DIR$/templates/content/vehiclefiles/vehiclefilesadd.html" />
         <option value="$PROJECT_DIR$/vehiclefiles/views.py" />
-        <option value="$PROJECT_DIR$/templates/content/vehiclefiles/vehiclefilesinfo.html" />
         <option value="$PROJECT_DIR$/vehiclepasslog/models.py" />
-        <option value="$PROJECT_DIR$/ISMS/settings.py" />
         <option value="$PROJECT_DIR$/vehiclefiles/models.py" />
-        <option value="$PROJECT_DIR$/ISMS/urls.py" />
         <option value="$PROJECT_DIR$/vehiclepasslog/urls.py" />
-        <option value="$PROJECT_DIR$/templates/common/sidebar.html" />
         <option value="$PROJECT_DIR$/templates/content/vehiclepasslog/vehiclepassloginfo.html" />
-        <option value="$APPLICATION_CONFIG_DIR$/consoles/.datagrid/cell" />
         <option value="$PROJECT_DIR$/vehiclepasslog/views.py" />
+        <option value="$PROJECT_DIR$/elecfencle/forms.py" />
+        <option value="$PROJECT_DIR$/elecfencle/urls.py" />
+        <option value="$PROJECT_DIR$/templates/content/vehiclefiles/vehiclefilesinfo.html" />
+        <option value="$PROJECT_DIR$/elecfencle/views.py" />
+        <option value="$PROJECT_DIR$/templates/content/elecfencle/elecfencleadd.html" />
+        <option value="$PROJECT_DIR$/templates/content/elecfencle/elecfencleinfo.html" />
+        <option value="$PROJECT_DIR$/elecfencle/models.py" />
+        <option value="$PROJECT_DIR$/elecalarm/models.py" />
+        <option value="$PROJECT_DIR$/elecalarm/views.py" />
+        <option value="$PROJECT_DIR$/elecalarm/urls.py" />
+        <option value="$PROJECT_DIR$/templates/content/elecalarm/elecalarminfo.html" />
+        <option value="$APPLICATION_CONFIG_DIR$/consoles/.datagrid/cell" />
+        <option value="$PROJECT_DIR$/ISMS/settings.py" />
+        <option value="$PROJECT_DIR$/goodstype/models.py" />
+        <option value="$PROJECT_DIR$/basedata/forms.py" />
+        <option value="$PROJECT_DIR$/goodstype/urls.py" />
+        <option value="$PROJECT_DIR$/ISMS/urls.py" />
+        <option value="$PROJECT_DIR$/templates/content/basedata/basedatainfo.html" />
+        <option value="$PROJECT_DIR$/templates/common/sidebar.html" />
+        <option value="$PROJECT_DIR$/templates/content/goodstype/goodstypeadd.html" />
+        <option value="$PROJECT_DIR$/templates/content/goodstype/goodstypeinfo.html" />
+        <option value="$PROJECT_DIR$/goodstype/views.py" />
+        <option value="$PROJECT_DIR$/goodstype/forms.py" />
       </list>
     </option>
   </component>
@@ -191,7 +225,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -202,12 +235,17 @@
             <path>
               <item name="ISMS" type="b2602c69:ProjectViewProjectNode" />
               <item name="ISMS" type="462c0819:PsiDirectoryNode" />
-              <item name="envalarmlog" type="462c0819:PsiDirectoryNode" />
+              <item name="basedata" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="ISMS" type="b2602c69:ProjectViewProjectNode" />
               <item name="ISMS" type="462c0819:PsiDirectoryNode" />
+              <item name="envrule" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ISMS" type="b2602c69:ProjectViewProjectNode" />
               <item name="ISMS" type="462c0819:PsiDirectoryNode" />
+              <item name="goodstype" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="ISMS" type="b2602c69:ProjectViewProjectNode" />
@@ -231,24 +269,20 @@
               <item name="ISMS" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
               <item name="content" type="462c0819:PsiDirectoryNode" />
-              <item name="hatalertlog" type="462c0819:PsiDirectoryNode" />
+              <item name="basedata" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="ISMS" type="b2602c69:ProjectViewProjectNode" />
               <item name="ISMS" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
               <item name="content" type="462c0819:PsiDirectoryNode" />
-              <item name="vehiclepasslog" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ISMS" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ISMS" type="462c0819:PsiDirectoryNode" />
-              <item name="vehiclepasslog" type="462c0819:PsiDirectoryNode" />
+              <item name="goodstype" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -324,6 +358,8 @@
       <workItem from="1564619798445" duration="379000" />
       <workItem from="1564620182446" duration="11651000" />
       <workItem from="1564645540958" duration="4543000" />
+      <workItem from="1564663348044" duration="5807000" />
+      <workItem from="1564791494085" duration="7890000" />
     </task>
     <task id="LOCAL-00001" summary="完成organize模块, 开始project模块">
       <created>1562834926084</created>
@@ -416,30 +452,36 @@
       <option name="project" value="LOCAL" />
       <updated>1564567384493</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="完成elecfencle模块">
+      <created>1564669631094</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1564669631094</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="237434000" />
+    <option name="totallyTimeSpent" value="251131000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1280" height="723" extended-state="6" />
-    <editor active="true" />
+    <frame x="1" y="24" width="1920" height="977" extended-state="6" />
     <layout>
       <window_info id="Favorites" order="0" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="1" weight="0.26332796" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.2657082" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
-      <window_info id="Database" order="3" visible="true" weight="0.24555735" />
+      <window_info id="Database" order="3" weight="0.2454739" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3290938" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.318542" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.38985738" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.31751412" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.38870057" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Database Console" order="7" weight="0.3290938" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="9" weight="0.32753164" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.32655367" />
       <window_info anchor="bottom" id="Database Changes" order="10" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.3290938" />
       <window_info anchor="bottom" id="Event Log" order="12" side_tool="true" />
@@ -469,7 +511,8 @@
     <MESSAGE value="进行safetrain模块" />
     <MESSAGE value="进行envrule模块" />
     <MESSAGE value="进行vehiclegate模块" />
-    <option name="LAST_COMMIT_MESSAGE" value="进行vehiclegate模块" />
+    <MESSAGE value="完成elecfencle模块" />
+    <option name="LAST_COMMIT_MESSAGE" value="完成elecfencle模块" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -481,14 +524,9 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
-    <watches-manager>
-      <configuration name="PythonConfigurationType">
-        <watch expression="e" language="Python" />
-      </configuration>
-    </watches-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/ISMS$debug.coverage" NAME="debug Coverage Results" MODIFIED="1564650339602" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/ISMS$debug.coverage" NAME="debug Coverage Results" MODIFIED="1564793885599" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="watch">
@@ -500,323 +538,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="das://f89171a7-feb3-4368-b6c5-08e5d6fb4599/schema/ISMS/table/T_EnvAlarmLog">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true">
-            <filter text="" />
-          </filtering>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/envrule/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="326">
-          <caret line="28" selection-start-line="28" selection-end-line="28" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/safetrain/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="19" column="8" selection-start-line="19" selection-start-column="8" selection-end-line="19" selection-end-column="8" />
-          <folding>
-            <element signature="e#0#34#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/personnel/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="36" selection-start-line="36" selection-end-line="36" />
-          <folding>
-            <element signature="e#0#34#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/envrule/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="346">
-          <caret line="20" selection-start-line="20" selection-end-line="20" />
-          <folding>
-            <element signature="e#0#34#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/safetrain/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="16" selection-start-line="16" selection-end-line="16" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/envrule/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="11" selection-end-column="65" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/envdatalog/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="24" selection-start-line="24" selection-end-line="24" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/safetrain/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-280">
-          <caret line="71" column="33" selection-start-line="71" selection-start-column="33" selection-end-line="71" selection-end-column="33" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/content/safetrain/safetrainadd.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="366">
-          <caret line="183" selection-start-line="183" selection-end-line="183" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/envrule/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="449">
-          <caret line="123" selection-start-line="123" selection-end-line="123" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vehiclegate/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="101" lean-forward="true" selection-start-line="14" selection-start-column="101" selection-end-line="14" selection-end-column="101" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/content/envrule/envruleadd.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="347">
-          <caret line="207" column="50" lean-forward="true" selection-start-line="207" selection-start-column="50" selection-end-line="207" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vehiclegate/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="18" selection-start-line="18" selection-end-line="18" />
-          <folding>
-            <element signature="e#0#34#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/organize/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="16" column="11" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="12" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/device/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="10" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="11" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vehiclefiles/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="22" lean-forward="true" selection-start-line="3" selection-start-column="22" selection-end-line="3" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/content/vehiclegate/vehiclegateadd.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="107">
-          <caret line="208" selection-start-line="208" selection-end-line="208" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/content/vehiclegate/vehiclesiginadd.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="261">
-          <caret line="118" selection-start-line="118" selection-end-line="118" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vehiclegate/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="935">
-          <caret line="87" selection-start-line="87" selection-end-line="87" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/content/vehiclefiles/vehiclefilesadd.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-31">
-          <caret line="147" column="29" selection-start-line="147" selection-start-column="29" selection-end-line="147" selection-end-column="29" />
-          <folding>
-            <element signature="n#style#0;n#label#0;n#div#0;n#div#2;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vehiclefiles/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="19" column="71" selection-start-line="19" selection-start-column="71" selection-end-line="19" selection-end-column="71" />
-          <folding>
-            <element signature="e#0#34#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/content/vehiclefiles/vehiclefilesinfo.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-210">
-          <caret line="111" column="42" selection-start-line="111" selection-start-column="42" selection-end-line="111" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/personnel/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="333">
-          <caret line="101" column="60" selection-start-line="101" selection-start-column="50" selection-end-line="101" selection-end-column="61" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/envalarmlog/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" selection-start-line="15" selection-end-line="15" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ISMS/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="359">
-          <caret line="63" column="20" selection-start-line="63" selection-start-column="20" selection-end-line="63" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/envalarmlog/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="37" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vehiclefiles/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="71" column="46" selection-start-line="71" selection-start-column="46" selection-end-line="71" selection-end-column="46" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vehiclegate/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="28" selection-start-line="28" selection-end-line="28" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/envalarmlog/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="8" selection-end-column="1" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ISMS/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="434">
-          <caret line="48" column="80" lean-forward="true" selection-start-line="48" selection-start-column="80" selection-end-line="48" selection-end-column="80" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/common/sidebar.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="267">
-          <caret line="88" column="115" lean-forward="true" selection-start-line="88" selection-start-column="115" selection-end-line="88" selection-end-column="115" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vehiclefiles/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="89" lean-forward="true" selection-start-line="12" selection-start-column="89" selection-end-line="12" selection-end-column="89" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/content/envalarmlog/envalarmloginfo.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="719">
-          <caret line="76" column="11" selection-start-line="76" selection-start-column="11" selection-end-line="76" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/content/envdatalog/envdataloginfo.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-751" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/content/vehiclegate/vehiclegateinfo.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="44">
@@ -836,13 +557,6 @@
         <state relative-caret-position="-681" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/content/hatalertlog/hatalertinfo.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="98" selection-start-line="98" selection-end-line="98" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vehiclepasslog/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
@@ -853,29 +567,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/content/vehiclepasslog/vehiclepassloginfo.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="64" column="38" selection-start-line="64" selection-start-column="38" selection-end-line="64" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
     <entry file="das://f89171a7-feb3-4368-b6c5-08e5d6fb4599/schema/ISMS/table/T_Personnel">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
           <filtering enabled="true">
             <filter text="" />
           </filtering>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vehiclepasslog/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="52" selection-start-line="15" selection-start-column="52" selection-end-line="15" selection-end-column="52" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -929,22 +626,360 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/baseframe/baseframe.py">
+    <entry file="file://$PROJECT_DIR$/templates/content/vehiclepasslog/vehiclepassloginfo.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="69" column="8" selection-start-line="69" selection-start-column="8" selection-end-line="69" selection-end-column="8" />
+        <state relative-caret-position="1152">
+          <caret line="64" column="38" selection-start-line="64" selection-start-column="38" selection-end-line="64" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/content/hatalertlog/hatalertinfo.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1836">
+          <caret line="98" selection-start-line="98" selection-end-line="98" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vehiclepasslog/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="698">
+          <caret line="40" column="12" selection-start-line="40" selection-start-column="12" selection-end-line="40" selection-end-column="12" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vehiclepasslog/views.py">
+    <entry file="file://$PROJECT_DIR$/vehiclepasslog/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="464">
-          <caret line="40" column="12" selection-start-line="40" selection-start-column="12" selection-end-line="40" selection-end-column="12" />
+        <state relative-caret-position="270">
+          <caret line="15" column="52" selection-start-line="15" selection-start-column="52" selection-end-line="15" selection-end-column="52" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vehiclefiles/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="16" selection-start-line="16" selection-end-line="16" />
+          <folding>
+            <element signature="e#0#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vehiclegate/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="18" selection-start-line="18" selection-end-line="18" />
+          <folding>
+            <element signature="e#0#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vehiclefiles/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="32" selection-start-line="32" selection-end-line="32" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/elecfencle/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="12" column="1" lean-forward="true" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/content/vehiclefiles/vehiclefilesinfo.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="811">
+          <caret line="151" column="87" selection-start-line="151" selection-start-column="87" selection-end-line="151" selection-end-column="87" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vehiclefiles/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="11" column="9" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="10" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/elecfencle/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="21" column="8" selection-start-line="21" selection-start-column="8" selection-end-line="21" selection-end-column="8" />
+          <folding>
+            <element signature="e#0#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/content/elecfencle/elecfencleadd.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1116">
+          <caret line="62" column="81" selection-start-line="62" selection-start-column="81" selection-end-line="62" selection-end-column="81" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/elecfencle/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="33" selection-start-line="33" selection-end-line="33" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/elecfencle/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="25" column="9" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/content/elecfencle/elecfencleinfo.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="496">
+          <caret line="166" selection-start-line="166" selection-end-line="166" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/elecalarm/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="3" column="19" lean-forward="true" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/content/elecalarm/elecalarminfo.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1534">
+          <caret line="86" column="35" selection-start-line="86" selection-start-column="35" selection-end-line="86" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/baseframe/baseframe.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="64" selection-start-line="64" selection-end-line="64" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://f89171a7-feb3-4368-b6c5-08e5d6fb4599/schema/ISMS/table/T_ElecFencle">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true">
+            <filter text="" />
+          </filtering>
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://f89171a7-feb3-4368-b6c5-08e5d6fb4599/schema/ISMS/table/T_ElecAlarm">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true">
+            <filter text="" />
+          </filtering>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/basedata/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1443">
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/elecalarm/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="630">
+          <caret line="35" selection-start-line="35" selection-end-line="35" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/envrule/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="8" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/elecalarm/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ISMS/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="466">
+          <caret line="66" column="14" lean-forward="true" selection-start-line="66" selection-start-column="14" selection-end-line="66" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/goodstype/froms.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/personnel/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="486">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
+          <folding>
+            <element signature="e#0#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/envrule/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="10" selection-end-column="59" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/goodstype/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="3" column="19" lean-forward="true" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ISMS/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="828">
+          <caret line="51" column="66" lean-forward="true" selection-start-line="51" selection-start-column="66" selection-end-line="51" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/content/basedata/basedatainfo.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="640">
+          <caret line="131" selection-start-line="131" selection-end-line="131" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/common/sidebar.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="577">
+          <caret line="108" column="105" selection-start-line="108" selection-start-column="105" selection-end-line="108" selection-end-column="105" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/goodstype/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="23" column="21" selection-start-line="23" selection-start-column="21" selection-end-line="23" selection-end-column="21" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/content/goodstype/goodstypeadd.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1189">
+          <caret line="201" selection-start-line="201" selection-end-line="201" />
+          <folding>
+            <element signature="n#style#0;n#label#0;n#div#1;n#div#0;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#label#0;n#div#1;n#div#1;n#div#1;n#div#0;n#div#0;n#div#1;n#div#0;n#form#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/content/goodstype/goodstypeinfo.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-475">
+          <caret line="71" column="45" selection-start-line="71" selection-start-column="45" selection-end-line="71" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/envrule/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="505">
+          <caret line="94" selection-start-line="94" selection-end-line="94" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/basedata/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/goodstype/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="695">
+          <caret line="61" column="9" selection-start-line="61" selection-start-column="9" selection-end-line="61" selection-end-column="9" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/basedata/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="25" selection-start-line="25" selection-end-line="25" />
+          <folding>
+            <element signature="e#0#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/goodstype/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="26" column="24" selection-start-line="26" selection-start-column="24" selection-end-line="26" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#34#0" expanded="true" />
           </folding>
         </state>
       </provider>

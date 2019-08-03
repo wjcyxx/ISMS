@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include "common/resfiles.html" %}
+</head>
+<body style="overflow: hidden;">
+
+  <!--设备管理信息列表  -->
+
+    <!-- 工具条 -->
+      <!-- 查询框 -->
+      <div class="layui-collapse">
+          <div class="layui-colla-item">
+              <h2 class="layui-colla-title">查询条件</h2>
+              <div class="layui-colla-content">
+                  <form class="layui-form" method="post">
+                      <div class="layui-inline">
+                          <input type="text" name="serinput" placeholder="输入触发车牌" autocomplete="off" class="layui-input" value="" style="width: 120%">
+                      </div>
+
+                      <div class="layui-inline" style="margin-left: 35px">
+                          <input type="button" class="layui-btn layui-btn-small layui-btn-normal layui-icon" lay-submit lay-filter="formsubmit" value="&#xe615;查  询"/>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+
+      <div style="padding-top: 10px" >
+          <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
+      </div>
+
+      <!-- 数据列表 -->
+
+      <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
+
+{% include "common/jsfiles.html" %}
+
+<script>
+  var Elecinfo = {{ elecfencle|safe }};
+
+  layui.use(['element', 'layer', 'table'], function(){
+      var $ = layui.jquery
+          ,element = layui.element
+          ,table = layui.table
+          ,layer = layui.layer;
+
+      $("#btnClose").click(function () {
+          window.parent.layui.element.tabDelete('tabMain','Elecalarm');
+      });
+
+
+      table.render({
+          page: true,
+          limit: 20,
+          elem: '#datasource',
+          url: "{% url 'elecalarm:get_datasource' %}",
+          cols: [[
+              {field:'FElecFenceID', width: '20%', title: '触发围栏', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FElecFenceID, Elecinfo)}}{% endverbatim %}</div>'},
+              {field:'FPlate', width: '15%', title: '报警对象', sort: true},
+              {field:'FTriggerType', width: '15%', title: '触发动作', sort: true, templet: '#tpType'},
+              {field:'FTriggerlong', width: '20%', title: '触发坐标经度', sort: true},
+              {field:'FTriggerlat', width: '20%', title: '触发坐标纬度', sort: true},
+              {field:'CREATED_TIME', width: '20%', title: '触发时间', sort: true},
+          ]],
+          id: 'runreload'
+      });
+
+      //监听查询条件提交
+        form.on('submit(formsubmit)', function (data) {
+            var serinput = $("input[name='serinput']").val();
+            //alert(serinput);
+            table.reload('runreload', {where: {resultdict:{FPlate: serinput}}});
+
+            return false;
+        });
+
+
+  });
+</script>
+
+  <!--显示触发动作模板-->
+  <script type="text/html" id="tpType">
+      {% verbatim %}
+      {{#  if(d.FTriggerType == 0){ }}
+      <span>进入围栏</span>
+      {{#  } else if(d.FTriggerType == 1) { }}
+      <span>离开围栏</span>
+      {{#  } }}
+      {% endverbatim %}
+  </script>
+
+
+
+</body>
+</html>

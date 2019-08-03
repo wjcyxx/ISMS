@@ -62,7 +62,9 @@ INSTALLED_APPS = [
     'vehiclegate',
     'vehiclefiles',
     'vehiclepasslog',
-    'elecfencle'
+    'elecfencle',
+    'elecalarm',
+    'goodstype'
 ]
 
 MIDDLEWARE = [
