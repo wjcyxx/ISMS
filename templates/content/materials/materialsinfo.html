@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include "common/resfiles.html" %}
+    <link rel="stylesheet" href="/static/layui/layui_ext/dtree/dtree.css">
+    <link rel="stylesheet" href="/static/layui/layui_ext/dtree/font/dtreefont.css">
+
+</head>
+<body style="overflow: hidden;">
+
+  <!--安全帽规则信息列表  -->
+
+    <!-- 工具条 -->
+      <!-- 查询框 -->
+      <div class="layui-collapse">
+          <div class="layui-colla-item">
+              <h2 class="layui-colla-title">查询条件</h2>
+              <div class="layui-colla-content">
+                  <form class="layui-form" method="post">
+                      <div class="layui-inline">
+                          <input type="text" name="serinput" placeholder="输入物料名称" autocomplete="off" class="layui-input" value="" style="width: 120%">
+                      </div>
+
+                      <div class="layui-inline" style="margin-left: 35px">
+                          <input type="button" class="layui-btn layui-btn-small layui-btn-normal layui-icon" lay-submit lay-filter="formsubmit" value="&#xe615;查  询"/>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+
+      <div style="padding-top: 10px" >
+        <a href="javascript:;" class="layui-btn layui-btn-normal" id="btnAdd">增加</a>
+        <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
+      </div>
+
+      <!-- 数据列表 -->
+
+      <div class="layui-row layui-col-space10" style="padding-top: 1%">
+            <div class="layui-col-md3">
+                <ul id="demoTree" class="dtree" data-id="0"></ul>
+            </div>
+
+          <div class="layui-col-md9">
+              <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
+          </div>
+      </div>
+
+
+{% include "common/jsfiles.html" %}
+
+<script>
+  var Goodstype = {{ goodstype|safe }};
+  var Unitinfo = {{ unit|safe }};
+  var node_id = '';
+  var node_pid = '';
+
+  layui.use(['element', 'layer', 'table'], function(){
+      var $ = layui.jquery
+          ,element = layui.element
+          ,table = layui.table
+          ,layer = layui.layer;
+
+      $("#btnClose").click(function () {
+          window.parent.layui.element.tabDelete('tabMain','Materials');
+      });
+
+      //新增按钮事件
+      $("#btnAdd").click(function () {
+          parent.layer.open({
+              type:   2,
+              title:  '新增物料主档',
+              area: ['1000px','430px'],
+              fixed: false,
+              content: "{% url 'materials:add' %}?nodeid="+node_id+"&nodepid="+node_pid,
+              resize: false,
+              move: false
+          });
+      });
+
+      table.render({
+          page: true,
+          limit: 20,
+          elem: '#datasource',
+          url: "{% url 'materials:get_datasource' %}",
+          cols: [[
+              {field:'FMaterID', width: '20%', title: '物料编号', sort: true},
+              {field:'FName', width: '20%', title: '物料名称', sort: true},
+              {field:'FGoodsTypeID', width: '20%', title: '物料类型', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FGoodsTypeID, Goodstype)}}{% endverbatim %}</div>'},
+              {field:'FUnitID', width: '20%', title: '计量单位', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FUnitID, Unitinfo)}}{% endverbatim %}</div>'},
+              {field:'FSpec', width: '20%', title: '规格型号', sort: true},
+              {field:'FTexture', width: '20%', title: '材质', sort: true},
+              {field:'FPositiveDeviation', width: '15%', title: '正偏差', sort: true},
+              {field:'FNegativeDeviation', width: '15%', title: '负偏差', sort: true},
+              {field:'FRFID', width: '15%', title: 'RFID标签', sort: true},
+              {field:'FDesc', width: '30%', title: '描述', sort: true},
+              {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
+          ]],
+          id: 'runreload'
+      });
+
+      //监听查询条件提交
+        form.on('submit(formsubmit)', function (data) {
+            var serinput = $("input[name='serinput']").val();
+            //alert(serinput);
+            table.reload('runreload', {where: {resultdict:{FName: serinput}}});
+
+            return false;
+        });
+
+
+      //监听工具栏按钮事件
+      table.on('tool(toolbar)', function (obj) {
+          var data = obj.data;           //获取当前行数据
+          var layEvent = obj.event;      //获取当前行事件
+          var tr = obj.tr;               //获取当前行tr的DOM数据
+          var fid = {"fid":data.FID};
+
+          switch (layEvent){
+              case 'edit' :              //编辑按钮事件
+                  parent.layer.open({
+                      type:   2,
+                      title:  '编辑物料主档',
+                      area: ['1000px','430px'],
+                      fixed: false,
+                      content: "{% url 'materials:edit' %}?fid="+data.FID,
+                      resize: false,
+                      move: false
+                  });
+
+                  break;
+
+              case '':
+                  break;
+          }
+      });
+  });
+
+  layui.extend({
+    dtree: '/static/layui/layui_ext/dtree/dtree'   // {/}的意思即代表采用自有路径，即不跟随 base 路径
+  }).use(['dtree','layer','jquery', 'table'], function(){
+        var dtree = layui.dtree
+            , layer = layui.layer
+            ,table = layui.table
+            , $ = layui.jquery;
+
+        // 初始化树
+        var DemoTree = dtree.render({
+            elem: "#demoTree",
+            url: "{% url 'materials:get_treedatasource' %}", // 使用url加载（可与data加载同时存在）
+            dataFormat: "list",
+            initLevel: "1"
+        });
+
+        dtree.on("node('demoTree')" ,function(obj){
+            var id = obj.param.nodeId;
+            var pid = obj.param.parentId;
+            node_id = id;
+            node_pid = pid;
+
+            table.render({
+                page: true,
+                limit: 20,
+                elem: '#datasource',
+                url: "{% url 'materials:get_refdatasource' %}?fid="+id+"&fpid="+pid,
+                cols: [[
+                    {field:'FMaterID', width: '20%', title: '物料编号', sort: true},
+                    {field:'FName', width: '20%', title: '物料名称', sort: true},
+                    {field:'FGoodsTypeID', width: '20%', title: '物料类型', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FGoodsTypeID, Goodstype)}}{% endverbatim %}</div>'},
+                    {field:'FUnitID', width: '20%', title: '计量单位', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FUnitID, Unitinfo)}}{% endverbatim %}</div>'},
+                    {field:'FSpec', width: '20%', title: '规格型号', sort: true},
+                    {field:'FTexture', width: '20%', title: '材质', sort: true},
+                    {field:'FPositiveDeviation', width: '15%', title: '正偏差', sort: true},
+                    {field:'FNegativeDeviation', width: '15%', title: '负偏差', sort: true},
+                    {field:'FRFID', width: '15%', title: 'RFID标签', sort: true},
+                    {field:'FDesc', width: '30%', title: '描述', sort: true},
+                    {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
+                ]],
+                id: 'runreload'
+            });
+            //layer.msg(obj.param.nodeId);
+            //layer.msg(obj.param.parentId);
+        });
+
+  });
+
+
+</script>
+
+
+<!--生成操作工具栏-->
+<script type="text/html" id="tlbar">
+    {% verbatim %}
+        <div class="layui-btn-group">
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>编辑</a>
+
+        </div>
+    {% endverbatim %}
+</script>
+
+</body>
+</html>

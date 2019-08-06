@@ -3,13 +3,13 @@
 <head>
     {% include "common/resfiles.html" %}
 </head>
-<body style="overflow: hidden;">
+<body>
 
   <!--字典类别信息列表  -->
 
     <!-- 工具条 -->
       <form class="layui-form" method="post">
-      <div >
+      <div style="overflow: hidden" >
         <a href="javascript:;" class="layui-btn layui-btn-normal" id="btnAdd">新增</a>
         <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
         <!-- 查询框 -->
@@ -22,7 +22,9 @@
       </div>
       </form>
     <!-- 数据列表 -->
-      <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
+    <div style="overflow-y: auto">
+        <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
+    </div>
 
 {% include "common/jsfiles.html" %}
 

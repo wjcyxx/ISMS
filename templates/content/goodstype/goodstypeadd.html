@@ -34,7 +34,7 @@
                             </div>
 
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label">偏差类别</label>
+                                <label class="layui-form-label" style="color: red">偏差类别</label>
                                 <div class="layui-input-block">
                                     {{ obj.FDeviationType }}
                                 </div>
@@ -143,18 +143,18 @@ layui.use(['element','layer','form', 'table', 'util'], function () {
         return false;
     });
 
-
     //控制策略列表table
     table.render({
         elem: '#datasource',
-        url: "{% url 'envrule:get_switch_datasource' %}?fid="+fid,
+        url: "{% url 'goodstype:get_subtype_datasource' %}?fid="+fid,
         cols: [[
-            {field:'FPort', width: '15%', title: '继电器端口', sort: true},
-            {field:'FDriverdevice', width: '20%', title: '控制外设', sort: true},
-            {field:'FStatus', width: '15%', title: '继电器状态', sort: true, templet: '#tpSwitch'},
-            {field:'FCommand', width: '25%', title: '继电器指令', sort: true},
-            {field:'FDesc', width: '30%', title: '描述', sort: true},
-            {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
+            {field:'FGoodsTypeID', width: '15%', title: '子类编号', sort: true},
+            {field:'FGoodsType', width: '20%', title: '子类名称', sort: true},
+            {field:'FDeviationType', width: '15%', title: '偏差类别', sort: true, templet: '#tpType'},
+            {field:'FPositiveDeviation', width: '15%', title: '正偏差', sort: true},
+            {field:'FNegativeDeviation', width: '15%', title: '负偏差', sort: true},
+            {field:'FDesc', width: '20%', title: '备注', sort: true},
+            {field:'', title: '操作', width: '15%', toolbar: '#tlbar', fixed: 'right'}
         ]],
     });
 
@@ -197,6 +197,17 @@ layui.use(['element','layer','form', 'table', 'util'], function () {
 
 
 })
+</script>
+
+<!--显示偏差类别模板-->
+<script type="text/html" id="tpType">
+    {% verbatim %}
+    {{#  if(d.FDeviationType == 0){ }}
+    <span>比例偏差</span>
+    {{#  } else if(d.FDeviationType == 1) { }}
+    <span>范围偏差</span>
+    {{#  } }}
+    {% endverbatim %}
 </script>
 
 <!--生成操作工具栏-->

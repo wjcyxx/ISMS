@@ -32,3 +32,4 @@ class goodstype(models.Model):
 
     class Meta:
         db_table = 'T_GoodsType'
+        ordering = ['FPID']

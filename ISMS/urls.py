@@ -49,7 +49,10 @@ urlpatterns = [
     path('vehiclepasslog/', include('vehiclepasslog.urls'), name='vehiclepasslog'),
     path('elecfencle/', include('elecfencle.urls'), name='elecfencle'),
     path('elecalarm/', include('elecalarm.urls'), name='elecalarm'),
-    path('goodstype/', include('goodstype.urls'), name='goodstype')
+    path('goodstype/', include('goodstype.urls'), name='goodstype'),
+    path('unit/', include('unit.urls'), name='unit'),
+    path('materials/', include('materials.urls'), name='materials'),
+    path('receaccount/', include('receaccount.urls'), name='receaccount')
 
 ]
 

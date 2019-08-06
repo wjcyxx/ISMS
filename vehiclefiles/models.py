@@ -9,7 +9,7 @@ from django.utils.encoding import python_2_unicode_compatible
 class vehiclefiles(models.Model):
 
     FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
-    FPlate = models.CharField(max_length=32, unique=True, verbose_name='车牌号码', default='None')
+    FPlate = models.CharField(max_length=32, unique=True, verbose_name='车牌号码', default='')
     FDrivers = models.CharField(max_length=32, verbose_name='驾驶人', blank=True, null=True)
     FOrgID = models.CharField(max_length=32, verbose_name='所属单位', blank=True, null=True)
     FVehicletypeID = models.CharField(max_length=32, verbose_name='车辆类型', blank=True, null=True)

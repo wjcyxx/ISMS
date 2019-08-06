@@ -15,38 +15,52 @@
         <div class="layui-row layui-col-space10" style="padding-top: 1%">
             <div class="layui-col-md12">
                 <div class="layui-card">
-                    <div class="layui-card-header">联动控制策略</div>
+                    <div class="layui-card-header">物料子类</div>
                     <div class="layui-card-body">
                         <div class="layui-row layui-col-space15">
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">继电器端口</label>
+                                <label class="layui-form-label" style="color: red">子类编码</label>
                                 <div class="layui-input-block">
                                     {{ obj.FID }}
                                     <input type="hidden" name="FPID" id="FPID" value="{{ fid }}">
-                                    {{ obj.FPort }}
+                                    {{ obj.FGoodsTypeID }}
                                 </div>
                             </div>
 
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">控制外设</label>
+                                <label class="layui-form-label" style="color: red">子类名称</label>
                                 <div class="layui-input-block">
-                                    {{ obj.FDriverdevice }}
+                                    {{ obj.FGoodsType }}
+                                </div>
+                            </div>
+
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label" style="color: red">所属大类</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FPID }}
                                 </div>
                             </div>
                         </div>
 
                         <div class="layui-row layui-col-space15">
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">继电器状态</label>
+                                <label class="layui-form-label" style="color: red">偏差类别</label>
                                 <div class="layui-input-block">
-                                    {{ obj.FStatus }}
+                                    {{ obj.FDeviationType }}
                                 </div>
                             </div>
 
-                            <div class="layui-col-xs8">
-                                <label class="layui-form-label" style="color: red">控制指令</label>
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label" style="color: red">正偏差</label>
                                 <div class="layui-input-block">
-                                    {{ obj.FCommand }}
+                                    {{ obj.FPositiveDeviation }}
+                                </div>
+                            </div>
+
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label" style="color: red">负偏差</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FNegativeDeviation }}
                                 </div>
                             </div>
                         </div>
@@ -88,12 +102,14 @@ layui.use(['element','layer','form'], function () {
         parent.layer.close(index);
     });
 
+    $("#id_FPID").val('{{ fid }}');
+    form.render('select');
 
     //监听窗口提交
     form.on('submit(formsubmit)', function (data) {
         $.ajax({
             type: "POST",
-            url:  "{% url 'envrule:insert_switch' %}?actype={{ action }}",
+            url:  "{% url 'goodstype:insert_subtype' %}?actype={{ action }}",
             data: data.field,
             dataType: "json",
             success: function (data) {

@@ -21,7 +21,7 @@ class GoosTypeModelForm(ModelForm):
 
 class SubTypeModelForm(ModelForm):
 
-    FPID = forms.ChoiceField(widget=forms.Select(attrs={'lay-verify': 'required'}))
+    FPID = forms.ChoiceField(widget=forms.Select(attrs={'lay-verify': 'required', 'disabled': 'disabled'}), required=False)
 
     class Meta:
         model = goodstype

@@ -49,6 +49,7 @@
           window.parent.layui.element.tabDelete('tabMain','Goodstype');
       });
 
+
       //新增按钮事件
       $("#btnAdd").click(function () {
           parent.layer.open({
@@ -94,7 +95,7 @@
           var data = obj.data;           //获取当前行数据
           var layEvent = obj.event;      //获取当前行事件
           var tr = obj.tr;               //获取当前行tr的DOM数据
-          var fid = {"fid":data.FID};
+          var fid_delete = {"fid":data.FID};
 
           switch (layEvent){
               case 'edit' :              //编辑按钮事件
@@ -103,7 +104,7 @@
                       title:  '编辑物料大类',
                       area: ['920px','550px'],
                       fixed: false,
-                      content: "{% url 'envrule:edit' %}?fid="+data.FID,
+                      content: "{% url 'goodstype:edit' %}?fid="+data.FID,
                       resize: false,
                       move: false
                   });
@@ -113,22 +114,47 @@
               case 'addSubType'  :           //添加控制策略按钮
                   parent.layer.open({
                       type:   2,
-                      title:  '添加控制策略',
-                      area: ['920px','380px'],
+                      title:  '添加物料子类',
+                      area: ['920px','335px'],
                       fixed: false,
-                      content: "{% url 'envrule:add_switch' %}?fid="+data.FID,
+                      content: "{% url 'goodstype:add_subtype' %}?fid="+data.FID,
                       resize: false,
                       move: false
                   });
 
-                  break
+                  break;
+
+              case 'delete' :              //编辑按钮事件
+                  parent.layer.open({
+                      content: '是否确定删除该数据',
+                      btn: ['确定','取消'],
+                      yes: function (index) {
+                          $.post("{% url 'goodstype:delete' %}", fid_delete, function (data) {
+                              if (data.result == '0'){
+                                  location.reload();
+                              } else if (data.result == '1')  {
+                                  parent.layer.alert('删除失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                              } else if (data.result == '2') {
+                                  parent.layer.alert(data.message ,{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+
+                              }
+                          },"json");
+
+                          parent.layer.close(index);
+                      },
+                      btn2: function (index) {
+
+                      }
+                  });
+
+                  break;
           }
       });
   });
 </script>
 
 
-<!--显示启用状态模板-->
+<!--显示偏差类别模板-->
 <script type="text/html" id="tpType">
      {% verbatim %}
         {{#  if(d.FDeviationType == 0){ }}
@@ -145,7 +171,7 @@
         <div class="layui-btn-group">
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>编辑</a>
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="addSubType"><i class="fa fa-outdent" aria-hidden="true"></i>添加子类</a>
-            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="del"><i class="iconfont icon-shanchu"></i>删除</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="delete"><i class="iconfont icon-shanchu"></i>删除</a>
         </div>
     {% endverbatim %}
 </script>

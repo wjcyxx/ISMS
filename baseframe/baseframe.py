@@ -269,13 +269,16 @@ class delete_base(View):
 
         fid = request.POST.get('fid')
 
-        try:
-            self.model.objects.get(FID=fid).delete()
-            self.response_data['result'] = '0'
-        except:
-            self.response_data['result'] = '1'
+        if self.response_data['result'] == '2':
+            return HttpResponse(json.dumps(self.response_data))
+        else:
+            try:
+                self.model.objects.get(FID=fid).delete()
+                self.response_data['result'] = '0'
+            except:
+                self.response_data['result'] = '1'
 
-        return HttpResponse(json.dumps(self.response_data))
+            return HttpResponse(json.dumps(self.response_data))
 
     def set_view(self,request):
         pass
