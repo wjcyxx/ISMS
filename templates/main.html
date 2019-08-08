@@ -29,7 +29,7 @@
     <li class="layui-this" lay-id="home" ><i class="fa fa-home" aria-hidden="true"></i> 首页<i class="layui-icon layui-unselect layui-tab-close" style="display: none;"></i></li>
   </ul>
   <div class="layui-tab-content">
-    <div id="box" class="layui-tab-item layui-show" style="overflow-y: auto">
+    <div id="box" class="layui-tab-item layui-show" style="overflow-y: auto; height: max-content">
         主页
     </div>
   </div>
@@ -45,8 +45,7 @@
 <script>
     $(document).ready(function(){
 			var height = $(window).height();   // 浏览器的高度
-			$("#box").height(height-60);  // 浏览器的高度加在类名为box的DIV 上
-
+			$("#box").height(height-200);  // 浏览器的高度加在类名为box的DIV 上
     });
 </script>
 

@@ -52,7 +52,8 @@ urlpatterns = [
     path('goodstype/', include('goodstype.urls'), name='goodstype'),
     path('unit/', include('unit.urls'), name='unit'),
     path('materials/', include('materials.urls'), name='materials'),
-    path('receaccount/', include('receaccount.urls'), name='receaccount')
+    path('receaccount/', include('receaccount.urls'), name='receaccount'),
+    path('recepound/', include('recepound.urls'), name='recepound')
 
 ]
 

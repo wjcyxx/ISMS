@@ -67,7 +67,8 @@ INSTALLED_APPS = [
     'goodstype',
     'materials',
     'unit',
-    'receaccount'
+    'receaccount',
+    'recepound'
 ]
 
 MIDDLEWARE = [

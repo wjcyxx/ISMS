@@ -1,5 +1,6 @@
 from django.db import models
 import uuid
+from materials.models import materials
 from django.utils.encoding import python_2_unicode_compatible
 
 # Create your models here.
@@ -60,7 +61,8 @@ class materaccountgoods(models.Model):
     FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
     FPID = models.ForeignKey(materialsaccount, to_field='FID', on_delete=models.CASCADE, blank=True, null=True)
     #FPID = models.CharField(max_length=32, verbose_name='FPID', blank=True, null=True)
-    FMaterID = models.CharField(max_length=32, verbose_name='物料编码', blank=True, null=True)
+    #FMaterID = models.CharField(max_length=32, verbose_name='物料编码', blank=True, null=True)
+    FMaterID = models.ForeignKey(materials, to_field='FID', on_delete=models.CASCADE, blank=True, null=True)
     FWaybillQty = models.FloatField(verbose_name='运单数量', blank=True, null=True)
     FUnitID = models.CharField(max_length=32, verbose_name='计量单位', blank=True, null=True)
     FConfirmQty = models.FloatField(verbose_name='确认数量', blank=True, null=True)

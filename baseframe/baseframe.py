@@ -161,6 +161,8 @@ class insert_base(View):
     request = None
     response_data = {}
     type = 0
+    set_fields = []
+    set_value = []
 
     def get(self, request):
         pass
@@ -195,8 +197,16 @@ class insert_base(View):
                 temp.UPDATED_BY = self.request.session['UserID']
                 temp.CREATED_TIME = timezone.now()
 
+                if len(self.set_fields) == len(self.set_value):
+                    for i in range(len(self.set_fields)):
+                        setattr(temp, self.set_fields[i], self.set_value[i])
+                        #temp.field = self.set_value[i]
+
                 temp.save()
                 self.response_data['result'] = '0'
+
+                self.set_view_aftersave(self)
+
             else:
                 self.response_data['msg'] = self.objForm.errors
                 self.response_data['result'] = '1'
@@ -219,11 +229,15 @@ class insert_base(View):
     def set_view(self, request):
         pass
 
+    def set_view_aftersave(self, request):
+        pass
 
 class disabled_base(View):
     response_data ={}
     model = None
     request = None
+    type = 0
+    status = []
 
     def get(self, request):
         pass
@@ -238,9 +252,15 @@ class disabled_base(View):
             obj = self.model.objects.get(Q(FID=fid))
 
             if self.request.GET.get('type') == 'lock':
-                obj.FStatus = False
+                if self.type == 0:
+                    obj.FStatus = False
+                else:
+                    obj.FStatus = self.status[0]
             elif self.request.GET.get('type') == 'unlock':
-                obj.FStatus = True
+                if self.type == 0:
+                    obj.FStatus = True
+                else:
+                    obj.FStatus = self.status[1]
 
             obj.save()
 

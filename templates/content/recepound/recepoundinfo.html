@@ -27,7 +27,8 @@
       </div>
 
       <div style="padding-top: 10px" >
-        <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
+          <a href="javascript:;" class="layui-btn layui-btn-normal" id="btnAdd">补录</a>
+          <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
       </div>
 
       <!-- 数据列表 -->
@@ -48,14 +49,27 @@
           ,layer = layui.layer;
 
       $("#btnClose").click(function () {
-          window.parent.layui.element.tabDelete('tabMain','Receaccount');
+          window.parent.layui.element.tabDelete('tabMain','Recepound');
+      });
+
+      //新增按钮事件
+      $("#btnAdd").click(function () {
+          parent.layer.open({
+              type:   2,
+              title:  '补录车收料磅单',
+              area: ['1280px','640px'],
+              fixed: false,
+              content: "{% url 'recepound:add' %}",
+              resize: false,
+              move: false
+          });
       });
 
       table.render({
           page: true,
           limit: 20,
           elem: '#datasource',
-          url: "{% url 'receaccount:get_datasource' %}",
+          url: "{% url 'recepound:get_datasource' %}",
           cols: [[
               {field:'FPID__FPoundNo', width: '20%', title: '磅单编号', sort: true},
               {field:'FPID__FPlate', width: '20%', title: '车牌号码', sort: true},
@@ -93,10 +107,10 @@
               case 'edit' :              //编辑按钮事件
                   parent.layer.open({
                       type:   2,
-                      title:  '收料台账详细信息',
+                      title:  '编辑收料磅单',
                       area: ['1280px','640px'],
                       fixed: false,
-                      content: "{% url 'receaccount:edit' %}?fid="+data.FPID__FID,
+                      content: "{% url 'recepound:edit' %}?fid="+data.FPID__FID,
                       resize: false,
                       move: false
                   });
@@ -151,8 +165,8 @@
 <script type="text/html" id="tlbar">
     {% verbatim %}
         <div class="layui-btn-group">
-            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>查看详情</a>
-            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="invalid"><i class="layui-icon">&#xe640;</i>作废</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>编辑</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="invalid"><i class="layui-icon">&#xe640;</i>验收</a>
 
         </div>
     {% endverbatim %}

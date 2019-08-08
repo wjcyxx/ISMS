@@ -1,12 +1,16 @@
 from django.shortcuts import render
 from django.shortcuts import HttpResponse
 from django.shortcuts import redirect
+from .models import sequence
+from django.db.models import Q
 import time
 import base64
 import hmac
 import uuid
 import json
 import hashlib
+from django.core.exceptions import ObjectDoesNotExist
+from django.utils import timezone
 
 # Create your views here.
 from pytz import unicode
@@ -292,4 +296,44 @@ def login_decorator(func):
 
         return func(self, request, *args, **kwargs)
     return wrapper
+
+
+def gensequence(appname, prefix, zfill, type):
+
+    try:
+        sequence_info = sequence.objects.get(Q(FPrefix=appname))
+        if type == 0:
+            seq = sequence_info.FSequence
+            if seq == None:
+                seq = 1
+            else:
+                seq += 1
+        else:
+            tempdate = timezone.now().strftime('%Y-%m-%d')
+            if str(sequence_info.FDate) != tempdate:
+                seq = 1
+            else:
+                seq = sequence_info.FSequence + 1 
+                
+        n = str(seq).zfill(zfill)
+
+        sequence_info.FDate = timezone.now().strftime('%Y-%m-%d')
+        sequence_info.FSequence = seq
+        sequence_info.save()
+        
+        return prefix + n
+                    
+    except ObjectDoesNotExist:
+        
+        seq = 1
+        n = str(seq).zfill(zfill)
+
+        sequence_info = sequence()
+        sequence_info.FPrefix = appname
+        sequence_info.FDate = timezone.now().strftime('%Y-%m-%d')
+        sequence_info.FSequence = seq
+        sequence_info.save()
+
+        return prefix + n
+
 

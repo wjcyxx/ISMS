@@ -3,8 +3,8 @@ from django.shortcuts import HttpResponse
 from django.http import HttpRequest
 from django.shortcuts import redirect
 from django.db.models import Q
-from .models import materialsaccount as T_MaterialAccount
-from .models import materaccountgoods as T_MaterialAccountGoods
+from receaccount.models import materialsaccount as T_MaterialAccount
+from receaccount.models import materaccountgoods as T_MaterialAccountGoods
 from organize.models import organize
 from materials.models import materials
 from project.models import project
@@ -26,7 +26,7 @@ class entrance(EntranceView_base):
     def set_view(self, request):
         prj_id = self.request.session['PrjID']
 
-        self.template_name = 'content/receaccount/receaccountinfo.html'
+        self.template_name = 'content/recepound/recepoundinfo.html'
         self.query_sets = [
             organize.objects.filter(Q(FStatus=True)),
             base.objects.filter(Q(FPID='d8cb4a18b81911e999f07831c1d24216')),
@@ -41,17 +41,35 @@ class get_datasource(get_datasource_base):
         serinput = self.request.GET.get("resultdict[FPID__FPoundNo]", '')
         self.type = 1
 
-        receaccount_info = T_MaterialAccountGoods.objects.filter(Q(FPID__CREATED_PRJ=prj_id), Q(FPID__FPoundNo__contains=serinput), Q(FPID__FReceivetype=0), Q(FPID__FStatus=2)).values('FPID__FID', 'FPID__FPoundNo', 'FPID__FPlate', 'FPID__FOperationalOrgID','FPID__FWorktypeID', 'FMaterID__FName', 'FPID__CREATED_TIME','FWaybillQty', 'FConfirmQty', 'FDeviationQty', 'FPID__FStatus')
+        receaccount_info = T_MaterialAccountGoods.objects.filter(Q(FPID__CREATED_PRJ=prj_id), Q(FPID__FPoundNo__contains=serinput), Q(FPID__FReceivetype=0), ~Q(FPID__FStatus=2)).values('FPID__FID', 'FPID__FPoundNo', 'FPID__FPlate', 'FPID__FOperationalOrgID','FPID__FWorktypeID', 'FMaterID__FName', 'FPID__CREATED_TIME','FWaybillQty', 'FConfirmQty', 'FDeviationQty', 'FPID__FStatus')
 
         return receaccount_info
+
+
+#链接新增模板
+class add(add_base):
+    def set_view(self, request):
+        self.template_name = 'content/recepound/recepoundadd.html'
+        self.objForm = RecePoundModelForm
+        self.query_sets = [
+            organize.objects.filter(Q(FStatus=True)),
+            base.objects.filter(Q(FPID='d8cb4a18b81911e999f07831c1d24216')),
+            project.objects.filter(Q(FStatus=True))
+        ]
+        self.query_set_idfields = ['FOperationalOrgID', 'FWorktypeID', 'CREATED_PRJ']
+        self.query_set_valuefields = ['FOrgname', 'FBase', 'FPrjname']
+
+        prefix = timezone.now().strftime("%Y%m%d")
+        pound_no = gensequence('recepound', prefix, 4, 1)
+        self.context['poundNo'] = pound_no
 
 
 #链接编辑模板
 class edit(edit_base):
     def set_view(self, request):
-        self.template_name = 'content/receaccount/receaccountadd.html'
+        self.template_name = 'content/recepound/recepoundadd.html'
         self.model = T_MaterialAccount
-        self.objForm = ReceAccountModelForm
+        self.objForm = RecePoundModelForm
         self.query_sets = [
             organize.objects.filter(Q(FStatus=True)),
             base.objects.filter(Q(FPID='d8cb4a18b81911e999f07831c1d24216')),
@@ -71,13 +89,11 @@ class edit(edit_base):
         self.context['outpic1'] = str(receaccount.FOutPicpath1)
 
 
-
-
 #处理新增及保存数据
 class insert(insert_base):
     def set_view(self, request):
         self.model = T_MaterialAccount
-        self.objForm = ReceAccountModelForm
+        self.objForm = RecePoundModelForm
         self.query_sets = [
             organize.objects.filter(Q(FStatus=True)),
             base.objects.filter(Q(FPID='d8cb4a18b81911e999f07831c1d24216')),
@@ -86,6 +102,21 @@ class insert(insert_base):
         self.query_set_idfields = ['FOperationalOrgID', 'FWorktypeID', 'CREATED_PRJ']
         self.query_set_valuefields = ['FOrgname', 'FBase', 'FPrjname']
 
+        self.set_fields = ['FReceivetype']
+        self.set_value = [0]
+
+    def set_view_aftersave(self, request):
+        fpid = self.request.POST.get('FID')
+        recpound_info = T_MaterialAccount.objects.get(FID=fpid)
+
+        recepoundgoods_info =  T_MaterialAccountGoods.objects.create(FPID=recpound_info)
+        #recepoundgoods_info.FPID = recpound_info.FID
+        recepoundgoods_info.CREATED_PRJ = self.request.session['PrjID']
+        recepoundgoods_info.CREATED_ORG = self.request.session['UserOrg']
+        recepoundgoods_info.CREATED_BY = self.request.session['UserID']
+        recepoundgoods_info.UPDATED_BY = self.request.session['UserID']
+        recepoundgoods_info.CREATED_TIME = timezone.now()
+        recepoundgoods_info.save()
 
 
 #返回原始运单信息table
@@ -113,3 +144,4 @@ class recevoid(disabled_base):
         self.model = T_MaterialAccount
         self.type = 1
         self.status = [3,2]
+

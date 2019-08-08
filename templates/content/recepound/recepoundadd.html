@@ -8,6 +8,7 @@
 <form class="layui-form layui-form-pane" accept-charset="utf-8">
     <div style="padding: 10px; background-color: #F2F2F2;">
         <div>
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formsubmit" >保存</button>
             <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnC">关闭</a>
         </div>
 
@@ -153,6 +154,7 @@
                         </div>
                     </li>
 
+                    {% if action == 'update' %}
                     <li class="layui-timeline-item">
                         <i class="layui-icon layui-timeline-axis">&#xe770;</i>
                         <div class="layui-timeline-content layui-text">
@@ -173,11 +175,25 @@
                             <div class="layui-timeline-title"><a href="#divDetail">进出场图片</a> </div>
                         </div>
                     </li>
+                    {% endif %}
                 </ul>
             </div>
-
         </div>
 
+        {% if action == 'insert' %}
+            <div class="layui-row layui-col-space10" style="padding-top: 1%">
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header" id="divOrigin">原始运单信息</div>
+                        <div class="layui-card-body">
+                            <table class="layui-table" id="datasource"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if action == 'update' %}
         <div class="layui-row layui-col-space10" style="padding-top: 1%">
             <div class="layui-col-md12">
                 <div class="layui-card">
@@ -206,7 +222,7 @@
                     <div class="layui-card-header" id="divInPic">进场图片</div>
                     <div class="layui-card-body">
                        <div id="layer-photos" class="layer-photos">
-                            <img layer-src="/media/{{ inpic1 }}" src="/media/{{ inpic1 }}" alt="进场图片" style="height: 100%; width: 100%" />
+                            <img layer-src="/media/{{ inpic1 }}" src="/media/{{ inpic1 }}" alt="图片名" style="height: 100%; width: 100%" />
                        </div>
                     </div>
                 </div>
@@ -216,14 +232,15 @@
                 <div class="layui-card">
                     <div class="layui-card-header" id="divInPic">出场图片</div>
                     <div class="layui-card-body">
-                        <div id="layer-photos1" class="layer-photos1">
-                            <img layer-src="/media/{{ outpic1 }}" src="/media/{{ outpic1 }}" alt="出场图片" style="height: 100%; width: 100%" />
+                        <div id="layer-photos" class="layer-photos">
+                            <img layer-src="/media/{{ outpic1 }}" src="/media/{{ outpic1 }}" alt="图片名" style="height: 100%; width: 100%" />
                         </div>
                     </div>
                 </div>
             </div>
 
         </div>
+        {% endif %}
 
     </div>
 
@@ -235,14 +252,11 @@
         white-space: normal;
     }
 </style>
-<!-- <script src="//res.layui.com/layui/build/layui.js" charset="utf-8"></script> -->
-<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+
 {% include "common/jsfiles.html" %}
 
 <script>
 var fid = $("#id_FID").val();
-var Goodstype = {{ goodstype|safe }};
-var Unitinfo = {{ unit|safe }};
 
 layui.use(['element','layer','form', 'laydate', 'table', 'util'], function () {
     var element = layui.element
@@ -263,16 +277,31 @@ layui.use(['element','layer','form', 'laydate', 'table', 'util'], function () {
         ,anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
     });
 
-    layer.photos({
-        photos: '#layer-photos1'
-        ,anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
-    });
-
-
     util.fixbar({
         bgcolor: '#01AAED'
     });
 
+    laydate.render({
+        elem: '#id_F1stWeighTime',
+        type: 'datetime'
+    });
+
+    laydate.render({
+        elem: '#id_F2ndWeighTime',
+        type: 'datetime'
+    });
+
+    //初始化界面预设值
+    $("#id_FStatus").val(1);
+    $("#id_CREATED_PRJ").val("{{ request.session.PrjID }}");
+    $("#id_FWeighPerson").val("{{ request.session.Username }}");
+    form.render('select');
+
+    if ("{{ action }}" == "insert") {
+        $("#id_FPoundNo").val("{{ poundNo }}");
+    }
+
+    //数据表格渲染
     table.render({
         elem: '#datasource',
         url: "{% url 'receaccount:get_originbill_datasource' %}?fid="+fid,
@@ -344,6 +373,33 @@ layui.use(['element','layer','form', 'laydate', 'table', 'util'], function () {
         image.width(w);
         imagep.height(h);
         imagep.width(w);
+    });
+
+    //监听窗口提交
+    form.on('submit(formsubmit)', function (data) {
+        $.ajax({
+            type: "POST",
+            url:  "{% url 'recepound:insert' %}?actype={{ action }}",
+            data: data.field,
+            dataType: "json",
+            success: function (data) {
+                if (data.result=='0') {
+                    window.parent.document.getElementById('Recepound').contentWindow.location.reload();
+
+                    var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
+                    parent.layer.close(index);
+                } else if (data.result=='1'){
+                    for (item in data["msg"]){
+                        if (data["msg"][item]){
+                            layer.tips(data["msg"][item], $("input[name='"+item+"']"));
+                        }
+                    }
+                } else if (data.result=='2') {
+                    layer.alert('无效的执行方法');
+                }
+            }
+        });
+        return false;
     });
 
 })
