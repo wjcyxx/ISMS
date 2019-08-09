@@ -154,6 +154,15 @@
                         </div>
                     </li>
 
+                    {% if action == 'insert' %}
+                        <li class="layui-timeline-item">
+                            <i class="layui-icon layui-timeline-axis">&#xe770;</i>
+                            <div class="layui-timeline-content layui-text">
+                                <div class="layui-timeline-title"><a href="#divMaterAdd">磅单材料信息</a> </div>
+                            </div>
+                        </li>
+                    {% endif %}
+
                     {% if action == 'update' %}
                     <li class="layui-timeline-item">
                         <i class="layui-icon layui-timeline-axis">&#xe770;</i>
@@ -237,6 +246,9 @@
                 <div class="layui-card">
                     <div class="layui-card-header" id="divOrigin">原始运单信息</div>
                     <div class="layui-card-body">
+                        <div>
+                            <a href="javascript:;" class="layui-btn layui-btn-normal" id="btnOrigin">编辑</a>
+                        </div>
                         <table class="layui-table" id="datasource"></table>
                     </div>
                 </div>
@@ -295,6 +307,8 @@
 
 <script>
 var fid = $("#id_FID").val();
+var Goodstype = {{ goodstype|safe }};
+var Unitinfo = {{ unit|safe }};
 
 layui.use(['element','layer','form', 'laydate', 'table', 'util'], function () {
     var element = layui.element
@@ -304,10 +318,25 @@ layui.use(['element','layer','form', 'laydate', 'table', 'util'], function () {
         , table = layui.table
         , util = layui.util;
 
+
     //关闭按钮
     $("#btnC").click(function () {
         var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
         parent.layer.close(index);
+    });
+
+    //编辑原始运单
+    $("#btnOrigin").click(function () {
+        layer.open({
+            type:   2,
+            title:  '上传原始运单附件',
+            area: ['900px','320px'],
+            fixed: false,
+            content: "{% url 'recepound:show_originupload' %}?fid="+fid,
+            resize: false,
+            move: false,
+            closeBtn: false
+        });
     });
 
     layer.photos({
@@ -342,7 +371,7 @@ layui.use(['element','layer','form', 'laydate', 'table', 'util'], function () {
     //数据表格渲染
     table.render({
         elem: '#datasource',
-        url: "{% url 'receaccount:get_originbill_datasource' %}?fid="+fid,
+        url: "{% url 'recepound:get_originbill_datasource' %}?fid="+fid,
         cols: [[
             {field:'FWaybillNo', width: '25%', title: '原始运单编号', sort: true},
             {field:'FWaybillDate', width: '20%', title: '原始运单日期', sort: true},
@@ -494,8 +523,6 @@ layui.use(['element','layer','form', 'laydate', 'table', 'util'], function () {
     });
 
 
-
-
     form.on('select(selMater)', function(data){
         //alert(data.value);
         var fid = {'fid': data.value};
@@ -509,6 +536,14 @@ layui.use(['element','layer','form', 'laydate', 'table', 'util'], function () {
         }, "json" );
     });
 
+    var setAttr = function () {
+        $("input[name='F1stWeigh']").attr('readonly', 'true');
+        $("input[name='F2ndWeigh']").attr('readonly', 'true');
+    };
+
+    if ("{{ action  }}" == "update") {
+        setAttr();
+    }
 
 })
 </script>

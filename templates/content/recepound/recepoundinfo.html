@@ -65,7 +65,7 @@
       $("#btnAdd").click(function () {
           parent.layer.open({
               type:   2,
-              title:  '补录车收料磅单',
+              title:  '补录收料磅单',
               area: ['1280px','640px'],
               fixed: false,
               content: "{% url 'recepound:add' %}",
@@ -76,7 +76,7 @@
 
       table.render({
           elem: '#datasource',
-          height: 400,
+          height: 'full-120',
           url: "{% url 'recepound:get_datasource' %}",
           cols: [[
                 {title: '#', width: '5%', collapse: true, children:[

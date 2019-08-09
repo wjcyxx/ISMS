@@ -8,6 +8,7 @@ class RecePoundModelForm(ModelForm):
     CREATED_PRJ = forms.ChoiceField(widget=forms.Select(attrs={'lay-verify': 'required'}), required=False)
     FOperationalOrgID = forms.ChoiceField(widget=forms.Select(attrs={'lay-verify': 'required'}), required=False)
     FWorktypeID = forms.ChoiceField(widget=forms.Select(attrs={'lay-verify': 'required'}), required=False)
+    FWaybillPicpath = forms.ImageField(required=False, widget=forms.FileInput(attrs={'class': 'layui-input', 'style': 'display: none'}))
 
     class Meta:
         model = materialsaccount
@@ -21,6 +22,8 @@ class RecePoundModelForm(ModelForm):
             'F2ndWeighTime': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
             'F1stWeigh': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
             'F2ndWeigh': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
+            'FWaybillNo': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
+            'FWaybillDate': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
             'FWeighPerson': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off', 'readonly': 'true'}),
             'FPlate': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
             'FWarehouseID': Fwidgets.Input(attrs={'class': 'layui-input', 'autocomplete': 'off'}),

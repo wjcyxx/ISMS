@@ -74,6 +74,8 @@ class add(add_base):
         objMaterForm.fields['FUnitID'].choices = get_dict_object(request, unit_info, 'FID', 'FUnit')
 
         self.context['objMaterForm'] = objMaterForm
+        self.context['goodstype'] = 'null'
+        self.context['unit'] = 'null'
 
 
 #链接编辑模板
@@ -118,22 +120,23 @@ class insert(insert_base):
         self.set_value = [0]
 
     def set_view_aftersave(self, request):
-        fpid = self.request.POST.get('FID')
-        recpound_info = T_MaterialAccount.objects.get(FID=fpid)
+        if self.request.GET.get('actype') == 'insert':
+            fpid = self.request.POST.get('FID')
+            recpound_info = T_MaterialAccount.objects.get(FID=fpid)
 
-        recepoundgoods_info =  T_MaterialAccountGoods.objects.create(FPID=recpound_info)
-        #recepoundgoods_info.FPID = recpound_info.FID
-        recepoundgoods_info.FMaterID_id = self.request.POST.get('FMaterID')
-        recepoundgoods_info.FUnitID = self.request.POST.get('FUnitID')
-        recepoundgoods_info.FWaybillQty = self.request.POST.get('FWaybillQty')
-        recepoundgoods_info.FConfirmQty = self.request.POST.get('FConfirmQty')
-        recepoundgoods_info.FDeviationQty = self.request.POST.get('FDeviationQty')
-        recepoundgoods_info.CREATED_PRJ = self.request.session['PrjID']
-        recepoundgoods_info.CREATED_ORG = self.request.session['UserOrg']
-        recepoundgoods_info.CREATED_BY = self.request.session['UserID']
-        recepoundgoods_info.UPDATED_BY = self.request.session['UserID']
-        recepoundgoods_info.CREATED_TIME = timezone.now()
-        recepoundgoods_info.save()
+            recepoundgoods_info =  T_MaterialAccountGoods.objects.create(FPID=recpound_info)
+            #recepoundgoods_info.FPID = recpound_info.FID
+            recepoundgoods_info.FMaterID_id = self.request.POST.get('FMaterID')
+            recepoundgoods_info.FUnitID = self.request.POST.get('FUnitID')
+            recepoundgoods_info.FWaybillQty = self.request.POST.get('FWaybillQty')
+            recepoundgoods_info.FConfirmQty = self.request.POST.get('FConfirmQty')
+            recepoundgoods_info.FDeviationQty = self.request.POST.get('FDeviationQty')
+            recepoundgoods_info.CREATED_PRJ = self.request.session['PrjID']
+            recepoundgoods_info.CREATED_ORG = self.request.session['UserOrg']
+            recepoundgoods_info.CREATED_BY = self.request.session['UserID']
+            recepoundgoods_info.UPDATED_BY = self.request.session['UserID']
+            recepoundgoods_info.CREATED_TIME = timezone.now()
+            recepoundgoods_info.save()
 
 
 #返回原始运单信息table
@@ -180,4 +183,25 @@ class get_unitid(View):
         except ObjectDoesNotExist:
             response_data['result'] = '1'
             return HttpResponse(json.dumps(response_data))
+
+
+#上传原始运单附件
+class show_originupload(View):
+    def post(self, request):
+        fid = request.POST.get('FPID')
+        recepound_info = T_MaterialAccount.objects.get(Q(FID=fid))
+
+        recepound_info.FWaybillNo = request.POST.get('FWaybillNo')
+        recepound_info.FWaybillDate = request.POST.get('FWaybillDate')
+        recepound_info.FWaybillPicpath = request.FILES.get('FWaybillPicpath')
+        recepound_info.save()
+
+        url = '/recepound/show_originupload?fid='+request.POST.get('FPID')
+        return redirect(url)
+
+    def get(self, request):
+        fid = ''.join(str(request.GET.get('fid')).split('-'))
+        obj = RecePoundModelForm()
+
+        return render(request, "content/recepound/originupload.html", {'obj': obj, 'fid': fid})
 

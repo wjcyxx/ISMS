@@ -12,5 +12,6 @@ urlpatterns = [
     path('get_originbill_datasource/', views.get_originbill_datasource.as_view(), name='get_originbill_datasource'),
     path('get_material_datasource/', views.get_material_datasource.as_view(), name='get_material_datasource'),
     path('recevoid/', views.recevoid.as_view(), name='recevoid'),
-    path('get_unitid/', views.get_unitid.as_view(), name='get_unitid')
+    path('get_unitid/', views.get_unitid.as_view(), name='get_unitid'),
+    path('show_originupload/', views.show_originupload.as_view(), name='show_originupload')
 ]
