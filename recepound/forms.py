@@ -31,10 +31,18 @@ class RecePoundModelForm(ModelForm):
 
 class RecePoundMaterModelForm(ModelForm):
 
+    FMaterID = forms.ChoiceField(widget=forms.Select(attrs={'lay-verify': 'required', 'lay-filter': 'selMater'}), required=False)
+    FUnitID = forms.ChoiceField(widget=forms.Select(attrs={'lay-verify': 'required'}), required=False)
+
     class Meta:
         model = materaccountgoods
         fields = '__all__'
 
         widgets = {
+            'FID': Fwidgets.Input(attrs={'type': 'hidden'}),
+            'FPID': Fwidgets.Input(attrs={'type': 'hidden'}),
+            'FWaybillQty': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
+            'FConfirmQty': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
+            'FDeviationQty': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off', 'readonly': 'true'}),
 
         }

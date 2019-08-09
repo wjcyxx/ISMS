@@ -10,7 +10,7 @@ from materials.models import materials
 from project.models import project
 from basedata.models import base
 from goodstype.models import goodstype
-from unit.models import unit
+from unit.models import unit as T_Unit
 from common.views import *
 from django.http import JsonResponse
 from .forms import *
@@ -30,9 +30,10 @@ class entrance(EntranceView_base):
         self.query_sets = [
             organize.objects.filter(Q(FStatus=True)),
             base.objects.filter(Q(FPID='d8cb4a18b81911e999f07831c1d24216')),
-            materials.objects.filter(Q(CREATED_PRJ=prj_id))
+            materials.objects.filter(Q(CREATED_PRJ=prj_id)),
+            goodstype.objects.filter(Q(CREATED_PRJ=prj_id))
         ]
-        self.quer_set_fieldnames = ['FOrgname', 'FBase', 'FName']
+        self.quer_set_fieldnames = ['FOrgname', 'FBase', 'FName', 'FGoodsType']
 
 #返回table数据及查询结果
 class get_datasource(get_datasource_base):
@@ -49,6 +50,8 @@ class get_datasource(get_datasource_base):
 #链接新增模板
 class add(add_base):
     def set_view(self, request):
+        prj_id = self.request.session['PrjID']
+
         self.template_name = 'content/recepound/recepoundadd.html'
         self.objForm = RecePoundModelForm
         self.query_sets = [
@@ -62,6 +65,15 @@ class add(add_base):
         prefix = timezone.now().strftime("%Y%m%d")
         pound_no = gensequence('recepound', prefix, 4, 1)
         self.context['poundNo'] = pound_no
+
+        objMaterForm = RecePoundMaterModelForm()
+        materials_info = materials.objects.filter(Q(CREATED_PRJ=prj_id))
+        unit_info = T_Unit.objects.filter(Q(FStatus=True))
+
+        objMaterForm.fields['FMaterID'].choices = get_dict_object(request, materials_info, 'FID', 'FName')
+        objMaterForm.fields['FUnitID'].choices = get_dict_object(request, unit_info, 'FID', 'FUnit')
+
+        self.context['objMaterForm'] = objMaterForm
 
 
 #链接编辑模板
@@ -79,7 +91,7 @@ class edit(edit_base):
         self.query_set_valuefields = ['FOrgname', 'FBase', 'FPrjname']
 
         goodstype_info = get_dict_table(goodstype.objects.filter(Q(FPID__isnull=False)), 'FID', 'FGoodsType')
-        unit_info = get_dict_table(unit.objects.filter(Q(FStatus=True)), 'FID', 'FUnit')
+        unit_info = get_dict_table(T_Unit.objects.filter(Q(FStatus=True)), 'FID', 'FUnit')
         self.context['goodstype'] = goodstype_info
         self.context['unit'] = unit_info
 
@@ -111,6 +123,11 @@ class insert(insert_base):
 
         recepoundgoods_info =  T_MaterialAccountGoods.objects.create(FPID=recpound_info)
         #recepoundgoods_info.FPID = recpound_info.FID
+        recepoundgoods_info.FMaterID_id = self.request.POST.get('FMaterID')
+        recepoundgoods_info.FUnitID = self.request.POST.get('FUnitID')
+        recepoundgoods_info.FWaybillQty = self.request.POST.get('FWaybillQty')
+        recepoundgoods_info.FConfirmQty = self.request.POST.get('FConfirmQty')
+        recepoundgoods_info.FDeviationQty = self.request.POST.get('FDeviationQty')
         recepoundgoods_info.CREATED_PRJ = self.request.session['PrjID']
         recepoundgoods_info.CREATED_ORG = self.request.session['UserOrg']
         recepoundgoods_info.CREATED_BY = self.request.session['UserID']
@@ -144,4 +161,23 @@ class recevoid(disabled_base):
         self.model = T_MaterialAccount
         self.type = 1
         self.status = [3,2]
+
+
+#根据物料自动获取计量单位
+class get_unitid(View):
+    def post(self, request):
+        response_data = {}
+
+        fid = request.POST.get('fid')
+
+        try:
+            mater_info = materials.objects.get(Q(FID=fid))
+            response_data['result'] = '0'
+            response_data['unitid'] = mater_info.FUnitID
+
+            return HttpResponse(json.dumps(response_data))
+
+        except ObjectDoesNotExist:
+            response_data['result'] = '1'
+            return HttpResponse(json.dumps(response_data))
 

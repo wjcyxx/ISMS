@@ -184,9 +184,47 @@
             <div class="layui-row layui-col-space10" style="padding-top: 1%">
                 <div class="layui-col-md12">
                     <div class="layui-card">
-                        <div class="layui-card-header" id="divOrigin">原始运单信息</div>
+                        <div class="layui-card-header" id="divMaterAdd">磅单材料信息</div>
                         <div class="layui-card-body">
-                            <table class="layui-table" id="datasource"></table>
+                            <div class="layui-row layui-col-space15">
+                                <div class="layui-col-xs4">
+                                    <label class="layui-form-label" style="color: red">物料名称</label>
+                                    <div class="layui-input-block">
+                                        {{ objMaterForm.FMaterID }}
+                                    </div>
+                                </div>
+
+                                <div class="layui-col-xs4">
+                                    <label class="layui-form-label" style="color: red">计量单位</label>
+                                    <div class="layui-input-block">
+                                        {{ objMaterForm.FUnitID }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="layui-row layui-col-space15">
+                                <div class="layui-col-xs4">
+                                    <label class="layui-form-label" style="color: red">运单数量</label>
+                                    <div class="layui-input-block">
+                                        {{ objMaterForm.FWaybillQty }}
+                                    </div>
+                                </div>
+
+                                <div class="layui-col-xs4">
+                                    <label class="layui-form-label" style="color: red">确认数量</label>
+                                    <div class="layui-input-block">
+                                        {{ objMaterForm.FConfirmQty }}
+                                    </div>
+                                </div>
+
+                                <div class="layui-col-xs4">
+                                    <label class="layui-form-label" style="color: red">偏差数量</label>
+                                    <div class="layui-input-block">
+                                        {{ objMaterForm.FDeviationQty }}
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -401,6 +439,76 @@ layui.use(['element','layer','form', 'laydate', 'table', 'util'], function () {
         });
         return false;
     });
+
+
+    $("#id_F1stWeigh").bind('input propertychange', function () {
+        qty1 = $("#id_F1stWeigh").val();
+        if (qty1=="") {
+            qty1 = '0';
+        }
+        qty2 = $("#id_F2ndWeigh").val();
+        if (qty2=="") {
+            qty2 = '0'
+        }
+        qty3 = qty1 - qty2;
+        $("#id_FConfirmQty").val(Number(qty3).toFixed(2))
+    });
+
+    $("#id_F2ndWeigh").bind('input propertychange', function () {
+        qty1 = $("#id_F1stWeigh").val();
+        if (qty1=="") {
+            qty1 = '0';
+        }
+        qty2 = $("#id_F2ndWeigh").val();
+        if (qty2=="") {
+            qty2 = '0'
+        }
+        qty3 = qty1 - qty2;
+        $("#id_FConfirmQty").val(Number(qty3).toFixed(2))
+    });
+
+    $("#id_FWaybillQty").bind('input propertychange', function () {
+        qty1 = $("#id_FWaybillQty").val();
+        if (qty1=="") {
+            qty1 = '0';
+        }
+        qty2 = $("#id_FConfirmQty").val();
+        if (qty2=="") {
+            qty2 = '0'
+        }
+        qty3 = qty1 - qty2;
+        $("#id_FDeviationQty").val(Number(qty3).toFixed(2))
+    });
+
+    $("#id_FConfirmQty").bind('input propertychange', function () {
+        qty1 = $("#id_FWaybillQty").val();
+        if (qty1=="") {
+            qty1 = '0';
+        }
+        qty2 = $("#id_FConfirmQty").val();
+        if (qty2=="") {
+            qty2 = '0'
+        }
+        qty3 = qty1 - qty2;
+        $("#id_FDeviationQty").val(Number(qty3).toFixed(2))
+    });
+
+
+
+
+    form.on('select(selMater)', function(data){
+        //alert(data.value);
+        var fid = {'fid': data.value};
+
+        $.post("{% url 'recepound:get_unitid' %}", fid, function(d){
+            if (d.result == '0'){
+                //alert(d.union_id);
+                $("#id_FUnitID").val(d.unitid);
+                form.render('select');
+            }
+        }, "json" );
+    });
+
 
 })
 </script>

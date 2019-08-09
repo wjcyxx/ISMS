@@ -40,13 +40,22 @@
 <script>
   var Orginfo = {{ organize|safe }}
   var Worktypeinfo = {{ base|safe }};
-  var Materinfo = {{ materials|safe }}
+  var Materinfo = {{ materials|safe }};
+  var Goodstypeinfo = {{ goodstype|safe }};
 
-  layui.use(['element', 'layer', 'table'], function(){
+  layui.config({
+        base: '/static/layui/ext/',   // 模块所在目录
+  }).extend({
+        soulTable: 'soulTable'  // 模块别名
+  });
+
+
+  layui.use(['element', 'layer', 'table', 'soulTable'], function(){
       var $ = layui.jquery
           ,element = layui.element
           ,table = layui.table
-          ,layer = layui.layer;
+          ,layer = layui.layer
+          ,soulTable = layui.soulTable;
 
       $("#btnClose").click(function () {
           window.parent.layui.element.tabDelete('tabMain','Recepound');
@@ -66,25 +75,51 @@
       });
 
       table.render({
-          page: true,
-          limit: 20,
           elem: '#datasource',
+          height: 400,
           url: "{% url 'recepound:get_datasource' %}",
           cols: [[
-              {field:'FPID__FPoundNo', width: '20%', title: '磅单编号', sort: true},
-              {field:'FPID__FPlate', width: '20%', title: '车牌号码', sort: true},
-              {field:'FPID__FOperationalOrgID', width: '20%', title: '供应单位', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPID__FOperationalOrgID, Orginfo)}}{% endverbatim %}</div>'},
+                {title: '#', width: '5%', collapse: true, children:[
+                    {
+                        title: '磅单物料明细'
+                        ,url: function (row) {
+                            return "{% url 'recepound:get_material_datasource' %}?fid="+row.FPID__FID
+                        }
+                        ,height: 100
+                        ,page: false
+                        ,cols: [[
+                            {field: 'FMaterID__FMaterID', title: '物料编码', width: '15%', sort: true, filter: true},
+                            {field: 'FMaterID__FName', title: '物料名称', width: '20%', sort: true, filter: true},
+                            {field: 'FMaterID__FGoodsTypeID', title: '物料类别', width: '20%', sort: true, filter: true, templet: '<div>{% verbatim %}{{sotitle(d.FMaterID__FGoodsTypeID, Goodstypeinfo)}}{% endverbatim %}</div>'},
+                            {field: 'FWaybillQty', title: '运单数量', width: '20%', sort: true, filter: true},
+                            {field: 'FConfirmQty', title: '确认数量', width: '20%', sort: true, filter: true},
+                            {field: 'FDeviationQty', title: '偏差', width: '20%', sort: true, filter: true},
+                        ]]
+                        ,done: function () {
+                            soulTable.render(this);
+                        }
+                    }
+                ]},
+
+              {field:'FPID__FPoundNo', width: '20%', title: '磅单编号', sort: true, filter: true},
+              {field:'FPID__FPlate', width: '20%', title: '车牌号码', sort: true, filter: true},
+              {field:'FPID__FOperationalOrgID', width: '20%', title: '供应单位', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPID__FOperationalOrgID, Orginfo)}}{% endverbatim %}</div>', filter: true, excel: {cellType: 's'}},
               {field:'FPID__FWorktypeID', width: '15%', title: '收料类型', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPID__FWorktypeID, Worktypeinfo)}}{% endverbatim %}</div>'},
-              {field:'FMaterID__FName', width: '20%', title: '物料名称', sort: true},
-              {field:'FPID__CREATED_TIME', width: '20%', title: '收料时间', sort: true},
-              {field:'FWaybillQty', width: '15%', title: '运单数量', sort: true},
-              {field:'FConfirmQty', width: '15%', title: '确认数量', sort: true},
-              {field:'FDeviationQty', width: '15%', title: '偏差量', sort: true},
               {field:'FPID__FStatus', width: '15%', title: '单据状态', sort: true, templet: '#tpStatus'},
               {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
           ]],
           id: 'runreload'
+
+          ,filter: {
+              items: ['column', 'data', 'condition', 'editCondition', 'excel', 'clearCache'] //表格右键菜单
+              , cache: true
+          }
+
+          ,done: function () {
+            soulTable.render(this)
+          }
       });
+
 
       //监听查询条件提交
         form.on('submit(formsubmit)', function (data) {
@@ -142,6 +177,8 @@
           }
       });
   });
+
+
 </script>
 
 
