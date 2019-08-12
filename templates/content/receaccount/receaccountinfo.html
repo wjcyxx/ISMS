@@ -65,32 +65,50 @@
           url: "{% url 'receaccount:get_datasource' %}",
           cols: [[
               {title: '#', width: '5%', collapse: true, children:[
-                      {
-                          title: '磅单物料明细'
-                          ,url: function (row) {
-                              return "{% url 'receaccount:get_material_datasource' %}?fid="+row.FPID__FID
-                          }
-                          ,height: 100
-                          ,page: false
-                          ,cols: [[
-                              {field: 'FMaterID__FMaterID', title: '物料编码', width: '15%', sort: true, filter: true},
-                              {field: 'FMaterID__FName', title: '物料名称', width: '20%', sort: true, filter: true},
-                              {field: 'FMaterID__FGoodsTypeID', title: '物料类别', width: '20%', sort: true, filter: true, templet: '<div>{% verbatim %}{{sotitle(d.FMaterID__FGoodsTypeID, Goodstypeinfo)}}{% endverbatim %}</div>'},
-                              {field: 'FWaybillQty', title: '运单数量', width: '20%', sort: true, filter: true},
-                              {field: 'FConfirmQty', title: '确认数量', width: '20%', sort: true, filter: true},
-                              {field: 'FDeviationQty', title: '偏差', width: '20%', sort: true, filter: true, templet: '#tpDevQty'},
-                          ]]
-                          ,done: function () {
-                              soulTable.render(this);
-                          }
+                  {
+                      title: '磅单物料明细'
+                      ,url: function (row) {
+                          return "{% url 'receaccount:get_material_datasource' %}?fid="+row.FPID__FID
                       }
-                  ]},
+                      ,height: 100
+                      ,page: false
+                      ,cols: [[
+                          {field: 'FMaterID__FMaterID', title: '物料编码', width: '15%', sort: true, filter: true},
+                          {field: 'FMaterID__FName', title: '物料名称', width: '20%', sort: true, filter: true},
+                          {field: 'FMaterID__FGoodsTypeID', title: '物料类别', width: '20%', sort: true, filter: true, templet: '<div>{% verbatim %}{{sotitle(d.FMaterID__FGoodsTypeID, Goodstypeinfo)}}{% endverbatim %}</div>'},
+                          {field: 'FWaybillQty', title: '运单数量', width: '20%', sort: true, filter: true},
+                          {field: 'FConfirmQty', title: '确认数量', width: '20%', sort: true, filter: true},
+                          {field: 'FDeviationQty', title: '偏差', width: '20%', sort: true, filter: true, templet: '#tpDevQty'},
+                      ]]
+                      ,done: function () {
+                          soulTable.render(this);
+                      }
+                  },
+
+                  {
+                      title: '异常处理记录'
+                      ,url: function (row) {
+                          return "{% url 'receaccount:get_abn_datasource' %}?fid="+row.FPID__FID
+                      }
+                      ,height: 100
+                      ,page: false
+                      ,cols: [[
+                          {field: 'FResult', title: '处理结果', width: '20%', sort: true, filter: true, templet: '#tpResult'},
+                          {field: 'FResultDate', title: '处理日期', width: '20%', sort: true, filter: true},
+                          {field: 'FDesc', title: '描述', width: '60%', sort: true, filter: true},
+                      ]]
+                      ,done: function () {
+                          soulTable.render(this);
+                      }
+                  }
+
+              ]},
 
               {field:'FPID__FPoundNo', width: '20%', title: '磅单编号', sort: true, filter: true},
               {field:'FPID__FPlate', width: '20%', title: '车牌号码', sort: true, filter: true},
               {field:'FPID__FOperationalOrgID', width: '20%', title: '供应单位', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPID__FOperationalOrgID, Orginfo)}}{% endverbatim %}</div>', filter: true, excel: {cellType: 's'}},
-              {field:'FPID__FWorktypeID', width: '15%', title: '收料类型', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPID__FWorktypeID, Worktypeinfo)}}{% endverbatim %}</div>'},
-              {field:'FPID__FStatus', width: '15%', title: '单据状态', sort: true, templet: '#tpStatus'},
+              {field:'FPID__FWorktypeID', width: '15%', title: '收料类型', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPID__FWorktypeID, Worktypeinfo)}}{% endverbatim %}</div>', filter: true,},
+              {field:'FPID__FStatus', width: '15%', title: '单据状态', sort: true, templet: '#tpStatus', filter: true,},
               {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
           ]],
           id: 'runreload'
@@ -191,6 +209,21 @@
       {{#  } }}
       {% endverbatim %}
   </script>
+
+  <!--显示偏差模板-->
+  <script type="text/html" id="tpResult">
+      {% verbatim %}
+      {{#  if(d.FResult == 0){ }}
+      <span>异常收货</span>
+      {{#  } else if(d.FResult == 1) { }}
+      <span>退货</span>
+      {{#  } else if(d.FResult == 2) { }}
+      <span>作废</span>
+      {{#  } }}
+      {% endverbatim %}
+  </script>
+
+
 
 <!--生成操作工具栏-->
 <script type="text/html" id="tlbar">

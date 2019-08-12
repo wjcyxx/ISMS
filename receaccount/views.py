@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 from django.db.models import Q
 from .models import materialsaccount as T_MaterialAccount
 from .models import materaccountgoods as T_MaterialAccountGoods
+from abnpound.models import abnpound
 from organize.models import organize
 from materials.models import materials
 from project.models import project
@@ -106,6 +107,16 @@ class get_material_datasource(get_datasource_base):
         self.type = 1
         material_info = T_MaterialAccountGoods.objects.filter(Q(FPID=fid)).values('FMaterID__FMaterID', 'FMaterID__FName', 'FMaterID__FGoodsTypeID', 'FMaterID__FSpec', 'FMaterID__FUnitID', 'FMaterID__FTexture', 'FWaybillQty', 'FConfirmQty', 'FDeviationQty')
         return material_info
+
+
+#返回异常处理明细table
+class get_abn_datasource(get_datasource_base):
+    def get_queryset(self, reqeust):
+        fid = ''.join(str(self.request.GET.get('fid')).split('-'))
+
+        abnormal_info =  abnpound.objects.filter(Q(FPoundID=fid))
+        return abnormal_info
+
 
 
 #处理作废

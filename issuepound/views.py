@@ -62,7 +62,7 @@ class add(add_base):
         self.query_set_idfields = ['FOperationalOrgID', 'FWorktypeID', 'CREATED_PRJ']
         self.query_set_valuefields = ['FOrgname', 'FBase', 'FPrjname']
 
-        prefix = timezone.now().strftime("%Y%m%d")
+        prefix = 'F' + timezone.now().strftime("%Y%m%d")
         pound_no = gensequence('issuepound', prefix, 4, 1)
         self.context['poundNo'] = pound_no
 
