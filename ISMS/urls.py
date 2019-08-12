@@ -53,7 +53,10 @@ urlpatterns = [
     path('unit/', include('unit.urls'), name='unit'),
     path('materials/', include('materials.urls'), name='materials'),
     path('receaccount/', include('receaccount.urls'), name='receaccount'),
-    path('recepound/', include('recepound.urls'), name='recepound')
+    path('recepound/', include('recepound.urls'), name='recepound'),
+    path('issueaccount/', include('issueaccount.urls'), name='issueaccount'),
+    path('issuepound/', include('issuepound.urls'), name='issuepound'),
+    path('abnpound/', include('abnpound.urls'), name='abnpound')
 
 ]
 

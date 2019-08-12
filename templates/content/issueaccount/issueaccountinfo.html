@@ -40,69 +40,36 @@
   var Orginfo = {{ organize|safe }}
   var Worktypeinfo = {{ base|safe }};
   var Materinfo = {{ materials|safe }}
-  var Goodstypeinfo = {{ goodstype|safe }};
 
-  layui.config({
-      base: '/static/layui/ext/',   // 模块所在目录
-  }).extend({
-      soulTable: 'soulTable'  // 模块别名
-  });
-
-  layui.use(['element', 'layer', 'table', 'soulTable'], function(){
+  layui.use(['element', 'layer', 'table'], function(){
       var $ = layui.jquery
           ,element = layui.element
           ,table = layui.table
-          ,layer = layui.layer
-          ,soulTable = layui.soulTable;
+          ,layer = layui.layer;
 
       $("#btnClose").click(function () {
-          window.parent.layui.element.tabDelete('tabMain','Receaccount');
+          window.parent.layui.element.tabDelete('tabMain','Issueaccount');
       });
 
       table.render({
+          page: true,
+          limit: 20,
           elem: '#datasource',
-          height: 'full-120',
-          url: "{% url 'receaccount:get_datasource' %}",
+          url: "{% url 'issueaccount:get_datasource' %}",
           cols: [[
-              {title: '#', width: '5%', collapse: true, children:[
-                      {
-                          title: '磅单物料明细'
-                          ,url: function (row) {
-                              return "{% url 'receaccount:get_material_datasource' %}?fid="+row.FPID__FID
-                          }
-                          ,height: 100
-                          ,page: false
-                          ,cols: [[
-                              {field: 'FMaterID__FMaterID', title: '物料编码', width: '15%', sort: true, filter: true},
-                              {field: 'FMaterID__FName', title: '物料名称', width: '20%', sort: true, filter: true},
-                              {field: 'FMaterID__FGoodsTypeID', title: '物料类别', width: '20%', sort: true, filter: true, templet: '<div>{% verbatim %}{{sotitle(d.FMaterID__FGoodsTypeID, Goodstypeinfo)}}{% endverbatim %}</div>'},
-                              {field: 'FWaybillQty', title: '运单数量', width: '20%', sort: true, filter: true},
-                              {field: 'FConfirmQty', title: '确认数量', width: '20%', sort: true, filter: true},
-                              {field: 'FDeviationQty', title: '偏差', width: '20%', sort: true, filter: true, templet: '#tpDevQty'},
-                          ]]
-                          ,done: function () {
-                              soulTable.render(this);
-                          }
-                      }
-                  ]},
-
-              {field:'FPID__FPoundNo', width: '20%', title: '磅单编号', sort: true, filter: true},
-              {field:'FPID__FPlate', width: '20%', title: '车牌号码', sort: true, filter: true},
-              {field:'FPID__FOperationalOrgID', width: '20%', title: '供应单位', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPID__FOperationalOrgID, Orginfo)}}{% endverbatim %}</div>', filter: true, excel: {cellType: 's'}},
+              {field:'FPID__FPoundNo', width: '20%', title: '磅单编号', sort: true},
+              {field:'FPID__FPlate', width: '20%', title: '车牌号码', sort: true},
+              {field:'FPID__FOperationalOrgID', width: '20%', title: '供应单位', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPID__FOperationalOrgID, Orginfo)}}{% endverbatim %}</div>'},
               {field:'FPID__FWorktypeID', width: '15%', title: '收料类型', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPID__FWorktypeID, Worktypeinfo)}}{% endverbatim %}</div>'},
+              {field:'FMaterID__FName', width: '20%', title: '物料名称', sort: true},
+              {field:'FPID__CREATED_TIME', width: '20%', title: '收料时间', sort: true},
+              {field:'FWaybillQty', width: '15%', title: '运单数量', sort: true},
+              {field:'FConfirmQty', width: '15%', title: '确认数量', sort: true},
+              {field:'FDeviationQty', width: '15%', title: '偏差量', sort: true, templet: '#tpDevQty'},
               {field:'FPID__FStatus', width: '15%', title: '单据状态', sort: true, templet: '#tpStatus'},
               {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
           ]],
           id: 'runreload'
-
-          ,filter: {
-              items: ['column', 'data', 'condition', 'editCondition', 'excel', 'clearCache'] //表格右键菜单
-              , cache: true
-          }
-
-          ,done: function () {
-              soulTable.render(this)
-          }
       });
 
       //监听查询条件提交
@@ -126,10 +93,10 @@
               case 'edit' :              //编辑按钮事件
                   parent.layer.open({
                       type:   2,
-                      title:  '收料台账详细信息',
+                      title:  '发料台账详细信息',
                       area: ['1280px','640px'],
                       fixed: false,
-                      content: "{% url 'receaccount:edit' %}?fid="+data.FPID__FID,
+                      content: "{% url 'issueaccount:edit' %}?fid="+data.FPID__FID,
                       resize: false,
                       move: false
                   });
@@ -138,10 +105,10 @@
 
               case 'invalid':           //作废按钮事件
                   parent.layer.open({
-                      content: '是否确定作废该收料磅单',
+                      content: '是否确定作废该发料磅单',
                       btn: ['确定','取消'],
                       yes: function (index) {
-                          $.post("{% url 'receaccount:recevoid' %}?type=lock", fid, function (data) {
+                          $.post("{% url 'issueaccount:recevoid' %}?type=lock", fid, function (data) {
                               if (data.result=='0') {
                                   //window.parent.document.getElementById('Project').contentWindow.location.reload();
                                   table.reload('runreload', {where: {resultdict:{FPID__FPoundNo: ''}}});
@@ -175,8 +142,6 @@
       <span style="color: green">验收</span>
       {{#  } else if(d.FPID__FStatus == 3) { }}
       <span style="color: red">作废</span>
-      {{#  } else if(d.FPID__FStatus == 5) { }}
-      <span style="color: orangered">异常验收</span>
       {{#  } }}
       {% endverbatim %}
   </script>

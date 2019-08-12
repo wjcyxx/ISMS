@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  {% include "common/resfiles.html" %}
+</head>
+<body>
+
+<form class="layui-form layui-form-pane" accept-charset="utf-8">
+    <div style="padding: 10px; background-color: #F2F2F2;">
+        <div>
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formsubmit" >保存</button>
+            <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnC">关闭</a>
+        </div>
+
+        <div class="layui-row layui-col-space10" style="padding-top: 1%">
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header">收料异常处理</div>
+                    <div class="layui-card-body">
+                        <div class="layui-row layui-col-space15">
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label" style="color: red">磅单编号</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FID }}
+                                    <input type="hidden" name="FPID" id="FPID" value="{{ FPID }}">
+                                    <input type="text" name="PoundNo" lay-verify="required" value="{{ PoundNo }}" autocomplete="off" class="layui-input" readonly="true">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layui-row layui-col-space10">
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label" style="color: red">处理结果</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FResult }}
+                                </div>
+                            </div>
+
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label" style="color: red">处理日期</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FResultDate }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layui-row layui-col-space10">
+                            <div class="layui-col-xs12">
+                                <label class="layui-form-label">备注</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FDesc }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</form>
+
+<!-- <script src="//res.layui.com/layui/build/layui.js" charset="utf-8"></script> -->
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+{% include "common/jsfiles.html" %}
+
+<style>
+    .layui-unselect dl { max-height:150px; }
+</style>
+
+
+<script>
+
+layui.use(['element','layer','form', 'laydate'], function () {
+    var element = layui.element
+        , layer = layui.layer
+        , form = layui.form
+        , laydate = layui.laydate;
+
+    //关闭按钮
+    $("#btnC").click(function () {
+        var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
+        parent.layer.close(index);
+    });
+
+    laydate.render({
+        elem: '#id_FResultDate',
+        trigger: 'click',
+        value: '{{ ResultDate }}'
+    });
+
+
+    //监听窗口提交
+    form.on('submit(formsubmit)', function (data) {
+        $.ajax({
+            type: "POST",
+            url:  "{% url 'abnpound:insert' %}?actype={{ action }}",
+            data: data.field,
+            dataType: "json",
+            success: function (data) {
+                if (data.result=='0') {
+                    window.parent.document.getElementById('Abnpound').contentWindow.location.reload();
+
+                    var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
+                    parent.layer.close(index);
+                } else if (data.result=='1'){
+                    for (item in data["msg"]){
+                        if (data["msg"][item]){
+                            layer.tips(data["msg"][item], $("input[name='"+item+"']"));
+                        }
+                    }
+                } else if (data.result=='2') {
+                    layer.alert('无效的执行方法');
+                }
+            }
+        });
+        return false;
+    });
+})
+</script>
+
+</body>
+</html>

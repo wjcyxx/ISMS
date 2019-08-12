@@ -154,15 +154,15 @@
 
               case 'invalid':           //作废按钮事件
                   parent.layer.open({
-                      content: '是否确定作废该收料磅单',
+                      content: '是否确定验收该收料磅单',
                       btn: ['确定','取消'],
                       yes: function (index) {
-                          $.post("{% url 'receaccount:recevoid' %}?type=lock", fid, function (data) {
+                          $.post("{% url 'recepound:recevoid' %}?type=unlock", fid, function (data) {
                               if (data.result=='0') {
                                   //window.parent.document.getElementById('Project').contentWindow.location.reload();
                                   table.reload('runreload', {where: {resultdict:{FPID__FPoundNo: ''}}});
                               } else if (data.result=='2') {
-                                  parent.layer.alert('单据作废失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                                  parent.layer.alert('单据验收失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
                               }
 
                           },"json");

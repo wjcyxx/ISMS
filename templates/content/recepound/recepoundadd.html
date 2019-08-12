@@ -402,7 +402,7 @@ layui.use(['element','layer','form', 'laydate', 'table', 'util'], function () {
 
     table.render({
         elem: '#materdatasource',
-        url: "{% url 'receaccount:get_material_datasource' %}?fid="+fid,
+        url: "{% url 'recepound:get_material_datasource' %}?fid="+fid,
         cols: [[
             {field:'FMaterID__FMaterID', width: '20%', title: '物料编码', sort: true},
             {field:'FMaterID__FName', width: '20%', title: '物料名称', sort: true},
@@ -505,7 +505,7 @@ layui.use(['element','layer','form', 'laydate', 'table', 'util'], function () {
         if (qty2=="") {
             qty2 = '0'
         }
-        qty3 = qty1 - qty2;
+        qty3 = qty2 - qty1;
         $("#id_FDeviationQty").val(Number(qty3).toFixed(2))
     });
 
@@ -518,7 +518,7 @@ layui.use(['element','layer','form', 'laydate', 'table', 'util'], function () {
         if (qty2=="") {
             qty2 = '0'
         }
-        qty3 = qty1 - qty2;
+        qty3 = qty2 - qty1;
         $("#id_FDeviationQty").val(Number(qty3).toFixed(2))
     });
 

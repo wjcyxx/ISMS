@@ -27,7 +27,8 @@
       </div>
 
       <div style="padding-top: 10px" >
-        <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
+          <a href="javascript:;" class="layui-btn layui-btn-normal" id="btnAdd">补录</a>
+          <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
       </div>
 
       <!-- 数据列表 -->
@@ -39,14 +40,15 @@
 <script>
   var Orginfo = {{ organize|safe }}
   var Worktypeinfo = {{ base|safe }};
-  var Materinfo = {{ materials|safe }}
+  var Materinfo = {{ materials|safe }};
   var Goodstypeinfo = {{ goodstype|safe }};
 
   layui.config({
-      base: '/static/layui/ext/',   // 模块所在目录
+        base: '/static/layui/ext/',   // 模块所在目录
   }).extend({
-      soulTable: 'soulTable'  // 模块别名
+        soulTable: 'soulTable'  // 模块别名
   });
+
 
   layui.use(['element', 'layer', 'table', 'soulTable'], function(){
       var $ = layui.jquery
@@ -56,35 +58,48 @@
           ,soulTable = layui.soulTable;
 
       $("#btnClose").click(function () {
-          window.parent.layui.element.tabDelete('tabMain','Receaccount');
+          window.parent.layui.element.tabDelete('tabMain','Issuepound');
+      });
+
+      //新增按钮事件
+      $("#btnAdd").click(function () {
+          parent.layer.open({
+              type:   2,
+              title:  '补录发料磅单',
+              area: ['1280px','640px'],
+              fixed: false,
+              content: "{% url 'issuepound:add' %}",
+              resize: false,
+              move: false
+          });
       });
 
       table.render({
           elem: '#datasource',
           height: 'full-120',
-          url: "{% url 'receaccount:get_datasource' %}",
+          url: "{% url 'issuepound:get_datasource' %}",
           cols: [[
-              {title: '#', width: '5%', collapse: true, children:[
-                      {
-                          title: '磅单物料明细'
-                          ,url: function (row) {
-                              return "{% url 'receaccount:get_material_datasource' %}?fid="+row.FPID__FID
-                          }
-                          ,height: 100
-                          ,page: false
-                          ,cols: [[
-                              {field: 'FMaterID__FMaterID', title: '物料编码', width: '15%', sort: true, filter: true},
-                              {field: 'FMaterID__FName', title: '物料名称', width: '20%', sort: true, filter: true},
-                              {field: 'FMaterID__FGoodsTypeID', title: '物料类别', width: '20%', sort: true, filter: true, templet: '<div>{% verbatim %}{{sotitle(d.FMaterID__FGoodsTypeID, Goodstypeinfo)}}{% endverbatim %}</div>'},
-                              {field: 'FWaybillQty', title: '运单数量', width: '20%', sort: true, filter: true},
-                              {field: 'FConfirmQty', title: '确认数量', width: '20%', sort: true, filter: true},
-                              {field: 'FDeviationQty', title: '偏差', width: '20%', sort: true, filter: true, templet: '#tpDevQty'},
-                          ]]
-                          ,done: function () {
-                              soulTable.render(this);
-                          }
-                      }
-                  ]},
+                {title: '#', width: '5%', collapse: true, children:[
+                    {
+                        title: '磅单物料明细'
+                        ,url: function (row) {
+                            return "{% url 'issuepound:get_material_datasource' %}?fid="+row.FPID__FID
+                        }
+                        ,height: 100
+                        ,page: false
+                        ,cols: [[
+                            {field: 'FMaterID__FMaterID', title: '物料编码', width: '15%', sort: true, filter: true},
+                            {field: 'FMaterID__FName', title: '物料名称', width: '20%', sort: true, filter: true},
+                            {field: 'FMaterID__FGoodsTypeID', title: '物料类别', width: '20%', sort: true, filter: true, templet: '<div>{% verbatim %}{{sotitle(d.FMaterID__FGoodsTypeID, Goodstypeinfo)}}{% endverbatim %}</div>'},
+                            {field: 'FWaybillQty', title: '运单数量', width: '20%', sort: true, filter: true},
+                            {field: 'FConfirmQty', title: '确认数量', width: '20%', sort: true, filter: true},
+                            {field: 'FDeviationQty', title: '偏差', width: '20%', sort: true, filter: true},
+                        ]]
+                        ,done: function () {
+                            soulTable.render(this);
+                        }
+                    }
+                ]},
 
               {field:'FPID__FPoundNo', width: '20%', title: '磅单编号', sort: true, filter: true},
               {field:'FPID__FPlate', width: '20%', title: '车牌号码', sort: true, filter: true},
@@ -101,9 +116,10 @@
           }
 
           ,done: function () {
-              soulTable.render(this)
+            soulTable.render(this)
           }
       });
+
 
       //监听查询条件提交
         form.on('submit(formsubmit)', function (data) {
@@ -126,10 +142,10 @@
               case 'edit' :              //编辑按钮事件
                   parent.layer.open({
                       type:   2,
-                      title:  '收料台账详细信息',
+                      title:  '编辑发料磅单',
                       area: ['1280px','640px'],
                       fixed: false,
-                      content: "{% url 'receaccount:edit' %}?fid="+data.FPID__FID,
+                      content: "{% url 'issuepound:edit' %}?fid="+data.FPID__FID,
                       resize: false,
                       move: false
                   });
@@ -138,15 +154,15 @@
 
               case 'invalid':           //作废按钮事件
                   parent.layer.open({
-                      content: '是否确定作废该收料磅单',
+                      content: '是否确定验收该发料磅单',
                       btn: ['确定','取消'],
                       yes: function (index) {
-                          $.post("{% url 'receaccount:recevoid' %}?type=lock", fid, function (data) {
+                          $.post("{% url 'issuepound:recevoid' %}?type=unlock", fid, function (data) {
                               if (data.result=='0') {
                                   //window.parent.document.getElementById('Project').contentWindow.location.reload();
                                   table.reload('runreload', {where: {resultdict:{FPID__FPoundNo: ''}}});
                               } else if (data.result=='2') {
-                                  parent.layer.alert('单据作废失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                                  parent.layer.alert('单据验收失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
                               }
 
                           },"json");
@@ -161,6 +177,8 @@
           }
       });
   });
+
+
 </script>
 
 
@@ -175,29 +193,17 @@
       <span style="color: green">验收</span>
       {{#  } else if(d.FPID__FStatus == 3) { }}
       <span style="color: red">作废</span>
-      {{#  } else if(d.FPID__FStatus == 5) { }}
-      <span style="color: orangered">异常验收</span>
       {{#  } }}
       {% endverbatim %}
   </script>
 
-  <!--显示偏差模板-->
-  <script type="text/html" id="tpDevQty">
-      {% verbatim %}
-      {{#  if(d.FDeviationQty >= 0){ }}
-      <span style="color: green">{{d.FDeviationQty}}</span>
-      {{#  } else { }}
-      <span style="color: red">{{d.FDeviationQty}}</span>
-      {{#  } }}
-      {% endverbatim %}
-  </script>
 
 <!--生成操作工具栏-->
 <script type="text/html" id="tlbar">
     {% verbatim %}
         <div class="layui-btn-group">
-            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>查看详情</a>
-            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="invalid"><i class="layui-icon">&#xe640;</i>作废</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>编辑</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="invalid"><i class="layui-icon">&#xe640;</i>验收</a>
 
         </div>
     {% endverbatim %}

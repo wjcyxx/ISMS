@@ -68,7 +68,10 @@ INSTALLED_APPS = [
     'materials',
     'unit',
     'receaccount',
-    'recepound'
+    'recepound',
+    'issueaccount',
+    'issuepound',
+    'abnpound'
 ]
 
 MIDDLEWARE = [

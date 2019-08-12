@@ -3,8 +3,8 @@ from django.shortcuts import HttpResponse
 from django.http import HttpRequest
 from django.shortcuts import redirect
 from django.db.models import Q
-from .models import materialsaccount as T_MaterialAccount
-from .models import materaccountgoods as T_MaterialAccountGoods
+from receaccount.models import materialsaccount as T_MaterialAccount
+from receaccount.models import materaccountgoods as T_MaterialAccountGoods
 from organize.models import organize
 from materials.models import materials
 from project.models import project
@@ -26,14 +26,13 @@ class entrance(EntranceView_base):
     def set_view(self, request):
         prj_id = self.request.session['PrjID']
 
-        self.template_name = 'content/receaccount/receaccountinfo.html'
+        self.template_name = 'content/issueaccount/issueaccountinfo.html'
         self.query_sets = [
             organize.objects.filter(Q(FStatus=True)),
-            base.objects.filter(Q(FPID='d8cb4a18b81911e999f07831c1d24216')),
-            materials.objects.filter(Q(CREATED_PRJ=prj_id)),
-            goodstype.objects.filter(Q(CREATED_PRJ=prj_id))
+            base.objects.filter(Q(FPID='58a9645abca111e997d77831c1d24216')),   #发料类型
+            materials.objects.filter(Q(CREATED_PRJ=prj_id))
         ]
-        self.quer_set_fieldnames = ['FOrgname', 'FBase', 'FName', 'FGoodsType']
+        self.quer_set_fieldnames = ['FOrgname', 'FBase', 'FName']
 
 #返回table数据及查询结果
 class get_datasource(get_datasource_base):
@@ -42,20 +41,20 @@ class get_datasource(get_datasource_base):
         serinput = self.request.GET.get("resultdict[FPID__FPoundNo]", '')
         self.type = 1
 
-        receaccount_info = T_MaterialAccountGoods.objects.filter(Q(FPID__CREATED_PRJ=prj_id), Q(FPID__FPoundNo__contains=serinput), Q(FPID__FReceivetype=0), (Q(FPID__FStatus=2) | Q(FPID__FStatus=5) )).values('FPID__FID', 'FPID__FPoundNo', 'FPID__FPlate', 'FPID__FOperationalOrgID','FPID__FWorktypeID', 'FMaterID__FName', 'FPID__CREATED_TIME','FWaybillQty', 'FConfirmQty', 'FDeviationQty', 'FPID__FStatus')
+        issueaccount_info = T_MaterialAccountGoods.objects.filter(Q(FPID__CREATED_PRJ=prj_id), Q(FPID__FPoundNo__contains=serinput), Q(FPID__FReceivetype=1), Q(FPID__FStatus=2)).values('FPID__FID', 'FPID__FPoundNo', 'FPID__FPlate', 'FPID__FOperationalOrgID','FPID__FWorktypeID', 'FMaterID__FName', 'FPID__CREATED_TIME','FWaybillQty', 'FConfirmQty', 'FDeviationQty', 'FPID__FStatus')
 
-        return receaccount_info
+        return issueaccount_info
 
 
 #链接编辑模板
 class edit(edit_base):
     def set_view(self, request):
-        self.template_name = 'content/receaccount/receaccountadd.html'
+        self.template_name = 'content/issueaccount/issueaccountadd.html'
         self.model = T_MaterialAccount
-        self.objForm = ReceAccountModelForm
+        self.objForm = IssueAccountModelForm
         self.query_sets = [
             organize.objects.filter(Q(FStatus=True)),
-            base.objects.filter(Q(FPID='d8cb4a18b81911e999f07831c1d24216')),
+            base.objects.filter(Q(FPID='58a9645abca111e997d77831c1d24216')),
             project.objects.filter(Q(FStatus=True))
         ]
         self.query_set_idfields = ['FOperationalOrgID', 'FWorktypeID', 'CREATED_PRJ']
@@ -67,9 +66,9 @@ class edit(edit_base):
         self.context['unit'] = unit_info
 
         id = ''.join(str(self.request.GET.get('fid')).split('-'))
-        receaccount = T_MaterialAccount.objects.get(Q(FID=id))
-        self.context['inpic1'] = str(receaccount.FInPicpath1)
-        self.context['outpic1'] = str(receaccount.FOutPicpath1)
+        issueaccount = T_MaterialAccount.objects.get(Q(FID=id))
+        self.context['inpic1'] = str(issueaccount.FInPicpath1)
+        self.context['outpic1'] = str(issueaccount.FOutPicpath1)
 
 
 
@@ -78,10 +77,10 @@ class edit(edit_base):
 class insert(insert_base):
     def set_view(self, request):
         self.model = T_MaterialAccount
-        self.objForm = ReceAccountModelForm
+        self.objForm = IssueAccountModelForm
         self.query_sets = [
             organize.objects.filter(Q(FStatus=True)),
-            base.objects.filter(Q(FPID='d8cb4a18b81911e999f07831c1d24216')),
+            base.objects.filter(Q(FPID='58a9645abca111e997d77831c1d24216')),
             project.objects.filter(Q(FStatus=True)),
         ]
         self.query_set_idfields = ['FOperationalOrgID', 'FWorktypeID', 'CREATED_PRJ']
@@ -114,3 +113,4 @@ class recevoid(disabled_base):
         self.model = T_MaterialAccount
         self.type = 1
         self.status = [3,2]
+

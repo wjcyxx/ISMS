@@ -14,7 +14,7 @@
         <div class="layui-row layui-col-space10" style="padding-top: 1%">
             <div class="layui-col-md10">
                 <div class="layui-card">
-                    <div class="layui-card-header" id="divaccount">收料台账详细信息</div>
+                    <div class="layui-card-header" id="divaccount">发料台账详细信息</div>
                     <div class="layui-card-body">
                         <div class="layui-row layui-col-space15">
                             <div class="layui-col-xs4">
@@ -43,14 +43,14 @@
 
                         <div class="layui-row layui-col-space10">
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">称毛时间</label>
+                                <label class="layui-form-label" style="color: red">称皮时间</label>
                                 <div class="layui-input-block">
                                     {{ obj.F1stWeighTime }}
                                 </div>
                             </div>
 
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">称皮时间</label>
+                                <label class="layui-form-label" style="color: red">称毛时间</label>
                                 <div class="layui-input-block">
                                     {{ obj.F2ndWeighTime }}
                                 </div>
@@ -66,14 +66,14 @@
 
                         <div class="layui-row layui-col-space10">
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">毛重</label>
+                                <label class="layui-form-label" style="color: red">皮重</label>
                                 <div class="layui-input-block">
                                     {{ obj.F1stWeigh }}
                                 </div>
                             </div>
 
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">皮重</label>
+                                <label class="layui-form-label" style="color: red">毛重</label>
                                 <div class="layui-input-block">
                                     {{ obj.F2ndWeigh }}
                                 </div>
@@ -101,7 +101,7 @@
                             </div>
 
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">收料类型</label>
+                                <label class="layui-form-label" style="color: red">发料类型</label>
                                 <div class="layui-input-block">
                                     {{ obj.FWorktypeID }}
                                 </div>
@@ -142,7 +142,7 @@
                     <li class="layui-timeline-item">
                         <i class="layui-icon layui-timeline-axis">&#xe641;</i>
                         <div class="layui-timeline-content layui-text">
-                            <div class="layui-timeline-title"><a href="#divaccount">收料台账详细信息</a></div>
+                            <div class="layui-timeline-title"><a href="#divaccount">发料台账详细信息</a></div>
                         </div>
                     </li>
 
@@ -275,7 +275,7 @@ layui.use(['element','layer','form', 'laydate', 'table', 'util'], function () {
 
     table.render({
         elem: '#datasource',
-        url: "{% url 'receaccount:get_originbill_datasource' %}?fid="+fid,
+        url: "{% url 'issueaccount:get_originbill_datasource' %}?fid="+fid,
         cols: [[
             {field:'FWaybillNo', width: '25%', title: '原始运单编号', sort: true},
             {field:'FWaybillDate', width: '20%', title: '原始运单日期', sort: true},
@@ -306,7 +306,7 @@ layui.use(['element','layer','form', 'laydate', 'table', 'util'], function () {
 
     table.render({
         elem: '#materdatasource',
-        url: "{% url 'receaccount:get_material_datasource' %}?fid="+fid,
+        url: "{% url 'issueaccount:get_material_datasource' %}?fid="+fid,
         cols: [[
             {field:'FMaterID__FMaterID', width: '20%', title: '物料编码', sort: true},
             {field:'FMaterID__FName', width: '20%', title: '物料名称', sort: true},
@@ -350,7 +350,7 @@ layui.use(['element','layer','form', 'laydate', 'table', 'util'], function () {
 </script>
 
 
-<!--显示偏差模板-->
+<!--显示状态模板-->
 <script type="text/html" id="tpDevQty">
     {% verbatim %}
     {{#  if(d.FDeviationQty >= 0){ }}

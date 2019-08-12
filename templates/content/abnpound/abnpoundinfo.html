@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include "common/resfiles.html" %}
+</head>
+<body style="overflow: hidden;">
+
+  <!--安全帽规则信息列表  -->
+
+    <!-- 工具条 -->
+      <!-- 查询框 -->
+      <div class="layui-collapse">
+          <div class="layui-colla-item">
+              <h2 class="layui-colla-title">查询条件</h2>
+              <div class="layui-colla-content">
+                  <form class="layui-form" method="post">
+                      <div class="layui-inline">
+                          <input type="text" name="serinput" placeholder="输入磅单号码" autocomplete="off" class="layui-input" value="" style="width: 120%">
+                      </div>
+
+                      <div class="layui-inline" style="margin-left: 35px">
+                          <input type="button" class="layui-btn layui-btn-small layui-btn-normal layui-icon" lay-submit lay-filter="formsubmit" value="&#xe615;查  询"/>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+
+      <div style="padding-top: 10px" >
+        <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
+      </div>
+
+      <!-- 数据列表 -->
+
+      <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
+
+{% include "common/jsfiles.html" %}
+
+<script>
+  var Orginfo = {{ organize|safe }};
+  var Worktypeinfo = {{ base|safe }};
+  var Materinfo = {{ materials|safe }};
+  var Unitinfo = {{ unit|safe }};
+
+  layui.use(['element', 'layer', 'table'], function(){
+      var $ = layui.jquery
+          ,element = layui.element
+          ,table = layui.table
+          ,layer = layui.layer;
+
+      $("#btnClose").click(function () {
+          window.parent.layui.element.tabDelete('tabMain','Abnpound');
+      });
+
+      table.render({
+          page: true,
+          limit: 20,
+          elem: '#datasource',
+          url: "{% url 'abnpound:get_datasource' %}",
+          cols: [[
+              {field:'FPID__FPoundNo', width: '20%', title: '磅单编号', sort: true},
+              {field:'FPID__FPlate', width: '20%', title: '车牌号码', sort: true},
+              {field:'FPID__FOperationalOrgID', width: '20%', title: '供应单位', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPID__FOperationalOrgID, Orginfo)}}{% endverbatim %}</div>'},
+              {field:'FPID__FWorktypeID', width: '15%', title: '收料类型', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPID__FWorktypeID, Worktypeinfo)}}{% endverbatim %}</div>'},
+              {field:'FMaterID__FName', width: '20%', title: '物料名称', sort: true},
+              {field:'FPID__F1stWeighTime', width: '20%', title: '称毛时间', sort: true},
+              {field:'FPID__F2ndWeighTime', width: '20%', title: '称皮时间', sort: true},
+              {field:'FPID__CREATED_TIME', width: '20%', title: '收料时间', sort: true},
+              {field:'FPID__F1stWeigh', width: '15%', title: '毛重', sort: true},
+              {field:'FPID__F2ndWeigh', width: '15%', title: '皮重', sort: true},
+              {field:'FWaybillQty', width: '15%', title: '运单数量', sort: true},
+              {field:'FConfirmQty', width: '15%', title: '确认数量', sort: true},
+              {field:'FDeviationQty', width: '15%', title: '偏差量', sort: true, templet: '#tpDevQty'},
+              {field:'FUnitID', width: '15%', title: '计量单位', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FUnitID, Unitinfo)}}{% endverbatim %}</div>'},
+              {field:'FPID__FStatus', width: '15%', title: '单据状态', sort: true, templet: '#tpStatus'},
+              {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
+          ]],
+          id: 'runreload'
+      });
+
+      //监听查询条件提交
+        form.on('submit(formsubmit)', function (data) {
+            var serinput = $("input[name='serinput']").val();
+            //alert(serinput);
+            table.reload('runreload', {where: {resultdict:{FPID__FPoundNo: serinput}}});
+
+            return false;
+        });
+
+
+      //监听工具栏按钮事件
+      table.on('tool(toolbar)', function (obj) {
+          var data = obj.data;           //获取当前行数据
+          var layEvent = obj.event;      //获取当前行事件
+          var tr = obj.tr;               //获取当前行tr的DOM数据
+          var fid = {"fid":data.FPID__FID};
+
+          switch (layEvent){
+              case 'addabn' :              //编辑按钮事件
+                  parent.layer.open({
+                      type:   2,
+                      title:  '异常磅单处理',
+                      area: ['900px','370px'],
+                      fixed: false,
+                      content: "{% url 'abnpound:add' %}?fid="+data.FPID__FID,
+                      resize: false,
+                      move: false
+                  });
+
+                  break;
+
+              case '':
+
+                  break;
+          }
+      });
+  });
+</script>
+
+
+  <!--显示状态模板-->
+  <script type="text/html" id="tpStatus">
+      {% verbatim %}
+      {{#  if(d.FPID__FStatus == 0){ }}
+      <span>称重</span>
+      {{#  } else if(d.FPID__FStatus == 1) { }}
+      <span style="color: purple">补录</span>
+      {{#  } else if(d.FPID__FStatus == 2) { }}
+      <span style="color: green">验收</span>
+      {{#  } else if(d.FPID__FStatus == 3) { }}
+      <span style="color: red">作废</span>
+      {{#  } else if(d.FPID__FStatus == 5) { }}
+      <span style="color: orangered">异常验收</span>
+      {{#  } }}
+      {% endverbatim %}
+  </script>
+
+  <!--显示偏差模板-->
+  <script type="text/html" id="tpDevQty">
+      {% verbatim %}
+      {{#  if(d.FDeviationQty >= 0){ }}
+      <span style="color: green">{{d.FDeviationQty}}</span>
+      {{#  } else { }}
+      <span style="color: red">{{d.FDeviationQty}}</span>
+      {{#  } }}
+      {% endverbatim %}
+  </script>
+
+<!--生成操作工具栏-->
+<script type="text/html" id="tlbar">
+    {% verbatim %}
+        <div class="layui-btn-group">
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="addabn"><i class="iconfont icon-bianji"></i>异常处理</a>
+        </div>
+    {% endverbatim %}
+</script>
+
+
+</body>
+</html>

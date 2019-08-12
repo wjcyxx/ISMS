@@ -20,7 +20,8 @@ class materialsaccount(models.Model):
         (1, '补录'),
         (2, '验收'),
         (3, '作废'),
-        (4, '退回')
+        (4, '退回'),
+        (5, '异常验收')
     )
 
     FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
