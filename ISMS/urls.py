@@ -56,7 +56,10 @@ urlpatterns = [
     path('recepound/', include('recepound.urls'), name='recepound'),
     path('issueaccount/', include('issueaccount.urls'), name='issueaccount'),
     path('issuepound/', include('issuepound.urls'), name='issuepound'),
-    path('abnpound/', include('abnpound.urls'), name='abnpound')
+    path('abnpound/', include('abnpound.urls'), name='abnpound'),
+    path('menchanical/', include('menchanical.urls'), name='menchanical'),
+    path('menccheck/', include('menccheck.urls'), name='menccheck'),
+    path('mencrepairplan/', include('mencrepairplan.urls'), name='mencrepairplan')
 
 ]
 

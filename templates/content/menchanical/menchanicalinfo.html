@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include "common/resfiles.html" %}
+</head>
+<body style="overflow: hidden;">
+
+  <!--安全帽规则信息列表  -->
+
+    <!-- 工具条 -->
+      <!-- 查询框 -->
+      <div class="layui-collapse">
+          <div class="layui-colla-item">
+              <h2 class="layui-colla-title">查询条件</h2>
+              <div class="layui-colla-content">
+                  <form class="layui-form" method="post">
+                      <div class="layui-inline">
+                          <input type="text" name="serinput" placeholder="输入机械型号" autocomplete="off" class="layui-input" value="" style="width: 120%">
+                      </div>
+
+                      <div class="layui-inline" style="margin-left: 35px">
+                          <input type="button" class="layui-btn layui-btn-small layui-btn-normal layui-icon" lay-submit lay-filter="formsubmit" value="&#xe615;查  询"/>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+
+      <div style="padding-top: 10px" >
+        <a href="javascript:;" class="layui-btn layui-btn-normal" id="btnAdd">增加</a>
+        <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
+      </div>
+
+      <!-- 数据列表 -->
+
+      <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
+
+{% include "common/jsfiles.html" %}
+
+<script>
+  var Devinfo = {{ device|safe }};
+  var Typeinfo = {{ base|safe }};
+  var Personinfo = {{ personnel|safe }};
+
+  layui.config({
+      base: '/static/layui/ext/',   // 模块所在目录
+  }).extend({
+      soulTable: 'soulTable'  // 模块别名
+  });
+
+  layui.use(['element', 'layer', 'table', 'soulTable'], function(){
+      var $ = layui.jquery
+          ,element = layui.element
+          ,table = layui.table
+          ,layer = layui.layer
+          ,soulTable = layui.soulTable;
+
+      $("#btnClose").click(function () {
+          window.parent.layui.element.tabDelete('tabMain','Menchanical');
+      });
+
+      //新增按钮事件
+      $("#btnAdd").click(function () {
+          parent.layer.open({
+              type:   2,
+              title:  '新增机械设备档案',
+              area: ['1100px','565px'],
+              fixed: false,
+              content: "{% url 'menchanical:add' %}",
+              resize: false,
+              move: false
+          });
+      });
+
+      table.render({
+          elem: '#datasource',
+          height: 'full-120',
+          url: "{% url 'menchanical:get_datasource' %}",
+          cols: [[
+              {title: '#', width: '5%', collapse: true, children:[
+                  {
+                      title: '操作授权明细'
+                      ,url: function (row) {
+                          return "{% url 'menchanical:get_operauth_datasource' %}?fid="+row.FID
+                      }
+                      ,height: 100
+                      ,page: false
+                      ,cols: [[
+                          {field: 'FAuthpersonID', title: '授权人员', width: '5%', sort: true, filter: true, templet: '<div>{% verbatim %}{{sotitle(d.FAuthpersonID, Personinfo)}}{% endverbatim %}</div>'},
+                          {field: 'FAuthTimeslot', title: '操作时间段', width: '5%', sort: true, filter: true},
+                          {field: 'FAuthDeadline', title: '截止日期', width: '5%', sort: true, filter: true},
+                          {field: 'FDesc', title: '备注', width: '20%', sort: true, filter: true},
+                      ]]
+                      ,done: function () {
+                          soulTable.render(this);
+                      }
+                  },
+
+                  {
+                      title: '机械设备操作记录'
+                      ,url: function (row) {
+                          return "{% url 'menchanical:get_operlog_datasource' %}?fid="+row.FID
+                      }
+                      ,height: 100
+                      ,page: false
+                      ,cols: [[
+                          {field: 'FPersonID', title: '操作人员', width: '5%', sort: true, filter: true, templet: '<div>{% verbatim %}{{sotitle(d.FPersonID, Personinfo)}}{% endverbatim %}</div>'},
+                          {field: 'FOperbeh', title: '操作行为', width: '5%', sort: true, templet: '#tpOperbeh', filter: true},
+                          {field: 'FDesc', title: '备注', width: '20%', sort: true, filter: true},
+                      ]]
+                      ,done: function () {
+                          soulTable.render(this);
+                      }
+                  }
+
+              ]},
+
+              {field:'FMecserialID', width: '20%', title: '机械唯一编码', sort: true, filter: true},
+              {field:'FMectypeID', width: '15%', title: '机械类型', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FMectypeID, Typeinfo)}}{% endverbatim %}</div>', filter: true},
+              {field:'FMecspec', width: '20%', title: '机械型号', sort: true, filter: true},
+              {field:'FMecsource', width: '15%', title: '归属来源', sort: true, templet: '#tpSource', filter: true},
+              {field:'FOwnerOrg', width: '20%', title: '产权单位', sort: true, filter: true},
+              {field:'FRecordNo', width: '20%', title: '产权备案号', sort: true, filter: true},
+              {field:'FRecorddate', width: '20%', title: '备案日期', sort: true, filter: true},
+              {field:'FRecordNo', width: '20%', title: '产权备案号', sort: true, filter: true},
+              {field:'FMonitordevID', width: '15%', title: '监控设备', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FMonitordevID, Devinfo)}}{% endverbatim %}</div>', filter: true},
+              {field:'FLease', width: '20%', title: '租赁单位', sort: true, filter: true},
+              {field:'FManufacturer', width: '20%', title: '生产厂家', sort: true, filter: true},
+              {field:'FProducdate', width: '20%', title: '出厂日期', sort: true, filter: true},
+              {field:'FProducNo', width: '20%', title: '出厂编号', sort: true, filter: true},
+              {field:'FParameter', width: '20%', title: '机械参数', sort: true, filter: true},
+              {field:'FMecmanager', width: '20%', title: '管理人员', sort: true, filter: true},
+              {field:'FMecmanagertel', width: '20%', title: '联系方式', sort: true, filter: true},
+              {field:'FStatus', width: '15%', title: '状态', sort: true, templet: '#tpStatus'},
+              {field:'', title: '操作', width: '25%', toolbar: '#tlbar', fixed: 'right'}
+          ]],
+          id: 'runreload'
+
+          ,done: function () {
+              soulTable.render(this)
+          }
+      });
+
+      //监听查询条件提交
+        form.on('submit(formsubmit)', function (data) {
+            var serinput = $("input[name='serinput']").val();
+            //alert(serinput);
+            table.reload('runreload', {where: {resultdict:{FMecspec: serinput}}});
+
+            return false;
+        });
+
+
+      //监听工具栏按钮事件
+      table.on('tool(toolbar)', function (obj) {
+          var data = obj.data;           //获取当前行数据
+          var layEvent = obj.event;      //获取当前行事件
+          var tr = obj.tr;               //获取当前行tr的DOM数据
+          var fid = {"fid":data.FID};
+
+          switch (layEvent){
+              case 'edit' :              //编辑按钮事件
+                  parent.layer.open({
+                      type:   2,
+                      title:  '编辑机械设备档案',
+                      area: ['1100px','565px'],
+                      fixed: false,
+                      content: "{% url 'menchanical:edit' %}?fid="+data.FID,
+                      resize: false,
+                      move: false
+                  });
+
+                  break;
+
+              case 'disabled' :               //禁用按钮事件
+                  parent.layer.open({
+                      content: '是否确定禁用该机械设备',
+                      btn: ['确定','取消'],
+                      yes: function (index) {
+                          $.post("{% url 'menchanical:disabled' %}?type=lock", fid, function (data) {
+                              if (data.result=='0') {
+                                  //window.parent.document.getElementById('Project').contentWindow.location.reload();
+                                  table.reload('runreload', {where: {resultdict:{FMecspec: ''}}});
+                              } else if (data.result=='2') {
+                                  parent.layer.alert('机械设备禁用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                              }
+
+                          },"json");
+
+                          parent.layer.close(index);
+                      },
+                      btn2: function (index) {
+                      }
+                  });
+
+                  break;
+
+              case 'enabled' :
+                  parent.layer.open({
+                      content: '是否确定启用该机械设备',
+                      btn: ['确定','取消'],
+                      yes: function (index) {
+                          $.post("{% url 'menchanical:disabled' %}?type=unlock", fid, function (data) {
+                              if (data.result=='0') {
+                                  //window.parent.document.getElementById('Organize').contentWindow.location.reload();
+                                  table.reload('runreload', {where: {resultdict:{FMecspec: ''}}});
+                              } else if (data.result=='2') {
+                                  parent.layer.alert('机械设备禁启用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                              }
+
+                          },"json");
+
+                          parent.layer.close(index);
+                      },
+                      btn2: function (index) {
+                      }
+                  });
+
+
+                  break;
+
+              case 'auth':
+                  parent.layer.open({
+                      type:   2,
+                      title:  '增加机械操作人员授权',
+                      area: ['920px','380px'],
+                      fixed: false,
+                      content: "{% url 'menchanical:add_auth' %}?fid="+data.FID,
+                      resize: false,
+                      move: false
+                  });
+
+                  break;
+          }
+      });
+  });
+</script>
+
+
+
+<!--显示设备来源模板-->
+<script type="text/html" id="tpSource">
+  {% verbatim %}
+  {{#  if(d.FMecsource == 0){ }}
+  <span>自有</span>
+  {{#  } else if(d.FMecsource == 1) { }}
+  <span>租赁</span>
+  {{#  } }}
+  {% endverbatim %}
+</script>
+
+  <!--显示操作行为模板-->
+  <script type="text/html" id="tpOperbeh">
+      {% verbatim %}
+      {{#  if(d.FOperbeh == 0){ }}
+      <span>上班</span>
+      {{#  } else if(d.FOperbeh == 1) { }}
+      <span>下班</span>
+      {{#  } }}
+      {% endverbatim %}
+  </script>
+
+<!--显示启用状态模板-->
+<script type="text/html" id="tpStatus">
+    {% verbatim %}
+        {{#  if(d.FStatus == false){ }}
+            <span style="color: red">禁用</span>
+        {{#  } else if(d.FStatus == true) { }}
+            <span style="color: green">启用</span>
+        {{#  } }}
+    {% endverbatim %}
+</script>
+
+
+<!--生成操作工具栏-->
+<script type="text/html" id="tlbar">
+    {% verbatim %}
+        <div class="layui-btn-group">
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>编辑</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="auth"><i class="fa fa-male" aria-hidden="true"></i>操作授权</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="mont"><i class="fa fa-video-camera" aria-hidden="true"></i>实时监控</a>
+
+            {{# if(d.FStatus == true){ }}
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>
+            {{# } else if(d.FStatus == false){ }}
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="enabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>启用</a>
+            {{# } else { }}
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>
+            {{# } }}
+        </div>
+    {% endverbatim %}
+</script>
+
+</body>
+</html>

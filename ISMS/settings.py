@@ -72,7 +72,9 @@ INSTALLED_APPS = [
     'issueaccount',
     'issuepound',
     'abnpound',
-    'menchanical'
+    'menchanical',
+    'menccheck',
+    'mencrepairplan'
 ]
 
 MIDDLEWARE = [

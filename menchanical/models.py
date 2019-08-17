@@ -39,6 +39,48 @@ class menchanical(models.Model):
     UPDATED_BY = models.CharField(max_length=32, verbose_name='更新人', blank=True, null=True)
     UPDATED_TIME = models.DateTimeField(auto_now=True, verbose_name='更新时间')
 
-
     class Meta:
         db_table = 'T_Menchanical'
+
+
+
+class mecoperauth(models.Model):
+
+    FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
+    FPID = models.CharField(max_length=32, blank=True, null=True)
+    FAuthpersonID = models.CharField(max_length=32, verbose_name='授权操作人员ID', blank=True, null=True)
+    FAuthTimeslot = models.CharField(max_length=32, verbose_name='授权操作时间段', blank=True, null=True)
+    FAuthDeadline = models.CharField(max_length=32, verbose_name='截止日期', blank=True, null=True)
+    FDesc = models.CharField(max_length=1024, verbose_name='备注', blank=True, null=True)
+    CREATED_PRJ = models.CharField(max_length=32, verbose_name='所属项目', blank=True, null=True)
+    CREATED_ORG = models.CharField(max_length=32, verbose_name='创建组织', blank=True, null=True)
+    CREATED_BY = models.CharField(max_length=32, verbose_name='创建人', blank=True, null=True)
+    CREATED_TIME = models.DateTimeField(blank=True, null=True, verbose_name='创建时间')
+    UPDATED_BY = models.CharField(max_length=32, verbose_name='更新人', blank=True, null=True)
+    UPDATED_TIME = models.DateTimeField(auto_now=True, verbose_name='更新时间')
+
+    class Meta:
+        db_table = 'T_MecOperAuth'
+
+class mecoperlog(models.Model):
+
+    BEH_CHOICES = (
+        (None, '请选择数据'),
+        (0, '上班'),
+        (1, '下班')
+    )
+
+    FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
+    FMecserialFID = models.CharField(max_length=32, blank=True, null=True)
+    FPersonID = models.CharField(max_length=32, verbose_name='操作人员', blank=True, null=True)
+    FOperbeh = models.IntegerField(choices=BEH_CHOICES, verbose_name='操作行为', blank=True, null=True)
+    FDesc = models.CharField(max_length=1024, verbose_name='备注', blank=True, null=True)
+    CREATED_PRJ = models.CharField(max_length=32, verbose_name='所属项目', blank=True, null=True)
+    CREATED_ORG = models.CharField(max_length=32, verbose_name='创建组织', blank=True, null=True)
+    CREATED_BY = models.CharField(max_length=32, verbose_name='创建人', blank=True, null=True)
+    CREATED_TIME = models.DateTimeField(blank=True, null=True, verbose_name='创建时间')
+    UPDATED_BY = models.CharField(max_length=32, verbose_name='更新人', blank=True, null=True)
+    UPDATED_TIME = models.DateTimeField(auto_now=True, verbose_name='更新时间')
+
+    class Meta:
+        db_table = 'T_MecOperLog'
