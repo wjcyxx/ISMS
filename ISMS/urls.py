@@ -59,7 +59,10 @@ urlpatterns = [
     path('abnpound/', include('abnpound.urls'), name='abnpound'),
     path('menchanical/', include('menchanical.urls'), name='menchanical'),
     path('menccheck/', include('menccheck.urls'), name='menccheck'),
-    path('mencrepairplan/', include('mencrepairplan.urls'), name='mencrepairplan')
+    path('mencrepairplan/', include('mencrepairplan.urls'), name='mencrepairplan'),
+    path('mencrepairlog/', include('mencrepairlog.urls'), name='mencrepairlog'),
+    path('monitordev/', include('monitordev.urls'), name='monitordev'),
+    path('dsps/', include('dsps.urls'), name='dsps')
 
 ]
 

@@ -107,3 +107,4 @@ class insert_subtype(insert_base):
 class delete_subtype(delete_base):
     def set_view(self,request):
         self.model = T_GoodsType
+        self.response_data['result'] = '0'

@@ -74,7 +74,10 @@ INSTALLED_APPS = [
     'abnpound',
     'menchanical',
     'menccheck',
-    'mencrepairplan'
+    'mencrepairplan',
+    'mencrepairlog',
+    'monitordev',
+    'dsps'
 ]
 
 MIDDLEWARE = [

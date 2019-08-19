@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  {% include "common/resfiles.html" %}
+</head>
+<body>
+
+<form class="layui-form layui-form-pane" accept-charset="utf-8">
+    <div style="padding: 10px; background-color: #F2F2F2;">
+        <div>
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formsubmit" >保存</button>
+            <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnC">关闭</a>
+        </div>
+
+        <div class="layui-row layui-col-space10" style="padding-top: 1%">
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header">机械设备维修记录</div>
+                    <div class="layui-card-body">
+                        <div class="layui-row layui-col-space15">
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label" style="color: red">机械编码</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FID }}
+
+                                    <select name="FMecserialFID" lay-filter="TCommu" id="id_FMecserialFID" lay-verify="required">
+                                        <option value="">请选择数据</option>
+                                        {% for jj in mench %}
+                                            <option value="{{ jj.FID }}" {% if jj.FID == mencSerial %} selected="" {% endif %} >{{ jj.FMecserialID }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label">提交人</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FSubmitter }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layui-row layui-col-space10">
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label" style="color: red">提交日期</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FSubmitdate }}
+                                </div>
+                            </div>
+
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label" style="color: red">发生时间</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FHappendate }}
+                                </div>
+                            </div>
+
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label" style="color: red">发生部位</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FSite }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layui-row layui-col-space10">
+                            <div class="layui-col-xs12">
+                                <label class="layui-form-label">描述</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FDesc }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</form>
+
+<!-- <script src="//res.layui.com/layui/build/layui.js" charset="utf-8"></script> -->
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+{% include "common/jsfiles.html" %}
+
+
+<script>
+
+layui.use(['element','layer','form', 'laydate'], function () {
+    var element = layui.element
+        , layer = layui.layer
+        , form = layui.form
+        , laydate = layui.laydate;
+
+    //关闭按钮
+    $("#btnC").click(function () {
+        var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
+        parent.layer.close(index);
+    });
+
+    laydate.render({
+        elem: '#id_FSubmitdate',
+        trigger: 'click'
+    });
+
+    laydate.render({
+        elem: '#id_FHappendate',
+        trigger: 'click',
+        type: 'datetime'
+    });
+
+    //监听窗口提交
+    form.on('submit(formsubmit)', function (data) {
+        $.ajax({
+            type: "POST",
+            url:  "{% url 'mencrepairlog:insert' %}?actype={{ action }}",
+            data: data.field,
+            dataType: "json",
+            success: function (data) {
+                if (data.result=='0') {
+                    window.parent.document.getElementById('Mencrepairlog').contentWindow.location.reload();
+
+                    var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
+                    parent.layer.close(index);
+                } else if (data.result=='1'){
+                    for (item in data["msg"]){
+                        if (data["msg"][item]){
+                            layer.tips(data["msg"][item], $("input[name='"+item+"']"));
+                        }
+                    }
+                } else if (data.result=='2') {
+                    layer.alert('无效的执行方法');
+                }
+            }
+        });
+        return false;
+    });
+})
+</script>
+
+</body>
+</html>

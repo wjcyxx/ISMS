@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include "common/resfiles.html" %}
+</head>
+<body style="overflow: hidden;">
+
+  <!--安全帽规则信息列表  -->
+
+    <!-- 工具条 -->
+      <!-- 查询框 -->
+      <div class="layui-collapse">
+          <div class="layui-colla-item">
+              <h2 class="layui-colla-title">查询条件</h2>
+              <div class="layui-colla-content">
+                  <form class="layui-form" method="post">
+                      <div class="layui-inline">
+                          <input type="text" name="serinput" placeholder="输入通道名称" autocomplete="off" class="layui-input" value="" style="width: 120%">
+                      </div>
+
+                      <div class="layui-inline" style="margin-left: 35px">
+                          <input type="button" class="layui-btn layui-btn-small layui-btn-normal layui-icon" lay-submit lay-filter="formsubmit" value="&#xe615;查  询"/>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+
+      <div style="padding-top: 10px" >
+        <a href="javascript:;" class="layui-btn layui-btn-normal" id="btnAdd">增加</a>
+        <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
+      </div>
+
+      <!-- 数据列表 -->
+
+      <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
+
+{% include "common/jsfiles.html" %}
+
+<script>
+  var Areainfo = {{ area|safe }};
+
+  layui.config({
+      base: '/static/layui/ext/',   // 模块所在目录
+  }).extend({
+      soulTable: 'soulTable'  // 模块别名
+  });
+
+  layui.use(['element', 'layer', 'table', 'soulTable'], function(){
+      var $ = layui.jquery
+          ,element = layui.element
+          ,table = layui.table
+          ,layer = layui.layer
+          ,soulTable = layui.soulTable;
+
+      $("#btnClose").click(function () {
+          window.parent.layui.element.tabDelete('tabMain','Monitordev');
+      });
+
+      //新增按钮事件
+      $("#btnAdd").click(function () {
+          parent.layer.open({
+              type:   2,
+              title:  '新增视频监控设备',
+              area: ['1100px','540px'],
+              fixed: false,
+              content: "{% url 'monitordev:add' %}",
+              resize: false,
+              move: false
+          });
+      });
+
+      table.render({
+          elem: '#datasource',
+          height: 'full-120',
+          url: "{% url 'monitordev:get_datasource' %}",
+          cols: [[
+              {field:'FChannel', width: '20%', title: '通道名称', sort: true, filter: true},
+              {field:'FIPAddress', width: '20%', title: '设备IP地址', sort: true, filter: true},
+              {field:'FAreaID', width: '20%', title: '安装区域', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FAreaID, Areainfo)}}{% endverbatim %}</div>', filter: true},
+              {field:'FAccessuser', width: '15%', title: '接入用户名', sort: true, filter: true},
+              {field:'FAccesspwd', width: '15%', title: '接入密码', sort: true, filter: true},
+              {field:'FDevtype', width: '15%', title: '设备类型', sort: true, templet: '#tpType', filter: true},
+              {field:'FChannelNo', width: '15%', title: '通道号', sort: true, filter: true},
+              {field:'FIsYuntai', width: '20%', title: '是否云台控制', sort: true, templet: '#tpYuntai', filter: true},
+              {field:'FPort', width: '15%', title: '端口号', sort: true, filter: true},
+              {field:'FProtocoltype', width: '20%', title: '接入协议', sort: true, templet: '#tpProtocol', filter: true},
+              {field:'FProtocol', width: '30%', title: '协议地址', sort: true, filter: true},
+              {field:'FTransmode', width: '20%', title: '传输方式', sort: true, templet: '#tpTrans', filter: true},
+              {field:'FIsOpenAudio', width: '20%', title: '开启音频', sort: true, templet: '#tpAudio', filter: true},
+              {field:'FIsOpenVideo', width: '20%', title: '开启录像', sort: true, templet: '#tpVideo', filter: true},
+              {field:'FStatus', width: '15%', title: '状态', sort: true, templet: '#tpStatus'},
+              {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
+          ]],
+          id: 'runreload'
+
+          ,done: function () {
+              soulTable.render(this)
+          }
+      });
+
+      //监听查询条件提交
+        form.on('submit(formsubmit)', function (data) {
+            var serinput = $("input[name='serinput']").val();
+            //alert(serinput);
+            table.reload('runreload', {where: {resultdict:{FChannel: serinput}}});
+
+            return false;
+        });
+
+
+      //监听工具栏按钮事件
+      table.on('tool(toolbar)', function (obj) {
+          var data = obj.data;           //获取当前行数据
+          var layEvent = obj.event;      //获取当前行事件
+          var tr = obj.tr;               //获取当前行tr的DOM数据
+          var fid = {"fid":data.FID};
+
+          switch (layEvent){
+              case 'edit' :              //编辑按钮事件
+                  parent.layer.open({
+                      type:   2,
+                      title:  '编辑视频监控设备',
+                      area: ['1100px','540px'],
+                      fixed: false,
+                      content: "{% url 'monitordev:edit' %}?fid="+data.FID,
+                      resize: false,
+                      move: false
+                  });
+
+                  break;
+
+              case 'disabled' :               //禁用按钮事件
+                  parent.layer.open({
+                      content: '是否确定禁用该视频监控设备',
+                      btn: ['确定','取消'],
+                      yes: function (index) {
+                          $.post("{% url 'monitordev:disabled' %}?type=lock", fid, function (data) {
+                              if (data.result=='0') {
+                                  //window.parent.document.getElementById('Project').contentWindow.location.reload();
+                                  table.reload('runreload', {where: {resultdict:{FMecspec: ''}}});
+                              } else if (data.result=='2') {
+                                  parent.layer.alert('视频监控设备禁用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                              }
+
+                          },"json");
+
+                          parent.layer.close(index);
+                      },
+                      btn2: function (index) {
+                      }
+                  });
+
+                  break;
+
+              case 'enabled' :
+                  parent.layer.open({
+                      content: '是否确定启用该视频监控设备',
+                      btn: ['确定','取消'],
+                      yes: function (index) {
+                          $.post("{% url 'monitordev:disabled' %}?type=unlock", fid, function (data) {
+                              if (data.result=='0') {
+                                  //window.parent.document.getElementById('Organize').contentWindow.location.reload();
+                                  table.reload('runreload', {where: {resultdict:{FMecspec: ''}}});
+                              } else if (data.result=='2') {
+                                  parent.layer.alert('视频监控设备启用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                              }
+
+                          },"json");
+
+                          parent.layer.close(index);
+                      },
+                      btn2: function (index) {
+                      }
+                  });
+
+
+                  break;
+
+          }
+      });
+  });
+</script>
+
+
+
+<!--显示设备类型模板-->
+<script type="text/html" id="tpType">
+  {% verbatim %}
+  {{#  if(d.FDevtype == 0){ }}
+  <span>枪机</span>
+  {{#  } else if(d.FDevtype == 1) { }}
+  <span>球机</span>
+  {{#  } }}
+  {% endverbatim %}
+</script>
+
+  <!--显示接入协议模板-->
+  <script type="text/html" id="tpProtocol">
+      {% verbatim %}
+      {{#  if(d.FProtocoltype == 0){ }}
+      <span>RTSP</span>
+      {{#  } else if(d.FProtocoltype == 1) { }}
+      <span>ONVIF</span>
+      {{#  } }}
+      {% endverbatim %}
+  </script>
+
+  <!--显示传输方式模板-->
+  <script type="text/html" id="tpTrans">
+      {% verbatim %}
+      {{#  if(d.FTransmode == 0){ }}
+      <span>枪机</span>
+      {{#  } else if(d.FTransmode == 1) { }}
+      <span>球机</span>
+      {{#  } }}
+      {% endverbatim %}
+  </script>
+
+  <!--显示启用状态模板-->
+  <script type="text/html" id="tpStatus">
+      {% verbatim %}
+      {{#  if(d.FStatus == false){ }}
+      <span style="color: red">禁用</span>
+      {{#  } else if(d.FStatus == true) { }}
+      <span style="color: green">启用</span>
+      {{#  } }}
+      {% endverbatim %}
+  </script>
+
+
+  <!--显示是否云台控制开关模板-->
+  <script type="text/html" id="tpYuntai">
+      {% verbatim %}
+      <input type="checkbox" name="FIsYuntai" value="{{d.FIsYuntai}}" lay-skin="switch" lay-text="是|否" disabled="disabled"  {{ d.FIsYuntai == true ? 'checked' : '' }} >
+      {% endverbatim %}
+  </script>
+
+  <!--显示是否开启音频开关模板-->
+  <script type="text/html" id="tpAudio">
+      {% verbatim %}
+      <input type="checkbox" name="FIsOpenAudio" value="{{d.FIsOpenAudio}}" lay-skin="switch" lay-text="开启|关闭" disabled="disabled"  {{ d.FIsOpenAudio == true ? 'checked' : '' }} >
+      {% endverbatim %}
+  </script>
+
+  <!--显示是否开启录像开关模板-->
+  <script type="text/html" id="tpVideo">
+      {% verbatim %}
+      <input type="checkbox" name="FIsOpenVideo" value="{{d.FIsOpenVideo}}" lay-skin="switch" lay-text="开启|关闭" disabled="disabled"  {{ d.FIsOpenVideo == true ? 'checked' : '' }} >
+      {% endverbatim %}
+  </script>
+
+<!--生成操作工具栏-->
+<script type="text/html" id="tlbar">
+    {% verbatim %}
+        <div class="layui-btn-group">
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>编辑</a>
+
+            {{# if(d.FStatus == true){ }}
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>
+            {{# } else if(d.FStatus == false){ }}
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="enabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>启用</a>
+            {{# } else { }}
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>
+            {{# } }}
+
+        </div>
+    {% endverbatim %}
+</script>
+
+</body>
+</html>

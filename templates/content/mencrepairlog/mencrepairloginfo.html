@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include "common/resfiles.html" %}
+</head>
+<body style="overflow: hidden;">
+
+  <!--安全帽规则信息列表  -->
+
+    <!-- 工具条 -->
+      <!-- 查询框 -->
+      <div class="layui-collapse">
+          <div class="layui-colla-item">
+              <h2 class="layui-colla-title">查询条件</h2>
+              <div class="layui-colla-content">
+                  <form class="layui-form" method="post">
+                      <div class="layui-inline">
+                          <input type="text" name="serinput" placeholder="输入机械编码" autocomplete="off" class="layui-input" value="" style="width: 120%">
+                      </div>
+
+                      <div class="layui-inline" style="margin-left: 35px">
+                          <input type="button" class="layui-btn layui-btn-small layui-btn-normal layui-icon" lay-submit lay-filter="formsubmit" value="&#xe615;查  询"/>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+
+      <div style="padding-top: 10px" >
+        <a href="javascript:;" class="layui-btn layui-btn-normal" id="btnAdd">增加</a>
+        <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
+      </div>
+
+      <!-- 数据列表 -->
+
+      <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
+
+{% include "common/jsfiles.html" %}
+
+<script>
+  var Typeinfo = {{ base|safe }};
+  var Personinfo = {{ personnel|safe }}
+
+  layui.config({
+      base: '/static/layui/ext/',   // 模块所在目录
+  }).extend({
+      soulTable: 'soulTable'  // 模块别名
+  });
+
+  layui.use(['element', 'layer', 'table', 'soulTable'], function(){
+      var $ = layui.jquery
+          ,element = layui.element
+          ,table = layui.table
+          ,layer = layui.layer
+          ,soulTable = layui.soulTable;
+
+      $("#btnClose").click(function () {
+          window.parent.layui.element.tabDelete('tabMain','Mencrepairlog');
+      });
+
+      //新增按钮事件
+      $("#btnAdd").click(function () {
+          parent.layer.open({
+              type:   2,
+              title:  '新增机械设备维修记录',
+              area: ['1000px','370px'],
+              fixed: false,
+              content: "{% url 'mencrepairlog:add' %}",
+              resize: false,
+              move: false
+          });
+      });
+
+      table.render({
+          elem: '#datasource',
+          height: 'full-120',
+          url: "{% url 'mencrepairlog:get_datasource' %}",
+          cols: [[
+              {field:'FMecserialFID__FMecserialID', width: '20%', title: '机械唯一编码', sort: true, filter: true},
+              {field:'FMecserialFID__FMectypeID', width: '15%', title: '机械类型', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FMecserialFID__FMectypeID, Typeinfo)}}{% endverbatim %}</div>', filter: true},
+              {field:'FMecserialFID__FMecspec', width: '20%', title: '机械型号', sort: true, filter: true},
+              {field:'FSubmitter', width: '20%', title: '故障提交人', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FSubmitter, Personinfo)}}{% endverbatim %}</div>', filter: true},
+
+              {field:'FSubmitdate', width: '15%', title: '提交日期', sort: true, filter: true},
+              {field:'FHappendate', width: '20%', title: '故障发生时间', sort: true, filter: true},
+              {field:'FSite', width: '20%', title: '故障发生部位', sort: true, filter: true},
+              {field:'FDesc', width: '40%', title: '维修记录', sort: true, filter: true},
+              {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
+          ]],
+          id: 'runreload'
+
+          ,done: function () {
+              soulTable.render(this)
+          }
+      });
+
+      //监听查询条件提交
+        form.on('submit(formsubmit)', function (data) {
+            var serinput = $("input[name='serinput']").val();
+            //alert(serinput);
+            table.reload('runreload', {where: {resultdict:{FMecserialFID__FMecserialID: serinput}}});
+
+            return false;
+        });
+
+
+      //监听工具栏按钮事件
+      table.on('tool(toolbar)', function (obj) {
+          var data = obj.data;           //获取当前行数据
+          var layEvent = obj.event;      //获取当前行事件
+          var tr = obj.tr;               //获取当前行tr的DOM数据
+          var fid_delete = {"fid":data.FID};
+
+          switch (layEvent){
+              case 'edit' :              //编辑按钮事件
+                  parent.layer.open({
+                      type:   2,
+                      title:  '编辑机械设备维修记录',
+                      area: ['1000px','370px'],
+                      fixed: false,
+                      content: "{% url 'mencrepairlog:edit' %}?fid="+data.FID,
+                      resize: false,
+                      move: false
+                  });
+
+                  break;
+
+              case 'delete' :              //编辑按钮事件
+                  parent.layer.open({
+                      content: '是否确定删除该数据',
+                      btn: ['确定','取消'],
+                      yes: function (index) {
+                          $.post("{% url 'mencrepairlog:delete' %}", fid_delete, function (data) {
+                              if (data.result == '0'){
+                                  location.reload();
+                              } else if (data.result == '1')  {
+                                  parent.layer.alert('删除失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                              } else if (data.result == '2') {
+                                  parent.layer.alert(data.message ,{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+
+                              }
+                          },"json");
+
+                          parent.layer.close(index);
+                      },
+                      btn2: function (index) {
+
+                      }
+                  });
+
+                  break;
+          }
+      });
+  });
+</script>
+
+
+<!--生成操作工具栏-->
+<script type="text/html" id="tlbar">
+    {% verbatim %}
+        <div class="layui-btn-group">
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>编辑</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="delete"><i class="iconfont icon-shanchu"></i>删除</a>
+
+        </div>
+    {% endverbatim %}
+</script>
+
+</body>
+</html>
