@@ -10,8 +10,21 @@
         <div>
             <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formsubmit" >保存</button>
             <a href="javascript:;" class="layui-btn layui-btn-normal" id="readID">读取身份证</a>
+            {% if action == 'update' %}
+                <a href="javascript:;" class="layui-btn layui-btn-normal" id="btnPhoto">上传照片</a>
+            {% endif %}
             <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnC">关闭</a>
         </div>
+
+        {% if action == 'update' %}
+            <div class="layui-row layui-col-space10" style="padding-top: 1%">
+                <div class="layui-col-md3">
+                    {% if photopath != '' %}
+                    <img class="layer-photos-demo" layer-scr="/media/{{ photopath }}" src="/media/{{ photopath }}" alt="" style="width: 100px; height: 125px"  />
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
 
         <div class="layui-row layui-col-space10" style="padding-top: 1%">
             <div class="layui-col-md10">
@@ -384,6 +397,20 @@ layui.use(['element','layer','form', 'laydate', 'table', 'util'], function () {
             area: ['900px','320px'],
             fixed: false,
             content: "{% url 'personnel:showTrain_upload' %}?fid="+fid,
+            resize: false,
+            move: false,
+            closeBtn: false
+        });
+    });
+
+    //上传照片按钮
+    $("#btnPhoto").click(function () {
+        layer.open({
+            type:   2,
+            title:  '上传人员照片',
+            area: ['900px','240px'],
+            fixed: false,
+            content: "{% url 'personnel:showPhoto_upload' %}?fid="+fid,
             resize: false,
             move: false,
             closeBtn: false

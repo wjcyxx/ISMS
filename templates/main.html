@@ -30,7 +30,7 @@
   </ul>
   <div class="layui-tab-content">
     <div id="box" class="layui-tab-item layui-show" style="overflow-y: auto; height: max-content">
-        主页
+        {% include "content/mainanalyse/mainanalyse.html" %}
     </div>
   </div>
 </div>
@@ -44,8 +44,8 @@
 
 <script>
     $(document).ready(function(){
-			var height = $(window).height();   // 浏览器的高度
-			$("#box").height(height-200);  // 浏览器的高度加在类名为box的DIV 上
+        var height = $(window).height();   // 浏览器的高度
+        $("#box").height(height-200);      // 浏览器的高度加在类名为box的DIV 上
     });
 </script>
 
@@ -62,6 +62,38 @@
         laydate.render({
             elem: '#dtSearch'
             ,range: true
+        });
+
+        carousel.render({
+            elem: '#worker'
+            ,width: '100%' //设置容器宽度
+            ,height: '100px'
+            ,arrow: 'none'
+            ,indicator: 'outside'
+        });
+
+        carousel.render({
+            elem: '#cargroup'
+            ,width: '100%' //设置容器宽度
+            ,height: '100px'
+            ,arrow: 'none'
+            ,indicator: 'outside'
+        });
+
+        carousel.render({
+            elem: '#carpersonel'
+            ,width: '100%' //设置容器宽度
+            ,height: '100px'
+            ,arrow: 'none'
+            ,indicator: 'outside'
+        });
+
+        carousel.render({
+            elem: '#auth'
+            ,width: '100%' //设置容器宽度
+            ,height: '100px'
+            ,arrow: 'none'
+            ,indicator: 'outside'
         });
 
         arry = new ArrayList();
@@ -130,6 +162,7 @@
     });
 </script>
 
+{% include "content/mainanalyse/jsfile.html" %}
 
 </body>
 </html>

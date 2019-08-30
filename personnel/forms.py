@@ -8,6 +8,7 @@ class PersonModelForm(ModelForm):
     #FGroupID = forms.ChoiceField(widget=forms.Select(attrs={'lay-verify': 'required'}), required=False)
     #FWorktypeID = forms.ChoiceField(widget=forms.Select(attrs={'lay-verify': 'required', 'lay-filter': 'selworktype'}), required=False)
     FEntranceannex = forms.ImageField(required=False, widget=forms.FileInput(attrs={'class': 'layui-input', 'style': 'display: none'}))
+    FPhoto = forms.ImageField(required=False, widget=forms.FileInput(attrs={'class': 'layui-input', 'style': 'display: none'}))
 
     class Meta:
         model = personnel

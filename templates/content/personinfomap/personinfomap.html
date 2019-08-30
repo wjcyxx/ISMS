@@ -1,0 +1,591 @@
+{% load conver %}
+<!DOCTYPE html>
+<html>
+<head>
+    {% include "common/resfiles.html" %}
+</head>
+<body>
+
+    <div style="padding: 20px; background-color: #F2F2F2; overflow-y: scroll; height: max-content">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md8">
+                <div class="layui-card">
+                    <div class="layui-card-header" style="background-color: white">工人信息概览</div>
+                    <div class="layui-card-body" >
+                        <div class="layui-row layui-col-space15">
+                            <div class="layui-col-xs4">
+                                <div class="layui-carousel" id="worker">
+                                    <div carousel-item>
+                                        <div>
+                                            <h3>
+                                                <span style="color: slategray">&nbsp;&nbsp;
+                                                    <img src="/static/images/gongren.png" height="28" width="32" />  在册工人总数
+                                                </span>
+                                            </h3>
+
+                                            <br/>
+
+                                            <div style="font-size: 40px; color:#bdc3c7; padding-left: 10%;">{{ person_count }}<span style="font-size: 15px; color: slategray"> 人</span></div>
+                                            <br/>
+                                        </div>
+
+                                        <div>
+                                            <h3>
+                                                <span style="color: slategray">&nbsp;&nbsp;
+                                                    <img src="/static/images/gongren.png" height="28" width="32" />  退场工人总数
+                                                </span>
+                                            </h3>
+
+                                            <br/>
+
+                                            <div style="font-size: 40px; color:#bdc3c7; padding-left: 10%;">{{ tuichang_count }}<span style="font-size: 15px; color: slategray"> 人</span></div>
+                                            <br/>
+                                        </div>
+
+                                        <div>
+                                            <h3>
+                                                <span style="color: slategray">&nbsp;&nbsp;
+                                                    <img src="/static/images/gongren.png" height="28" width="32" />  禁用工人总数
+                                                </span>
+                                            </h3>
+
+                                            <br/>
+
+                                            <div style="font-size: 40px; color:#bdc3c7; padding-left: 10%;">{{ jinyong_count }}<span style="font-size: 15px; color: slategray"> 人</span></div>
+                                            <br/>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="layui-col-xs4">
+                                <div class="layui-carousel" id="kaoqing">
+                                    <div carousel-item>
+                                        <div>
+                                            <h3>
+                                                <span style="color: slategray">&nbsp;&nbsp;
+                                                    <img src="/static/images/kaoqin.png" height="28" width="32" />  出勤工人总数
+                                                </span>
+                                            </h3>
+
+                                            <br/>
+
+                                            <div style="font-size: 40px; color:#bdc3c7; padding-left: 10%;">{{ person_record }}<span style="font-size: 15px; color: slategray"> 人</span></div>
+                                            <br/>
+                                        </div>
+                                        <div>
+                                            <h3>
+                                                <span style="color: slategray">&nbsp;&nbsp;
+                                                    <img src="/static/images/rlsb.png" height="28" width="32" />  刷脸通行总数
+                                                </span>
+                                            </h3>
+
+                                            <br/>
+
+                                            <div style="font-size: 40px; color:#bdc3c7; padding-left: 10%;">{{ face_count }}<span style="font-size: 15px; color: slategray"> 人</span></div>
+                                            <br/>
+                                        </div>
+                                        <div>
+                                            <h3>
+                                                <span style="color: slategray">&nbsp;&nbsp;
+                                                    <img src="/static/images/iccard.png" height="28" width="32" />  IC卡通行总数
+                                                </span>
+                                            </h3>
+
+                                            <br/>
+
+                                            <div style="font-size: 40px; color:#bdc3c7; padding-left: 10%;">{{ iccard_count }}<span style="font-size: 15px; color: slategray"> 人</span></div>
+                                            <br/>
+                                        </div>
+                                        <div>
+                                            <h3>
+                                                <span style="color: slategray">&nbsp;&nbsp;
+                                                    <img src="/static/images/sfz.png" height="28" width="32" />  身份证通行总数
+                                                </span>
+                                            </h3>
+
+                                            <br/>
+
+                                            <div style="font-size: 40px; color:#bdc3c7; padding-left: 10%;">{{ sfz_count }}<span style="font-size: 15px; color: slategray"> 人</span></div>
+                                            <br/>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="layui-col-xs4">
+                                <div class="layui-carousel" id="xianc">
+                                    <div carousel-item>
+                                        <div>
+                                            <h3>
+                            <span style="color: slategray">&nbsp;&nbsp;
+                                <img src="/static/images/xianc.png" height="28" width="32" />  现场工人总数
+                            </span>
+                                            </h3>
+
+                                            <br/>
+
+                                            <div style="font-size: 40px; color:#bdc3c7; padding-left: 10%;">{{ person_record }}<span style="font-size: 15px; color: slategray"> 人</span></div>
+                                            <br/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="layui-col-md4">
+                <div class="layui-card">
+                    <div class="layui-card-header" style="background-color: white">管理人员信息概览</div>
+                    <div class="layui-card-body" >
+                        <div class="layui-row layui-col-space15">
+                            <div class="layui-col-xs12">
+                                <div class="layui-carousel" id="manzaice">
+                                    <div carousel-item>
+                                        <div>
+                                            <h3>
+                            <span style="color: slategray">&nbsp;&nbsp;
+                                <img src="/static/images/glry.png" height="32" width="32" />  在册
+                            </span>
+                                            </h3>
+
+                                            <br/>
+
+                                            <div style="font-size: 40px; color:#bdc3c7; padding-left: 10%;">{{ manager_count }}<span style="font-size: 15px; color: slategray"> 人</span></div>
+                                            <br/>
+                                        </div>
+
+                                        <div>
+                                            <h3>
+                            <span style="color: slategray">&nbsp;&nbsp;
+                                <img src="/static/images/kaoqin.png" height="32" width="32" />  出勤
+                            </span>
+                                            </h3>
+
+                                            <br/>
+
+                                            <div style="font-size: 40px; color:#bdc3c7; padding-left: 10%;">{{ manager_record }}<span style="font-size: 15px; color: slategray"> 人</span></div>
+                                            <br/>
+                                        </div>
+
+                                        <div>
+                                            <h3>
+                            <span style="color: slategray">&nbsp;&nbsp;
+                                <img src="/static/images/xianc.png" height="32" width="32" />  现场
+                            </span>
+                                            </h3>
+
+                                            <br/>
+
+                                            <div style="font-size: 40px; color:#bdc3c7; padding-left: 10%;">{{ manager_record }}<span style="font-size: 15px; color: slategray"> 人</span></div>
+                                            <br/>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-header" style="background-color: white">班组信息概览</div>
+                    <div class="layui-card-body" >
+                        <div id="group" style="height: 300px"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-header" style="background-color: white">最新动态</div>
+                    <div class="layui-card-body"  style="background-color: gainsboro">
+                        <div class="layui-carousel" id="plzxdt">
+                            <div carousel-item>
+                                <div style="overflow-y: auto; overflow-x: hidden">
+                                    {% for obj in dengji_info %}
+                                        <div class="layui-row layui-col-space15" style="background-color: gainsboro">
+                                            <div class="layui-col-md12">
+                                                <div class="layui-card">
+                                                    <div class="layui-card-header" style="background-color: white">
+                                                        <h3>{{ obj.FName }}</h3>
+                                                    </div>
+                                                     <div class="layui-card-body" >
+                                                         <div class="layui-row layui-col-space15">
+                                                            <div class="layui-col-md3">
+                                                                <img src="/media/{{ obj.FPhoto }}" alt="" style="width: 55px; height: 69px"  />
+                                                            </div>
+
+                                                            <div class="layui-col-md9">
+                                                                <span style="color: slategray;">登记日期：{{ obj.CREATED_TIME }}</span>
+                                                                <br/>
+                                                                <div>
+                                                                    {% for j in groupname %}
+                                                                        {% if obj.FGroupID == j.FID|conver_uuid %}
+                                                                            <span style="color: slategray">所属班组：{{ j.FGroup }}</span>
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                </div>
+                                                                {% if obj.FType == 1 %}
+                                                                    <span style="color: orangered">员工类型：班组长</span>
+                                                                {% elif obj.FType == 2 %}
+                                                                    <span style="color: slategray">员工类型：员工</span>
+                                                                {% endif %}
+                                                                <br/>
+                                                                <span style="color: green">状态：登记</span>
+                                                            </div>
+                                                         </div>
+                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                                <div style="overflow-y: auto; overflow-x: hidden">
+                                    {% for obj in tuichang_info %}
+                                        <div class="layui-row layui-col-space15" style="background-color: gainsboro">
+                                            <div class="layui-col-md12">
+                                                <div class="layui-card">
+                                                    <div class="layui-card-header" style="background-color: white">
+                                                        <h3>{{ obj.FName }}</h3>
+                                                    </div>
+                                                    <div class="layui-card-body" >
+                                                        <div class="layui-row layui-col-space15">
+                                                            <div class="layui-col-md3">
+                                                                <img src="/media/{{ obj.FPhoto }}" alt="" style="width: 55px; height: 69px"  />
+                                                            </div>
+
+                                                            <div class="layui-col-md9">
+                                                                <span style="color: slategray;">退场日期：{{ obj.FQuitDate }}</span>
+                                                                <br/>
+                                                                <div>
+                                                                    {% for j in groupname %}
+                                                                        {% if obj.FGroupID == j.FID|conver_uuid %}
+                                                                            <span style="color: slategray">所属班组：{{ j.FGroup }}</span>
+                                                                        {% endif %}
+                                                                    {% endfor %}
+                                                                </div>
+                                                                {% if obj.FType == 1 %}
+                                                                    <span style="color: orangered">员工类型：班组长</span>
+                                                                {% elif obj.FType == 2 %}
+                                                                    <span style="color: slategray">员工类型：员工</span>
+                                                                {% endif %}
+                                                                <br/>
+                                                                <span style="color: orangered">状态：退场</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header" style="background-color: white">人员登记/退场情况分析</div>
+                    <div class="layui-card-body" >
+                        <div id="chuqinanalyse" style="height: 300px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+{% include "common/jsfiles.html" %}
+
+<script>
+
+  layui.config({
+      base: '/static/layui/ext/',   // 模块所在目录
+  }).extend({
+      soulTable: 'soulTable'  // 模块别名
+  });
+
+  layui.use(['element', 'layer', 'table', 'soulTable', 'carousel'], function(){
+      var $ = layui.jquery
+          ,element = layui.element
+          ,table = layui.table
+          ,layer = layui.layer
+          ,soulTable = layui.soulTable
+          ,carousel = layui.carousel;
+
+            carousel.render({
+                elem: '#worker'
+                ,width: '100%' //设置容器宽度
+                ,height: '100px'
+                ,arrow: 'none'
+                ,indicator: 'outside'
+            });
+
+      carousel.render({
+          elem: '#kaoqing'
+          ,width: '100%' //设置容器宽度
+          ,height: '100px'
+          ,arrow: 'none'
+          ,autoplay: false
+          ,indicator: 'outside'
+      });
+
+      carousel.render({
+          elem: '#xianc'
+          ,width: '100%' //设置容器宽度
+          ,height: '100px'
+          ,arrow: 'none'
+          ,autoplay: false
+          ,indicator: 'outside'
+      });
+
+      carousel.render({
+          elem: '#manzaice'
+          ,width: '100%' //设置容器宽度
+          ,height: '100px'
+          ,arrow: 'none'
+          ,indicator: 'outside'
+      });
+
+      carousel.render({
+          elem: '#plzxdt'
+          ,width: '100%' //设置容器宽度
+          ,height: '270px'
+          ,arrow: 'none'
+          ,autoplay: false
+          ,indicator: 'outside'
+      });
+  });
+</script>
+
+    <script type="text/javascript">
+        var banzuanalyse = function (data) {
+            var dom = document.getElementById("group");
+            var myChart = echarts.init(dom);
+
+            var gname = data.group;            //班组数据
+            var gpcount = data.gpcount;        //班组在册人数
+            var gprcount = data.gprcount;      //班组考勤人数
+            //alert(gprcount);
+
+            option = {
+                title: {
+                    text: '各班组人员信息',
+                    subtext: ''
+                },
+                grid: {
+                    top: 100
+                },
+                angleAxis: {
+                    //type: "value",
+                    //minInterval: 1
+                     type: 'category',
+                     data: gname
+                },
+                tooltip: {
+                },
+                radiusAxis: {
+                    //type: 'category',
+                    //data: gname,
+                    //z: 10
+                },
+                polar: {
+                },
+                series: [{
+                    type: 'bar',
+                    data: gpcount,
+                    coordinateSystem: 'polar',
+                    name: '在册',
+                    stack: 'a',
+                    }, {
+
+                    type: 'bar',
+                    data: gprcount,
+                    coordinateSystem: 'polar',
+                    name: '出勤',
+                    stack: 'a'
+                    }, {
+
+                    type: 'bar',
+                    data: [3, 1, 2],
+                    coordinateSystem: 'polar',
+                    name: '现场',
+                    stack: 'a',
+                }],
+
+                legend: {
+                    show: true,
+                    data: ['在册', '出勤', '现场']
+                }
+            };
+
+            myChart.setOption(option, true);
+        };
+
+        var drawGroup = function () {
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'personinfomap:groupanalyse' %}",
+                data: {},
+                datatype: "JSON",
+                success: function (data) {
+                    banzuanalyse(data);
+                }
+            });
+        };
+
+        drawGroup();
+
+        var chuqinanalyse = function (data) {
+            var dom = document.getElementById("chuqinanalyse");
+            var myChart = echarts.init(dom);
+
+            var days = data.FDay;
+            var dengji = data.FDengji;
+            var tuic = data.FTuic;
+
+            option = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        animation: false
+                    }
+                },
+                legend: {
+                    data:['登记人员','退场人员'],
+                    x: 'left'
+                },
+                toolbox: {
+                    feature: {
+                        dataZoom: {
+                            yAxisIndex: 'none'
+                        },
+                        restore: {},
+                        saveAsImage: {}
+                    }
+                },
+                axisPointer: {
+                    link: {xAxisIndex: 'all'}
+                },
+                dataZoom: [
+                    {
+                        show: true,
+                        realtime: true,
+                        start: 30,
+                        end: 70,
+                        xAxisIndex: [0, 1]
+                    },
+                    {
+                        type: 'inside',
+                        realtime: true,
+                        start: 30,
+                        end: 70,
+                        xAxisIndex: [0, 1]
+                    }
+                ],
+                grid: [{
+                    left: 50,
+                    right: 50,
+                    height: '35%'
+                }, {
+                    left: 50,
+                    right: 50,
+                    top: '55%',
+                    height: '35%'
+                }],
+                xAxis : [
+                    {
+                        type : 'category',
+                        boundaryGap : false,
+                        axisLine: {onZero: true},
+                        data: days
+                    },
+                    {
+                        gridIndex: 1,
+                        type : 'category',
+                        boundaryGap : false,
+                        axisLine: {onZero: true},
+                        data: days,
+                        position: 'top'
+                    }
+                ],
+                yAxis : [
+                    {
+                        name : '登记人员',
+                        type : 'value',
+                        //max : 500
+                    },
+                    {
+                        gridIndex: 1,
+                        name : '退场人员',
+                        type : 'value',
+                        inverse: true
+                    }
+                ],
+                series : [
+                    {
+                        name:'登记人员',
+                        type:'line',
+                        symbolSize: 8,
+                        hoverAnimation: false,
+                        data: dengji
+                    },
+                    {
+                        name:'退场人员',
+                        type:'line',
+                        xAxisIndex: 1,
+                        yAxisIndex: 1,
+                        symbolSize: 8,
+                        hoverAnimation: false,
+                        data: tuic
+                    }
+                ]
+            };
+
+            myChart.setOption(option, true);
+
+        };
+
+
+
+        var drawAtten = function () {
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'personinfomap:attenanalyse' %}",
+                data: {},
+                datatype: "JSON",
+                success: function (data) {
+                    chuqinanalyse(data);
+                }
+            });
+        };
+
+        drawAtten();
+
+    </script>
+
+
+
+</body>
+</html>

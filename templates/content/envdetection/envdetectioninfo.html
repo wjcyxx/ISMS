@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include "common/resfiles.html" %}
+</head>
+<body>
+
+    <div style="padding: 20px; background-color: #F2F2F2; overflow-y: scroll; height: max-content">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-card-header" style="background-color: white">环境监测设备情况概要</div>
+            <div class="layui-card-body" >
+                <div class="layui-col-md3">
+                    <div class="layui-card animated flipInX" style="background-color: #3498db; height: 100px">
+                        <h3>
+                            <span style="color: white">&nbsp;&nbsp;
+                                <img src="/static/images/zu.png" height="24" width="24" />  环境监测设备总数
+                            </span>
+                        </h3>
+
+                        <br/>
+
+                        <div id="totunion" style="font-size: 40px; color:#bdc3c7; padding-left: 10%;">{{ count }}<span style="font-size: 15px; color: white"> 台</span></div>
+                        <br/>
+                    </div>
+                </div>
+
+                <div class="layui-col-md3">
+                    <div class="layui-card animated flipInX" style="background-color: #27ae60; height: 100px">
+                        <h3>
+                            <span style="color: white">&nbsp;&nbsp;
+                                <img src="/static/images/online.png" height="22" width="24" />  在线设备
+                            </span>
+                        </h3>
+
+                        <br/>
+
+                        <div id="totukey" style="font-size: 40px; color:#bdc3c7; padding-left: 10%;">{{ online }}<span style="font-size: 15px; color: white">台</span></div>
+                        <br/>
+                    </div>
+                </div>
+
+                <div class="layui-col-md3">
+                    <div class="layui-card animated flipInX" style="background-color: #9b59b6; height: 100px">
+                        <h3>
+                            <span style="color: white">&nbsp;&nbsp;
+                                <img src="/static/images/alert.png" height="24" width="24" />  报警设备
+                            </span>
+                        </h3>
+
+                        <br/>
+
+                        <div id="totseclog_count" style="font-size: 40px; color:#bdc3c7; padding-left: 10%;">{{ alert }}<span style="font-size: 15px; color: white">台</span></div>
+
+                        <br/>
+                    </div>
+                </div>
+
+                <div class="layui-col-md3">
+                    <div class="layui-card animated flipInX" style="background-color: #e74c3c; height: 100px">
+                        <h3>
+                            <span style="color: white">&nbsp;&nbsp;
+                                <img src="/static/images/offline.png" height="20" width="24" />  离线设备
+                            </span>
+                        </h3>
+
+                        <br/>
+
+                        <div id="totport" style="font-size: 40px; color:#bdc3c7; padding-left: 10%;">{{ offline }}<span style="font-size: 15px; color: white">台</span></div>
+
+                        <br/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-row layui-col-space15" style="padding-top: 2%">
+            <div class="layui-card-header" style="background-color: white">环境实时监测数据</div>
+            <div class="layui-card-body" >
+                <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
+            </div>
+        </div>
+
+    </div>
+
+
+{% include "common/jsfiles.html" %}
+
+<script>
+
+  layui.config({
+      base: '/static/layui/ext/',   // 模块所在目录
+  }).extend({
+      soulTable: 'soulTable'  // 模块别名
+  });
+
+  layui.use(['element', 'layer', 'table', 'soulTable'], function(){
+      var $ = layui.jquery
+          ,element = layui.element
+          ,table = layui.table
+          ,layer = layui.layer
+          ,soulTable = layui.soulTable;
+
+
+      table.render({
+          elem: '#datasource',
+          height: 'full-270',
+          url: "{% url 'envdetection:get_datasource' %}",
+          cols: [[
+              {field:'DevKey', width: '20%', title: '设备唯一编码', sort: true, filter: true},
+              {field:'DevName', width: '20%', title: '设备名称', sort: true, filter: true},
+              {field:'DevType', width: '15%', title: '设备类型', sort: true, filter: true, templet: '#tpType'},
+              {field:'DevTempName', width: '20%', title: '测量节点（一）', sort: true, filter: true},
+              {field:'DevTempValue', width: '20%', title: '测量结果', sort: true, filter: true},
+              {field:'DevHumiName', width: '20%', title: '测量节点（二）', sort: true, filter: true},
+              {field:'DevHumiValue', width: '20%', title: '测量结果', sort: true, filter: true},
+              {field:'DevStatus', width: '15%', title: '设备状态', sort: true, templet: '#tpStatus', filter: true},
+              {field:'DevAddr', width: '20%', title: '设备地址', sort: true, filter: true},
+              {field:'DevLng', width: '20%', title: '所在纬度', sort: true, filter: true},
+              {field:'DevLat', width: '20%', title: '所在经度', sort: true, filter: true},
+              {field:'TempStatus', width: '20%', title: '节点（一）报警状态', sort: true, filter: true, templet: '#tpAlert1'},
+              {field:'HumiStatus', width: '20%', title: '节点（二）报警状态', sort: true, filter: true, templet: '#tpAlert2'},
+          ]],
+          id: 'runreload'
+
+          ,done: function () {
+              soulTable.render(this)
+          }
+      });
+
+
+  });
+</script>
+
+    <!--显示设备状态模板-->
+    <script type="text/html" id="tpStatus">
+        {% verbatim %}
+        {{#  if(d.DevStatus == "false"){ }}
+        <span style="color: red">离线</span>
+        {{#  } else if(d.DevStatus == "true") { }}
+        <span style="color: green">在线</span>
+        {{#  } }}
+        {% endverbatim %}
+    </script>
+
+    <!--显示设备类型模板-->
+    <script type="text/html" id="tpType">
+        {% verbatim %}
+        {{#  if(d.DevType == "0"){ }}
+        <span>模拟量</span>
+        {{#  } else if(d.DevType == "1") { }}
+        <span>开关量</span>
+        {{#  } }}
+        {% endverbatim %}
+    </script>
+
+    <!--显示节点一报警状态-->
+    <script type="text/html" id="tpAlert1">
+        {% verbatim %}
+        {{#  if(d.TempStatus == "0"){ }}
+        <span style="color: green">正常</span>
+        {{#  } else if(d.TempStatus == "1") { }}
+        <span style="color: red">超上限</span>
+        {{#  } else if(d.TempStatus == "2") { }}
+        <span style="color: red">超下限</span>
+        {{#  } }}
+        {% endverbatim %}
+    </script>
+
+    <!--显示节点一报警状态-->
+    <script type="text/html" id="tpAlert2">
+        {% verbatim %}
+        {{#  if(d.HumiStatus == "0"){ }}
+        <span style="color: green">正常</span>
+        {{#  } else if(d.HumiStatus == "1") { }}
+        <span style="color: red">超上限</span>
+        {{#  } else if(d.HumiStatus == "2") { }}
+        <span style="color: red">超下限</span>
+        {{#  } }}
+        {% endverbatim %}
+    </script>
+
+
+</body>
+</html>

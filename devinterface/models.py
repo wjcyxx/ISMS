@@ -13,14 +13,22 @@ class devinterface(models.Model):
         (1, '间隔')
     )
 
+    REQUEST_CHOICES = (
+        (None, '请选择数据'),
+        (0, 'GET'),
+        (1, 'POST'),
+        (2, 'PUT'),
+        (3, 'DELETE')
+    )
 
     FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
     FName = models.CharField(max_length=32, verbose_name='接口名称', blank=True, null=True)
     FInterfaceTypeID = models.CharField(max_length=32, verbose_name='接口方式', blank=True, null=True)
+    FRequestType = models.IntegerField(choices=REQUEST_CHOICES, verbose_name='接口类型', blank=True, null=True)
     FTransmode = models.IntegerField(choices=TRANSMODE_CHOICES, verbose_name='传输方式', blank=True, null=True)
     FPort = models.IntegerField(verbose_name='设备端口号', blank=True, null=True)
     FInterval = models.IntegerField(verbose_name='间隔时间', blank=True, null=True)
-    FAddress = models.CharField(max_length=32, verbose_name='访问地址', blank=True, null=True)
+    FAddress = models.CharField(max_length=1000, verbose_name='访问地址', blank=True, null=True)
     FDevID = models.CharField(max_length=32, verbose_name='绑定设备', blank=True, null=True)
     FDesc = models.CharField(max_length=1024, verbose_name='备注', blank=True, null=True)
     FStatus = models.BooleanField(default=True, verbose_name='状态')

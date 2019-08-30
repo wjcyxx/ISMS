@@ -77,7 +77,10 @@ INSTALLED_APPS = [
     'mencrepairplan',
     'mencrepairlog',
     'monitordev',
-    'dsps'
+    'dsps',
+    'envdetection',
+    'personinfomap',
+    'mainanalyse'
 ]
 
 MIDDLEWARE = [

@@ -50,7 +50,7 @@
                             </div>
 
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">设备端口</label>
+                                <label class="layui-form-label">设备端口</label>
                                 <div class="layui-input-block">
                                     {{ obj.FPort }}
                                 </div>
@@ -58,6 +58,13 @@
                         </div>
 
                         <div class="layui-row layui-col-space10">
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label">接口类型</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FRequestType }}
+                                </div>
+                            </div>
+
                             <div class="layui-col-xs4">
                                 <label class="layui-form-label">传输方式</label>
                                 <div class="layui-input-block">
@@ -71,7 +78,9 @@
                                     {{ obj.FInterval }}
                                 </div>
                             </div>
+                        </div>
 
+                        <div class="layui-row layui-col-space10">
                             <div class="layui-col-xs4">
                                 <label class="layui-form-label">状态</label>
                                 <div class="layui-input-block">
@@ -79,6 +88,7 @@
                                 </div>
                             </div>
                         </div>
+
 
                         <div class="layui-row layui-col-space10">
                             <div class="layui-col-xs12">

@@ -63,9 +63,8 @@
 
       table.render({
           method: 'post',
-          page: true,
-          limit: 20,
           elem: '#datasource',
+          height: 'full-120',
           url: "{% url 'personnel:get_datasource' %}",
           cols: [[
               {field:'FPhoto', width: '12%', title: '', sort: true, templet: '#tpImg'},
@@ -278,7 +277,9 @@
                 <img class="layer-photos-demo" layer-scr="/static/images/photoimg.png" src="/static/images/photoimg.png" alt="" />
             </div>
         {{#  } else { }}
-            <span>非空</span>
+            <div>
+                <img class="layer-photos-demo" layer-scr="/media/{{ d.FPhoto }}" src="/media/{{ d.FPhoto }}" alt="" />
+            </div>
         {{#  } }}
 
       {% endverbatim %}

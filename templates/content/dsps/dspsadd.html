@@ -15,50 +15,37 @@
         <div class="layui-row layui-col-space10" style="padding-top: 1%">
             <div class="layui-col-md12">
                 <div class="layui-card">
-                    <div class="layui-card-header">机械设备运维计划</div>
+                    <div class="layui-card-header">重点项测点信息</div>
                     <div class="layui-card-body">
                         <div class="layui-row layui-col-space15">
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">机械编码</label>
+                                <label class="layui-form-label" style="color: red">测点名称</label>
                                 <div class="layui-input-block">
                                     {{ obj.FID }}
-
-                                    <select name="FMecserialFID" lay-filter="TCommu" id="id_FMecserialFID" lay-verify="required">
-                                        <option value="">请选择数据</option>
-                                        {% for jj in mench %}
-                                            <option value="{{ jj.FID }}" {% if jj.FID == mencSerial %} selected="" {% endif %} >{{ jj.FMecserialID }}</option>
-                                        {% endfor %}
-                                    </select>
+                                    {{ obj.FMonitor }}
                                 </div>
                             </div>
 
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label">状态</label>
+                                <label class="layui-form-label" style="color: red">测点类型</label>
                                 <div class="layui-input-block">
-                                    {{ obj.FStatus }}
+                                    {{ obj.FMonitortypeID }}
+                                </div>
+                            </div>
+
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label" style="color: red">测量终端</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FDevID }}
                                 </div>
                             </div>
                         </div>
 
                         <div class="layui-row layui-col-space10">
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">检查类型</label>
+                                <label class="layui-form-label" style="color: red">状态</label>
                                 <div class="layui-input-block">
-                                    {{ obj.FChecktype }}
-                                </div>
-                            </div>
-
-                            <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">检查频次</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FInterval }}
-                                </div>
-                            </div>
-
-                            <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">首次检查</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FFirstcheckdate }}
+                                    {{ obj.FStatus }}
                                 </div>
                             </div>
                         </div>
@@ -87,11 +74,10 @@
 
 <script>
 
-layui.use(['element','layer','form', 'laydate'], function () {
+layui.use(['element','layer','form'], function () {
     var element = layui.element
         , layer = layui.layer
-        , form = layui.form
-        , laydate = layui.laydate;
+        , form = layui.form;
 
     //关闭按钮
     $("#btnC").click(function () {
@@ -99,21 +85,16 @@ layui.use(['element','layer','form', 'laydate'], function () {
         parent.layer.close(index);
     });
 
-    laydate.render({
-        elem: '#id_FFirstcheckdate',
-        trigger: 'click'
-    });
-
     //监听窗口提交
     form.on('submit(formsubmit)', function (data) {
         $.ajax({
             type: "POST",
-            url:  "{% url 'mencrepairplan:insert' %}?actype={{ action }}",
+            url:  "{% url 'dsps:insert' %}?actype={{ action }}",
             data: data.field,
             dataType: "json",
             success: function (data) {
                 if (data.result=='0') {
-                    window.parent.document.getElementById('Mencrepairplan').contentWindow.location.reload();
+                    window.parent.document.getElementById('Dsps').contentWindow.location.reload();
 
                     var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
                     parent.layer.close(index);

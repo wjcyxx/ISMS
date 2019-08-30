@@ -17,7 +17,7 @@ class device(models.Model):
     FPosition = models.CharField(max_length=128, verbose_name='摆放位置', blank=True, null=True)
     FLong = models.FloatField(verbose_name='经度', blank=True, null=True)
     FLat = models.FloatField(verbose_name='经度', blank=True, null=True)
-    FManufacturer = models.IntegerField(verbose_name='设备厂商', blank=True, null=True)
+    FManufacturer = models.CharField(max_length=100, verbose_name='设备厂商', blank=True, null=True)
     FBrand = models.CharField(max_length=32, verbose_name='设备品牌', blank=True, null=True)
     FMainstaff = models.CharField(max_length=32, verbose_name='维护人员', blank=True, null=True)
     FMainstafftel = models.CharField(max_length=32, verbose_name='联系方式', blank=True, null=True)

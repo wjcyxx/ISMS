@@ -1,0 +1,20 @@
+<script type="text/javascript">
+    var topanalyse = function () {
+        $.post("{% url 'mainanalyse:topanalyse' %}", {}, function(data){
+            $("#teamc").html(data.team_count+"<span style='font-size: 15px; color: slategray'> 支</span>");
+            $("#teamhgc").html(data.teamhg_count+"<span style='font-size: 15px; color: slategray'> 支</span>");
+            $("#teambhgc").html(data.teambhg_count+"<span style='font-size: 15px; color: slategray'> 支</span>");
+            $("#groupc").html(data.group_count+"<span style='font-size: 15px; color: slategray'> 支</span>");
+            $("#dengjic").html(data.dengji_count+"<span style='font-size: 15px; color: slategray'> 人</span>");
+            $("#tuichangc").html(data.tuichang_count+"<span style='font-size: 15px; color: slategray'> 人</span>");
+            $("#jinyongc").html(data.jinyong_count+"<span style='font-size: 15px; color: slategray'> 人</span>");
+            $("#zsauthc").html(data.zsauth_count+"<span style='font-size: 15px; color: slategray'> 人</span>");
+
+
+        }, "json");
+    };
+
+    topanalyse()
+
+
+</script>

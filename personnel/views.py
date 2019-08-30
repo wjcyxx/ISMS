@@ -100,9 +100,11 @@ def edit(request):
     certif_info = base.objects.filter(Q(FPID='691fd5e2a90711e9866b7831c1d24216'))
     certifinfo = get_dict_table(certif_info, 'FID', 'FBase')
 
+    photo_path = Person_info.FPhoto
+
     ref_dropdowndata(obj, request)
 
-    return render(request, "content/personnel/personneladd.html", {'obj': obj, 'fgroupid': fgroupid, 'GroupForm': GroupForm, 'certifinfo': certifinfo, 'action': 'update'})
+    return render(request, "content/personnel/personneladd.html", {'obj': obj, 'fgroupid': fgroupid, 'GroupForm': GroupForm, 'certifinfo': certifinfo, 'photopath': photo_path, 'action': 'update'})
 
 
 #处理新增及保存
@@ -291,6 +293,27 @@ def showTrain_upload(request):
 
     else:
         return render(request, "content/personnel/safetrainupload.html", {'obj': obj, 'fid': fid})
+
+
+#链接上传人员照片窗口
+def showPhoto_upload(request):
+    fid = ''.join(str(request.GET.get('fid')).split('-'))
+
+    obj = PersonModelForm()
+
+    if request.method == 'POST':
+        fid = request.POST.get('FPID')
+        Person_info = T_Personnel.objects.get(Q(FID=fid))
+
+        Person_info.FPhoto = request.FILES.get('FPhoto')
+        Person_info.save()
+
+        url = '/personnel/showPhoto_upload?fid='+request.POST.get('FPID')
+        return redirect(url)
+
+    else:
+        return render(request, "content/personnel/photoupload.html", {'obj': obj, 'fid': fid})
+
 
 
 #入场安全培训数据源

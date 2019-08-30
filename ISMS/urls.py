@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from login import views
-from common.views import generate_uuid
+from common.views import generate_uuid, get_interface_param
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -26,6 +26,7 @@ urlpatterns = [
     path('organize/', include('organize.urls'), name='organize'),
     path('project/', include('project.urls'), name='project'),
     path('genuuid/', generate_uuid, name='genuuid'),
+    path('get_interface_param/<str:interID>/', get_interface_param),
     path('basedata/', include('basedata.urls'), name='basedata'),
     path('user/', include('user.urls'), name='user'),
     path('area/', include('area.urls'), name='area'),
@@ -62,7 +63,10 @@ urlpatterns = [
     path('mencrepairplan/', include('mencrepairplan.urls'), name='mencrepairplan'),
     path('mencrepairlog/', include('mencrepairlog.urls'), name='mencrepairlog'),
     path('monitordev/', include('monitordev.urls'), name='monitordev'),
-    path('dsps/', include('dsps.urls'), name='dsps')
+    path('dsps/', include('dsps.urls'), name='dsps'),
+    path('envdetection/', include('envdetection.urls'), name='envdetection'),
+    path('personinfomap/', include('personinfomap.urls'), name='personinfomap'),
+    path('mainanalyse/', include('mainanalyse.urls'), name='mainanalyse')
 
 ]
 

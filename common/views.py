@@ -3,6 +3,7 @@ from django.shortcuts import HttpResponse
 from django.shortcuts import redirect
 from .models import sequence
 from django.db.models import Q
+from devinterface.models import devinterface, interfaceparam
 import time
 import base64
 import hmac
@@ -11,6 +12,9 @@ import json
 import hashlib
 from django.core.exceptions import ObjectDoesNotExist
 from django.utils import timezone
+import urllib.parse
+import urllib.request
+import calendar
 
 # Create your views here.
 from pytz import unicode
@@ -335,5 +339,49 @@ def gensequence(appname, prefix, zfill, type):
         sequence_info.save()
 
         return prefix + n
+
+
+def get_interface_url(interID):
+
+    interface_info = devinterface.objects.get(Q(FID=interID))
+
+    return interface_info.FAddress
+
+
+def get_interface_param(interID):
+    values = {}
+
+    param_info = interfaceparam.objects.filter(Q(FPID=interID))
+    interface_info = devinterface.objects.get(Q(FID=interID))
+
+    for obj in param_info:
+         values[obj.FParam] = obj.FValue
+
+    if interface_info.FRequestType == 0:
+        data = urllib.parse.urlencode(values)
+    else:
+        data = urllib.parse.urlencode(values).encode('utf-8')
+
+    return data
+
+
+def get_current_month_start_and_end(date):
+    """
+    年份 date(2017-09-08格式)
+    :param date:
+    :return:本月第一天日期和本月最后一天日期
+    """
+    #if date.count('-') != 2:
+    #    raise ValueError('- is error')
+    year, month = str(date).split('-')[0], str(date).split('-')[1]
+    end = calendar.monthrange(int(year), int(month))[1]
+    start_date = '%s-%s-01' % (year, month)
+    end_date = '%s-%s-%s' % (year, month, end)
+    return start_date, end_date
+
+
+
+
+
 
 
