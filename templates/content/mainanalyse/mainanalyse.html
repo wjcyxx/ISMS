@@ -127,7 +127,7 @@
                                     <div>
                                         <h3>
                                             <span style="color: slategray">&nbsp;&nbsp;
-                                                <img src="/static/images/team.png" height="32" width="32" /> 正式授权总数
+                                                <img src="/static/images/shouquan.png" height="32" width="32" /> 正式授权总数
                                             </span>
                                         </h3>
 
@@ -135,16 +135,139 @@
                                         <div id="zsauthc" style="font-size: 40px; color:#bdc3c7; padding-left: 10%;">--<span style="font-size: 15px; color: slategray"> 人</span></div>
                                         <br/>
                                     </div>
+
+                                    <div>
+                                        <h3>
+                                            <span style="color: slategray">&nbsp;&nbsp;
+                                                <img src="/static/images/shouquan.png" height="32" width="32" /> 临时授权总数
+                                            </span>
+                                        </h3>
+
+                                        <br/>
+                                        <div id="lsauthc" style="font-size: 40px; color:#bdc3c7; padding-left: 10%;">--<span style="font-size: 15px; color: slategray"> 人</span></div>
+                                        <br/>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md6">
+            <div class="layui-card">
+                <div class="layui-card-header" style="background-color: white">通道数据分析</div>
+                <div class="layui-card-body" >
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-col-xs6">
+                            <div class="layui-carousel" id="rxtongdao">
+                                <div carousel-item>
+                                    <div>
+                                        <h3>
+                                            <span style="color: slategray">&nbsp;&nbsp;
+                                                <img src="/static/images/rxzj.png" height="32" width="32" /> 人行通道总数
+                                            </span>
+                                        </h3>
+
+                                        <br/>
+                                        <div id="pedpassagec" style="font-size: 40px; color:#bdc3c7; padding-left: 10%;">--<span style="font-size: 15px; color: slategray"> 个</span></div>
+                                        <br/>
+                                    </div>
+
+                                    <div>
+                                        <h3>
+                                            <span style="color: slategray">&nbsp;&nbsp;
+                                                <img src="/static/images/rxzj.png" height="32" width="32" /> 人行通道入口总数
+                                            </span>
+                                        </h3>
+
+                                        <br/>
+                                        <div id="pedrkc" style="font-size: 40px; color:#bdc3c7; padding-left: 10%;">--<span style="font-size: 15px; color: slategray"> 个</span></div>
+                                        <br/>
+                                    </div>
+
+                                    <div>
+                                        <h3>
+                                            <span style="color: slategray">&nbsp;&nbsp;
+                                                <img src="/static/images/rxzj.png" height="32" width="32" /> 人行通道出口总数
+                                            </span>
+                                        </h3>
+
+                                        <br/>
+                                        <div id="pedckc" style="font-size: 40px; color:#bdc3c7; padding-left: 10%;">--<span style="font-size: 15px; color: slategray"> 个</span></div>
+                                        <br/>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layui-col-xs6">
+                            <div class="layui-carousel" id="cxtongdao">
+                                <div carousel-item>
+                                    <div>
+                                        <h3>
+                                            <span style="color: slategray">&nbsp;&nbsp;
+                                                <img src="/static/images/cxzj.png" height="32" width="32" /> 车行通道总数
+                                            </span>
+                                        </h3>
+
+                                        <br/>
+                                        <div id="vehc" style="font-size: 40px; color:#bdc3c7; padding-left: 10%;">--<span style="font-size: 15px; color: slategray"> 个</span></div>
+                                        <br/>
+                                    </div>
+
+                                    <div>
+                                        <h3>
+                                            <span style="color: slategray">&nbsp;&nbsp;
+                                                <img src="/static/images/cxzj.png" height="32" width="32" /> 车行通道入口总数
+                                            </span>
+                                        </h3>
+
+                                        <br/>
+                                        <div id="vehrkc" style="font-size: 40px; color:#bdc3c7; padding-left: 10%;">--<span style="font-size: 15px; color: slategray"> 个</span></div>
+                                        <br/>
+                                    </div>
+
+                                    <div>
+                                        <h3>
+                                            <span style="color: slategray">&nbsp;&nbsp;
+                                                <img src="/static/images/cxzj.png" height="32" width="32" /> 车行通道出口总数
+                                            </span>
+                                        </h3>
+
+                                        <br/>
+                                        <div id="vehckc" style="font-size: 40px; color:#bdc3c7; padding-left: 10%;">--<span style="font-size: 15px; color: slategray"> 个</span></div>
+                                        <br/>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
 
 
                 </div>
             </div>
         </div>
 
+        <div class="layui-col-md6">
+            <div class="layui-card">
+                <div class="layui-card-header" style="background-color: white">通道吞吐量分析</div>
+                <div class="layui-card-body" >
+                    <div id="drawpedpassage" style="height: 300px"></div>
+                </div>
+            </div>
+        </div>
+
     </div>
+
+
 </div>
 

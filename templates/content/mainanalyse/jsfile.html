@@ -9,12 +9,92 @@
             $("#tuichangc").html(data.tuichang_count+"<span style='font-size: 15px; color: slategray'> 人</span>");
             $("#jinyongc").html(data.jinyong_count+"<span style='font-size: 15px; color: slategray'> 人</span>");
             $("#zsauthc").html(data.zsauth_count+"<span style='font-size: 15px; color: slategray'> 人</span>");
-
+            $("#lsauthc").html(data.lsauth_count+"<span style='font-size: 15px; color: slategray'> 人</span>");
+            $("#pedpassagec").html(data.pedpassage_count+"<span style='font-size: 15px; color: slategray'> 个</span>");
+            $("#vehc").html(data.vehgate_count+"<span style='font-size: 15px; color: slategray'> 个</span>");
+            $("#pedrkc").html(data.pedrk_count+"<span style='font-size: 15px; color: slategray'> 个</span>");
+            $("#pedckc").html(data.pedck_count+"<span style='font-size: 15px; color: slategray'> 个</span>");
+            $("#vehrkc").html(data.vehgaterk_count+"<span style='font-size: 15px; color: slategray'> 个</span>");
+            $("#vehckc").html(data.vehgateck_count+"<span style='font-size: 15px; color: slategray'> 个</span>");
 
         }, "json");
     };
 
-    topanalyse()
+    topanalyse();
+
+    var tongdaoliuliang = function (data) {
+        var dom = document.getElementById("drawpedpassage");
+        var myChart = echarts.init(dom);
+        var objDate = data.FDay;
+        var objRkvalue = data.FRkvalue;
+        var objCkvalue = data.FCkvalue;
+
+        option = {
+            title: {
+                text: '人行通道吞吐量分析',
+                subtext: ''
+            },
+
+            angleAxis: [{
+                type: "value",
+                minInterval: 1
+            }],
+            radiusAxis: {
+                show: true,
+                type: 'category',
+                data: objDate,
+                z: 10
+            },
+            polar: {
+            },
+            series: [{
+                type: 'bar',
+                data: objRkvalue,
+                coordinateSystem: 'polar',
+                name: '入口流量',
+                stack: 'a'
+            }, {
+                type: 'bar',
+                data: objCkvalue,
+                coordinateSystem: 'polar',
+                name: '出口流量',
+                stack: 'a'
+            }],
+
+            tooltip: {
+                trigger: 'axis',
+                axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                    type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+                }
+            },
+
+            legend: {
+                show: true,
+                top: "bottom",
+                left: "left",
+                data: ['入口流量','出口流量']
+            }
+        };
+        myChart.setOption(option, true);
+    };
+
+
+
+    var drawPedpassageAnalyse = function () {
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'mainanalyse:pedpassageanlayse' %}",
+            data: {},
+            datatype: "JSON",
+            success: function (data) {
+                tongdaoliuliang(data);
+            }
+        });
+    };
+
+
+    drawPedpassageAnalyse();
+
 
 
 </script>

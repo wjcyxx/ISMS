@@ -102,9 +102,6 @@ class attenanalyse(View):
         cur_time = timezone.now().date()
         month_start_end = get_current_month_start_and_end(cur_time)
 
-        #jj = month_start_end[0]
-        #xx = month_start_end[1]
-
         cur = connection.cursor()
         sqlstr = "SELECT DATE_FORMAT( dday, '%m-%d' ) AS dt1, count( * ) - 1 AS FCust FROM(SELECT datelist AS dday FROM calendar WHERE datelist BETWEEN '"+ month_start_end[0] +"' AND '"+ month_start_end[1] +"' UNION ALL SELECT DATE_FORMAT(CREATED_TIME, '%Y-%m-%d' ) AS dt FROM T_Personnel WHERE FStatus = 0 AND DATE_FORMAT(CREATED_TIME, '%Y-%m-%d' ) BETWEEN '"+ month_start_end[0] +"' AND '"+ month_start_end[1] +"' ) a GROUP BY dt1"
         cur.execute(sqlstr)
