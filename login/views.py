@@ -70,7 +70,10 @@ def login_ok(request):
         prj_info = project.objects.get(Q(FID=prjid))
         request.session['PrjID'] = prjid
 
-        return render(request, "main.html", {'prjinfo': prj_info})
+        context = {}
+        context['prjinfo'] = prj_info
+
+        return render(request, "main.html", context)
 
 def show(request):
     url = request.GET.get('url')

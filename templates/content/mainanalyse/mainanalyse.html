@@ -1,4 +1,4 @@
-<div style="padding: 20px; background-color: #F2F2F2; overflow-y: scroll; height: max-content">
+<div style="padding: 10px; background-color: #F2F2F2; overflow-y: scroll; height: max-content">
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md8">
             <div class="layui-card">
@@ -243,8 +243,6 @@
                                         <div id="vehckc" style="font-size: 40px; color:#bdc3c7; padding-left: 10%;">--<span style="font-size: 15px; color: slategray"> 个</span></div>
                                         <br/>
                                     </div>
-
-
                                 </div>
                             </div>
                         </div>
@@ -255,13 +253,41 @@
 
                 </div>
             </div>
+
+            <div class="layui-card">
+                <div class="layui-card-header" style="background-color: white">通行最新动态</div>
+                <div class="layui-card-body" style="background-color: gainsboro">
+                    <div class="layui-carousel" id="pltxdt">
+                        <div carousel-item>
+                            <div style="overflow-y: auto; overflow-x: hidden" id="divPedpassage">
+
+                            </div>
+
+                            <div style="overflow-y: auto; overflow-x: hidden" id="divvehgate">
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
 
         <div class="layui-col-md6">
             <div class="layui-card">
                 <div class="layui-card-header" style="background-color: white">通道吞吐量分析</div>
                 <div class="layui-card-body" >
-                    <div id="drawpedpassage" style="height: 300px"></div>
+                    <div class="layui-carousel" id="tdliuliang" lay-filter="test1">
+                        <div carousel-item>
+                            <div>
+                                <div id="drawpedpassage" style="height: 300px"></div>
+                            </div>
+
+                            <div>
+                               <div id="drawvehpassage" style="height: 300px"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

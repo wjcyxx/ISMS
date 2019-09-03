@@ -6,12 +6,14 @@ from django.shortcuts import HttpResponse
 from django.http import HttpRequest
 from django.db.models import Q
 from team.models import team
-from personnel.models import personnel
 from pedpassage.models import passagerecord
+from personnel.models import personnel
 from pedpassage.models import pedpassage
 from vehiclegate.models import vehiclegate
+from vehiclepasslog.models import vehiclepasslog
 from personauth.models import personauth
 from group.models import group
+from basedata.models import base
 from common.views import *
 from django.http import JsonResponse
 import json
@@ -22,7 +24,7 @@ import datetime
 from django.db import connection
 from django.db.models import Sum, Count
 
-
+#顶部统计瓷砖数据
 class topanalyse(View):
     def post(self, request):
         prj_id = request.session['PrjID']
@@ -63,6 +65,8 @@ class topanalyse(View):
 
         return HttpResponse(json.dumps(response_data))
 
+
+#人行通道吞吐量分析数据
 class pedpassageanlayse(View):
     def post(self, request):
         end_time = datetime.datetime.now()
@@ -96,8 +100,126 @@ class pedpassageanlayse(View):
         rows1 = cur1.fetchall()
 
         for r1 in rows1:
-            response_ck_value.append([r1[1]])
+            response_ck_value.append(r1[1])
 
         result_dict = {'FDay': response_days, 'FRkvalue': response_rk_value, 'FCkvalue': response_ck_value}
 
         return JsonResponse(result_dict, safe=False)
+
+
+#车行通道吞吐量数据分析
+class vehpassageanalyse(View):
+    def post(self, request):
+        end_time = datetime.datetime.now()
+        begin_time = (end_time - datetime.timedelta(days=6))
+
+        end_time = end_time.strftime('%Y-%m-%d')
+        begin_time = begin_time.strftime('%Y-%m-%d')
+
+        cur = connection.cursor()
+
+        sqlstr = "SELECT DATE_FORMAT(dday,'%m-%d') AS dt1,count(*)-1 AS FCust FROM (SELECT datelist AS dday FROM calendar WHERE datelist BETWEEN '"+ begin_time +"' AND '"+ end_time +"' UNION ALL SELECT DATE_FORMAT(a.CREATED_TIME,'%Y-%m-%d') AS dt FROM T_VehiclePassLog AS a LEFT JOIN T_VehicleGate AS b ON a.FGateID_id=b.FID WHERE b.FStatus=1 AND b.FGatetype=0 AND DATE_FORMAT(a.CREATED_TIME,'%Y-%m-%d') BETWEEN '"+ begin_time +"' AND '"+ end_time +"') a GROUP BY dt1"
+
+        cur.execute(sqlstr)
+        rows = cur.fetchall()
+
+        response_days = []
+        response_rk_value = []
+        response_ck_value = []
+
+        for r in rows:
+            response_days.append(r[0])
+            response_rk_value.append(r[1])
+
+        cur1 = connection.cursor()
+
+        sqlstr = "SELECT DATE_FORMAT(dday,'%m-%d') AS dt1,count(*)-1 AS FCust FROM (SELECT datelist AS dday FROM calendar WHERE datelist BETWEEN '"+ begin_time +"' AND '"+ end_time +"' UNION ALL SELECT DATE_FORMAT(a.CREATED_TIME,'%Y-%m-%d') AS dt FROM T_VehiclePassLog AS a LEFT JOIN T_VehicleGate AS b ON a.FGateID_id=b.FID WHERE b.FStatus=1 AND b.FGatetype=1 AND DATE_FORMAT(a.CREATED_TIME,'%Y-%m-%d') BETWEEN '"+ begin_time +"' AND '"+ end_time +"') a GROUP BY dt1"
+
+
+        cur1.execute(sqlstr)
+        rows1 = cur1.fetchall()
+
+        for r1 in rows1:
+            response_ck_value.append(r1[1])
+
+        result_dict = {'FDay': response_days, 'FRkvalue': response_rk_value, 'FCkvalue': response_ck_value}
+
+        return JsonResponse(result_dict, safe=False)
+
+
+#人行最新通行动态数据
+class get_pedpassage_news(View):
+    def post(self, request):
+        prj_id = request.session['PrjID']
+
+        passagerecord_info = passagerecord.objects.filter(Q(CREATED_PRJ=prj_id)).values('FID','FPersonID__FName', 'FPersonID__FGroupID', 'FPersonID__FPhoto', 'FPassageID__FPassage', 'FPassageID__FType', 'FAuthtypeID', 'CREATED_TIME')
+
+        result_dict = []
+
+        for dt in list(passagerecord_info):
+            dict = {}
+
+            dict['FID'] = ''.join(str(dt['FID']).split('-'))
+            dict['FPersonName'] = dt['FPersonID__FName']
+            dict['CREATED_TIME'] = timezone.datetime.strftime(dt['CREATED_TIME'], '%Y-%m-%d %H:%M:%S')
+
+            group_id = dt['FPersonID__FGroupID']
+            dict['FGroup'] = group.objects.get(Q(FID=group_id)).FGroup
+            dict['FPhoto'] = dt['FPersonID__FPhoto']
+            dict['FPassage'] = dt['FPassageID__FPassage']
+            authtype_id = dt['FAuthtypeID']
+            dict['FAuthtype'] = base.objects.get(Q(FID=authtype_id)).FBase
+            if dt['FPassageID__FType'] == 0:
+                dict['FPassageType'] = '入口'
+            else:
+                dict['FPassageType'] = '出口'
+
+            result_dict.append(dict)
+
+        return HttpResponse(json.dumps(result_dict))
+
+
+#车行最新通行动态数据
+class get_vehpassage_news(View):
+    def post(self, request):
+        prj_id = request.session['PrjID']
+
+        vehpasslog_info = vehiclepasslog.objects.filter(Q(CREATED_PRJ=prj_id)).values('FID', 'FPlate', 'FGateID__FGate', 'CREATED_TIME', 'FGateID__FGatetype', 'FGateID__FGateattr', 'FPlate__FVehicletypeID')
+
+        result_dict = []
+
+        for dt in list(vehpasslog_info):
+            dict = {}
+
+            dict['FID'] = ''.join(str(dt['FID']).split('-'))
+            dict['FPlate'] = dt['FPlate']
+            dict['FGate'] = dt['FGateID__FGate']
+            dict['CREATED_TIME'] = timezone.datetime.strftime(dt['CREATED_TIME'], '%Y-%m-%d %H:%M:%S')
+            if dt['FGateID__FGatetype'] == 0:
+                dict['FGateType'] = '入口'
+            else:
+                dict['FGateType'] = '出口'
+
+            dict['FGateAttrID'] = dt['FGateID__FGateattr']
+
+            if dt['FGateID__FGateattr'] == 0:
+                dict['FGateAttr'] = '普通通道'
+            else:
+                dict['FPassageType'] = '货运通道'
+
+            vehicletype_id = dt['FPlate__FVehicletypeID']
+            dict['FVehicletype'] = base.objects.get(Q(FID=vehicletype_id)).FBase
+            dict['FPhoto'] = base.objects.get(Q(FID=vehicletype_id)).FDesc
+
+            result_dict.append(dict)
+
+        return HttpResponse(json.dumps(result_dict))
+
+
+
+
+
+
+
+
+
