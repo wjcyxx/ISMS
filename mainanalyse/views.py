@@ -23,6 +23,7 @@ from baseframe.baseframe import *
 import datetime
 from django.db import connection
 from django.db.models import Sum, Count
+import re
 
 #顶部统计瓷砖数据
 class topanalyse(View):
@@ -214,6 +215,52 @@ class get_vehpassage_news(View):
             result_dict.append(dict)
 
         return HttpResponse(json.dumps(result_dict))
+
+
+
+class envanalyse(View):
+    def post(self, request):
+        devkey = request.POST.get('Deykey')
+        devdate = str(request.POST.get('Devdate')).split(' - ')
+        devdate[0] = devdate[0].replace('-', '') + '0000'
+        devdate[1] = devdate[1].replace('-', '') + '2359'
+
+
+        params = [devkey, devdate[0], devdate[1]]
+
+        initID = '36f221ccc53d11e98ea67831c1d24216'
+        url = get_interface_url(initID)
+        s = get_interface_param(initID)
+
+        param = urllib.parse.unquote(s)
+        key = re.findall(r"\$\{.*?\}", param)
+
+        for i in range(len(key)):
+            param = param.replace(key[i], params[i])
+
+        req = url + '?' + param
+
+        response = urllib.request.urlopen(req)
+        data = response.read()
+        data = data.decode('utf-8')
+
+        result = json.loads(data)
+
+        result = result['HisData']
+
+        TimeValues = []
+        TempValues = []
+        HumiValues = []
+
+        for r in result:
+            TimeValues.append(r['TimeValue'])
+            TempValues.append(r['TempValue'])
+            HumiValues.append(r['HumiValue'])
+
+
+        result_dict = {'TimeValues': TimeValues, 'TempValues': TempValues, 'HumiValues': HumiValues}
+
+        return JsonResponse(result_dict, safe=False)
 
 
 

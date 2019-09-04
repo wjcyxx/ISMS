@@ -294,6 +294,40 @@
 
     </div>
 
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header" style="background-color: white">环境监测数据分析</div>
+                <div class="layui-card-body" >
+                    <div class="layui-row layui-col-space15">
+                        <div class="layui-col-md4">
+                            <select name="FDevKey" lay-filter="DevKey" id="id_DevKey" lay-verify="required">
+                                <option value="">请选择监测设备</option>
+                                {% for jj in envdevice %}
+                                    {% if jj.DevStatus == 'true' %}
+                                        <option value="{{ jj.DevKey }}">{{ jj.DevName }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
 
+                        <div class="layui-col-md4">
+                            <label class="layui-form-label">时间范围</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="serdate" id="id_serdate" autocomplete="off" class="layui-input" value="" style="width: 120%">
+                            </div>
+                        </div>
+
+                        <div class="layui-col-md4">
+                            <a href="javascript:;" class="layui-btn layui-btn-normal" id="btnRef">刷新</a>
+                        </div>
+
+                    </div>
+
+                    <div id="envanalyse" style="height: 300px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 

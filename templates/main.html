@@ -24,6 +24,7 @@
 
 
   <!--顶部数据分析栏-->
+ <form class="layui-form layui-form-pane" accept-charset="utf-8">
 <div class="layui-tab layui-tab-brief" lay-filter="tabMain" lay-allowclose="true" style="padding-left: 217px">
   <ul class="layui-tab-title">
     <li class="layui-this" lay-id="home" ><i class="fa fa-home" aria-hidden="true"></i> 首页<i class="layui-icon layui-unselect layui-tab-close" style="display: none;"></i></li>
@@ -34,6 +35,7 @@
     </div>
   </div>
 </div>
+</form>
 
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 <script src="/static/js/jquery-3.3.1.min.js"></script>
@@ -52,19 +54,165 @@
 </script>
 
 <script>
-    layui.use(['element','layer','laydate','carousel'], function(){
+    var devkey = {{ devkey|safe }}
+
+    layui.use(['element','layer','laydate','carousel', 'form'], function(){
         var 
             $ = layui.jquery
             ,element = layui.element //Tab的切换功能，切换事件监听等，需要依赖element模块
             ,layer = layui.layer
             ,laydate = layui.laydate
-            ,carousel = layui.carousel;
+            ,carousel = layui.carousel
+            , form = layui.form;
+
+
+        var d = new Date();
+        var sd = d.getFullYear()+'-'+ lay.digit(d.getMonth() + 1)+'-'+lay.digit(d.getDate()-2);
+        var md = d.getFullYear()+'-'+ lay.digit(d.getMonth() + 1)+'-'+lay.digit(d.getDate());
 
         //日期时间范围
         laydate.render({
-            elem: '#dtSearch'
-            ,range: true
+            elem: '#id_serdate',
+            trigger: 'click',
+            value: sd + ' - ' + md,
+            range: true
         });
+
+        $("#id_DevKey").val(devkey);
+        form.render('select');
+
+        var btnclick = function(){
+            var Devkey = $("#id_DevKey").val();
+            var Devdate = $("#id_serdate").val();
+
+            if (Devkey == '') {
+                layer.alert('请选择监测设备');
+            } else {
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url 'mainanalyse:envanalyse' %}",
+                    data: {'Deykey': Devkey, 'Devdate': Devdate},
+                    datatype: "json",
+                    success: function (data) {
+                        var dom = document.getElementById("envanalyse");
+                        var myChart2 = echarts.init(dom);
+
+                        var days = data.TimeValues;
+                        var tpvalues = data.TempValues;
+                        var humvalues = data.HumiValues;
+
+                        option = {
+                            tooltip: {
+                                trigger: 'axis',
+                                axisPointer: {
+                                    animation: false
+                                }
+                            },
+                            legend: {
+                                data:['最高监测值','最低监测值'],
+                                x: 'left'
+                            },
+                            toolbox: {
+                                feature: {
+                                    dataZoom: {
+                                        yAxisIndex: 'none'
+                                    },
+                                    restore: {},
+                                    saveAsImage: {}
+                                }
+                            },
+                            axisPointer: {
+                                link: {xAxisIndex: 'all'}
+                            },
+                            dataZoom: [
+                                {
+                                    show: true,
+                                    realtime: true,
+                                    start: 30,
+                                    end: 70,
+                                    xAxisIndex: [0, 1]
+                                },
+                                {
+                                    type: 'inside',
+                                    realtime: true,
+                                    start: 30,
+                                    end: 70,
+                                    xAxisIndex: [0, 1]
+                                }
+                            ],
+                            grid: [{
+                                left: 50,
+                                right: 50,
+                                height: '35%'
+                            }, {
+                                left: 50,
+                                right: 50,
+                                top: '55%',
+                                height: '35%'
+                            }],
+                            xAxis : [
+                                {
+                                    type : 'category',
+                                    boundaryGap : false,
+                                    axisLine: {onZero: true},
+                                    data: days
+                                },
+                                {
+                                    gridIndex: 1,
+                                    type : 'category',
+                                    boundaryGap : false,
+                                    axisLine: {onZero: true},
+                                    data: days,
+                                    position: 'top'
+                                }
+                            ],
+                            yAxis : [
+                                {
+                                    name : '最高监测值',
+                                    type : 'value',
+                                    //max : 500
+                                },
+                                {
+                                    gridIndex: 1,
+                                    name : '最低监测值',
+                                    type : 'value',
+                                    inverse: true
+                                }
+                            ],
+                            series : [
+                                {
+                                    name:'最高监测值',
+                                    type:'line',
+                                    symbolSize: 8,
+                                    hoverAnimation: false,
+                                    data: humvalues
+                                },
+                                {
+                                    name:'最低监测值',
+                                    type:'line',
+                                    xAxisIndex: 1,
+                                    yAxisIndex: 1,
+                                    symbolSize: 8,
+                                    hoverAnimation: false,
+                                    data: tpvalues
+                                }
+                            ]
+                        };
+
+                        myChart2.setOption(option, true);
+                    }
+                });
+
+
+            }
+        };
+
+        btnclick();
+
+        $("#btnRef").click(function () {
+            btnclick();
+        });
+
 
         carousel.render({
             elem: '#worker'

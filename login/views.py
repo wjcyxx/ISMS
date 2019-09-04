@@ -8,6 +8,8 @@ from .models import *
 from project.models import *
 from common.views import *
 import json
+import urllib.parse
+import re
 
 # Create your views here.
 
@@ -70,8 +72,29 @@ def login_ok(request):
         prj_info = project.objects.get(Q(FID=prjid))
         request.session['PrjID'] = prjid
 
+        initID = 'b93df570c31c11e982a27831c1d24216'
+
+        url = get_interface_url(initID)
+        param = get_interface_param(initID)
+
+        req = url + '?' + param
+
+        response = urllib.request.urlopen(req)
+        data = response.read()
+        data = data.decode('utf-8')
+
+        result = json.loads(data)
+        devkey = ''
+
+        for r in result:
+            if r['DevStatus'] == 'true':
+                devkey = r['DevKey']
+                break
+
         context = {}
         context['prjinfo'] = prj_info
+        context['envdevice'] = result
+        context['devkey'] = devkey
 
         return render(request, "main.html", context)
 
@@ -79,3 +102,6 @@ def show(request):
     url = request.GET.get('url')
     #return HttpResponse(url)
     return redirect(url)
+
+
+
