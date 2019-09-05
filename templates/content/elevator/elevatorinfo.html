@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include "common/resfiles.html" %}
+</head>
+<body style="overflow: hidden;">
+
+  <!--设备管理信息列表  -->
+
+    <!-- 工具条 -->
+      <!-- 查询框 -->
+      <div class="layui-collapse">
+          <div class="layui-colla-item">
+              <h2 class="layui-colla-title">查询条件</h2>
+              <div class="layui-colla-content">
+                  <form class="layui-form layui-form-pane" method="get">
+
+                      <div class="layui-row layui-col-space10" style="padding-top: 1%">
+                        <div class="layui-col-md12">
+                          <div class="layui-row layui-col-space10">
+                              <div class="layui-col-xs3">
+                                  <input type="text" name="serinput" placeholder="输入设备编码" autocomplete="off" class="layui-input" value="" style="width: 120%">
+                              </div>
+
+                              <div class="layui-col-xs4">
+                                  <label class="layui-form-label">时间范围</label>
+                                  <div class="layui-input-block">
+                                        <input type="text" name="serdate" id="id_serdate" autocomplete="off" class="layui-input" value="" style="width: 120%">
+                                  </div>
+                              </div>
+
+                              <div class="layui-col-xs3">
+                                  <input type="button" class="layui-btn layui-btn-small layui-btn-normal layui-icon" lay-submit lay-filter="formsubmit" value="&#xe615;查  询"/>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+
+      <div style="padding-top: 10px" >
+          <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
+      </div>
+
+      <!-- 数据列表 -->
+
+      <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
+
+{% include "common/jsfiles.html" %}
+
+<script>
+
+    layui.config({
+        base: '/static/layui/ext/',   // 模块所在目录
+    }).extend({
+        soulTable: 'soulTable'  // 模块别名
+    });
+
+  layui.use(['element', 'layer', 'laydate', 'table', 'soulTable'], function(){
+      var $ = layui.jquery
+          ,element = layui.element
+          ,table = layui.table
+          ,layer = layui.layer
+          ,soulTable = layui.soulTable
+          ,laydate = layui.laydate;
+
+
+      var d = new Date();
+      var sd = d.getFullYear()+'-'+ lay.digit(d.getMonth() + 1)+'-'+lay.digit(d.getDate()-1);
+      var md = d.getFullYear()+'-'+ lay.digit(d.getMonth() + 1)+'-'+lay.digit(d.getDate());
+
+      $("#btnClose").click(function () {
+          window.parent.layui.element.tabDelete('tabMain','Elevator');
+      });
+
+      laydate.render({
+          elem: '#id_serdate',
+          trigger: 'click',
+          value: sd + ' - ' + md,
+          range: true
+      });
+
+      table.render({
+          elem: '#datasource',
+          height: 'full-120',
+          url: "{% url 'elevator:get_datasource' %}",
+          cols: [[
+              {title: '#', show: 2, width: '5%', collapse: true, children:[
+                      {
+                          title: '设备实时运行状况'
+                          ,url: function (row) {
+                              return "{% url 'envdatalog:get_hislog_datasource' %}?devkey="+row.DevKey+"&devdate="+$("#id_serdate").val()
+                          }
+                          ,height: 270
+                          ,page: false
+                          ,cols: [[
+                              {field: 'TempValue', title: '节点（一）测量结果', width: '25%', sort: true, filter: true},
+                              {field: 'HumiValue', title: '节点（二）测量结果', width: '25%', sort: true, filter: true},
+                              {field: 'TimeValue', title: '测量日期', width: '30%', sort: true, filter: true},
+                          ]]
+                          ,done: function () {
+                              soulTable.render(this);
+                          }
+                      },
+              ]},
+
+              {field:'cage_id', width: '10%', title: '吊笼编号', sort: true, filter: true},
+              {field:'DevName', width: '20%', title: '设备名称', sort: true, filter: true},
+              {field:'DevType', width: '15%', title: '设备类型', sort: true, filter: true, templet: '#tpType'},
+              {field:'DevTempName', width: '20%', title: '测量节点（一）', sort: true, filter: true},
+              {field:'DevTempValue', width: '20%', title: '测量结果', sort: true, filter: true},
+              {field:'DevHumiName', width: '20%', title: '测量节点（二）', sort: true, filter: true},
+              {field:'DevHumiValue', width: '20%', title: '测量结果', sort: true, filter: true},
+              {field:'DevStatus', width: '15%', title: '设备状态', sort: true, templet: '#tpStatus', filter: true},
+              {field:'DevAddr', width: '20%', title: '设备地址', sort: true, filter: true},
+              {field:'DevLng', width: '20%', title: '所在纬度', sort: true, filter: true},
+              {field:'DevLat', width: '20%', title: '所在经度', sort: true, filter: true},
+              {field:'TempStatus', width: '20%', title: '节点（一）报警状态', sort: true, filter: true, templet: '#tpAlert1'},
+              {field:'HumiStatus', width: '20%', title: '节点（二）报警状态', sort: true, filter: true, templet: '#tpAlert2'},
+          ]],
+          id: 'runreload'
+
+          ,done: function () {
+              soulTable.render(this)
+          }
+      });
+
+      //监听查询条件提交
+        form.on('submit(formsubmit)', function (data) {
+            var serinput = $("input[name='serinput']").val();
+            var serdate = $("#id_serdate").val();
+            //alert(ddate);
+            table.reload('runreload', {where: {resultdict:{DevKey: serinput, DevDate: serdate}}});
+
+            return false;
+        });
+
+
+  });
+</script>
+
+  <!--显示设备状态模板-->
+  <script type="text/html" id="tpStatus">
+      {% verbatim %}
+      {{#  if(d.DevStatus == "false"){ }}
+      <span style="color: red">离线</span>
+      {{#  } else if(d.DevStatus == "true") { }}
+      <span style="color: green">在线</span>
+      {{#  } }}
+      {% endverbatim %}
+  </script>
+
+  <!--显示设备类型模板-->
+  <script type="text/html" id="tpType">
+      {% verbatim %}
+      {{#  if(d.DevType == "0"){ }}
+      <span>模拟量</span>
+      {{#  } else if(d.DevType == "1") { }}
+      <span>开关量</span>
+      {{#  } }}
+      {% endverbatim %}
+  </script>
+
+  <!--显示节点一报警状态-->
+  <script type="text/html" id="tpAlert1">
+      {% verbatim %}
+      {{#  if(d.TempStatus == "0"){ }}
+      <span style="color: green">正常</span>
+      {{#  } else if(d.TempStatus == "1") { }}
+      <span style="color: red">超上限</span>
+      {{#  } else if(d.TempStatus == "2") { }}
+      <span style="color: red">超下限</span>
+      {{#  } }}
+      {% endverbatim %}
+  </script>
+
+  <!--显示节点一报警状态-->
+  <script type="text/html" id="tpAlert2">
+      {% verbatim %}
+      {{#  if(d.HumiStatus == "0"){ }}
+      <span style="color: green">正常</span>
+      {{#  } else if(d.HumiStatus == "1") { }}
+      <span style="color: red">超上限</span>
+      {{#  } else if(d.HumiStatus == "2") { }}
+      <span style="color: red">超下限</span>
+      {{#  } }}
+      {% endverbatim %}
+  </script>
+
+</body>
+</html>

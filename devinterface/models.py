@@ -41,6 +41,7 @@ class devinterface(models.Model):
 
     class Meta:
         db_table = 'T_DevInterface'
+        ordering = ['FDevID']
 
 
 class interfaceparam(models.Model):

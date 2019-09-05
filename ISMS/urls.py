@@ -66,7 +66,8 @@ urlpatterns = [
     path('dsps/', include('dsps.urls'), name='dsps'),
     path('envdetection/', include('envdetection.urls'), name='envdetection'),
     path('personinfomap/', include('personinfomap.urls'), name='personinfomap'),
-    path('mainanalyse/', include('mainanalyse.urls'), name='mainanalyse')
+    path('mainanalyse/', include('mainanalyse.urls'), name='mainanalyse'),
+    path('elevator/', include('elevator.urls'), name='elevator')
 
 ]
 

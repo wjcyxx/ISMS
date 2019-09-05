@@ -15,6 +15,8 @@ from django.utils import timezone
 import urllib.parse
 import urllib.request
 import calendar
+import requests
+import re
 
 # Create your views here.
 from pytz import unicode
@@ -357,12 +359,49 @@ def get_interface_param(interID):
     for obj in param_info:
          values[obj.FParam] = obj.FValue
 
-    if interface_info.FRequestType == 0:
-        data = urllib.parse.urlencode(values)
-    else:
-        data = urllib.parse.urlencode(values).encode('utf-8')
+    #if interface_info.FRequestType == 0:
+    data = urllib.parse.urlencode(values)
+    #else:
+    #    data = urllib.parse.urlencode(values).encode('utf-8')
 
     return data
+
+
+def get_interface_result(interID, paramsvalue=[]):
+
+    url = get_interface_url(interID)
+    param = get_interface_param(interID)
+
+    if len(paramsvalue) > 0:
+        params = urllib.parse.unquote(param)
+        key = re.findall(r"\$\{.*?\}", params)
+
+        for i in range(len(key)):
+            if len(key) == len(paramsvalue):
+                param = params.replace(key[i], paramsvalue[i])
+
+    interface_info = devinterface.objects.get(Q(FID=interID))
+
+
+    if interface_info.FRequestType == 0:
+        req = url + '?' + param
+
+        response = urllib.request.urlopen(req)
+        data = response.read()
+        data = data.decode('utf-8')
+
+        result = json.loads(data)
+
+        return result
+    elif interface_info.FRequestType == 1:
+        HEADERS = {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+        content = requests.post(url=url, headers=HEADERS, data=param, verify=False ).text
+
+        content = json.loads(content)
+
+        return content
+
+
 
 
 def get_current_month_start_and_end(date):

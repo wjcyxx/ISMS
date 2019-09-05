@@ -80,7 +80,8 @@ INSTALLED_APPS = [
     'dsps',
     'envdetection',
     'personinfomap',
-    'mainanalyse'
+    'mainanalyse',
+    'elevator'
 ]
 
 MIDDLEWARE = [
