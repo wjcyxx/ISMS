@@ -2,14 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="13368a02-f9aa-4424-a3e8-8adb41529488" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/elevator/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISMS/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/ISMS/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISMS/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/ISMS/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/common/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/devinterface/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/devinterface/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/common/sidebar.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/common/sidebar.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/content/mainanalyse/mainanalyse.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/content/mainanalyse/mainanalyse.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/elevator/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/elevator/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/elevator/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/elevator/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/content/elevator/elevatorinfo.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/content/elevator/elevatorinfo.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -58,8 +55,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/elevator/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="460">
-              <caret line="32" column="51" lean-forward="true" selection-start-line="32" selection-start-column="51" selection-end-line="32" selection-end-column="51" />
+            <state relative-caret-position="390">
+              <caret line="46" selection-start-line="46" selection-end-line="46" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -79,23 +76,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/common/views.py">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/templates/content/elevator/elevatorinfo.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="495">
-              <caret line="401" selection-start-line="401" selection-end-line="401" />
-              <folding>
-                <element signature="e#0#35#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="1725">
+              <caret line="107" column="81" selection-start-line="107" selection-start-column="81" selection-end-line="107" selection-end-column="81" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/templates/content/elevator/elevatorinfo.html">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/content/personnel/personnelinfo.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="108" column="41" selection-start-line="108" selection-start-column="41" selection-end-line="108" selection-end-column="41" />
+            <state relative-caret-position="164">
+              <caret line="73" column="137" selection-start-line="73" selection-start-column="137" selection-end-line="73" selection-end-column="137" />
             </state>
           </provider>
         </entry>
@@ -103,7 +97,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/envdatalog/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="382">
+            <state relative-caret-position="-34">
               <caret line="67" selection-start-line="67" selection-end-line="67" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
@@ -184,13 +178,13 @@
         <option value="$PROJECT_DIR$/login/views.py" />
         <option value="$PROJECT_DIR$/templates/main.html" />
         <option value="$PROJECT_DIR$/ISMS/settings.py" />
-        <option value="$PROJECT_DIR$/elevator/urls.py" />
         <option value="$PROJECT_DIR$/ISMS/urls.py" />
         <option value="$PROJECT_DIR$/templates/common/sidebar.html" />
         <option value="$PROJECT_DIR$/templates/content/mainanalyse/mainanalyse.html" />
         <option value="$PROJECT_DIR$/devinterface/models.py" />
-        <option value="$PROJECT_DIR$/common/views.py" />
+        <option value="$PROJECT_DIR$/elevator/urls.py" />
         <option value="$PROJECT_DIR$/elevator/views.py" />
+        <option value="$PROJECT_DIR$/common/views.py" />
         <option value="$PROJECT_DIR$/templates/content/elevator/elevatorinfo.html" />
       </list>
     </option>
@@ -231,6 +225,11 @@
             <path>
               <item name="ISMS" type="b2602c69:ProjectViewProjectNode" />
               <item name="ISMS" type="462c0819:PsiDirectoryNode" />
+              <item name="login" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ISMS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ISMS" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -250,14 +249,7 @@
               <item name="ISMS" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
               <item name="content" type="462c0819:PsiDirectoryNode" />
-              <item name="elevator" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ISMS" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ISMS" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="content" type="462c0819:PsiDirectoryNode" />
-              <item name="mainanalyse" type="462c0819:PsiDirectoryNode" />
+              <item name="personnel" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="ISMS" type="b2602c69:ProjectViewProjectNode" />
@@ -350,7 +342,7 @@
       <workItem from="1565937637857" duration="9827000" />
       <workItem from="1566002510288" duration="13260000" />
       <workItem from="1566175891358" duration="11571000" />
-      <workItem from="1566261729939" duration="157796000" />
+      <workItem from="1566261729939" duration="163957000" />
     </task>
     <task id="LOCAL-00001" summary="完成organize模块, 开始project模块">
       <created>1562834926084</created>
@@ -534,11 +526,18 @@
       <option name="project" value="LOCAL" />
       <updated>1567591278539</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="进行elevator模块">
+      <created>1567669702655</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1567669702655</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="574018000" />
+    <option name="totallyTimeSpent" value="580179000" />
   </component>
   <component name="TodoView" selected-index="4">
     <todo-panel id="selected-file">
@@ -551,10 +550,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="724" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Favorites" order="0" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.22778675" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.22778675" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info id="Database" order="3" weight="0.23505655" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -631,10 +629,11 @@
     <MESSAGE value="完成mencrepairplan模块" />
     <MESSAGE value="进行dsps模块" />
     <MESSAGE value="进行mainanalyse模块" />
-    <option name="LAST_COMMIT_MESSAGE" value="进行mainanalyse模块" />
+    <MESSAGE value="进行elevator模块" />
+    <option name="LAST_COMMIT_MESSAGE" value="进行elevator模块" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/ISMS$debug.coverage" NAME="debug Coverage Results" MODIFIED="1567669424930" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/ISMS$debug.coverage" NAME="debug Coverage Results" MODIFIED="1567738887782" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="watch">
@@ -646,24 +645,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="das://f89171a7-feb3-4368-b6c5-08e5d6fb4599/schema/ISMS/table/T_Personnel">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true">
-            <filter text="" />
-          </filtering>
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://f89171a7-feb3-4368-b6c5-08e5d6fb4599/schema/ISMS/table/T_PedPassage">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true">
-            <filter text="" />
-          </filtering>
-        </state>
-      </provider>
-    </entry>
     <entry file="das://f89171a7-feb3-4368-b6c5-08e5d6fb4599/schema/ISMS/table/T_VehicleSigin">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
@@ -941,16 +922,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/elevator/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="1" lean-forward="true" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ISMS/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1002">
@@ -958,13 +929,6 @@
           <folding>
             <element signature="e#628#660#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/login/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" selection-start-line="8" selection-end-line="8" />
         </state>
       </provider>
     </entry>
@@ -1006,12 +970,39 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/elevator/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="1" lean-forward="true" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/login/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-239">
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
+        </state>
+      </provider>
+    </entry>
     <entry file="das://f89171a7-feb3-4368-b6c5-08e5d6fb4599/schema/ISMS/table/T_DevInterface">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
           <filtering enabled="true">
             <filter text="" />
           </filtering>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="378" selection-start-line="378" selection-end-line="378" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1025,20 +1016,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/common/views.py">
+    <entry file="file://$PROJECT_DIR$/templates/content/personnel/personneladd.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="495">
-          <caret line="401" selection-start-line="401" selection-end-line="401" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
+        <state relative-caret-position="-5455" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/elevator/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="460">
-          <caret line="32" column="51" lean-forward="true" selection-start-line="32" selection-start-column="51" selection-end-line="32" selection-end-column="51" />
+        <state relative-caret-position="390">
+          <caret line="46" selection-start-line="46" selection-end-line="46" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>
@@ -1047,7 +1033,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/envdatalog/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="382">
+        <state relative-caret-position="-34">
           <caret line="67" selection-start-line="67" selection-end-line="67" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
@@ -1055,10 +1041,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/templates/content/personnel/personnelinfo.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="164">
+          <caret line="73" column="137" selection-start-line="73" selection-start-column="137" selection-end-line="73" selection-end-column="137" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/templates/content/elevator/elevatorinfo.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="108" column="41" selection-start-line="108" selection-start-column="41" selection-end-line="108" selection-end-column="41" />
+        <state relative-caret-position="1725">
+          <caret line="107" column="81" selection-start-line="107" selection-start-column="81" selection-end-line="107" selection-end-column="81" />
         </state>
       </provider>
     </entry>

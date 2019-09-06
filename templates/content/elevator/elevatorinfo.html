@@ -58,14 +58,18 @@
         soulTable: 'soulTable'  // 模块别名
     });
 
-  layui.use(['element', 'layer', 'laydate', 'table', 'soulTable'], function(){
+  layui.use(['element', 'layer', 'laydate', 'table', 'soulTable', 'util'], function(){
       var $ = layui.jquery
           ,element = layui.element
           ,table = layui.table
           ,layer = layui.layer
           ,soulTable = layui.soulTable
-          ,laydate = layui.laydate;
+          ,laydate = layui.laydate
+          ,util = layui.util;
 
+
+      //var format="yyyy-MM-dd HH:mm:ss";
+      //util.toDateString(time, format);
 
       var d = new Date();
       var sd = d.getFullYear()+'-'+ lay.digit(d.getMonth() + 1)+'-'+lay.digit(d.getDate()-1);
@@ -91,14 +95,29 @@
                       {
                           title: '设备实时运行状况'
                           ,url: function (row) {
-                              return "{% url 'envdatalog:get_hislog_datasource' %}?devkey="+row.DevKey+"&devdate="+$("#id_serdate").val()
+                              return "{% url 'elevator:get_run_datasource' %}?boxid="+row.hoist_box_id
                           }
                           ,height: 270
                           ,page: false
                           ,cols: [[
-                              {field: 'TempValue', title: '节点（一）测量结果', width: '25%', sort: true, filter: true},
-                              {field: 'HumiValue', title: '节点（二）测量结果', width: '25%', sort: true, filter: true},
-                              {field: 'TimeValue', title: '测量日期', width: '30%', sort: true, filter: true},
+                              {field: 'door_lock_state', title: '门锁状态', width: '10%', sort: true, filter: true},
+                              {field: 'driver_identification_state', title: '驾驶员身份认证结果', width: '15%', sort: true, filter: true},
+                              {field: 'height_percentage', title: '上升高度', width: '10%', sort: true, filter: true},
+                              {field: 'hoist_alarm_reason', title: '报警原因', width: '10%', sort: true, filter: true, templet: '#tpAlarm'},
+                              {field: 'hoist_level', title: '安全级别', width: '10%', sort: true, filter: true, templet: '#tpLevel'},
+                              {field: 'hoist_time', title: '运行状态上报时间', width: '20%', sort: true, filter: true, templet: "<div>{% verbatim %}{{layui.util.toDateString(d.hoist_time, 'yyyy-MM-dd HH:mm:ss')}}{% endverbatim %}</div>"},
+                              {field: 'real_time_or_alarm', title: '测量类型', width: '15%', sort: true, filter: true, templet: '#tpType'},
+                              {field: 'real_time_gradient1', title: '倾斜角度1', width: '15%', sort: true, filter: true},
+                              {field: 'real_time_gradient2', title: '倾斜角度2', width: '15%', sort: true, filter: true},
+                              {field: 'real_time_height', title: '实时高度', width: '15%', sort: true, filter: true},
+                              {field: 'real_time_lifting_weight', title: '实时起重量', width: '15%', sort: true, filter: true},
+                              {field: 'real_time_height', title: '实时高度', width: '15%', sort: true, filter: true},
+                              {field: 'real_time_number_of_people', title: '实时人数', width: '15%', sort: true, filter: true},
+                              {field: 'real_time_speed', title: '实时速度', width: '15%', sort: true, filter: true},
+                              {field: 'real_time_speed_direction', title: '运行方向', width: '15%', sort: true, filter: true, templet: '#tpDir'},
+                              {field: 'tilt_percentage1', title: '倾斜百分比1', width: '15%', sort: true, filter: true},
+                              {field: 'tilt_percentage2', title: '倾斜百分比2', width: '15%', sort: true, filter: true},
+                              {field: 'weight_percentage', title: '重量百分比', width: '15%', sort: true, filter: true},
                           ]]
                           ,done: function () {
                               soulTable.render(this);
@@ -107,18 +126,19 @@
               ]},
 
               {field:'cage_id', width: '10%', title: '吊笼编号', sort: true, filter: true},
-              {field:'DevName', width: '20%', title: '设备名称', sort: true, filter: true},
-              {field:'DevType', width: '15%', title: '设备类型', sort: true, filter: true, templet: '#tpType'},
-              {field:'DevTempName', width: '20%', title: '测量节点（一）', sort: true, filter: true},
-              {field:'DevTempValue', width: '20%', title: '测量结果', sort: true, filter: true},
-              {field:'DevHumiName', width: '20%', title: '测量节点（二）', sort: true, filter: true},
-              {field:'DevHumiValue', width: '20%', title: '测量结果', sort: true, filter: true},
-              {field:'DevStatus', width: '15%', title: '设备状态', sort: true, templet: '#tpStatus', filter: true},
-              {field:'DevAddr', width: '20%', title: '设备地址', sort: true, filter: true},
-              {field:'DevLng', width: '20%', title: '所在纬度', sort: true, filter: true},
-              {field:'DevLat', width: '20%', title: '所在经度', sort: true, filter: true},
-              {field:'TempStatus', width: '20%', title: '节点（一）报警状态', sort: true, filter: true, templet: '#tpAlert1'},
-              {field:'HumiStatus', width: '20%', title: '节点（二）报警状态', sort: true, filter: true, templet: '#tpAlert2'},
+              {field:'hoist_box_id', width: '20%', title: '黑匣子编号', sort: true, filter: true},
+              {field:'maximum_carrying_number', width: '20%', title: '最大承载人数', sort: true, filter: true},
+              {field:'maximum_elevating_capacity_alarm', width: '20%', title: '最大起重报警', sort: true, filter: true},
+              {field:'maximum_elevating_capacity_warning', width: '20%', title: '最大起重预警', sort: true, filter: true},
+              {field:'maximum_rise_height', width: '20%', title: '最大起升高度', sort: true, filter: true},
+
+              {field:'maximum_speed_alarm', width: '20%', title: '最大速度报警', sort: true, filter: true},
+              {field:'maximum_speed_warning', width: '20%', title: '最大速度预警', sort: true, filter: true},
+              {field:'tilt_alarm', width: '20%', title: '倾斜报警值', sort: true, filter: true},
+              {field:'tilt_warning', width: '20%', title: '倾斜预警值', sort: true, filter: true},
+              {field:'weight_load_actual', width: '20%', title: '重量负载值', sort: true, filter: true},
+              {field:'weight_noload_actual', width: '20%', title: '重量空载值', sort: true, filter: true},
+
           ]],
           id: 'runreload'
 
@@ -142,12 +162,18 @@
 </script>
 
   <!--显示设备状态模板-->
-  <script type="text/html" id="tpStatus">
+  <script type="text/html" id="tpAlarm">
       {% verbatim %}
-      {{#  if(d.DevStatus == "false"){ }}
-      <span style="color: red">离线</span>
-      {{#  } else if(d.DevStatus == "true") { }}
-      <span style="color: green">在线</span>
+      {{#  if(d.hoist_alarm_reason == 0){ }}
+      <span>正常</span>
+      {{#  } else if(d.hoist_alarm_reason == 1) { }}
+      <span>超重</span>
+      {{#  } else if(d.hoist_alarm_reason == 2) { }}
+      <span>冲顶</span>
+      {{#  } else if(d.hoist_alarm_reason == 3) { }}
+      <span>超载</span>
+      {{#  } else if(d.hoist_alarm_reason == 4) { }}
+      <span>倾斜</span>
       {{#  } }}
       {% endverbatim %}
   </script>

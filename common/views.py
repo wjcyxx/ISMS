@@ -373,12 +373,12 @@ def get_interface_result(interID, paramsvalue=[]):
     param = get_interface_param(interID)
 
     if len(paramsvalue) > 0:
-        params = urllib.parse.unquote(param)
-        key = re.findall(r"\$\{.*?\}", params)
+        param = urllib.parse.unquote(param)
+        key = re.findall(r"\$\{.*?\}", param)
 
         for i in range(len(key)):
             if len(key) == len(paramsvalue):
-                param = params.replace(key[i], paramsvalue[i])
+                param = param.replace(key[i], paramsvalue[i])
 
     interface_info = devinterface.objects.get(Q(FID=interID))
 

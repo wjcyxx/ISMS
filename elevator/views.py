@@ -24,6 +24,7 @@ class get_datasource(View):
         initID = 'cdc1cf78cf8111e9af1d7831c1d24216'
 
         token = get_interface_result(initID)['data']['token']
+        request.session['mectoken'] = token
 
         initID = '7293af48cfab11e9b5c17831c1d24216'
         result = get_interface_result(initID, [token])['data']
@@ -31,6 +32,22 @@ class get_datasource(View):
         resultdict = {'code':0, 'msg':"", 'count': len(result), 'data': result}
 
         return JsonResponse(resultdict, safe=False)
+
+
+class get_run_datasource(View):
+    def get(self, request):
+        box_id = request.GET.get('boxid')
+
+        initID = 'cdc1cf78cf8111e9af1d7831c1d24216'
+        token = get_interface_result(initID)['data']['token']
+
+        initID = 'b49d3f2ed04d11e9b9dd7831c1d24216'
+        result = get_interface_result(initID, [token, box_id])['data']
+
+        resultdict = {'code':0, 'msg':"", 'count': len(result), 'data': result}
+        return JsonResponse(resultdict, safe=False)
+
+
 
 
 
