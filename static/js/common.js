@@ -52,4 +52,22 @@ function digit(num, length, end){
         str += '0';
     }
     return num < Math.pow(10, length) ? str + (num|0) : num;
-};
+}
+
+
+function str16ToBit (str) {
+      let result = '';
+      // 转字符串
+      str += '';
+      for (let i = 0; i < str.length; i++) {
+        let bit = parseInt(str[i], 16).toString(2);
+        // 转字符串
+        bit.toString();
+        // 补零
+        while (bit.length < 4) {
+          bit = '0' + bit;
+        }
+        result += bit;
+      }
+      return result
+}

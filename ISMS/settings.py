@@ -81,7 +81,9 @@ INSTALLED_APPS = [
     'envdetection',
     'personinfomap',
     'mainanalyse',
-    'elevator'
+    'elevator',
+    'towercrane',
+    'mapview'
 ]
 
 MIDDLEWARE = [

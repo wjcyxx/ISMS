@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=oRd3s4xjRXGIxWp3jlgjWDP7DT1i75jl"></script>
+    {% include "common/resfiles.html" %}
+	<title>可视化</title>
+</head>
+
+<style type="text/css">
+	body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin: auto;font-family:"微软雅黑";}
+</style>
+
+<body>
+    <div style="position: relative"></div>
+    <div id="allmap" style="position: absolute; bottom: 0px "></div>
+    <form class="layui-form" action="">
+        <div style="position: absolute; padding-top: 30px; padding-left: 80px;">
+            <div class="layui-input-inline" style="width: 120%">
+                <select name="FPrj_id" lay-filter="optprj">
+                    <option value="">请选择项目</option>
+                </select>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
+{% include "common/jsfiles.html" %}
+
+<script type="text/javascript">
+    layui.use(['element', 'layer', 'form', 'table'], function() {
+        var $ = layui.jquery
+            , element = layui.element
+            , table = layui.table
+            , layer = layui.layer
+            , form = layui.form;
+
+        // 百度地图API功能
+        var map = new BMap.Map("allmap");    // 创建Map实例
+
+        map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+        map.addControl(new BMap.NavigationControl());
+
+	    var geolocation = new BMap.Geolocation();
+	    geolocation.getCurrentPosition(function(r){
+		    if(this.getStatus() == BMAP_STATUS_SUCCESS){
+                map.centerAndZoom(new BMap.Point(r.point.lng, r.point.lat), 17);
+		    }
+		    else {
+			    //alert('failed'+this.getStatus());
+		    }
+	    },{enableHighAccuracy: true});
+
+        {% for prj in projectinfo %}
+             var point = new BMap.Point({{ prj.FLong }}, {{ prj.FLat }});
+             var myIcon = new BMap.Icon("/static/images/icongd.png", new BMap.Size(50,50));
+             myIcon.setImageSize(new BMap.Size(32,32));
+
+             var marker = new BMap.Marker(point, {icon: myIcon});
+
+             map.addOverlay(marker);
+
+        {% endfor %}
+
+        map.panTo(point);
+
+        form.on('select(optunion)', function(data){
+        });
+
+    })
+</script>
+
+

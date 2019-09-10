@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include "common/resfiles.html" %}
+</head>
+<body style="overflow: hidden;">
+
+  <!--设备管理信息列表  -->
+
+    <!-- 工具条 -->
+      <!-- 查询框 -->
+      <div class="layui-collapse">
+          <div class="layui-colla-item">
+              <h2 class="layui-colla-title">查询条件</h2>
+              <div class="layui-colla-content">
+                  <form class="layui-form layui-form-pane" method="get">
+
+                      <div class="layui-row layui-col-space10" style="padding-top: 1%">
+                        <div class="layui-col-md12">
+                          <div class="layui-row layui-col-space10">
+                              <div class="layui-col-xs3">
+                                  <input type="text" name="serinput" placeholder="输入设备编码" autocomplete="off" class="layui-input" value="" style="width: 120%">
+                              </div>
+
+                              <div class="layui-col-xs4">
+                                  <label class="layui-form-label">时间范围</label>
+                                  <div class="layui-input-block">
+                                        <input type="text" name="serdate" id="id_serdate" autocomplete="off" class="layui-input" value="" style="width: 120%">
+                                  </div>
+                              </div>
+
+                              <div class="layui-col-xs3">
+                                  <input type="button" class="layui-btn layui-btn-small layui-btn-normal layui-icon" lay-submit lay-filter="formsubmit" value="&#xe615;查  询"/>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+
+      <div style="padding-top: 10px" >
+          <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
+      </div>
+
+      <!-- 数据列表 -->
+
+      <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
+
+{% include "common/jsfiles.html" %}
+
+<script>
+
+    layui.config({
+        base: '/static/layui/ext/',   // 模块所在目录
+    }).extend({
+        soulTable: 'soulTable'  // 模块别名
+    });
+
+  layui.use(['element', 'layer', 'laydate', 'table', 'soulTable', 'util'], function(){
+      var $ = layui.jquery
+          ,element = layui.element
+          ,table = layui.table
+          ,layer = layui.layer
+          ,soulTable = layui.soulTable
+          ,laydate = layui.laydate
+          ,util = layui.util;
+
+
+      var d = new Date();
+      var sd = d.getFullYear()+'-'+ lay.digit(d.getMonth() + 1)+'-'+lay.digit(d.getDate()-1);
+      var md = d.getFullYear()+'-'+ lay.digit(d.getMonth() + 1)+'-'+lay.digit(d.getDate());
+
+      $("#btnClose").click(function () {
+          window.parent.layui.element.tabDelete('tabMain','Towercrane');
+      });
+
+      laydate.render({
+          elem: '#id_serdate',
+          trigger: 'click',
+          value: sd + ' - ' + md,
+          range: true
+      });
+
+      table.render({
+          elem: '#datasource',
+          height: 'full-120',
+          url: "{% url 'towercrane:get_datasource' %}",
+          cols: [[
+              {title: '#', show: 2, width: '5%', collapse: true, children:[
+                      {
+                          title: '设备实时运行状况'
+                          ,url: function (row) {
+                              return "{% url 'towercrane:get_run_datasource' %}?boxid="+row.black_box_id
+                          }
+                          ,height: 270
+                          ,page: false
+                          ,cols: [[
+                              {field: 'braking_state', title: '制动状态', width: '25%', sort: true, filter: true, templet: '<div>{% verbatim %}{{braking_state(d.braking_state)}}{% endverbatim %}</div>'},
+                              {field: 'crane_alarm_reason', title: '警报原因', width: '20%', sort: true, filter: true, templet: '<div>{% verbatim %}{{alarm_code(d.crane_alarm_reason)}}{% endverbatim %}</div>'},
+                              {field: 'crane_elevating_capacity', title: '起重数据(吨)', width: '15%', sort: true, filter: true},
+                              {field: 'crane_height', title: '高度数据(米)', width: '15%', sort: true, filter: true},
+                              {field: 'crane_range', title: '幅度数据(米)', width: '15%', sort: true, filter: true},
+                              {field: 'crane_rotation', title: '回转数据(度)', width: '15%', sort: true, filter: true},
+                              {field: 'crane_tilt_angle', title: '倾角数据(度)', width: '15%', sort: true, filter: true},
+                              {field: 'crane_wind_speed', title: '风速数据(米/秒)', width: '15%', sort: true, filter: true},
+                              {field: 'crane_tilt_percentage', title: '倾斜比(%)', width: '15%', sort: true, filter: true},
+                              {field: 'crane_torque_percentage', title: '力矩比(%)', width: '15%', sort: true, filter: true},
+                              {field: 'crane_weight_percentage', title: '重量比(%)', width: '15%', sort: true, filter: true},
+                              {field: 'crane_wind_speed_percentage', title: '风速比(%)', width: '15%', sort: true, filter: true},
+                              {field: 'crane_time', title: '运行状态上报时间', width: '20%', sort: true, filter: true, templet: "<div>{% verbatim %}{{layui.util.toDateString(d.crane_time, 'yyyy-MM-dd HH:mm:ss')}}{% endverbatim %}</div>"},
+                              {field: 'real_time_or_alarm', title: '测量类型', width: '15%', sort: true, filter: true, templet: '#tpType'},
+                              {field: 'tower_crane_id', title: '塔机编号', width: '15%', sort: true, filter: true},
+                          ]]
+                          ,done: function () {
+                              soulTable.render(this);
+                          }
+                      },
+              ]},
+
+              {field:'crane_type', width: '10%', title: '塔机型号', sort: true, filter: true},
+              {field:'manufacturer', width: '20%', title: '生产厂家', sort: true, filter: true},
+              {field:'black_box_id', width: '20%', title: '黑匣子编号', sort: true, filter: true},
+              {field:'hook_weight', width: '15%', title: '吊钩重量', sort: true, filter: true},
+              {field:'articulated_length', width: '15%', title: '铰链长度', sort: true, filter: true},
+              {field:'sensor_installation_status', width: '25%', title: '传感器安装状态', sort: true, filter: true, templet: "<div>{% verbatim %}{{sensor_state(d.sensor_installation_status)}}{% endverbatim %}</div>"},
+              {field:'boom_length', width: '15%', title: '起重臂长(前臂长)', sort: true, filter: true},
+              {field:'boom_height', width: '15%', title: '起重臂高(塔臂高)', sort: true, filter: true},
+              {field:'balance_arm_length', width: '15%', title: '平衡臂长(后臂长)', sort: true, filter: true},
+              {field:'tower_hat_height', width: '15%', title: '塔帽高', sort: true, filter: true},
+              {field:'range_limit_starting_value', width: '15%', title: '幅度限位起点值', sort: true, filter: true},
+              {field:'range_limit_terminal_value', width: '15%', title: '幅度限位终点值', sort: true, filter: true},
+              {field:'height_limit_starting_value', width: '15%', title: '高度限位起点值', sort: true, filter: true},
+              {field:'height_limit_terminal_value', width: '15%', title: '高度限位终点值', sort: true, filter: true},
+              {field:'rotation_limit_starting_value', width: '15%', title: '回转限位起点值', sort: true, filter: true},
+              {field:'rotation_limit_terminal_value', width: '15%', title: '回转限位终点值', sort: true, filter: true},
+          ]],
+          id: 'runreload'
+
+          ,done: function () {
+              soulTable.render(this)
+          }
+      });
+
+      //监听查询条件提交
+        form.on('submit(formsubmit)', function (data) {
+            var serinput = $("input[name='serinput']").val();
+            var serdate = $("#id_serdate").val();
+            //alert(ddate);
+            table.reload('runreload', {where: {resultdict:{DevKey: serinput, DevDate: serdate}}});
+
+            return false;
+        });
+
+
+  });
+</script>
+
+  <script type="text/javascript">
+      function sensor_state (num) {
+            num16 =  num.toString(16);
+            c = str16ToBit(num16);
+            a = digit(Number(c), 8);
+            b = "";
+
+            for (i=0; i < a.length; i++) {
+                s = a.substring(a.length-i-1, a.length-i);
+
+                if (s == 0) {
+                    st = "关闭"
+                } else if (s == 1) {
+                    st = "开启"
+                }
+
+
+                switch (i) {
+                    case 0:
+                        b = b + "高度传感" + st +",";
+                        break;
+
+                    case 1:
+                        b = b + "幅度传感" + st +",";
+                        break;
+
+                    case 2:
+                        b = b + "回转传感" + st + ",";
+                        break;
+
+                    case 3:
+                        b = b + "重量传感" + st + ",";
+                        break;
+
+                    case 4:
+                        b = b + "风速传感" + st + ",";
+                        break;
+
+                    case 5:
+                        b = b + "倾斜传感" + st + ",";
+                        break;
+                }
+            }
+
+            return b;
+      }
+  </script>
+
+  <script type="text/javascript">
+      function braking_state(num) {
+          a = digit(Number(num), 8);
+          b = "";
+
+          for (i=0; i < a.length; i++) {
+              s = a.substring(a.length-i-1, a.length-i);
+
+              if (s == 0) {
+                  st = "闭合"
+              } else if (s == 1) {
+                  st = "断开"
+              }
+
+              switch (i) {
+                  case 0:
+                      b = b + "上制动：" + st +",";
+                      break;
+
+                  case 1:
+                      b = b + "下制动：" + st +",";
+                      break;
+
+                  case 2:
+                      b = b + "前制动：" + st + ",";
+                      break;
+
+                  case 3:
+                      b = b + "后制动：" + st + ",";
+                      break;
+
+                  case 4:
+                      b = b + "左制动：" + st + ",";
+                      break;
+
+                  case 5:
+                      b = b + "右制动：" + st + ",";
+                      break;
+              }
+          }
+
+          return b;
+      }
+  </script>
+
+  <script type="text/javascript">
+      function alarm_code (code) {
+          a = String(code);
+
+          switch (a) {
+              case '111':
+              case '112':
+              case '113':
+              case '114':
+              case '211':
+              case '212':
+              case '213':
+              case '214':
+                  b = "碰撞报警";
+                  break;
+
+              case '12':
+              case '22':
+                  b = "重量报警";
+                  break;
+              case '13':
+              case '23':
+                  b = "力矩报警";
+                  break;
+              case '14':
+              case '24':
+                  b = "倾斜报警";
+                  break;
+              case '15':
+              case '25':
+                  b = "风速报警";
+                  break;
+              case '101':
+              case '201':
+                  b = "幅度限位提醒";
+                  break;
+              case '102':
+              case '202':
+                  b = "高度限位提醒";
+                  break;
+              case '103':
+              case '203':
+                  b = "回转限位提醒";
+                  break;
+          }
+
+          return b;
+      }
+
+  </script>  
+  
+  
+
+
+  <!--显示设备状态模板-->
+  <script type="text/html" id="tpIdent">
+      {% verbatim %}
+      {{#  if(d.driver_identification_state == 0){ }}
+      <span style="color: red">认证未通过</span>
+      {{#  } else if(d.driver_identification_state == 1) { }}
+      <span style="color: green">认证通过</span>
+      {{#  } }}
+      {% endverbatim %}
+  </script>
+
+  <!--显示节点一报警状态-->
+  <script type="text/html" id="tpType">
+      {% verbatim %}
+      {{#  if(d.real_time_or_alarm == 0){ }}
+      <span>实时值</span>
+      {{#  } else if(d.real_time_or_alarm == 1) { }}
+      <span>报警值</span>
+      {{#  } }}
+      {% endverbatim %}
+  </script>
+
+</body>
+</html>

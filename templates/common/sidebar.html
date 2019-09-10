@@ -4,7 +4,7 @@
         <li class="layui-nav-item layui-nav-itemed">
           <a href="javascript:;"><i class="fa fa-map" aria-hidden="true"></i> 概览</a>
           <dl class="layui-nav-child">
-            <dd><a href="javascript:;" data-url="" data-id="visual"><span>可视化</span></a></dd>
+            <dd><a href="javascript:;" data-url="{% url 'mapview:entrance' %}" data-id="Mapview"><span>可视化</span></a></dd>
           </dl>
         </li>
         <li class="layui-nav-item">
@@ -148,7 +148,7 @@
                   <a href="javascript:;">特种设备管理</a>
                   <dl class="layui-nav-child">
                       <dd><a href="javascript:;" data-id="Elevator" data-url="{% url 'elevator:entrance' %}"><span>升降机运行状态监控</span></a></dd>
-                      <dd><a href="javascript:;" data-id="Area" data-url=""><span>塔吊运行监控</span></a></dd>
+                      <dd><a href="javascript:;" data-id="Towercrane" data-url="{% url 'towercrane:entrance' %}"><span>塔吊运行状态监控</span></a></dd>
                   </dl>
               </dd>
               <dd class="layui-nav-item">
