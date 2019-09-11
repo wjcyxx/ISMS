@@ -21,3 +21,20 @@ class entrance(EntranceView_base):
 
         self.context['projectinfo'] = project_info
 
+
+class get_project(View):
+    def post(self, request):
+        fid = request.POST.get('fid')
+        response_data = {}
+
+        try:
+            project_info = project.objects.get(Q(FID=fid))
+            response_data['FLong'] = project_info.FLong
+            response_data['FLat'] = project_info.FLat
+            response_data['result'] = 0
+
+        except ObjectDoesNotExist:
+            response_data['result'] = 1
+
+        return HttpResponse(json.dumps(response_data))
+

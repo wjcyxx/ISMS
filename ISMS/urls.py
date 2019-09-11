@@ -69,7 +69,8 @@ urlpatterns = [
     path('mainanalyse/', include('mainanalyse.urls'), name='mainanalyse'),
     path('elevator/', include('elevator.urls'), name='elevator'),
     path('towercrane/', include('towercrane.urls'), name='towercrane'),
-    path('mapview/', include('mapview.urls'), name='mapview')
+    path('mapview/', include('mapview.urls'), name='mapview'),
+    path('visitor/', include('visitor.urls'), name='visitor')
 
 ]
 

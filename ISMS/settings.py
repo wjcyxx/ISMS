@@ -83,7 +83,8 @@ INSTALLED_APPS = [
     'mainanalyse',
     'elevator',
     'towercrane',
-    'mapview'
+    'mapview',
+    'visitor'
 ]
 
 MIDDLEWARE = [
