@@ -15,7 +15,7 @@
               <div class="layui-colla-content">
                   <form class="layui-form" method="post">
                       <div class="layui-inline">
-                          <input type="text" name="serinput" placeholder="输入访客名称" autocomplete="off" class="layui-input" value="" style="width: 120%">
+                          <input type="text" name="serinput" placeholder="输入用户组名称" autocomplete="off" class="layui-input" value="" style="width: 120%">
                       </div>
 
                       <div class="layui-inline" style="margin-left: 35px">
@@ -46,17 +46,17 @@
           ,layer = layui.layer;
 
       $("#btnClose").click(function () {
-          window.parent.layui.element.tabDelete('tabMain','Visitor');
+          window.parent.layui.element.tabDelete('tabMain','Usergroup');
       });
 
       //新增按钮事件
       $("#btnAdd").click(function () {
           parent.layer.open({
               type:   2,
-              title:  '新增访客到访预约',
-              area: ['920px','430px'],
+              title:  '新增用户组',
+              area: ['920px','370px'],
               fixed: false,
-              content: "{% url 'visitor:add' %}",
+              content: "{% url 'usergroup:add' %}",
               resize: false,
               move: false
           });
@@ -66,17 +66,12 @@
           page: true,
           limit: 20,
           elem: '#datasource',
-          url: "{% url 'visitor:get_datasource' %}",
+          url: "{% url 'usergroup:get_datasource' %}",
           cols: [[
-              {field:'FName', width: '15%', title: '访客姓名', sort: true},
-              {field:'FOriginName', width: '20%', title: '所属组织', sort: true},
-              {field:'FSex', width: '15%', title: '性别', sort: true, templet: '#tpSex'},
-              {field:'FVisitorIDcard', width: '25%', title: '身份证号', sort: true},
-              {field:'CREATED_TIME', width: '20%', title: '登记日期', sort: true},
-              {field:'FValidDate', width: '20%', title: '有效日期', sort: true},
-              {field:'FRefundDate', width: '20%', title: '退卡日期', sort: true},
+              {field:'FName', width: '20%', title: '用户组名称', sort: true},
+              {field:'FDesc', width: '40%', title: '用户组描述', sort: true},
               {field:'FStatus', width: '15%', title: '状态', sort: true, templet: '#tpStatus'},
-              {field:'', title: '操作', width: '23%', toolbar: '#tlbar', fixed: 'right'}
+              {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
           ]],
           id: 'runreload'
       });
@@ -102,63 +97,27 @@
               case 'edit' :              //编辑按钮事件
                   parent.layer.open({
                       type:   2,
-                      title:  '编辑访客到访预约',
-                      area: ['920px','430px'],
+                      title:  '编辑用户组',
+                      area: ['920px','370px'],
                       fixed: false,
-                      content: "{% url 'visitor:edit' %}?fid="+data.FID,
+                      content: "{% url 'usergroup:edit' %}?fid="+data.FID,
                       resize: false,
                       move: false
-                  });
-
-                  break;
-
-              case 'auth':
-                  parent.layer.open({
-                      type:   2,
-                      title:  '施工人员授权',
-                      area: ['1280px','650px'],
-                      fixed: false,
-                      content: "{% url 'personauth:add' %}?fid="+data.FID+"&authtype=1",
-                      resize: false,
-                      move: false
-                  });
-
-                  break;
-
-              case 'quit':
-                  parent.layer.open({
-                      content: '是否确定该访客离场',
-                      btn: ['确定','取消'],
-                      yes: function (index) {
-                          $.post("{% url 'visitor:quit' %}?type=lock", fid, function (data) {
-                              if (data.result=='0') {
-                                  //window.parent.document.getElementById('Project').contentWindow.location.reload();
-                                  table.reload('runreload', {where: {resultdict:{FGate: ''}}});
-                              } else if (data.result=='2') {
-                                  parent.layer.alert('访客禁用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
-                              }
-
-                          },"json");
-
-                          parent.layer.close(index);
-                      },
-                      btn2: function (index) {
-                      }
                   });
 
                   break;
 
               case 'disabled' :               //禁用按钮事件
                   parent.layer.open({
-                      content: '是否确定禁用该访客',
+                      content: '是否确定禁用该用户组',
                       btn: ['确定','取消'],
                       yes: function (index) {
-                          $.post("{% url 'visitor:disabled' %}?type=lock", fid, function (data) {
+                          $.post("{% url 'usergroup:disabled' %}?type=lock", fid, function (data) {
                               if (data.result=='0') {
                                   //window.parent.document.getElementById('Project').contentWindow.location.reload();
                                   table.reload('runreload', {where: {resultdict:{FGate: ''}}});
                               } else if (data.result=='2') {
-                                  parent.layer.alert('访客禁用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                                  parent.layer.alert('用户组禁用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
                               }
 
                           },"json");
@@ -173,15 +132,15 @@
 
               case 'enabled' :
                   parent.layer.open({
-                      content: '是否确定启用该访客',
+                      content: '是否确定启用该用户组',
                       btn: ['确定','取消'],
                       yes: function (index) {
-                          $.post("{% url 'visitor:disabled' %}?type=unlock", fid, function (data) {
+                          $.post("{% url 'usergroup:disabled' %}?type=unlock", fid, function (data) {
                               if (data.result=='0') {
                                   //window.parent.document.getElementById('Organize').contentWindow.location.reload();
                                   table.reload('runreload', {where: {resultdict:{FGate: ''}}});
                               } else if (data.result=='2') {
-                                  parent.layer.alert('访客启用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                                  parent.layer.alert('用户组启用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
                               }
 
                           },"json");
@@ -200,26 +159,13 @@
   });
 </script>
 
-<!--显示通道类型状态模板-->
-<script type="text/html" id="tpSex">
-     {% verbatim %}
-        {{#  if(d.FSex == 0){ }}
-            <span>男</span>
-        {{#  } else if(d.FSex == 1) { }}
-            <span>女</span>
-        {{#  } }}
-     {% endverbatim %}
-</script>
-
   <!--显示启用状态模板-->
   <script type="text/html" id="tpStatus">
       {% verbatim %}
-      {{#  if(d.FStatus == 2){ }}
+      {{#  if(d.FStatus == false){ }}
       <span style="color: red">禁用</span>
-      {{#  } else if(d.FStatus == 0) { }}
-      <span style="color: green">登记</span>
-      {{#  } else if(d.FStatus == 1) { }}
-      <span style="color: orangered">退卡</span>
+      {{#  } else if(d.FStatus == true) { }}
+      <span style="color: green">启用</span>
       {{#  } }}
       {% endverbatim %}
   </script>
@@ -230,22 +176,15 @@
     {% verbatim %}
         <div class="layui-btn-group">
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>编辑</a>
-            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="auth"><i class="fa fa-users" aria-hidden="true"></i>授权</a>
 
-            {{# if(d.FStatus == 0){ }}
-            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="quit"><i class="fa fa-sign-in" aria-hidden="true"></i>退卡</a>
-            {{# } else { }}
-            <a class="layui-btn layui-btn-disabled layui-btn-xs"><i class="fa fa-sign-in" aria-hidden="true"></i>退卡</a>
-            {{# } }}
-
-
-            {{# if(d.FStatus == 0){ }}
+            {{# if(d.FStatus == true){ }}
             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>
-            {{# } else if(d.FStatus == 2){ }}
+            {{# } else if(d.FStatus == false){ }}
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="enabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>启用</a>
             {{# } else { }}
-            <a class="layui-btn layui-btn-disabled layui-btn-xs"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>
             {{# } }}
+
         </div>
     {% endverbatim %}
 </script>

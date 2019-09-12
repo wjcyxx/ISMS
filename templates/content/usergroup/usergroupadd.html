@@ -15,11 +15,11 @@
         <div class="layui-row layui-col-space10" style="padding-top: 1%">
             <div class="layui-col-md12">
                 <div class="layui-card">
-                    <div class="layui-card-header">访客信息登记</div>
+                    <div class="layui-card-header">用户组维护</div>
                     <div class="layui-card-body">
                         <div class="layui-row layui-col-space15">
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">访客名称</label>
+                                <label class="layui-form-label" style="color: red">用户组名称</label>
                                 <div class="layui-input-block">
                                     {{ obj.FID }}
                                     {{ obj.FName }}
@@ -27,54 +27,7 @@
                             </div>
 
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">所属组织</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FOriginName }}
-                                </div>
-                            </div>
-
-                            <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">性别</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FSex }}
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="layui-row layui-col-space10">
-                            <div class="layui-col-xs8">
-                                <label class="layui-form-label" style="color: red">身份证件</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FVisitorIDcard }}
-                                </div>
-                            </div>
-
-                            <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">接待人员</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FReceptionist }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="layui-row layui-col-space10">
-                            <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">有效日期</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FValidDate }}
-                                </div>
-                            </div>
-
-                            <div class="layui-col-xs4">
-                                <label class="layui-form-label">退卡日期</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FRefundDate }}
-                                </div>
-                            </div>
-
-                            <div class="layui-col-xs4">
-                                <label class="layui-form-label">状态</label>
+                                <label class="layui-form-label" style="color: red">状态</label>
                                 <div class="layui-input-block">
                                     {{ obj.FStatus }}
                                 </div>
@@ -83,7 +36,7 @@
 
                         <div class="layui-row layui-col-space10">
                             <div class="layui-col-xs12">
-                                <label class="layui-form-label">拜访事由</label>
+                                <label class="layui-form-label">备注</label>
                                 <div class="layui-input-block">
                                     {{ obj.FDesc }}
                                 </div>
@@ -102,17 +55,11 @@
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 {% include "common/jsfiles.html" %}
 
-<style>
-    .layui-unselect dl { max-height:150px; }
-</style>
-
-
 <script>
-layui.use(['element','layer','form', 'laydate'], function () {
+layui.use(['element','layer','form'], function () {
     var element = layui.element
         , layer = layui.layer
-        , form = layui.form
-        , laydate = layui.laydate;
+        , form = layui.form;
 
     //关闭按钮
     $("#btnC").click(function () {
@@ -120,21 +67,17 @@ layui.use(['element','layer','form', 'laydate'], function () {
         parent.layer.close(index);
     });
 
-    laydate.render({
-        elem: '#id_FValidDate',
-        trigger: 'click'
-    });
 
     //监听窗口提交
     form.on('submit(formsubmit)', function (data) {
         $.ajax({
             type: "POST",
-            url:  "{% url 'visitor:insert' %}?actype={{ action }}",
+            url:  "{% url 'usergroup:insert' %}?actype={{ action }}",
             data: data.field,
             dataType: "json",
             success: function (data) {
                 if (data.result=='0') {
-                    window.parent.document.getElementById('Visitor').contentWindow.location.reload();
+                    window.parent.document.getElementById('Usergroup').contentWindow.location.reload();
 
                     var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
                     parent.layer.close(index);

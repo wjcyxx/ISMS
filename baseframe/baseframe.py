@@ -188,7 +188,7 @@ class insert_base(View):
             if self.obj.is_valid():
                 temp = self.obj.save(commit=False)
                 if self.request.GET.get('actype') == 'insert':
-                    temp.FStatus = True
+                    temp.FStatus = temp.FStatus
                 if self.type == 1:
                     temp.FPID = self.request.POST.get('FPID')
                 temp.CREATED_PRJ = self.request.session['PrjID']

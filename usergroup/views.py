@@ -3,7 +3,7 @@ from django.shortcuts import HttpResponse
 from django.http import HttpRequest
 from django.shortcuts import redirect
 from django.db.models import Q
-from .models import visitor as T_Visitor
+from .models import usergroup as T_UserGroup
 from common.views import *
 from django.http import JsonResponse
 from .forms import *
@@ -17,57 +17,40 @@ from baseframe.baseframe import *
 #控制器入口
 class entrance(EntranceView_base):
     def set_view(self, request):
-        prj_id = self.request.session['PrjID']
-
-        self.template_name = 'content/visitor/visitorinfo.html'
+        self.template_name = 'content/usergroup/usergroupinfo.html'
 
 
 #返回table数据及查询结果
 class get_datasource(get_datasource_base):
     def get_queryset(self, reqeust):
-        prj_id = self.request.session['PrjID']
         serinput = self.request.GET.get("resultdict[FName]", '')
-        visitor_info =  T_Visitor.objects.filter(Q(CREATED_PRJ=prj_id), Q(FName__contains=serinput))
+        usergroup_info = T_UserGroup.objects.filter(Q(FName__contains=serinput))
 
-        return visitor_info
+        return usergroup_info
 
 
 #链接增加模板
 class add(add_base):
     def set_view(self, request):
-        self.template_name = 'content/visitor/visitoradd.html'
-        self.objForm = VisitorModelForm
+        self.template_name = 'content/usergroup/usergroupadd.html'
+        self.objForm = UserGroupModelForm
 
 #链接编辑模板
 class edit(edit_base):
     def set_view(self, request):
-        self.template_name = 'content/visitor/visitoradd.html'
-        self.model = T_Visitor
-        self.objForm = VisitorModelForm
+        self.template_name = 'content/usergroup/usergroupadd.html'
+        self.model = T_UserGroup
+        self.objForm = UserGroupModelForm
 
 
 #处理新增及保存数据
 class insert(insert_base):
     def set_view(self, request):
-        self.model = T_Visitor
-        self.objForm = VisitorModelForm
+        self.model = T_UserGroup
+        self.objForm = UserGroupModelForm
 
-
-#处理访客退卡
-class quit(disabled_base):
-    def set_view(self, request):
-        self.type = 1
-        self.status = [1, 0]
-        self.model = T_Visitor
-
-        fid = self.request.POST.get('fid')
-        visitor_info = T_Visitor.objects.get(Q(FID=fid))
-        visitor_info.FRefundDate = timezone.now()
-        visitor_info.save()
 
 #处理禁用/启用
 class disabled(disabled_base):
     def set_view(self, request):
-        self.model = T_Visitor
-        self.type = 1
-        self.status = [2, 0]
+        self.model = T_UserGroup

@@ -15,8 +15,9 @@ class VisitorModelForm(ModelForm):
             'FOriginName': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
             'FSex': Fwidgets.Select(attrs={'lay-verify': 'required'}),
             'FVisitorIDcard': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
+            'FReceptionist': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
             'FValidDate': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
-            'FRefundDate': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
+            'FRefundDate': Fwidgets.Input(attrs={'class': 'layui-input', 'autocomplete': 'off', 'readonly': 'true'}),
             'FDesc': Fwidgets.Textarea(attrs={'class': 'layui-textarea', 'autocomplete': 'off', 'rows': '1'}),
             'FStatus': Fwidgets.Select(attrs={'lay-verify': 'required', 'disabled': 'disabled'}),
 

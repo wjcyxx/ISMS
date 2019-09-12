@@ -84,7 +84,9 @@ INSTALLED_APPS = [
     'elevator',
     'towercrane',
     'mapview',
-    'visitor'
+    'visitor',
+    'usergroup',
+    'busmenu'
 ]
 
 MIDDLEWARE = [

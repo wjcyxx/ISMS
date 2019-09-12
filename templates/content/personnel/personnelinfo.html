@@ -119,7 +119,7 @@
                       title:  '施工人员授权',
                       area: ['1280px','720px'],
                       fixed: false,
-                      content: "{% url 'personauth:add' %}?fid="+data.FID,
+                      content: "{% url 'personauth:add' %}?fid="+data.FID+"&authtype=0",
                       resize: false,
                       move: false
                   });

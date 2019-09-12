@@ -70,7 +70,8 @@ urlpatterns = [
     path('elevator/', include('elevator.urls'), name='elevator'),
     path('towercrane/', include('towercrane.urls'), name='towercrane'),
     path('mapview/', include('mapview.urls'), name='mapview'),
-    path('visitor/', include('visitor.urls'), name='visitor')
+    path('visitor/', include('visitor.urls'), name='visitor'),
+    path('usergroup/', include('usergroup.urls'), name='usergroup')
 
 ]
 

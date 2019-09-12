@@ -17,6 +17,7 @@ from django.core.exceptions import ObjectDoesNotExist
 def add(request):
 
     fid = ''.join(str(request.GET.get('fid')).split('-'))
+    authtype = request.GET.get('authtype', 0)
 
     area_info = area.objects.all()
     areadict = get_dict_transfer(area_info, 'FID', 'FName', 'FStatus')
@@ -30,7 +31,7 @@ def add(request):
 
     authList = json.dumps(dict_auth)
 
-    return render(request, "content/personauth/personauthadd.html", {'resultdict' : areadict, 'authList': authList, 'fid': fid})
+    return render(request, "content/personauth/personauthadd.html", {'resultdict' : areadict, 'authList': authList, 'fid': fid, 'authtype': authtype})
 
 
 def auth(request):
@@ -38,6 +39,7 @@ def auth(request):
         response_data = {}
 
         fid = ''.join(str(request.POST.get('fid')).split('-'))
+        authtype = request.POST.get('authtype', 0)
         areaid = request.POST.get('areafid')
 
         area_info =  json.loads(areaid)
@@ -49,6 +51,7 @@ def auth(request):
             personauth_info = T_PersonAuth()
             personauth_info.FPersonID = fid
             personauth_info.FAreaID = obj['value']
+            personauth_info.FAuthtype = authtype
             personauth_info.CREATED_PRJ = request.session['PrjID']
             personauth_info.CREATED_ORG = request.session['UserOrg']
             personauth_info.CREATED_BY = request.session['UserID']

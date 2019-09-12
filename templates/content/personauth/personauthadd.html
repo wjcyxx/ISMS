@@ -129,7 +129,7 @@ layui.use(['transfer', 'layer', 'util'], function(){
     $("#btnAuth").click(function () {
         var getChoicesArea = transfer.getData('areaauth');
 
-        var dataid = {'areafid': JSON.stringify(getChoicesArea), 'fid': '{{ fid }}'};
+        var dataid = {'areafid': JSON.stringify(getChoicesArea), 'fid': '{{ fid }}', 'authtype': '{{ authtype }}'};
 
         $.post("{% url 'personauth:auth' %}", dataid, function(data){
             if (data.result=='0') {
