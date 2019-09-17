@@ -153,7 +153,7 @@ class get_pedpassage_news(View):
     def post(self, request):
         prj_id = request.session['PrjID']
 
-        passagerecord_info = passagerecord.objects.filter(Q(CREATED_PRJ=prj_id)).values('FID','FPersonID__FName', 'FPersonID__FGroupID', 'FPersonID__FPhoto', 'FPassageID__FPassage', 'FPassageID__FType', 'FAuthtypeID', 'CREATED_TIME')
+        passagerecord_info = passagerecord.objects.filter(Q(CREATED_PRJ=prj_id)).values('FID','FPersonID__FName', 'FPersonID__FGroupID', 'FPersonID__FPhoto', 'FPassageID__FPassage', 'FPassageID__FType', 'FAuthtypeID', 'CREATED_TIME').order_by('-CREATED_TIME')
 
         result_dict = []
 

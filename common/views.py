@@ -146,10 +146,12 @@ def convert_to_dicts(objs):
         obj_arr.append(dict)
     return obj_arr
 
+#根据当前时间戳显示时间格式
 def getDateTime():
     return time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
 
 
+#产生token
 def generate_token(key, expire=3600):
     """
         创建产生token
@@ -167,6 +169,7 @@ def generate_token(key, expire=3600):
 
     return b64_token.decode("utf-8")
 
+#校验token
 def certify_token(key, token):
     """
         验证token
@@ -212,12 +215,13 @@ def certify_token(key, token):
 
         return response_data
 
-
+#生成uuid
 def generate_uuid(request):
     struuid = ''.join(str(uuid.uuid1()).split('-'))
 
     return HttpResponse(struuid)
 
+#生成md5校验
 def generate_md5(request):
     if request.method == 'GET':
         ukey = request.GET.get('ukey')
@@ -230,7 +234,7 @@ def generate_md5(request):
 
         return HttpResponse(sign)
 
-
+#生成下拉列表字典对象
 def get_dict_object(request, model, fid, fname):
     r = [("", '请选择数据')]
     for obj in model:
@@ -258,7 +262,7 @@ def get_dict_table(model, fid, fname):
     dictdata = json.dumps(dict_type)
     return dictdata
 
-
+#判断日期格式是否有效
 def isVaildDate(date):
     try:
         if ":" in date:
@@ -291,6 +295,7 @@ def get_dict_transfer(model, fid, fname, disabledfield):
     return json.dumps(dict_transfer)
 
 
+#判断项目编号session是否存在的装饰器
 def login_decorator(func):
     def wrapper(self, request, *args, **kwargs):
         #print('自定义装饰器被调用了')
@@ -304,6 +309,7 @@ def login_decorator(func):
     return wrapper
 
 
+#自动单据流水号生成
 def gensequence(appname, prefix, zfill, type):
 
     try:
@@ -343,6 +349,7 @@ def gensequence(appname, prefix, zfill, type):
         return prefix + n
 
 
+#根据接口编号获取接口地址
 def get_interface_url(interID):
 
     interface_info = devinterface.objects.get(Q(FID=interID))
@@ -350,6 +357,7 @@ def get_interface_url(interID):
     return interface_info.FAddress
 
 
+#根据接口编号获取接口参数
 def get_interface_param(interID):
     values = {}
 
@@ -367,6 +375,7 @@ def get_interface_param(interID):
     return data
 
 
+#调用接口获得返回值
 def get_interface_result(interID, paramsvalue=[]):
 
     url = get_interface_url(interID)
@@ -402,8 +411,7 @@ def get_interface_result(interID, paramsvalue=[]):
         return content
 
 
-
-
+#获取本月第一天和本月最后一天日期
 def get_current_month_start_and_end(date):
     """
     年份 date(2017-09-08格式)

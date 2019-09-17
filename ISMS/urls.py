@@ -71,7 +71,8 @@ urlpatterns = [
     path('towercrane/', include('towercrane.urls'), name='towercrane'),
     path('mapview/', include('mapview.urls'), name='mapview'),
     path('visitor/', include('visitor.urls'), name='visitor'),
-    path('usergroup/', include('usergroup.urls'), name='usergroup')
+    path('usergroup/', include('usergroup.urls'), name='usergroup'),
+    path('interface/', include('interface.urls'), name='interface')
 
 ]
 

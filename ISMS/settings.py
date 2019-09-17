@@ -86,7 +86,8 @@ INSTALLED_APPS = [
     'mapview',
     'visitor',
     'usergroup',
-    'busmenu'
+    'busmenu',
+    'interface'
 ]
 
 MIDDLEWARE = [
@@ -131,7 +132,10 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': 'root',
         'HOST': '39.106.148.205',
-        'PORT': '3306'
+        'PORT': '3306',
+        'OPTIONS':{
+            "init_command":"SET foreign_key_checks = 0;",
+        }
     }
 }
 
