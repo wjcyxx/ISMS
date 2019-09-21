@@ -87,7 +87,8 @@ INSTALLED_APPS = [
     'visitor',
     'usergroup',
     'busmenu',
-    'interface'
+    'interface',
+    'unloading'
 ]
 
 MIDDLEWARE = [

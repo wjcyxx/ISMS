@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include "common/resfiles.html" %}
+</head>
+<body style="overflow: hidden;">
+
+  <!--设备管理信息列表  -->
+
+    <!-- 工具条 -->
+      <!-- 查询框 -->
+      <div class="layui-collapse">
+          <div class="layui-colla-item">
+              <h2 class="layui-colla-title">查询条件</h2>
+              <div class="layui-colla-content">
+                  <form class="layui-form layui-form-pane" method="get">
+
+                      <div class="layui-row layui-col-space10" style="padding-top: 1%">
+                        <div class="layui-col-md12">
+                          <div class="layui-row layui-col-space10">
+                              <div class="layui-col-xs3">
+                                  <input type="text" name="serinput" placeholder="输入设备名称" autocomplete="off" class="layui-input" value="" style="width: 120%">
+                              </div>
+
+                              <div class="layui-col-xs4">
+                                  <label class="layui-form-label">时间范围</label>
+                                  <div class="layui-input-block">
+                                        <input type="text" name="serdate" id="id_serdate" autocomplete="off" class="layui-input" value="" style="width: 120%">
+                                  </div>
+                              </div>
+
+                              <div class="layui-col-xs3">
+                                  <input type="button" class="layui-btn layui-btn-small layui-btn-normal layui-icon" lay-submit lay-filter="formsubmit" value="&#xe615;查  询"/>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+
+      <div style="padding-top: 10px" >
+          <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
+      </div>
+
+      <!-- 数据列表 -->
+
+      <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
+
+{% include "common/jsfiles.html" %}
+
+<script>
+
+    layui.config({
+        base: '/static/layui/ext/',   // 模块所在目录
+    }).extend({
+        soulTable: 'soulTable'  // 模块别名
+    });
+
+  layui.use(['element', 'layer', 'laydate', 'table', 'soulTable', 'util'], function(){
+      var $ = layui.jquery
+          ,element = layui.element
+          ,table = layui.table
+          ,layer = layui.layer
+          ,soulTable = layui.soulTable
+          ,laydate = layui.laydate
+          ,util = layui.util;
+
+
+      var d = new Date();
+      var sd = d.getFullYear()+'-'+ lay.digit(d.getMonth() + 1)+'-'+lay.digit(d.getDate()-1);
+      var md = d.getFullYear()+'-'+ lay.digit(d.getMonth() + 1)+'-'+lay.digit(d.getDate());
+
+      $("#btnClose").click(function () {
+          window.parent.layui.element.tabDelete('tabMain','Unloading');
+      });
+
+      laydate.render({
+          elem: '#id_serdate',
+          trigger: 'click',
+          value: sd + ' - ' + md,
+          range: true
+      });
+
+      table.render({
+          elem: '#datasource',
+          height: 'full-120',
+          url: "{% url 'unloading:get_datasource' %}",
+          cols: [[
+              {title: '#', show: 2, width: '5%', collapse: true, children:[
+                      {
+                          title: '设备实时运行状况'
+                          ,url: function (row) {
+                              return "{% url 'unloading:get_run_datasource' %}?listUnloadId="+row.unload_id
+                          }
+                          ,height: 270
+                          ,page: false
+                          ,cols: [[
+                              {field: 'time', title: '更新时间', width: '25%', sort: true, filter: true},
+                              {field: 'weight', title: '重量(千克)', width: '20%', sort: true, filter: true},
+                              {field: 'bias', title: '偏置值', width: '20%', sort: true, filter: true},
+                              {field: 'upstate', title: '数据状态', width: '15%', sort: true, filter: true, templet: '#tpState'},
+                              {field: 'early_warning_weight', title: '预警重量(千克)', width: '20%', sort: true, filter: true},
+                              {field: 'alarm_weight', title: '报警重量(千克)', width: '20%', sort: true, filter: true},
+                              {field: 'electric_quantity', title: '设备电量(%)', width: '15%', sort: true, filter: true},
+                          ]]
+                          ,done: function () {
+                              soulTable.render(this);
+                          }
+                      },
+              ]},
+
+              {field:'unload_id', width: '10%', title: '设备编号', sort: true, filter: true},
+              {field:'unload_name', width: '20%', title: '设备名称', sort: true, filter: true},
+              {field:'unload_address', width: '20%', title: '设备位置', sort: true, filter: true},
+              {field:'verifyCode', width: '15%', title: '设备IMEI码', sort: true, filter: true},
+              {field:'activated', width: '15%', title: '设备状态', sort: true, filter: true, templet: '#tpActive'},
+          ]],
+          id: 'runreload'
+
+          ,done: function () {
+              soulTable.render(this)
+          }
+      });
+
+      //监听查询条件提交
+        form.on('submit(formsubmit)', function (data) {
+            var serinput = $("input[name='serinput']").val();
+            var serdate = $("#id_serdate").val();
+            //alert(ddate);
+            table.reload('runreload', {where: {resultdict:{unload_name: serinput, DevDate: serdate}}});
+
+            return false;
+        });
+
+
+  });
+</script>
+
+  <!--显示设备状态模板-->
+  <script type="text/html" id="tpActive">
+      {% verbatim %}
+      {{#  if(d.activated == 0){ }}
+      <span style="color: red">未激活</span>
+      {{#  } else if(d.activated == 1) { }}
+      <span style="color: green">已激活</span>
+      {{#  } else if(d.activated == 2) { }}
+      <span style="color: orangered">设备已删除</span>
+      {{#  } }}
+      {% endverbatim %}
+  </script>
+
+  <!--显示设备状态模板-->
+  <script type="text/html" id="tpState">
+      {% verbatim %}
+      {{#  if(d.upstate == 0){ }}
+      <span style="color: green">正常</span>
+      {{#  } else if(d.upstate == 1) { }}
+      <span style="color: orangered">预警</span>
+      {{#  } else if(d.upstate == 2) { }}
+      <span style="color: red">报警</span>
+      {{#  } }}
+      {% endverbatim %}
+  </script>
+
+</body>
+</html>

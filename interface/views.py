@@ -14,15 +14,22 @@ from django.utils import timezone
 from django.forms import widgets as Fwidge
 from django.core.exceptions import ObjectDoesNotExist
 from baseframe.baseframe import *
+import time
+import datetime
 
 
 class passagedev_callback(View):
+    def get(self, request):
+        xx = 1
+        return HttpResponse("is ok")
+
+
     def post(self, request):
-        deviceKey = request.POST.get('deviceKey')
-        ip = request.POST.get('ip')
-        personId = request.POST.get('personId')
-        times = request.POST.get('time')
-        type = request.POST.get('type')
+        deviceKey = request.GET.get('deviceKey')
+        ip = request.GET.get('ip')
+        personId = request.GET.get('personId')
+        times = request.GET.get('time')
+        type = request.GET.get('type')
         
         passageid = get_passageid(deviceKey)
         
@@ -42,7 +49,7 @@ class passagedev_callback(View):
         passagerecord_info.CREATED_ORG = personnel_info.CREATED_ORG
         passagerecord_info.CREATED_BY = 'DEV'
         passagerecord_info.UPDATED_BY = 'DEV'
-        passagerecord_info.CREATED_TIME = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(int(times)))
+        passagerecord_info.CREATED_TIME = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(int(times)/1000))
             
         passagerecord_info.save()
         
