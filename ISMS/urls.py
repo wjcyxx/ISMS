@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from login import views
-from common.views import generate_uuid, get_interface_param
+from common.views import generate_uuid, get_interface_param, generate_md5
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -26,6 +26,7 @@ urlpatterns = [
     path('organize/', include('organize.urls'), name='organize'),
     path('project/', include('project.urls'), name='project'),
     path('genuuid/', generate_uuid, name='genuuid'),
+    path('genmd5/', generate_md5, name='genmd5'),
     path('get_interface_param/<str:interID>/', get_interface_param),
     path('basedata/', include('basedata.urls'), name='basedata'),
     path('user/', include('user.urls'), name='user'),
@@ -74,8 +75,9 @@ urlpatterns = [
     path('usergroup/', include('usergroup.urls'), name='usergroup'),
     path('interface/', include('interface.urls'), name='interface'),
     path('unloading/', include('unloading.urls'), name='unloading'),
-    path('busmenu/', include('busmenu.urls'), name='busmenu')
-
+    path('busmenu/', include('busmenu.urls'), name='busmenu'),
+    path('appkey/', include('appkey.urls'), name='appkey'),
+    path('ismsapi/', include('ismsapi.urls'), name='ismsapi')
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

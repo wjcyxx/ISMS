@@ -17,13 +17,8 @@ from baseframe.baseframe import *
 import time
 import datetime
 
-
+#人脸一体机识别回调
 class passagedev_callback(View):
-    def get(self, request):
-        xx = 1
-        return HttpResponse("is ok")
-
-
     def post(self, request):
         deviceKey = request.GET.get('deviceKey')
         ip = request.GET.get('ip')
@@ -58,7 +53,7 @@ class passagedev_callback(View):
         return HttpResponse(json.dumps(response_data))
         
 
-
+#根据设备ID取通道FID
 def get_passageid(devid):
     try:
         device_fid = device.objects.get(Q(FDevID=devid)).FID
@@ -70,3 +65,6 @@ def get_passageid(devid):
         
     except ObjectDoesNotExist:
         return None
+
+
+

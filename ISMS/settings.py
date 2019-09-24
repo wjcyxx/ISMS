@@ -88,7 +88,9 @@ INSTALLED_APPS = [
     'usergroup',
     'busmenu',
     'interface',
-    'unloading'
+    'unloading',
+    'appkey',
+    'ismsapi'
 ]
 
 MIDDLEWARE = [

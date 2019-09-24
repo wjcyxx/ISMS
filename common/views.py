@@ -17,6 +17,9 @@ import urllib.request
 import calendar
 import requests
 import re
+import random
+import string
+
 
 # Create your views here.
 from pytz import unicode
@@ -224,8 +227,8 @@ def generate_uuid(request):
 #生成md5校验
 def generate_md5(request):
     if request.method == 'GET':
-        ukey = request.GET.get('ukey')
-        strkey = ukey + 'brjNC100'
+        appkey = request.GET.get('appkey')
+        strkey = appkey + 'hm100'
 
         md_5 = hashlib.md5()
         md_5.update(strkey.encode("utf8"))
@@ -427,6 +430,14 @@ def get_current_month_start_and_end(date):
     return start_date, end_date
 
 
+#生成一组数字加字母的随机字符串
+def get_Random_String(n):
+    string.printable=string.ascii_letters + string.digits
+    x = string.printable
+    salt = ''
+    for i in range(n):
+        salt+=random.choice(x)
+    return salt
 
 
 
