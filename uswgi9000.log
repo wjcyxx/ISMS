@@ -1,0 +1,118 @@
+*** Starting uWSGI 2.0.18 (64bit) on [Wed Sep 25 09:49:52 2019] ***
+compiled with version: 4.4.7 20120313 (Red Hat 4.4.7-23) on 24 September 2019 08:14:14
+os: Linux-2.6.32-696.10.2.el6.x86_64 #1 SMP Tue Sep 12 14:33:29 UTC 2017
+nodename: iZ2ze59z7tidl884pxvmdsZ
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 1
+current working directory: /data/wwwroot/ISMS
+writing pidfile to uwsgi9000.pid
+detected binary path: /usr/local/bin/uwsgi
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+chdir() to /data/wwwroot/ISMS/
+*** WARNING: you are running uWSGI without its master process manager ***
+your processes number limit is 65535
+your memory page size is 4096 bytes
+detected max file descriptor number: 65535
+lock engine: pthread robust mutexes
+thunder lock: disabled (you can enable it with --thunder-lock)
+uwsgi socket 0 bound to TCP address 0.0.0.0:9000 fd 3
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+Python version: 3.7.1 (default, Sep 24 2019, 15:06:00)  [GCC 4.4.7 20120313 (Red Hat 4.4.7-23)]
+*** Python threads support is disabled. You can enable it with --enable-threads ***
+Python main interpreter initialized at 0x157c630
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+your server socket listen backlog is limited to 100 connections
+your mercy for graceful operations on workers is 60 seconds
+mapped 403077 bytes (393 KB) for 3 cores
+*** Operational MODE: preforking ***
+added /usr/local/lib/python3.7/ to pythonpath.
+WSGI app 0 (mountpoint='') ready in 0 seconds on interpreter 0x157c630 pid: 12664 (default app)
+mountpoint  already configured. skip.
+uWSGI running as root, you can use --uid/--gid/--chroot options
+*** WARNING: you are running uWSGI as root !!! (use the --uid flag) *** 
+*** uWSGI is running in multiple interpreter mode ***
+spawned uWSGI worker 1 (pid: 12664, cores: 1)
+spawned uWSGI worker 2 (pid: 12671, cores: 1)
+spawned uWSGI worker 3 (pid: 12672, cores: 1)
+[pid: 12671|app: 0|req: 1/1] 223.104.170.90 () {46 vars in 834 bytes} [Wed Sep 25 09:50:15 2019] GET /login/index/ => generated 5594 bytes in 194 msecs (HTTP/1.1 200) 3 headers in 110 bytes (1 switches on core 0)
+Not Found: /static/layui/css/layui.css
+[pid: 12671|app: 0|req: 2/2] 223.104.170.90 () {44 vars in 746 bytes} [Wed Sep 25 09:50:15 2019] GET /static/layui/css/layui.css => generated 8354 bytes in 17 msecs (HTTP/1.1 404) 3 headers in 102 bytes (1 switches on core 0)
+Not Found: /static/css/jquery.idcode.css
+[pid: 12671|app: 0|req: 3/3] 223.104.170.90 () {44 vars in 750 bytes} [Wed Sep 25 09:50:15 2019] GET /static/css/jquery.idcode.css => generated 8360 bytes in 17 msecs (HTTP/1.1 404) 3 headers in 102 bytes (1 switches on core 0)
+Not Found: /static/js/jquery-3.3.1.min.js
+[pid: 12671|app: 0|req: 4/4] 223.104.170.90 () {44 vars in 737 bytes} [Wed Sep 25 09:50:15 2019] GET /static/js/jquery-3.3.1.min.js => generated 8363 bytes in 22 msecs (HTTP/1.1 404) 3 headers in 102 bytes (1 switches on core 0)
+Not Found: /static/layui/layui.js
+[pid: 12671|app: 0|req: 5/5] 223.104.170.90 () {44 vars in 721 bytes} [Wed Sep 25 09:50:15 2019] GET /static/layui/layui.js => generated 8339 bytes in 20 msecs (HTTP/1.1 404) 3 headers in 102 bytes (1 switches on core 0)
+Not Found: /static/images/logo.png
+[pid: 12671|app: 0|req: 6/6] 223.104.170.90 () {44 vars in 759 bytes} [Wed Sep 25 09:50:15 2019] GET /static/images/logo.png => generated 8342 bytes in 20 msecs (HTTP/1.1 404) 3 headers in 102 bytes (1 switches on core 0)
+Not Found: /static/css/style.css
+[pid: 12672|app: 0|req: 1/7] 223.104.170.90 () {44 vars in 734 bytes} [Wed Sep 25 09:50:15 2019] GET /static/css/style.css => generated 8336 bytes in 312 msecs (HTTP/1.1 404) 3 headers in 102 bytes (1 switches on core 0)
+Not Found: /static/js/jquery.idcode.js
+[pid: 12664|app: 0|req: 1/8] 223.104.170.90 () {44 vars in 731 bytes} [Wed Sep 25 09:50:15 2019] GET /static/js/jquery.idcode.js => generated 8354 bytes in 282 msecs (HTTP/1.1 404) 3 headers in 102 bytes (1 switches on core 0)
+Not Found: /static/layui/layui.js
+[pid: 12671|app: 0|req: 7/9] 223.104.170.90 () {44 vars in 721 bytes} [Wed Sep 25 09:50:15 2019] GET /static/layui/layui.js => generated 8339 bytes in 8 msecs (HTTP/1.1 404) 3 headers in 102 bytes (1 switches on core 0)
+[pid: 12671|app: 0|req: 8/10] 223.104.170.90 () {46 vars in 834 bytes} [Wed Sep 25 10:03:40 2019] GET /login/index/ => generated 5594 bytes in 1 msecs (HTTP/1.1 200) 3 headers in 110 bytes (1 switches on core 0)
+Not Found: /static/css/style.css
+Not Found: /static/layui/css/layui.css
+[pid: 12672|app: 0|req: 2/11] 223.104.170.90 () {44 vars in 746 bytes} [Wed Sep 25 10:03:40 2019] GET /static/layui/css/layui.css => generated 8354 bytes in 13 msecs (HTTP/1.1 404) 3 headers in 102 bytes (1 switches on core 0)
+[pid: 12664|app: 0|req: 2/12] 223.104.170.90 () {44 vars in 734 bytes} [Wed Sep 25 10:03:40 2019] GET /static/css/style.css => generated 8336 bytes in 15 msecs (HTTP/1.1 404) 3 headers in 102 bytes (1 switches on core 0)
+Not Found: /static/css/jquery.idcode.css
+[pid: 12671|app: 0|req: 9/13] 223.104.170.90 () {44 vars in 750 bytes} [Wed Sep 25 10:03:40 2019] GET /static/css/jquery.idcode.css => generated 8360 bytes in 17 msecs (HTTP/1.1 404) 3 headers in 102 bytes (1 switches on core 0)
+Not Found: /static/js/jquery-3.3.1.min.js
+[pid: 12672|app: 0|req: 3/14] 223.104.170.90 () {44 vars in 737 bytes} [Wed Sep 25 10:03:40 2019] GET /static/js/jquery-3.3.1.min.js => generated 8363 bytes in 17 msecs (HTTP/1.1 404) 3 headers in 102 bytes (1 switches on core 0)
+Not Found: /static/js/jquery.idcode.js
+[pid: 12664|app: 0|req: 3/15] 223.104.170.90 () {44 vars in 731 bytes} [Wed Sep 25 10:03:40 2019] GET /static/js/jquery.idcode.js => generated 8354 bytes in 9 msecs (HTTP/1.1 404) 3 headers in 102 bytes (1 switches on core 0)
+Not Found: /static/layui/layui.js
+[pid: 12671|app: 0|req: 10/16] 223.104.170.90 () {44 vars in 721 bytes} [Wed Sep 25 10:03:40 2019] GET /static/layui/layui.js => generated 8339 bytes in 7 msecs (HTTP/1.1 404) 3 headers in 102 bytes (1 switches on core 0)
+Not Found: /static/images/logo.png
+[pid: 12672|app: 0|req: 4/17] 223.104.170.90 () {44 vars in 759 bytes} [Wed Sep 25 10:03:40 2019] GET /static/images/logo.png => generated 8342 bytes in 7 msecs (HTTP/1.1 404) 3 headers in 102 bytes (1 switches on core 0)
+[pid: 12671|app: 0|req: 11/18] 223.104.170.90 () {46 vars in 834 bytes} [Wed Sep 25 10:11:06 2019] GET /login/index/ => generated 5594 bytes in 1 msecs (HTTP/1.1 200) 3 headers in 110 bytes (1 switches on core 0)
+[pid: 12671|app: 0|req: 12/19] 223.104.170.90 () {52 vars in 974 bytes} [Wed Sep 25 10:11:24 2019] POST /login/login_chk/ => generated 60 bytes in 11 msecs (HTTP/1.1 200) 5 headers in 267 bytes (1 switches on core 0)
+[pid: 12672|app: 0|req: 5/20] 223.104.170.90 () {48 vars in 1003 bytes} [Wed Sep 25 10:11:24 2019] GET /login/login_showPrj/?orgid=71b292c0a2eb11e98af514bd61f13a62 => generated 3338 bytes in 32 msecs (HTTP/1.1 200) 3 headers in 110 bytes (1 switches on core 0)
+[pid: 12671|app: 0|req: 13/21] 223.104.170.90 () {54 vars in 1159 bytes} [Wed Sep 25 10:12:02 2019] POST /login/get_project/?orgid=71b292c0a2eb11e98af514bd61f13a62 => generated 2808 bytes in 7 msecs (HTTP/1.1 200) 3 headers in 102 bytes (1 switches on core 0)
+[pid: 12672|app: 0|req: 6/22] 223.104.170.90 () {48 vars in 1048 bytes} [Wed Sep 25 10:12:04 2019] GET /login/login_ok/?prjid=09dc5718-a079-11e9-b707-7831c1d24216 => generated 65571 bytes in 372 msecs (HTTP/1.1 200) 5 headers in 270 bytes (1 switches on core 0)
+[pid: 12671|app: 0|req: 14/23] 223.104.170.90 () {52 vars in 972 bytes} [Wed Sep 25 10:12:06 2019] POST /mainanalyse/topanalyse/ => generated 295 bytes in 51 msecs (HTTP/1.1 200) 4 headers in 123 bytes (1 switches on core 0)
+[pid: 12672|app: 0|req: 7/24] 223.104.170.90 () {52 vars in 947 bytes} [Wed Sep 25 10:12:06 2019] POST /mainanalyse/get_pedpassage_news/ => generated 1280 bytes in 49 msecs (HTTP/1.1 200) 4 headers in 124 bytes (1 switches on core 0)
+[pid: 12671|app: 0|req: 15/25] 223.104.170.90 () {52 vars in 947 bytes} [Wed Sep 25 10:12:06 2019] POST /mainanalyse/get_vehpassage_news/ => generated 315 bytes in 12 msecs (HTTP/1.1 200) 4 headers in 123 bytes (1 switches on core 0)
+[pid: 12664|app: 0|req: 4/26] 223.104.170.90 () {52 vars in 943 bytes} [Wed Sep 25 10:12:06 2019] POST /mainanalyse/pedpassageanlayse/ => generated 143 bytes in 112 msecs (HTTP/1.1 200) 3 headers in 101 bytes (1 switches on core 0)
+[pid: 12672|app: 0|req: 8/27] 223.104.170.90 () {46 vars in 914 bytes} [Wed Sep 25 10:12:06 2019] GET /media/hrpic/c4ff5c6551a5d8e354e34f48b2cb37ee.png => generated 63173 bytes in 1 msecs via sendfile() (HTTP/1.1 200) 4 headers in 142 bytes (0 switches on core 0)
+[pid: 12671|app: 0|req: 16/28] 223.104.170.90 () {46 vars in 864 bytes} [Wed Sep 25 10:12:06 2019] GET /media/hrpic/gongren.png => generated 13517 bytes in 2 msecs via sendfile() (HTTP/1.1 200) 4 headers in 142 bytes (0 switches on core 0)
+[pid: 12664|app: 0|req: 5/29] 223.104.170.90 () {46 vars in 860 bytes} [Wed Sep 25 10:12:06 2019] GET /media/hrpic/timg.jpeg => generated 127429 bytes in 1 msecs via sendfile() (HTTP/1.1 200) 4 headers in 144 bytes (0 switches on core 0)
+[pid: 12672|app: 0|req: 9/30] 223.104.170.90 () {54 vars in 1048 bytes} [Wed Sep 25 10:12:07 2019] POST /mainanalyse/envanalyse/ => generated 4804 bytes in 305 msecs (HTTP/1.1 200) 3 headers in 102 bytes (1 switches on core 0)
+[pid: 12671|app: 0|req: 17/31] 223.104.170.90 () {48 vars in 1021 bytes} [Wed Sep 25 10:12:31 2019] GET /login/login_ok/show?url=/personnel/personnel/ => generated 0 bytes in 1 msecs (HTTP/1.1 301) 3 headers in 152 bytes (1 switches on core 0)
+[pid: 12672|app: 0|req: 10/32] 223.104.170.90 () {48 vars in 1023 bytes} [Wed Sep 25 10:12:31 2019] GET /login/login_ok/show/?url=/personnel/personnel/ => generated 0 bytes in 0 msecs (HTTP/1.1 302) 4 headers in 143 bytes (1 switches on core 0)
+[pid: 12664|app: 0|req: 6/33] 223.104.170.90 () {48 vars in 972 bytes} [Wed Sep 25 10:12:31 2019] GET /personnel/personnel/ => generated 13695 bytes in 48 msecs (HTTP/1.1 200) 4 headers in 125 bytes (1 switches on core 0)
+[pid: 12671|app: 0|req: 18/34] 223.104.170.90 () {54 vars in 1057 bytes} [Wed Sep 25 10:12:32 2019] POST /personnel/get_datasource/ => generated 4640 bytes in 9 msecs (HTTP/1.1 200) 4 headers in 116 bytes (1 switches on core 0)
+[pid: 12672|app: 0|req: 11/35] 223.104.170.90 () {46 vars in 876 bytes} [Wed Sep 25 10:12:32 2019] GET /media/hrpic/1a1755b0ebd465c2d94bc9d18632a8b2.png => generated 398203 bytes in 1 msecs via sendfile() (HTTP/1.1 200) 4 headers in 143 bytes (0 switches on core 0)
+[pid: 12672|app: 0|req: 12/36] 223.104.170.90 () {48 vars in 1023 bytes} [Wed Sep 25 10:12:44 2019] GET /login/login_ok/show/?url=/personnel/personnel/ => generated 0 bytes in 0 msecs (HTTP/1.1 302) 4 headers in 143 bytes (1 switches on core 0)
+[pid: 12664|app: 0|req: 7/37] 223.104.170.90 () {48 vars in 972 bytes} [Wed Sep 25 10:12:44 2019] GET /personnel/personnel/ => generated 13695 bytes in 13 msecs (HTTP/1.1 200) 4 headers in 125 bytes (1 switches on core 0)
+[pid: 12671|app: 0|req: 19/38] 223.104.170.90 () {54 vars in 1057 bytes} [Wed Sep 25 10:12:45 2019] POST /personnel/get_datasource/ => generated 4640 bytes in 8 msecs (HTTP/1.1 200) 4 headers in 116 bytes (1 switches on core 0)
+[pid: 12672|app: 0|req: 13/39] 223.104.170.90 () {48 vars in 1057 bytes} [Wed Sep 25 10:12:48 2019] GET /personnel/show_upload/?fid=1238135e-c976-11e9-ac82-7831c1d24216 => generated 8042 bytes in 36 msecs (HTTP/1.1 200) 3 headers in 110 bytes (1 switches on core 0)
+[pid: 12671|app: 0|req: 20/40] 223.104.170.90 () {56 vars in 1241 bytes} [Wed Sep 25 10:13:22 2019] POST /personnel/show_upload/ => generated 0 bytes in 93 msecs (HTTP/1.1 302) 5 headers in 195 bytes (1 switches on core 0)
+[pid: 12672|app: 0|req: 14/41] 223.104.170.90 () {50 vars in 1083 bytes} [Wed Sep 25 10:13:23 2019] GET /personnel/show_upload?fid=1238135ec97611e9ac827831c1d24216 => generated 0 bytes in 1 msecs (HTTP/1.1 301) 3 headers in 165 bytes (1 switches on core 0)
+[pid: 12664|app: 0|req: 8/42] 223.104.170.90 () {50 vars in 1085 bytes} [Wed Sep 25 10:13:23 2019] GET /personnel/show_upload/?fid=1238135ec97611e9ac827831c1d24216 => generated 8042 bytes in 35 msecs (HTTP/1.1 200) 3 headers in 110 bytes (1 switches on core 0)
+[pid: 12671|app: 0|req: 21/43] 223.104.170.90 () {48 vars in 1043 bytes} [Wed Sep 25 10:13:29 2019] GET /personnel/edit/?fid=1238135e-c976-11e9-ac82-7831c1d24216 => generated 30318 bytes in 72 msecs (HTTP/1.1 200) 4 headers in 125 bytes (1 switches on core 0)
+[pid: 12672|app: 0|req: 15/44] 223.104.170.90 () {48 vars in 1015 bytes} [Wed Sep 25 10:13:30 2019] GET /personnel/get_safetrain/?fid=1238135ec97611e9ac827831c1d24216&page=1&limit=10 => generated 1198 bytes in 6 msecs (HTTP/1.1 200) 3 headers in 102 bytes (1 switches on core 0)
+[pid: 12671|app: 0|req: 22/45] 223.104.170.90 () {48 vars in 1019 bytes} [Wed Sep 25 10:13:30 2019] GET /personnel/get_certificate/?fid=1238135ec97611e9ac827831c1d24216&page=1&limit=10 => generated 609 bytes in 4 msecs (HTTP/1.1 200) 3 headers in 101 bytes (1 switches on core 0)
+Not Found: /media/
+[pid: 12664|app: 0|req: 9/46] 223.104.170.90 () {46 vars in 828 bytes} [Wed Sep 25 10:13:30 2019] GET /media/ => generated 1721 bytes in 3 msecs (HTTP/1.1 404) 3 headers in 102 bytes (1 switches on core 0)
+[pid: 12672|app: 0|req: 16/47] 223.104.170.90 () {46 vars in 886 bytes} [Wed Sep 25 10:13:30 2019] GET /media/certificate/WechatIMG159.jpeg => generated 177983 bytes in 1 msecs via sendfile() (HTTP/1.1 200) 4 headers in 144 bytes (0 switches on core 0)
+[pid: 12671|app: 0|req: 23/48] 223.104.170.90 () {48 vars in 1043 bytes} [Wed Sep 25 10:13:40 2019] GET /personnel/edit/?fid=1238135e-c976-11e9-ac82-7831c1d24216 => generated 30318 bytes in 66 msecs (HTTP/1.1 200) 4 headers in 125 bytes (1 switches on core 0)
+[pid: 12672|app: 0|req: 17/49] 223.104.170.90 () {48 vars in 1015 bytes} [Wed Sep 25 10:13:41 2019] GET /personnel/get_safetrain/?fid=1238135ec97611e9ac827831c1d24216&page=1&limit=10 => generated 1198 bytes in 6 msecs (HTTP/1.1 200) 3 headers in 102 bytes (1 switches on core 0)
+[pid: 12664|app: 0|req: 10/50] 223.104.170.90 () {48 vars in 1019 bytes} [Wed Sep 25 10:13:41 2019] GET /personnel/get_certificate/?fid=1238135ec97611e9ac827831c1d24216&page=1&limit=10 => generated 609 bytes in 5 msecs (HTTP/1.1 200) 3 headers in 101 bytes (1 switches on core 0)
+Not Found: /media/
+[pid: 12672|app: 0|req: 18/51] 223.104.170.90 () {48 vars in 941 bytes} [Wed Sep 25 10:13:41 2019] GET /media/certificate/WechatIMG159.jpeg => generated 0 bytes in 2 msecs (HTTP/1.1 304) 2 headers in 77 bytes (0 switches on core 0)
+[pid: 12671|app: 0|req: 24/52] 223.104.170.90 () {46 vars in 828 bytes} [Wed Sep 25 10:13:41 2019] GET /media/ => generated 1721 bytes in 5 msecs (HTTP/1.1 404) 3 headers in 102 bytes (1 switches on core 0)
+[pid: 12671|app: 0|req: 25/53] 223.104.170.90 () {50 vars in 1032 bytes} [Wed Sep 25 10:14:00 2019] GET /login/login_ok/?prjid=09dc5718-a079-11e9-b707-7831c1d24216 => generated 65571 bytes in 3575 msecs (HTTP/1.1 200) 5 headers in 270 bytes (1 switches on core 0)
+[pid: 12671|app: 0|req: 26/54] 223.104.170.90 () {52 vars in 943 bytes} [Wed Sep 25 10:14:05 2019] POST /mainanalyse/pedpassageanlayse/ => generated 143 bytes in 5 msecs (HTTP/1.1 200) 3 headers in 101 bytes (1 switches on core 0)
+[pid: 12672|app: 0|req: 19/55] 223.104.170.90 () {52 vars in 972 bytes} [Wed Sep 25 10:14:05 2019] POST /mainanalyse/topanalyse/ => generated 295 bytes in 36 msecs (HTTP/1.1 200) 4 headers in 123 bytes (1 switches on core 0)
+[pid: 12664|app: 0|req: 11/56] 223.104.170.90 () {52 vars in 947 bytes} [Wed Sep 25 10:14:05 2019] POST /mainanalyse/get_pedpassage_news/ => generated 1280 bytes in 26 msecs (HTTP/1.1 200) 4 headers in 124 bytes (1 switches on core 0)
+[pid: 12671|app: 0|req: 27/57] 223.104.170.90 () {52 vars in 947 bytes} [Wed Sep 25 10:14:05 2019] POST /mainanalyse/get_vehpassage_news/ => generated 315 bytes in 8 msecs (HTTP/1.1 200) 4 headers in 123 bytes (1 switches on core 0)
+[pid: 12672|app: 0|req: 20/58] 223.104.170.90 () {54 vars in 1048 bytes} [Wed Sep 25 10:14:05 2019] POST /mainanalyse/envanalyse/ => generated 4804 bytes in 317 msecs (HTTP/1.1 200) 3 headers in 102 bytes (1 switches on core 0)
+[pid: 12671|app: 0|req: 28/59] 223.104.170.90 () {46 vars in 860 bytes} [Wed Sep 25 10:16:50 2019] GET /login/index/ => generated 5594 bytes in 1 msecs (HTTP/1.1 200) 3 headers in 110 bytes (1 switches on core 0)
+[pid: 12671|app: 0|req: 29/60] 223.104.170.90 () {48 vars in 731 bytes} [Wed Sep 25 10:17:21 2019] POST /ismsapi/get_token/ => generated 108 bytes in 5 msecs (HTTP/1.1 200) 3 headers in 109 bytes (1 switches on core 0)
