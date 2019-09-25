@@ -440,6 +440,14 @@ def get_Random_String(n):
     return salt
 
 
+def getModelResult(model, *orders, **wheres):
+    ret = model.objects
 
+    ret = ret.filter(**wheres)
+
+    for order in orders:
+        ret = ret.order_by(order)
+
+    return ret
 
 

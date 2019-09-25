@@ -4,6 +4,7 @@ from django.shortcuts import redirect
 from django.db.models import Q
 from django.db.models import QuerySet
 from django.db import models
+from appkey.models import appkey as T_AppKey
 from common.views import *
 from django.http import JsonResponse
 import json
@@ -301,4 +302,62 @@ class delete_base(View):
             return HttpResponse(json.dumps(self.response_data))
 
     def set_view(self,request):
+        pass
+
+
+class api_base(View):
+    response_data = {}
+    model = None
+    request = None
+
+    def get(self, request):
+        self.response_data['result'] = '5'
+        self.response_data['msg'] = 'API interface must be submitted by post method.'
+
+        return HttpResponse(json.dumps(self.response_data))
+
+    def post(self, request):
+        appkey = request.POST.get('appkey')
+        token = request.POST.get('token')
+        conditions = request.POST.get('conditions')
+
+        self.request = request
+        self.set_view(self)
+
+        if (appkey == None and token == None):
+            reqbody = request.body
+            request_json = json.loads(reqbody.decode("utf-8"))
+            appkey = request_json['appkey']
+            token = request_json['token']
+
+        try:
+            appkey_info = T_AppKey.objects.get(Q(FAppkey=appkey), Q(FStatus=True))
+
+            self.response_data = certify_token(appkey, token)
+            if self.response_data['result'] != '0':
+                return HttpResponse(json.dumps(self.response_data))
+            else:
+
+                if conditions != None:
+                    conditions = json.loads(request.POST.get('conditions'))
+                    obj = self.model.objects.filter(**conditions)
+                else:
+                    obj = self.model.objects.all()
+
+                dict_arr = convert_to_dicts(obj)
+
+                self.response_data['result'] = '0'
+                self.response_data['msg'] = 'data returned successfully'
+                self.response_data['data'] = dict_arr
+
+                return JsonResponse(self.response_data, safe=False)
+
+        except ObjectDoesNotExist:
+            self.response_data['result'] = '4'
+            self.response_data['token'] = 'APIKEY serial is UNREGISTERED'
+
+            return HttpResponse(json.dumps(self.response_data))
+
+
+    def set_view(self, request):
         pass
