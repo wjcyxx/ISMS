@@ -7,7 +7,6 @@ from common.views import *
 from common.views import generate_token
 from common.views import certify_token
 from appkey.models import appkey as T_AppKey
-from project.models import project
 from django.http import JsonResponse
 import json
 from django.utils import timezone
@@ -110,8 +109,6 @@ class get_project(View):
                 return HttpResponse(json.dumps(response_data))
             else:
                 dict_prj_arr = []
-
-
 
 
 

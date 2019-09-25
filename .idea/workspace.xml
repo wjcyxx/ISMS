@@ -2,16 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="13368a02-f9aa-4424-a3e8-8adb41529488" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/appkey/forms.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/appkey/urls.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ismsapi/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/f89171a7-feb3-4368-b6c5-08e5d6fb4599.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/f89171a7-feb3-4368-b6c5-08e5d6fb4599.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISMS/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/ISMS/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISMS/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/ISMS/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/common/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/interface/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/interface/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/common/head.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/common/head.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ismsapi/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/ismsapi/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -57,11 +49,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ISMS/settings.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="500">
+              <caret line="179" column="44" selection-start-line="179" selection-start-column="44" selection-end-line="179" selection-end-column="44" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ismsapi/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="389">
-              <caret line="113" column="16" selection-start-line="113" selection-start-column="16" selection-end-line="113" selection-end-column="16" />
+            <state relative-caret-position="404">
+              <caret line="113" lean-forward="true" selection-start-line="113" selection-end-line="113" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -97,6 +98,7 @@
       <find>FPhoto</find>
       <find>devinfo</find>
       <find>gensequence</find>
+      <find>STATIC_ROOT</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -186,21 +188,6 @@
             <path>
               <item name="ISMS" type="b2602c69:ProjectViewProjectNode" />
               <item name="ISMS" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ISMS" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ISMS" type="462c0819:PsiDirectoryNode" />
-              <item name="interface" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ISMS" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ISMS" type="462c0819:PsiDirectoryNode" />
-              <item name="ISMS" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ISMS" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ISMS" type="462c0819:PsiDirectoryNode" />
               <item name="ismsapi" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -242,7 +229,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/manage.py" />
-      <option name="PARAMETERS" value="runserver 127.0.0.1:8000" />
+      <option name="PARAMETERS" value="runserver 0.0.0.0:8000" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
@@ -292,7 +279,7 @@
       <workItem from="1566261729939" duration="213494000" />
       <workItem from="1568600657110" duration="11648000" />
       <workItem from="1568858789349" duration="16442000" />
-      <workItem from="1569201468626" duration="16208000" />
+      <workItem from="1569201468626" duration="19239000" />
     </task>
     <task id="LOCAL-00001" summary="完成organize模块, 开始project模块">
       <created>1562834926084</created>
@@ -525,11 +512,18 @@
       <option name="project" value="LOCAL" />
       <updated>1569052467830</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="进行API接口模块">
+      <created>1569305994588</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1569305994588</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="674014000" />
+    <option name="totallyTimeSpent" value="677045000" />
   </component>
   <component name="TodoView" selected-index="4">
     <todo-panel id="selected-file">
@@ -545,9 +539,9 @@
     <editor active="true" />
     <layout>
       <window_info id="Favorites" order="0" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="1" weight="0.2003231" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.2003231" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
-      <window_info active="true" id="Database" order="3" visible="true" weight="0.21324718" />
+      <window_info id="Database" order="3" weight="0.21324718" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32753164" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.31061807" />
@@ -600,7 +594,6 @@
     <option name="version" value="1" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="完成personnel模块基础操作" />
     <MESSAGE value="完成personnel模块" />
     <MESSAGE value="部分完成personauth模块" />
     <MESSAGE value="完成devinterface模块,进行pedpassage模块" />
@@ -625,10 +618,11 @@
     <MESSAGE value="进行busmenu模块" />
     <MESSAGE value="进行interface模块" />
     <MESSAGE value="进行人脸闸机接口模块" />
-    <option name="LAST_COMMIT_MESSAGE" value="进行人脸闸机接口模块" />
+    <MESSAGE value="进行API接口模块" />
+    <option name="LAST_COMMIT_MESSAGE" value="进行API接口模块" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/ISMS$debug.coverage" NAME="debug Coverage Results" MODIFIED="1569291314731" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/ISMS$debug.coverage" NAME="debug Coverage Results" MODIFIED="1569318740759" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="watch">
@@ -640,15 +634,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="das://f89171a7-feb3-4368-b6c5-08e5d6fb4599/schema/ISMS/table/T_DevInterface">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true">
-            <filter text="" />
-          </filtering>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/towercrane/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
@@ -976,13 +961,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ISMS/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="91" column="12" lean-forward="true" selection-start-line="91" selection-start-column="12" selection-end-line="91" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/baseframe/baseframe.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="167">
@@ -1072,10 +1050,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/ISMS/wsgi.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ISMS/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="500">
+          <caret line="179" column="44" selection-start-line="179" selection-start-column="44" selection-end-line="179" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ismsapi/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="389">
-          <caret line="113" column="16" selection-start-line="113" selection-start-column="16" selection-end-line="113" selection-end-column="16" />
+        <state relative-caret-position="404">
+          <caret line="113" lean-forward="true" selection-start-line="113" selection-end-line="113" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>
