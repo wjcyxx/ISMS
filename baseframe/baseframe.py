@@ -186,33 +186,36 @@ class insert_base(View):
             self.ref_dropdown(self)
 
         try:
-            if self.obj.is_valid():
-                temp = self.obj.save(commit=False)
-                if self.request.GET.get('actype') == 'insert':
-                    temp.FStatus = temp.FStatus
-                if self.type == 1:
-                    temp.FPID = self.request.POST.get('FPID')
-                temp.CREATED_PRJ = self.request.session['PrjID']
-                temp.CREATED_ORG = self.request.session['UserOrg']
-                temp.CREATED_BY = self.request.session['UserID']
-                temp.UPDATED_BY = self.request.session['UserID']
-                temp.CREATED_TIME = timezone.now()
+            beforesave_status = self.set_view_beforesave(self)
 
-                if len(self.set_fields) == len(self.set_value):
-                    for i in range(len(self.set_fields)):
-                        setattr(temp, self.set_fields[i], self.set_value[i])
-                        #temp.field = self.set_value[i]
+            if beforesave_status == 1:
 
-                temp.save()
-                self.response_data['result'] = '0'
+                if self.obj.is_valid():
+                    temp = self.obj.save(commit=False)
+                    if self.request.GET.get('actype') == 'insert':
+                        temp.FStatus = temp.FStatus
+                    if self.type == 1:
+                        temp.FPID = self.request.POST.get('FPID')
+                    temp.CREATED_PRJ = self.request.session['PrjID']
+                    temp.CREATED_ORG = self.request.session['UserOrg']
+                    temp.CREATED_BY = self.request.session['UserID']
+                    temp.UPDATED_BY = self.request.session['UserID']
+                    temp.CREATED_TIME = timezone.now()
 
-                self.set_view_aftersave(self)
+                    if len(self.set_fields) == len(self.set_value):
+                        for i in range(len(self.set_fields)):
+                            setattr(temp, self.set_fields[i], self.set_value[i])
+                            #temp.field = self.set_value[i]
 
-            else:
-                self.response_data['msg'] = self.objForm.errors
-                self.response_data['result'] = '1'
+                    temp.save()
+                    self.response_data['result'] = '0'
 
-            return HttpResponse(json.dumps(self.response_data))
+                    self.set_view_aftersave(self)
+                else:
+                    self.response_data['msg'] = self.objForm.errors
+                    self.response_data['result'] = '1'
+
+                return HttpResponse(json.dumps(self.response_data))
 
         except Exception as e:
             self.response_data['msg'] = e
@@ -231,6 +234,9 @@ class insert_base(View):
         pass
 
     def set_view_aftersave(self, request):
+        pass
+
+    def set_view_beforesave(self, request):
         pass
 
 class disabled_base(View):

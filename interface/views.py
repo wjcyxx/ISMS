@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 from device.models import device
 from personnel.models import personnel
 from pedpassage.models import pedpassage, passagerecord
+from devinterface.models import devinterface, interfaceparam
 from django.db.models import Q
 from unit.models import unit
 from common.views import *
@@ -51,7 +52,6 @@ class passagedev_callback(View):
         response_data = {'result': 1, 'success': True}
         
         return HttpResponse(json.dumps(response_data))
-        
 
 #根据设备ID取通道FID
 def get_passageid(devid):
@@ -66,5 +66,22 @@ def get_passageid(devid):
     except ObjectDoesNotExist:
         return None
 
+#根据区域取通道设备及设备接口数据集
+def areaid_2_device(areaid):
+    pedpassage_info = pedpassage.objects.filter(Q(FAreaID=areaid))
 
+    obj_arr = []
 
+    for obj in pedpassage_info:
+        dict = {}
+
+        dict['FDevID'] = obj.FDevID
+        dict['FPassageID'] = obj.FID
+
+        devinterface_info = devinterface.objects.filter(Q(FDevID=obj.FDevID)).first()
+        dict['FInterID'] = devinterface_info.FID
+        dict['FExtID'] = devinterface_info.FInterfaceExtID
+
+        obj_arr.append(dict)
+
+    return obj_arr

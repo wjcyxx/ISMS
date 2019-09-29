@@ -44,11 +44,20 @@ class personauth(models.Model):
 
 
 class personauthmode(models.Model):
+    STATUS_CHOICES = (
+        (None, '请选择数据'),
+        (0, '生效'),
+        (1, '失效'),
+        (2, '退卡')
+    )
 
     FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
     FPersonID = models.CharField(max_length=32, verbose_name='人员ID', blank=True, null=True)
     FAuthtypeID = models.CharField(max_length=32, verbose_name='授权类型', blank=True, null=True)
     FFeaturevalue = models.CharField(max_length=3072, verbose_name='特征值', blank=True, null=True)
+    FAuthvalidity = models.DateTimeField(verbose_name='授权有效期', blank=True, null=True)
+    FAuthtimequm = models.CharField(max_length=50, verbose_name='授权时间段', blank=True, null=True)
+    FStatus = models.IntegerField(choices=STATUS_CHOICES, default=0, verbose_name='状态')
     CREATED_PRJ = models.CharField(max_length=32, verbose_name='所属项目', blank=True, null=True)
     CREATED_ORG = models.CharField(max_length=32, verbose_name='创建组织', blank=True, null=True)
     CREATED_BY = models.CharField(max_length=32, verbose_name='创建人', blank=True, null=True)

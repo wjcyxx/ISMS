@@ -25,7 +25,7 @@ SECRET_KEY = 'b-5u!p7be3ii&u0gov-ysd1l^y&-=zu0_8faf1r_6ua)ygu#0q'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0','39.106.148.205','127.0.0.1']
+ALLOWED_HOSTS = ['0.0.0.0','39.106.148.205','127.0.0.1','47.104.92.203']
 
 
 # Application definition
@@ -132,9 +132,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'ISMS',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': '39.106.148.205',
+        'USER': 'isms',
+        'PASSWORD': 'isms123456',
+        'HOST': '47.104.92.203',
         'PORT': '3306',
         'OPTIONS':{
             "init_command":"SET foreign_key_checks = 0;",

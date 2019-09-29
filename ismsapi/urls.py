@@ -10,6 +10,8 @@ urlpatterns = [
     path('get_orgainze/', views.get_orgainze.as_view(), name='get_orgainze'),
     path('get_basedate/', views.get_basedate.as_view(), name='get_basedate'),
     path('get_group/', views.get_group.as_view(), name='get_group'),
-    path('get_personnel/', views.get_personnel.as_view(), name='get_personnel')
+    path('get_personnel/', views.get_personnel.as_view(), name='get_personnel'),
+    path('get_pedpassage/', views.get_pedpassage.as_view(), name='get_pedpassage'),
+    path('get_passagerecord/', views.get_passagerecord.as_view(), name='get_passagerecord')
 
 ]

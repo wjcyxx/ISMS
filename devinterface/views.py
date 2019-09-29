@@ -41,9 +41,11 @@ def get_datasource(request):
 def ref_dropdowndata(obj, request):
     device_info = device.objects.filter(Q(FStatus=True))
     interfacetype_info = base.objects.filter(Q(FPID='08a3e2b0ab7a11e9891f708bcdb9b39a'))
+    interext_info = base.objects.filter(Q(FPID__isnull=False)).order_by('FBaseID')
 
     obj.fields['FDevID'].choices = get_dict_object(request, device_info, 'FID', 'FDevice')
     obj.fields['FInterfaceTypeID'].choices = get_dict_object(request, interfacetype_info, 'FID', 'FBase')
+    obj.fields['FInterfaceExtID'].choices = get_dict_object(request, interext_info, 'FID', 'FBase')
 
 #链接增加模板
 def add(request):

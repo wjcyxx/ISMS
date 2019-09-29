@@ -36,7 +36,7 @@
                                         <div class="layui-card-header">IC 卡</div>
                                         <div class="layui-card-body">
                                             <img src="/static/images/hr/iccard.png" width="128px" height="128px" alt="">&nbsp;&nbsp;
-                                            <a href="javascript:;" class="layui-btn layui-btn-normal" id="">制卡</a>
+                                            <a href="javascript:;" class="layui-btn layui-btn-normal" id="btnMakeIC">制卡</a>
                                         </div>
                                     </div>
                                 </div>
@@ -46,7 +46,7 @@
                                         <div class="layui-card-header">RFID 卡</div>
                                         <div class="layui-card-body">
                                             <img src="/static/images/hr/iccard.png" width="128px" height="128px" alt="">&nbsp;&nbsp;
-                                            <a href="javascript:;" class="layui-btn layui-btn-normal" id="">制卡</a>
+                                            <a href="javascript:;" class="layui-btn layui-btn-normal" id="test">制卡</a>
                                         </div>
                                     </div>
                                 </div>
@@ -143,6 +143,52 @@ layui.use(['transfer', 'layer', 'util'], function(){
 
         //alert(JSON.stringify(getChoicesArea));
     });
+
+    //IC卡制卡按钮
+    $("#btnMakeIC").click(function () {
+        var getChoicesArea = transfer.getData('areaauth');
+        areainfo = JSON.stringify(getChoicesArea);
+        //alert(areainfo);
+
+        url = "{% url 'personauth:makeiccard_add' %}?fid={{ fid }}&areainfo="+encodeURIComponent(areainfo);
+
+        parent.layer.open({
+            type:   2,
+            title:  'IC卡授权',
+            area: ['900px','450px'],
+            fixed: false,
+            content: url,
+            resize: false,
+            move: false
+        });
+
+    });
+
+
+    $("#test").click(function () {
+        alert("test");
+        $.ajax({
+            type: "POST",
+            url:  "{% url 'ismsapi:get_token' %}",
+            contentType: "application/x-www-form-urlencoded",
+            data: {"appkey": "JDNkYn4pUa", "md5": "c24605879b0d5e89cbdd1ec08bed8098"},
+            dataType: "json",
+            success: function (data) {
+                if (data.result=='0') {
+                    //var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
+                    //parent.layer.close(index);
+                    alert(data.result);
+                } else if (data.result=='1'){
+                    alert(data.result);
+                } else if (data.result=='2') {
+                    layer.alert('无效的执行方法');
+                }
+            }
+        });
+
+
+    });
+
 
     util.fixbar({
         bgcolor: '#01AAED'

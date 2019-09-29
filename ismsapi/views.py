@@ -13,6 +13,7 @@ from group.models import group
 from personnel.models import personnel
 from organize.models import organize
 from basedata.models import base
+from pedpassage.models import pedpassage, passagerecord
 from django.http import JsonResponse
 import json
 from django.utils import timezone
@@ -57,7 +58,7 @@ class get_token(View):
 
         if (appkey == None and strmd5 == None):
             reqbody = request.body
-            request_json = json.loads(reqbody.decode("utf-8"))
+            request_json = eval(reqbody.decode())
             appkey = request_json['appkey']
             strmd5 = request_json['md5']
 
@@ -435,6 +436,89 @@ class get_group(api_base):
 class get_personnel(api_base):
     def set_view(self, request):
         self.model = personnel
+
+
+#获取通道列表api接口
+"""
+@api {POST} /ismsapi/get_pedpassage/ 获取人行通道列表
+@apiGroup HU
+@apiDescription 调用地址:http://39.106.148.205/ismsapi/get_pedpassage/ API接口必须用POST:方法提交,请求类型为：x-www-form-urlencoded
+@apiParam {string} appkey 在后台管理系统中注册的APPKEY[必填]
+@apiParam {string} token 对应该appkey的有效token, token的有效期为一小时[必填]
+@apiParam {json} conditions 过滤条件,必须为JSON格式,例如{"条件":"值", "条件","值"},不传递此参数则不进行过滤获取全部数据[选填]
+@apiSampleRequest http://39.106.148.205/ismsapi/get_pedpassage/
+@apiSuccess (返回消息) {string} result 返回码
+@apiSuccess (返回消息) {string} msg 返回消息
+@apiSuccess (返回消息) {string} data 安全规则结构体
+@apiSuccess (消息内容) {string} 0 数据获取成功
+@apiSuccess (消息内容) {string} 1 token过期
+@apiSuccess (消息内容) {string} 2 token校验失败
+@apiSuccess (消息内容) {string} 3 token校验传递参数错误
+@apiSuccess (消息内容) {string} 4 APPKEY未注册,或被禁用
+@apiSuccess (消息内容) {string} 5 API接口必须用POST方法提交
+@apiSuccess (结构体) {string} FID 通道UUID，唯一标识
+@apiSuccess (结构体) {string} FPassage 通道名称
+@apiSuccess (结构体) {string} FDevID 设备编号,对映到具体的闸机设备
+@apiSuccess (结构体) {string} FAreaID 区域编号,需要调用项目区域接口翻译内容,表明闸机所在区域
+@apiSuccess (结构体) {integer} FType 通道类型【0:入口,1:出口】
+@apiSuccess (结构体) {string} FDesc 备注
+@apiSuccess (结构体) {boolean} FStatus 状态【True:启用,False:禁用】
+@apiSuccess (结构体) {string} CREATED_PRJ 所属项目,需要调用项目接口过滤指定项目的班组
+@apiSuccess (结构体) {string} CREATED_ORG 创建组织
+@apiSuccess (结构体) {string} CREATED_BY 创建人员
+@apiSuccess (结构体) {datetime} CREATED_TIME 创建时间
+@apiSuccess (结构体) {datetime} UPDATED_TIME 更新时间
+@apiErrorExample {json} 错误返回样例：
+{"result": "1", "msg": "token has expired"}
+{"result": "2", "msg": "token validation failed"}
+{"result": "3", "msg": "args illegal"}
+{"result": "4", "msg": "APPKEY serial is UNREGISTERED"}
+{"result": "5", "msg": "API interface must be submitted by post method."}
+
+"""
+class get_pedpassage(api_base):
+    def set_view(self, request):
+        self.model = pedpassage
+
+
+#获取通道通行记录列表api接口
+"""
+@api {POST} /ismsapi/get_passagerecord/ 获取通道通行记录列表
+@apiGroup HU
+@apiDescription 调用地址:http://39.106.148.205/ismsapi/get_passagerecord/ API接口必须用POST:方法提交,请求类型为：x-www-form-urlencoded
+@apiParam {string} appkey 在后台管理系统中注册的APPKEY[必填]
+@apiParam {string} token 对应该appkey的有效token, token的有效期为一小时[必填]
+@apiParam {json} conditions 过滤条件,必须为JSON格式,例如{"条件":"值", "条件","值"},不传递此参数则不进行过滤获取全部数据[选填]
+@apiSampleRequest http://39.106.148.205/ismsapi/get_passagerecord/
+@apiSuccess (返回消息) {string} result 返回码
+@apiSuccess (返回消息) {string} msg 返回消息
+@apiSuccess (返回消息) {string} data 安全规则结构体
+@apiSuccess (消息内容) {string} 0 数据获取成功
+@apiSuccess (消息内容) {string} 1 token过期
+@apiSuccess (消息内容) {string} 2 token校验失败
+@apiSuccess (消息内容) {string} 3 token校验传递参数错误
+@apiSuccess (消息内容) {string} 4 APPKEY未注册,或被禁用
+@apiSuccess (消息内容) {string} 5 API接口必须用POST方法提交
+@apiSuccess (结构体) {string} FID 记录UUID，唯一标识
+@apiSuccess (结构体) {string} FPersonID 人员ID
+@apiSuccess (结构体) {string} FPassageID 人行通道ID,对映到具体的通道,需要调用通道列表接口获取
+@apiSuccess (结构体) {string} FAuthtypeID 通行授权方式,需要调用字典接口获取翻译内容
+@apiSuccess (结构体) {string} CREATED_PRJ 所属项目,需要调用项目接口过滤指定项目的班组
+@apiSuccess (结构体) {string} CREATED_ORG 创建组织
+@apiSuccess (结构体) {string} CREATED_BY 创建人员
+@apiSuccess (结构体) {datetime} CREATED_TIME 通行时间
+@apiSuccess (结构体) {datetime} UPDATED_TIME 更新时间
+@apiErrorExample {json} 错误返回样例：
+{"result": "1", "msg": "token has expired"}
+{"result": "2", "msg": "token validation failed"}
+{"result": "3", "msg": "args illegal"}
+{"result": "4", "msg": "APPKEY serial is UNREGISTERED"}
+{"result": "5", "msg": "API interface must be submitted by post method."}
+
+"""
+class get_passagerecord(api_base):
+    def set_view(self, request):
+        self.model = passagerecord
 
 
 

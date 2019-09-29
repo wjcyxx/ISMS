@@ -30,6 +30,7 @@ class devinterface(models.Model):
     FInterval = models.IntegerField(verbose_name='间隔时间', blank=True, null=True)
     FAddress = models.CharField(max_length=1000, verbose_name='访问地址', blank=True, null=True)
     FDevID = models.CharField(max_length=32, verbose_name='绑定设备', blank=True, null=True)
+    FInterfaceExtID = models.CharField(max_length=32, verbose_name='扩展分类', blank=True, null=True)
     FDesc = models.CharField(max_length=1024, verbose_name='备注', blank=True, null=True)
     FStatus = models.BooleanField(default=True, verbose_name='状态')
     CREATED_PRJ = models.CharField(max_length=32, verbose_name='所属项目', blank=True, null=True)

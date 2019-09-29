@@ -5,6 +5,7 @@ from .models import *
 
 class DeviceModelForm(ModelForm):
     FDevtypeID = forms.ChoiceField(widget=forms.Select(attrs={'lay-verify': 'required'}), required=False)
+    FInterfacePos = forms.ChoiceField(required=False)
 
     class Meta:
         model = device

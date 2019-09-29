@@ -35,15 +35,16 @@ def get_datasource(request):
 #刷新下拉列表框数据
 def ref_dropdowndata(obj, request):
     devicetype_info = base.objects.filter(Q(FPID='8feb17b2aaf211e99741708bcdb9b39a'))
+    interpos_info = base.objects.filter(Q(FPID__isnull=True))
 
     obj.fields['FDevtypeID'].choices = get_dict_object(request, devicetype_info, 'FID', 'FBase')
+    obj.fields['FInterfacePos'].choices = get_dict_object(request, interpos_info, 'FID', 'FBase')
 
 #链接增加模板
 def add(request):
     if request.method == 'GET':
 
         obj = DeviceModelForm()
-
         ref_dropdowndata(obj, request)
         return render(request, "content/device/deviceadd.html" , {'obj': obj, 'action': 'insert'})
 
