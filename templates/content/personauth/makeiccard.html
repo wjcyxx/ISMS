@@ -81,6 +81,7 @@
                 <div class="layui-card">
                     <div class="layui-card-header">已授权通行证列表</div>
                     <div class="layui-card-body">
+                        <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
                     </div>
                 </div>
             </div>
@@ -100,11 +101,14 @@
 
 
 <script>
-layui.use(['element','layer','form', 'laydate'], function () {
+var Passcheck = {{ passcheck|safe }}
+
+layui.use(['element','layer','form', 'laydate', 'table'], function () {
     var element = layui.element
         , layer = layui.layer
         , form = layui.form
-        , laydate = layui.laydate;
+        , laydate = layui.laydate
+        , table = layui.table;
 
     //关闭按钮
     $("#btnC").click(function () {
@@ -121,6 +125,21 @@ layui.use(['element','layer','form', 'laydate'], function () {
     $("#id_FAuthtypeID").val('65c7cfb2acf411e991437831c1d24216');
     form.render('select');
 
+    table.render({
+        page: true,
+        limit: 20,
+        elem: '#datasource',
+        url: "{% url 'personauth:get_datasource' %}?personID={{ personID }}",
+        cols: [[
+            {field:'FAuthtypeID', width: '20%', title: '已授权通行证', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FAuthtypeID, Passcheck)}}{% endverbatim %}</div>'},
+            {field:'FFeaturevalue', width: '20%', title: '特征值', sort: true},
+            {field:'FAuthvalidity', width: '20%', title: '授权有效期', sort: true},
+            {field:'FAuthtimequm', width: '15%', title: '授权时间段', sort: true},
+            {field:'FStatus', width: '15%', title: '状态', sort: true, templet: '#tpStatus'},
+            {field:'', title: '操作', width: '15%', toolbar: '#tlbar', fixed: 'right'}
+        ]],
+        id: 'runreload'
+    });
 
     //监听窗口提交
     form.on('submit(formsubmit)', function (data) {
@@ -130,7 +149,7 @@ layui.use(['element','layer','form', 'laydate'], function () {
 
         $.ajax({
             type: "POST",
-            url:  "{% url 'personauth:makeiccard' %}?personID={{ personID }}&actype=insert&areainfo="+encodeURIComponent(areainfo),
+            url:  "{% url 'personauth:makeiccard' %}?personID={{ personID }}&authtype={{ authtype }}&actype=insert&areainfo="+encodeURIComponent(areainfo),
             data: data.field,
             dataType: "json",
             success: function (data) {
@@ -153,8 +172,28 @@ layui.use(['element','layer','form', 'laydate'], function () {
 })
 </script>
 
+<!--显示启用状态模板-->
+<script type="text/html" id="tpStatus">
+    {% verbatim %}
+    {{#  if(d.FStatus == 0){ }}
+    <span style="color: green">生效</span>
+    {{#  } else if(d.FStatus == 1) { }}
+    <span style="color: orangered">失效</span>
+    {{#  } else if(d.FStatus == 2) { }}
+    <span style="color: red">退卡</span>
+    {{#  } }}
+    {% endverbatim %}
+</script>
 
+<!--生成操作工具栏-->
+<script type="text/html" id="tlbar">
+    {% verbatim %}
+    <div class="layui-btn-group">
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>退卡</a>
 
+    </div>
+    {% endverbatim %}
+</script>
 
 </body>
 </html>

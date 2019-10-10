@@ -73,15 +73,19 @@ def areaid_2_device(areaid):
     obj_arr = []
 
     for obj in pedpassage_info:
-        dict = {}
 
-        dict['FDevID'] = obj.FDevID
-        dict['FPassageID'] = obj.FID
+        devinterface_info = devinterface.objects.filter(Q(FDevID=obj.FDevID))
 
-        devinterface_info = devinterface.objects.filter(Q(FDevID=obj.FDevID)).first()
-        dict['FInterID'] = devinterface_info.FID
-        dict['FExtID'] = devinterface_info.FInterfaceExtID
+        for obj_interface in devinterface_info:
+            dict = {}
 
-        obj_arr.append(dict)
+            dict['FDevID'] = obj.FDevID
+            dict['FPassageID'] = obj.FID
+
+            dict['FInterID'] = obj_interface.FID
+            dict['FInterName'] = obj_interface.FName
+            dict['FExtID'] = obj_interface.FInterfaceExtID
+
+            obj_arr.append(dict)
 
     return obj_arr

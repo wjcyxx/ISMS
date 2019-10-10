@@ -150,7 +150,7 @@ layui.use(['transfer', 'layer', 'util'], function(){
         areainfo = JSON.stringify(getChoicesArea);
         //alert(areainfo);
 
-        url = "{% url 'personauth:makeiccard_add' %}?fid={{ fid }}&areainfo="+encodeURIComponent(areainfo);
+        url = "{% url 'personauth:makeiccard_add' %}?fid={{ fid }}&authtype={{ authtype }} &areainfo="+encodeURIComponent(areainfo);
 
         parent.layer.open({
             type:   2,

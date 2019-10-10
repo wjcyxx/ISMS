@@ -4,6 +4,7 @@ from django.shortcuts import redirect
 from django.db.models import Q
 from area.models import area
 from .models import personauth as T_PersonAuth, personauthmode as T_PersonAuthMode
+from visitor.models import visitor
 from personnel.models import personnel
 from personnel.models import personnel
 from basedata.models import base
@@ -16,7 +17,9 @@ from django.forms import widgets as Fwidge
 from django.core.exceptions import ObjectDoesNotExist
 from baseframe.baseframe import *
 from interface.views import *
+from django.conf import settings
 
+#链接添加授权页面view
 def add(request):
 
     fid = ''.join(str(request.GET.get('fid')).split('-'))
@@ -37,6 +40,7 @@ def add(request):
     return render(request, "content/personauth/personauthadd.html", {'resultdict' : areadict, 'authList': authList, 'fid': fid, 'authtype': authtype})
 
 
+#处理授权
 def auth(request):
     if request.method == 'POST':
         response_data = {}
@@ -71,12 +75,18 @@ def auth(request):
         return HttpResponse(json.dumps(response_data))
 
 
+#链接IC卡制卡view
 class makeiccard_add(add_base):
     def set_view(self, request):
         area_info = self.request.GET.get('areainfo')
         fid = ''.join(str(self.request.GET.get('fid')).split('-'))
 
-        person_info = personnel.objects.get(Q(FID=fid))
+        authtype = str(self.request.GET.get('authtype')).strip()
+        if  authtype == '0':
+            person_info = personnel.objects.get(Q(FID=fid))
+        elif authtype == '1':
+            person_info = visitor.objects.get(Q(FID=fid))
+
 
         self.template_name = 'content/personauth/makeiccard.html'
         self.objForm = PersonAuthModelForm
@@ -89,8 +99,23 @@ class makeiccard_add(add_base):
         self.context['areainfo'] = json.loads(area_info)
         self.context['person'] = person_info.FName
         self.context['personID'] = fid
+        self.context['authtype'] = authtype
+
+        passcheck_info = base.objects.filter(Q(FPID='2cd8b28cacf111e991437831c1d24216'))
+        passcheck = get_dict_table(passcheck_info, 'FID', 'FBase')
+        self.context['passcheck'] = passcheck
 
 
+#返回table数据及查询结果
+class get_datasource(get_datasource_base):
+    def get_queryset(self, reqeust):
+        personID = ''.join(str(self.request.GET.get('personID')).split('-'))
+        personAuthMode_info = T_PersonAuthMode.objects.filter(Q(FPersonID=personID))
+
+        return personAuthMode_info
+
+
+#处理IC卡制卡
 class makeiccard(insert_base):
     def set_view(self, request):
         personID = ''.join(str(self.request.GET.get('personID')).split('-'))
@@ -107,12 +132,20 @@ class makeiccard(insert_base):
         self.set_fields = ['FPersonID']
         self.set_value = [personID]
 
+
+    #在保存前调用人员注册接口,设置有效期接口,设置时间段接口
     def set_view_beforesave(self, request):
         result = 0
         areaid = self.request.GET.get('areainfo')
         personID = ''.join(str(self.request.GET.get('personID')).split('-'))
 
-        person_info = personnel.objects.get(Q(FID=personID))
+        authtype = str(self.request.GET.get('authtype')).strip()
+        if  authtype == '0':
+            person_info = personnel.objects.get(Q(FID=personID))
+            IDCard = person_info.FIDcard
+        elif authtype == '1':
+            person_info = visitor.objects.get(Q(FID=personID))
+            IDCard = person_info.FVisitorIDcard
 
         area_info =  json.loads(areaid)
 
@@ -123,11 +156,12 @@ class makeiccard(insert_base):
                 continue
 
             for obj_passage in passage_inter:
-                if obj_passage['FExtID'] == '65c7cfb2acf411e991437831c1d24216':  #ICCard注册接口
+                #ICCard注册接口
+                if obj_passage['FExtID'] == '65c7cfb2acf411e991437831c1d24216':
                     initID = obj_passage['FInterID']
                     initID = ''.join(str(initID).split('-'))
 
-                    person = {"id": personID, "idcardNum": self.request.POST.get('FFeaturevalue'), "name": person_info.FName, "IDNumber": person_info.FIDcard, "facePermission": 2, "idCardPermission": 2, "faceAndCardPermission": 2, "IDPermission": 2}
+                    person = {"id": personID, "idcardNum": self.request.POST.get('FFeaturevalue'), "name": person_info.FName, "IDNumber": IDCard, "facePermission": 2, "idCardPermission": 2, "faceAndCardPermission": 2, "IDPermission": 2}
 
                     person = json.dumps(person)
 
@@ -138,6 +172,7 @@ class makeiccard(insert_base):
                         break
 
 
+                #设置人员有效期限接口
                 if self.request.POST.get('FAuthvalidity') != '':
                     if obj_passage['FExtID'] == '43b9c462e28111e9a9d27831c1d24216':
                         initID = obj_passage['FInterID']
@@ -150,6 +185,7 @@ class makeiccard(insert_base):
 
                         if result != 1:
                             break
+
 
         return  result
 
