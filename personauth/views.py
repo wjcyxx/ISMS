@@ -106,6 +106,20 @@ class makeiccard_add(add_base):
         self.context['passcheck'] = passcheck
 
 
+class makeface_add(add_base):
+    def set_view(self, request):
+
+        self.template_name = 'content/personauth/makeface.html'
+        self.objForm = PersonAuthModelForm
+        self.query_sets = [
+            base.objects.filter(Q(FPID='2cd8b28cacf111e991437831c1d24216'))
+        ]
+        self.query_set_idfields = ['FAuthtypeID']
+        self.query_set_valuefields = ['FBase']
+
+
+
+
 #返回table数据及查询结果
 class get_datasource(get_datasource_base):
     def get_queryset(self, reqeust):
@@ -165,8 +179,8 @@ class makeiccard(insert_base):
 
                     person = json.dumps(person)
 
-                    #result = get_interface_result(initID, [person])['result']
-                    result = 1
+                    result = get_interface_result(initID, [person])['result']
+                    # result = 1
 
                     if result != 1:
                         break
@@ -180,8 +194,8 @@ class makeiccard(insert_base):
 
                         time = str(self.request.POST.get('FAuthvalidity'))
 
-                        #result = get_interface_result(initID, [personID, time])['result']
-                        result = 1
+                        result = get_interface_result(initID, [personID, time])['result']
+                        # result = 1
 
                         if result != 1:
                             break

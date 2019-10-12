@@ -2,13 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="13368a02-f9aa-4424-a3e8-8adb41529488" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/6b334d14-81ac-4858-8b3d-58046d741e68.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/f89171a7-feb3-4368-b6c5-08e5d6fb4599.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/interface/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/interface/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/personauth/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/personauth/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/personauth/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/personauth/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/content/personauth/makeiccard.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/content/personauth/makeiccard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/content/personauth/personauthadd.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/content/personauth/personauthadd.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/content/personnel/personnelinfo.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/content/personnel/personnelinfo.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,7 +16,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/ISMS$debug.coverage" NAME="debug Coverage Results" MODIFIED="1564060114466" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/ISMS$debug.coverage" NAME="debug Coverage Results" MODIFIED="1570862795502" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -31,6 +30,10 @@
       <set />
     </option>
     <expand>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="39.106.148.205" type="feb32156:DbDataSourceImpl" />
+      </path>
       <path>
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
         <item name="47.104.92.203" type="feb32156:DbDataSourceImpl" />
@@ -57,30 +60,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ISMS/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-274">
+            <state relative-caret-position="-1944">
               <caret line="15" selection-start-line="15" selection-end-line="15" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/personauth/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="764">
-              <caret line="187" lean-forward="true" selection-start-line="187" selection-end-line="187" />
+            <state relative-caret-position="746">
+              <caret line="103" column="50" selection-start-line="103" selection-start-column="50" selection-end-line="103" selection-end-column="50" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
-                <marker date="1570501643787" expanded="true" signature="4238:4448" ph="..." />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/templates/content/personauth/personauthadd.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="22" column="9" lean-forward="true" selection-start-line="22" selection-start-column="9" selection-end-line="22" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -88,8 +81,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/content/personauth/makeiccard.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="338">
-              <caret line="151" column="155" lean-forward="true" selection-start-line="151" selection-start-column="155" selection-end-line="151" selection-end-column="155" />
+            <state relative-caret-position="637">
+              <caret line="151" column="155" selection-start-line="151" selection-start-column="155" selection-end-line="151" selection-end-column="155" />
             </state>
           </provider>
         </entry>
@@ -183,10 +176,10 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds">
     <option name="y" value="23" />
-    <option name="width" value="1920" />
-    <option name="height" value="979" />
+    <option name="width" value="2560" />
+    <option name="height" value="1337" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -203,12 +196,25 @@
             <path>
               <item name="ISMS" type="b2602c69:ProjectViewProjectNode" />
               <item name="ISMS" type="462c0819:PsiDirectoryNode" />
-              <item name="personnel" type="462c0819:PsiDirectoryNode" />
+              <item name="ISMS" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="ISMS" type="b2602c69:ProjectViewProjectNode" />
               <item name="ISMS" type="462c0819:PsiDirectoryNode" />
-              <item name="visitor" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ISMS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ISMS" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="content" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ISMS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ISMS" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="content" type="462c0819:PsiDirectoryNode" />
+              <item name="personauth" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -305,6 +311,8 @@
       <workItem from="1569201468626" duration="19239000" />
       <workItem from="1569379449576" duration="62767000" />
       <workItem from="1569766284737" duration="16713000" />
+      <workItem from="1570682941524" duration="1166000" />
+      <workItem from="1570859866851" duration="3788000" />
     </task>
     <task id="LOCAL-00001" summary="完成organize模块, 开始project模块">
       <created>1562834926084</created>
@@ -562,7 +570,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="756525000" />
+    <option name="totallyTimeSpent" value="761479000" />
   </component>
   <component name="TodoView" selected-index="4">
     <todo-panel id="selected-file">
@@ -574,16 +582,17 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1280" height="724" extended-state="6" />
+    <frame x="0" y="23" width="2560" height="1337" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Favorites" order="0" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.20678514" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.21008737" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
-      <window_info id="Database" order="3" weight="0.21324718" />
+      <window_info id="Database" order="3" weight="0.21286735" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32753164" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.306962" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.375" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3068273" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3742972" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3296355" />
@@ -672,47 +681,7 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/devinterface/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="32" column="18" selection-start-line="32" selection-start-column="18" selection-end-line="32" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/content/visitor/visitoradd.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-198" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/visitor/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
-          <folding>
-            <element signature="e#0#34#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/content/personnel/photoupload.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="470">
-          <caret line="30" selection-start-line="30" selection-end-line="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://f89171a7-feb3-4368-b6c5-08e5d6fb4599/schema/ISMS/table/T_Base">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true">
-            <filter text="" />
-          </filtering>
-        </state>
-      </provider>
-    </entry>
+    <entry file="das://f89171a7-feb3-4368-b6c5-08e5d6fb4599/schema/ISMS/table/T_Base" />
     <entry file="file://$PROJECT_DIR$/templates/content/materials/materialsadd.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="423">
@@ -761,24 +730,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="das://f89171a7-feb3-4368-b6c5-08e5d6fb4599/schema/ISMS/table/T_ProjectArea">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true">
-            <filter text="" />
-          </filtering>
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://f89171a7-feb3-4368-b6c5-08e5d6fb4599/schema/ISMS/table/T_PedPassage">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true">
-            <filter text="" />
-          </filtering>
-        </state>
-      </provider>
-    </entry>
+    <entry file="das://f89171a7-feb3-4368-b6c5-08e5d6fb4599/schema/ISMS/table/T_ProjectArea" />
+    <entry file="das://f89171a7-feb3-4368-b6c5-08e5d6fb4599/schema/ISMS/table/T_PedPassage" />
     <entry file="file://$PROJECT_DIR$/personnel/forms.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="373">
@@ -814,36 +767,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="das://f89171a7-feb3-4368-b6c5-08e5d6fb4599/schema/ISMS/table/T_Personnel">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true">
-            <filter text="" />
-          </filtering>
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://f89171a7-feb3-4368-b6c5-08e5d6fb4599/schema/ISMS/table/T_PersonAuthMode">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true">
-            <filter text="" />
-          </filtering>
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://f89171a7-feb3-4368-b6c5-08e5d6fb4599/schema/ISMS/table/T_PersonPassAuth">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true">
-            <filter text="" />
-          </filtering>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/6b334d14-81ac-4858-8b3d-58046d741e68/console.sql">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="das://f89171a7-feb3-4368-b6c5-08e5d6fb4599/schema/ISMS/table/T_Personnel" />
+    <entry file="das://f89171a7-feb3-4368-b6c5-08e5d6fb4599/schema/ISMS/table/T_PersonAuthMode" />
+    <entry file="das://f89171a7-feb3-4368-b6c5-08e5d6fb4599/schema/ISMS/table/T_PersonPassAuth" />
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/6b334d14-81ac-4858-8b3d-58046d741e68/console.sql" />
     <entry file="file://$PROJECT_DIR$/passagerecord/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -851,15 +778,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="das://6b334d14-81ac-4858-8b3d-58046d741e68/schema/ISMS/table/T_Base">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true">
-            <filter text="" />
-          </filtering>
-        </state>
-      </provider>
-    </entry>
+    <entry file="das://6b334d14-81ac-4858-8b3d-58046d741e68/schema/ISMS/table/T_Base" />
     <entry file="file://$PROJECT_DIR$/templates/content/vehiclegate/vehiclesiginadd.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="251">
@@ -977,13 +896,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/content/personauth/makeiccard.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="338">
-          <caret line="151" column="155" lean-forward="true" selection-start-line="151" selection-start-column="155" selection-end-line="151" selection-end-column="155" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/baseframe/baseframe.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="146">
@@ -1004,33 +916,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="das://6b334d14-81ac-4858-8b3d-58046d741e68/schema/ISMS/table/T_PersonPassAuth">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true">
-            <filter text="" />
-          </filtering>
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://6b334d14-81ac-4858-8b3d-58046d741e68/schema/ISMS/table/T_PersonAuthMode">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true">
-            <filter text="" />
-          </filtering>
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://6b334d14-81ac-4858-8b3d-58046d741e68/schema/ISMS/table/T_PassageRecord">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true">
-            <filter text="" />
-          </filtering>
-        </state>
-      </provider>
-    </entry>
+    <entry file="das://6b334d14-81ac-4858-8b3d-58046d741e68/schema/ISMS/table/T_PersonPassAuth" />
+    <entry file="das://6b334d14-81ac-4858-8b3d-58046d741e68/schema/ISMS/table/T_PersonAuthMode" />
+    <entry file="das://6b334d14-81ac-4858-8b3d-58046d741e68/schema/ISMS/table/T_PassageRecord" />
     <entry file="file://$PROJECT_DIR$/pedpassage/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-288">
@@ -1040,15 +928,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="das://6b334d14-81ac-4858-8b3d-58046d741e68/schema/ISMS/table/T_Personnel">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true">
-            <filter text="" />
-          </filtering>
-        </state>
-      </provider>
-    </entry>
+    <entry file="das://6b334d14-81ac-4858-8b3d-58046d741e68/schema/ISMS/table/T_Personnel" />
     <entry file="file://$PROJECT_DIR$/interface/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1335">
@@ -1068,13 +948,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ISMS/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-274">
-          <caret line="15" selection-start-line="15" selection-end-line="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/visitor/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="395">
@@ -1085,21 +958,54 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/personauth/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="764">
-          <caret line="187" lean-forward="true" selection-start-line="187" selection-end-line="187" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-            <marker date="1570501643787" expanded="true" signature="4238:4448" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/content/personauth/personauthadd.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
           <caret line="22" column="9" lean-forward="true" selection-start-line="22" selection-start-column="9" selection-end-line="22" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/74093b51-65df-4541-a6c7-2477397e6c82/console.sql">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/56cd8242-a2e3-48e9-94c8-0191afcc1662/console.sql">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ISMS/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1944">
+          <caret line="15" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://56cd8242-a2e3-48e9-94c8-0191afcc1662/schema/ISMS/table/T_Personnel">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://56cd8242-a2e3-48e9-94c8-0191afcc1662/schema/ISMS/table/T_PersonAuthMode">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/content/personauth/makeiccard.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="637">
+          <caret line="151" column="155" selection-start-line="151" selection-start-column="155" selection-end-line="151" selection-end-column="155" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/personauth/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="746">
+          <caret line="103" column="50" selection-start-line="103" selection-start-column="50" selection-end-line="103" selection-end-column="50" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
