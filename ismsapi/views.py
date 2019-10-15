@@ -173,6 +173,7 @@ class check_user(View):
             return HttpResponse(json.dumps(response_data))
 
 
+
 #获取字典数据api接口
 """
 @api {POST} /ismsapi/get_basedate/ 获取字典数据列表
