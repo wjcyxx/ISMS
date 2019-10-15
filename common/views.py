@@ -364,7 +364,7 @@ def get_interface_url(interID):
 def get_interface_param(interID):
     values = {}
 
-    param_info = interfaceparam.objects.filter(Q(FPID=interID))
+    param_info = interfaceparam.objects.filter(Q(FPID=interID)).order_by('FSequence')
     interface_info = devinterface.objects.get(Q(FID=interID))
 
     for obj in param_info:

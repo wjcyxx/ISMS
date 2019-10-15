@@ -9,6 +9,7 @@ from common.views import certify_token
 from appkey.models import appkey as T_AppKey
 from project.models import project
 from team.models import team
+from login.models import User
 from group.models import group
 from personnel.models import personnel
 from organize.models import organize
@@ -94,6 +95,82 @@ class get_token(View):
 
         return HttpResponse(json.dumps(response_data))
 
+
+
+
+
+#校验用户名是否存在
+"""
+@api {POST} /ismsapi/check_user/ 检查用户名称是否有效
+@apiGroup BD
+@apiDescription 调用地址:http://39.106.148.205/ismsapi/check_user/ API接口必须用POST:方法提交,请求类型为：x-www-form-urlencoded
+@apiParam {string} appkey 在后台管理系统中注册的APPKEY[必填]
+@apiParam {string} token 对应该appkey的有效token, token的有效期为一小时[必填]
+@apiParam {string} user 需要校验的用户名称[必填]
+@apiParam {string} password 需要校验的密码[必填]
+@apiSampleRequest http://39.106.148.205/ismsapi/check_user/
+@apiSuccess (返回消息) {string} result 返回码
+@apiSuccess (返回消息) {string} msg 消息
+@apiSuccess (消息内容) {string} 0 校验正常
+@apiSuccess (消息内容) {string} 1 token过期
+@apiSuccess (消息内容) {string} 2 token校验失败
+@apiSuccess (消息内容) {string} 3 token校验传递参数错误
+@apiSuccess (消息内容) {string} 4 APPKEY未注册,或被禁用
+@apiSuccess (消息内容) {string} 5 用户不存在
+@apiSuccess (消息内容) {string} 6 用户密码错误
+@apiSuccess (消息内容) {string} 7 用户被禁用
+@apiSuccessExample {json} 成功返回样例：
+{"result": "0", "msg": "此用户正常"}
+"""
+class check_user(View):
+    def post(self, request):
+        response_data = {}
+
+        appkey = request.POST.get('appkey')
+        token = request.POST.get('token')
+        user = request.POST.get('user')
+        password = request.POST.get('password')
+
+        if (appkey == None and token == None):
+            reqbody = request.body
+            request_json = eval(reqbody.decode())
+            appkey = request_json['appkey']
+            token = request_json['token']
+            user = request_json['user']
+            password = request_json['password']
+
+        try:
+            appkey_info = T_AppKey.objects.get(Q(FAppkey=appkey), Q(FStatus=True))
+            response_data = certify_token(appkey, token)
+
+            if response_data['result'] != '0':
+                return HttpResponse(json.dumps(response_data))
+            else:
+                user_info = User.objects.filter(Q(FUserID=user))
+
+                if user_info.count() == 0:
+                    response_data['result'] = '5'
+                    response_data['msg'] = '此用户不存在'
+                else:
+                    pwd = user_info[0].FUserpwd
+                    if pwd == password:
+                        if user_info[0].FStatus == True:
+                            response_data['result'] = '0'
+                            response_data['msg'] = '此用户正常'
+                        else:
+                            response_data['result'] = '7'
+                            response_data['msg'] = '此用户已被禁用'
+                    else:
+                        response_data['result'] = '6'
+                        response_data['msg'] = '用户密码错误'
+
+            return JsonResponse(response_data, safe=False)
+
+        except ObjectDoesNotExist:
+            response_data['result'] = '4'
+            response_data['msg'] = 'APIKEY serial is UNREGISTERED'
+
+            return HttpResponse(json.dumps(response_data))
 
 
 #获取字典数据api接口

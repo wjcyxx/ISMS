@@ -56,7 +56,11 @@
                                         <div class="layui-card-header">人脸</div>
                                         <div class="layui-card-body">
                                             <img src="/static/images/hr/face.png" width="128px" height="128px" alt="">&nbsp;&nbsp;
-                                            <a href="javascript:;" class="layui-btn layui-btn-normal" id="">采集</a>
+                                            {% if authtype == '0' %}
+                                                <a href="javascript:;" class="layui-btn layui-btn-normal" id="btnMakeFace">采集</a>
+                                            {% else %}
+                                                <a href="javascript:;" class="layui-btn layui-btn-disabled" id="">采集</a>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
@@ -150,7 +154,7 @@ layui.use(['transfer', 'layer', 'util'], function(){
         areainfo = JSON.stringify(getChoicesArea);
         //alert(areainfo);
 
-        url = "{% url 'personauth:makeiccard_add' %}?fid={{ fid }}&authtype={{ authtype }} &areainfo="+encodeURIComponent(areainfo);
+        url = "{% url 'personauth:makeiccard_add' %}?fid={{ fid }}&authtype={{ authtype }} &areainfo="+encodeURIComponent(areainfo)+"&authmethod=0";
 
         parent.layer.open({
             type:   2,
@@ -162,6 +166,25 @@ layui.use(['transfer', 'layer', 'util'], function(){
             move: false
         });
 
+    });
+
+    //人脸采集按钮
+    $("#btnMakeFace").click(function () {
+        var getChoicesArea = transfer.getData('areaauth');
+        areainfo = JSON.stringify(getChoicesArea);
+        //alert(areainfo);
+
+        url = "{% url 'personauth:makeiccard_add' %}?fid={{ fid }}&authtype={{ authtype }} &areainfo="+encodeURIComponent(areainfo)+"&authmethod=1";
+
+        parent.layer.open({
+            type:   2,
+            title:  '人脸采集',
+            area: ['900px','450px'],
+            fixed: false,
+            content: url,
+            resize: false,
+            move: false
+        });
     });
 
 

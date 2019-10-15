@@ -69,9 +69,18 @@
                     <div class="layui-card-body">
                         <div class="layui-row layui-col-space15">
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">参数名称</label>
+                                <label class="layui-form-label" style="color: red">顺序号</label>
                                 <div class="layui-input-block">
                                     {{ obj.FID }}
+                                    {{ obj.FSequence }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layui-row layui-col-space15">
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label" style="color: red">参数名称</label>
+                                <div class="layui-input-block">
                                     {{ obj.FParam }}
                                 </div>
                             </div>

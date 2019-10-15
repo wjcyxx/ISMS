@@ -21,6 +21,7 @@ class pedpassage(models.Model):
     FAreaID = models.CharField(max_length=32, verbose_name='区域编号', blank=True, null=True)
     FType = models.IntegerField(choices=TYPE_CHOICES, verbose_name='通道类型', blank=True, null=True)
     FStatus = models.BooleanField(default=True, verbose_name='状态')
+    FInitStatus = models.BooleanField(default=False, verbose_name='初始化状态')
     FDesc = models.CharField(max_length=1024, verbose_name='备注', blank=True, null=True)
     CREATED_PRJ = models.CharField(max_length=32, verbose_name='所属项目', blank=True, null=True)
     CREATED_ORG = models.CharField(max_length=32, verbose_name='创建组织', blank=True, null=True)

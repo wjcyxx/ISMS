@@ -360,7 +360,7 @@ class api_base(View):
 
         except ObjectDoesNotExist:
             self.response_data['result'] = '4'
-            self.response_data['token'] = 'APIKEY serial is UNREGISTERED'
+            self.response_data['msg'] = 'APIKEY serial is UNREGISTERED'
 
             return HttpResponse(json.dumps(self.response_data))
 

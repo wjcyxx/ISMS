@@ -18,6 +18,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from baseframe.baseframe import *
 from interface.views import *
 from django.conf import settings
+import base64
 
 #链接添加授权页面view
 def add(request):
@@ -88,7 +89,12 @@ class makeiccard_add(add_base):
             person_info = visitor.objects.get(Q(FID=fid))
 
 
-        self.template_name = 'content/personauth/makeiccard.html'
+        authmethod = self.request.GET.get('authmethod')
+        if authmethod == '0':
+            self.template_name = 'content/personauth/makeiccard.html'
+        elif authmethod == '1':
+            self.template_name = 'content/personauth/makeface.html'
+
         self.objForm = PersonAuthModelForm
         self.query_sets = [
             base.objects.filter(Q(FPID='2cd8b28cacf111e991437831c1d24216'))
@@ -98,25 +104,16 @@ class makeiccard_add(add_base):
 
         self.context['areainfo'] = json.loads(area_info)
         self.context['person'] = person_info.FName
+
+        if authtype == '0':
+            self.context['photo'] = person_info.FPhoto
+
         self.context['personID'] = fid
         self.context['authtype'] = authtype
 
         passcheck_info = base.objects.filter(Q(FPID='2cd8b28cacf111e991437831c1d24216'))
         passcheck = get_dict_table(passcheck_info, 'FID', 'FBase')
         self.context['passcheck'] = passcheck
-
-
-class makeface_add(add_base):
-    def set_view(self, request):
-
-        self.template_name = 'content/personauth/makeface.html'
-        self.objForm = PersonAuthModelForm
-        self.query_sets = [
-            base.objects.filter(Q(FPID='2cd8b28cacf111e991437831c1d24216'))
-        ]
-        self.query_set_idfields = ['FAuthtypeID']
-        self.query_set_valuefields = ['FBase']
-
 
 
 
@@ -200,9 +197,83 @@ class makeiccard(insert_base):
                         if result != 1:
                             break
 
-
         return  result
 
+
+#处理人脸采集
+class makeface(insert_base):
+    def set_view(self, request):
+        personID = ''.join(str(self.request.GET.get('personID')).split('-'))
+
+        self.model = T_PersonAuthMode
+        self.objForm = PersonAuthModelForm
+
+        self.query_sets = [
+            base.objects.filter(Q(FPID='2cd8b28cacf111e991437831c1d24216'))
+        ]
+        self.query_set_idfields = ['FAuthtypeID']
+        self.query_set_valuefields = ['FBase']
+
+
+        self.set_view_beforesave(self)
+
+        self.set_fields = ['FPersonID', 'FFeaturevalue']
+        self.set_value = [personID, self.featurevalue]
+
+
+    def set_view_beforesave(self, request):
+        result = 0
+        areaid = self.request.GET.get('areainfo')
+        personID = ''.join(str(self.request.GET.get('personID')).split('-'))
+
+        authtype = str(self.request.GET.get('authtype')).strip()
+        if  authtype == '0':
+            person_info = personnel.objects.get(Q(FID=personID))
+
+            hostpath = self.request.get_host()
+            imagepath = "http://" + hostpath + "/media/" + str(person_info.FPhoto)
+
+
+        area_info =  json.loads(areaid)
+
+
+        for obj_area in area_info:
+            passage_inter = areaid_2_device(obj_area['value'])
+
+            if len(passage_inter) == 0:
+                continue
+
+            for obj_passage in passage_inter:
+                #人脸注册接口
+                if obj_passage['FExtID'] == '7f183e98acf411e991437831c1d24216':
+                    initID = obj_passage['FInterID']
+                    initID = ''.join(str(initID).split('-'))
+
+                    resultdata = get_interface_result(initID, [personID, "", imagepath])
+                    result = resultdata['result']
+                    self.featurevalue = resultdata['data']
+                    # result = 1
+
+                    if result != 1:
+                        break
+
+
+                #设置人员有效期限接口
+                if self.request.POST.get('FAuthvalidity') != '':
+                    if obj_passage['FExtID'] == '43b9c462e28111e9a9d27831c1d24216':
+                        initID = obj_passage['FInterID']
+                        initID = ''.join(str(initID).split('-'))
+
+                        time = str(self.request.POST.get('FAuthvalidity'))
+
+                        result = get_interface_result(initID, [personID, time])['result']
+                        # result = 1
+
+                        if result != 1:
+                            break
+
+
+        return  result
 
 
 

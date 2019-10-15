@@ -17,4 +17,5 @@ class PedPassageModelForm(ModelForm):
             'FType': Fwidgets.Select(attrs={'lay-verify': 'required'}),
             'FDesc': Fwidgets.Textarea(attrs={'class': 'layui-textarea', 'autocomplete': 'off', 'rows': '1'}),
             'FStatus': Fwidgets.CheckboxInput(attrs={'lay-skin': 'switch', 'lay-text': '启用|禁用', 'disabled': 'disabled'}),
+            'FInitStatus': Fwidgets.CheckboxInput(attrs={'lay-skin': 'switch', 'lay-text': '已初始化|未初始化', 'disabled': 'disabled'})
         }

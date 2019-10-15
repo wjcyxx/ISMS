@@ -8,31 +8,27 @@
 <form class="layui-form layui-form-pane" accept-charset="utf-8">
     <div style="padding: 10px; background-color: #F2F2F2;">
         <div>
-            <a href="javascript:;" class="layui-btn layui-btn-normal" id="readcard">读卡序列号</a>
-            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formsubmit" >制卡</button>
+            <a href="javascript:;" class="layui-btn layui-btn-normal" id="test">连接设备采集脸模</a>
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="formsubmit" >使用照片采集脸模</button>
             <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnC">关闭</a>
         </div>
 
         <div class="layui-row layui-col-space10" style="padding-top: 1%">
             <div class="layui-col-md12">
                 <div class="layui-card">
-                    <div class="layui-card-header">制卡信息登记</div>
+                    <div class="layui-card-header">人脸信息登记</div>
                     <div class="layui-card-body">
                         <div class="layui-row layui-col-space15">
                             <div class="layui-col-xs4">
                                 <label class="layui-form-label">人员名称</label>
                                 <div class="layui-input-block">
                                     {{ obj.FID }}
-
                                     <input type="text" class="layui-input" name="FPersonnel" id="id_FPersonnel" value="{{ person }}" readonly="true">
                                 </div>
                             </div>
 
                             <div class="layui-col-xs8">
-                                <label class="layui-form-label" style="color: red">IC卡卡号</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FFeaturevalue }}
-                                </div>
+                                <img style="height: 114px; width: 100px"  src="/media/{{ photo }}" alt="" />
                             </div>
 
                         </div>
@@ -122,7 +118,7 @@ layui.use(['element','layer','form', 'laydate', 'table'], function () {
         type: 'datetime'
     });
 
-    $("#id_FAuthtypeID").val('65c7cfb2acf411e991437831c1d24216');
+    $("#id_FAuthtypeID").val('7f183e98acf411e991437831c1d24216');
     form.render('select');
 
     table.render({
@@ -149,7 +145,7 @@ layui.use(['element','layer','form', 'laydate', 'table'], function () {
 
         $.ajax({
             type: "POST",
-            url:  "{% url 'personauth:makeiccard' %}?personID={{ personID }}&authtype={{ authtype }}&actype=insert&areainfo="+encodeURIComponent(areainfo),
+            url:  "{% url 'personauth:makeface' %}?personID={{ personID }}&authtype={{ authtype }}&actype=insert&areainfo="+encodeURIComponent(areainfo),
             data: data.field,
             dataType: "json",
             success: function (data) {
@@ -169,6 +165,26 @@ layui.use(['element','layer','form', 'laydate', 'table'], function () {
         });
         return false;
     });
+
+
+
+    $("#test").click(function () {
+        $.ajax({
+            type: "POST",
+            url: "http://192.168.3.3:8000/ismsapi/check_user/",
+            contentType: "application/x-www-form-urlencoded",
+            data: {"appkey": "JDNkYn4pUa", "token": "MTU3MTEyNzczOS41MTY1NDQ6NDVlMzgzMzk1MTZkMDBjNzc1YTNmY2EyNjk1NjFjODIyM2FlMzMyOA==", "user": "admin", "password": "123456"},
+            dataType: "json",
+            success: function (data) {
+                alert(data.msg);
+                if (data.result=='0') {
+                    alert(data.msg);
+                }
+            }
+        })
+
+    });
+
 })
 </script>
 

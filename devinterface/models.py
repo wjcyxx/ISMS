@@ -49,6 +49,7 @@ class interfaceparam(models.Model):
 
     FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
     FPID = models.CharField(max_length=32, blank=True, null=True)
+    FSequence = models.IntegerField(verbose_name='顺序号', default=0, blank=True, null=True)
     FParam = models.CharField(max_length=32, verbose_name='参数名称', blank=True, null=True)
     FValue = models.CharField(max_length=128, verbose_name='参数值', blank=True, null=True)
     FTypeID = models.CharField(max_length=32, verbose_name='参数类型', blank=True, null=True)

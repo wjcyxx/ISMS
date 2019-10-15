@@ -219,7 +219,7 @@ def get_paramdatasource(request):
     serinput = request.POST.get("resultdict[FParam]", '')
     fpid = ''.join(str(request.GET.get('fpid')).split('-'))
 
-    InterfaceParam_info =  T_InterfaceParam.objects.filter(Q(FPID=fpid), Q(FParam__contains=serinput))
+    InterfaceParam_info =  T_InterfaceParam.objects.filter(Q(FPID=fpid), Q(FParam__contains=serinput)).order_by('FSequence')
 
     dict = convert_to_dicts(InterfaceParam_info)
     resultdict = {'code':0, 'msg':"", 'count': InterfaceParam_info.count(), 'data': dict}
