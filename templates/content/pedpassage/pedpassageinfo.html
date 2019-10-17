@@ -77,7 +77,7 @@
               {field:'FType', width: '15%', title: '通道类型', sort: true, templet: '#tpType'},
               {field:'FDesc', width: '25%', title: '备注', sort: true},
               {field:'FStatus', width: '15%', title: '状态', sort: true, templet: '#tpStatus'},
-              {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
+              {field:'', title: '操作', width: '22%', toolbar: '#tlbar', fixed: 'right'}
           ]],
           id: 'runreload'
       });
@@ -203,11 +203,11 @@
             {{# } }}
 
             {{# if(d.FInitStatus == false){ }}
-            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event=""><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>通道初始化</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event=""><i class="fa fa-cubes" aria-hidden="true"></i>道初始化</a>
             {{# } else if(d.FStatus == true){ }}
-            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event=""><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>重新初始化</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event=""><i class="fa fa-cubes" aria-hidden="true"></i>重新初始化</a>
             {{# } else { }}
-            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event=""><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>通道初始化</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event=""><i class="fa fa-cubes" aria-hidden="true"></i>通道初始化</a>
             {{# } }}
 
 
