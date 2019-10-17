@@ -36,6 +36,7 @@ class InterfaceParamModelForm(ModelForm):
             'FID': Fwidgets.Input(attrs={'type': 'hidden'}),
             'FPID': Fwidgets.Input(attrs={'type': 'hidden'}),
             'FSequence': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
+            'FPosition': Fwidgets.Select(),
             'FParam': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
             'FValue': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
             'FDesc': Fwidgets.Textarea(attrs={'class': 'layui-textarea', 'autocomplete': 'off', 'rows': '1'}),

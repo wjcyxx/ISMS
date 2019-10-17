@@ -47,11 +47,17 @@ class devinterface(models.Model):
 
 class interfaceparam(models.Model):
 
+    POSITION_CHOICES = (
+        (0, 'BODY'),
+        (1, 'HEADER')
+    )
+
     FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
     FPID = models.CharField(max_length=32, blank=True, null=True)
     FSequence = models.IntegerField(verbose_name='顺序号', default=0, blank=True, null=True)
     FParam = models.CharField(max_length=32, verbose_name='参数名称', blank=True, null=True)
     FValue = models.CharField(max_length=128, verbose_name='参数值', blank=True, null=True)
+    FPosition = models.IntegerField(choices=POSITION_CHOICES, default=0, verbose_name='参数位置', blank=True, null=True)
     FTypeID = models.CharField(max_length=32, verbose_name='参数类型', blank=True, null=True)
     FDesc = models.CharField(max_length=1024, verbose_name='备注', blank=True, null=True)
     CREATED_PRJ = models.CharField(max_length=32, verbose_name='所属项目', blank=True, null=True)
