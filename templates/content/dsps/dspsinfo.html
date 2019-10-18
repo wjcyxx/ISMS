@@ -27,8 +27,17 @@
       </div>
 
       <div style="padding-top: 10px" >
-        <a href="javascript:;" class="layui-btn layui-btn-normal" id="btnAdd">增加</a>
-        <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
+                  <form class="layui-form">
+                      <div class="layui-inline">
+                          <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
+                      </div>
+
+                      <div class="layui-inline">
+                          <select name="selSol" id="id_selSol">
+                              <option value="">请选择测量方案</option>
+                          </select>
+                      </div>
+                  </form>
       </div>
 
       <!-- 数据列表 -->
@@ -47,11 +56,12 @@
       soulTable: 'soulTable'  // 模块别名
   });
 
-  layui.use(['element', 'layer', 'table', 'soulTable'], function(){
+  layui.use(['element', 'layer', 'table', 'soulTable', 'form'], function(){
       var $ = layui.jquery
           ,element = layui.element
           ,table = layui.table
           ,layer = layui.layer
+          ,form = layui.form
           ,soulTable = layui.soulTable;
 
       $("#btnClose").click(function () {

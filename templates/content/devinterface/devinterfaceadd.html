@@ -189,6 +189,7 @@ layui.use(['element','layer','form', 'table'], function () {
         cols: [[
             {field:'FParam', width: '15%', title: '参数名称', sort: true},
             {field:'FValue', width: '20%', title: '参数值', sort: true},
+            {field:'FPosition', width: '20%', title: '参数位置', sort: true, templet: '#tpPos'},
             {field:'FTypeID', width: '15%', title: '参数类型', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FTypeID, Paramtype)}}{% endverbatim %}</div>'},
             {field:'FDesc', width: '30%', title: '备注', sort: true},
             {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
@@ -246,6 +247,19 @@ layui.use(['element','layer','form', 'table'], function () {
 
 })
 </script>
+
+
+<!--显示参数位置模板-->
+<script type="text/html" id="tpPos">
+    {% verbatim %}
+    {{#  if(d.FPosition == 0){ }}
+    <span>BODY</span>
+    {{#  } else if(d.FPosition == 1) { }}
+    <span>HEADER</span>
+    {{#  } }}
+    {% endverbatim %}
+</script>
+
 
 <!--生成操作工具栏-->
 <script type="text/html" id="tlbar">

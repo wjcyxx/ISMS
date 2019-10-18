@@ -28,6 +28,13 @@ class entrance(EntranceView_base):
         ]
         self.quer_set_fieldnames = ['FBase', 'FDevice']
 
+        initID = '2e8bc6eaf0b311e985c3a860b624be51'
+        token = get_interface_result(initID)['token']
+
+        initID = 'de9dc834f15411e998f0a860b624be51'
+        scheme = get_interface_result(initID, [], [token])['plan_names']
+
+
 
 #返回table数据及查询结果
 class get_datasource(get_datasource_base):

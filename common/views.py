@@ -364,11 +364,15 @@ def get_interface_url(interID):
 def get_interface_param(interID):
     values = {}
 
-    param_info = interfaceparam.objects.filter(Q(FPID=interID)).order_by('FSequence')
+    param_info = interfaceparam.objects.filter(Q(FPID=interID), Q(FPosition=0)).order_by('FSequence')
     interface_info = devinterface.objects.get(Q(FID=interID))
 
     for obj in param_info:
-         values[obj.FParam] = obj.FValue
+         if obj.FTypeID == '60504318e0cd11e9b62f7831c1d24216':
+            data = obj.FValue
+            return data
+         else:
+            values[obj.FParam] = obj.FValue
 
     #if interface_info.FRequestType == 0:
     data = urllib.parse.urlencode(values)
@@ -379,7 +383,7 @@ def get_interface_param(interID):
 
 
 #调用接口获得返回值
-def get_interface_result(interID, paramsvalue=[]):
+def get_interface_result(interID, paramsvalue=[], headersvalue=[]):
 
     url = get_interface_url(interID)
     param = get_interface_param(interID)
@@ -406,7 +410,25 @@ def get_interface_result(interID, paramsvalue=[]):
 
         return result
     elif interface_info.FRequestType == 1:
-        HEADERS = {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+        header_param = interfaceparam.objects.filter(Q(FPID=interID), Q(FPosition=1)).order_by('FSequence')
+        HEADERS = {}
+
+        for hds in header_param:
+            HEADERS[hds.FParam] = hds.FValue
+
+        if len(headersvalue) > 0:
+            headers = urllib.parse.urlencode(HEADERS)
+            headers = urllib.parse.unquote(headers)
+
+            key = re.findall(r"\$\{.*?\}", headers)
+
+            for i in range(len(key)):
+                if len(key) == len(headersvalue):
+                    headers = headers.replace(key[i], headersvalue[i])
+
+            HEADERS = urllib.parse.parse_qs(headers)
+
+        #HEADERS = {'Content-Type': 'application/json', 'token': '9422e6dcf4db405a975de8232930aada'}
         content = requests.post(url=url, headers=HEADERS, data=param, verify=False ).text
 
         content = json.loads(content)

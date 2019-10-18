@@ -48,6 +48,7 @@ class devinterface(models.Model):
 class interfaceparam(models.Model):
 
     POSITION_CHOICES = (
+        (None, '请选择数据'),
         (0, 'BODY'),
         (1, 'HEADER')
     )
