@@ -14,6 +14,7 @@ from django.utils import timezone
 from django.forms import widgets as Fwidge
 from django.core.exceptions import ObjectDoesNotExist
 from baseframe.baseframe import *
+from django.core.cache import cache
 # Create your views here.
 
 #控制器入口
@@ -29,11 +30,13 @@ class entrance(EntranceView_base):
         self.quer_set_fieldnames = ['FBase', 'FDevice']
 
         initID = '2e8bc6eaf0b311e985c3a860b624be51'
-        global token
         token = get_interface_result(initID)['token']
 
         initID = 'de9dc834f15411e998f0a860b624be51'
         scheme = get_interface_result(initID, [], [token])
+
+        self.request.session['gzmtoken'] = token
+
         if scheme['result'] == 0:
             self.context['schemename'] = scheme['plan_names']
 
@@ -48,11 +51,12 @@ class get_datasource(View):
         begindate = datelist[0]
         enddate = datelist[1]
 
-        initID = ''
+        initID = '83de3730f3b611e986ab7831c1d24216'
+        token = request.session['gzmtoken']
 
+        data = get_interface_result(initID, [schemeid, begindate, enddate], [token])
 
-
-
+        xx =1
 
 
 #链接增加模板
