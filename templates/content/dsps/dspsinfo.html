@@ -12,14 +12,23 @@
       <div class="layui-collapse">
           <div class="layui-colla-item">
               <h2 class="layui-colla-title">查询条件</h2>
-              <div class="layui-colla-content">
-                  <form class="layui-form" method="post">
+              <div class="layui-colla-content layui-show">
+                  <form class="layui-form">
                       <div class="layui-inline">
-                          <input type="text" name="serinput" placeholder="输入测点名称" autocomplete="off" class="layui-input" value="" style="width: 120%">
+                          <select name="selSol" id="id_selSol">
+                              <option value="">请选择测量方案</option>
+                              {% for j in schemename %}
+                                  <option value="{{ j }}">{{ j }}</option>
+                              {% endfor %}
+                          </select>
+                      </div>
+
+                      <div class="layui-inline">
+                          <input type="text" class="layui-input" id="dtRage" autocomplete="off" placeholder="请输入时间范围" style="width: 320px">
                       </div>
 
                       <div class="layui-inline" style="margin-left: 35px">
-                          <input type="button" class="layui-btn layui-btn-small layui-btn-normal layui-icon" lay-submit lay-filter="formsubmit" value="&#xe615;查  询"/>
+                          <a href="javascript:;" class="layui-btn layui-btn-small layui-btn-normal layui-icon" id="btnSearch">&#xe615;查询</a>
                       </div>
                   </form>
               </div>
@@ -27,17 +36,7 @@
       </div>
 
       <div style="padding-top: 10px" >
-                  <form class="layui-form">
-                      <div class="layui-inline">
-                          <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
-                      </div>
-
-                      <div class="layui-inline">
-                          <select name="selSol" id="id_selSol">
-                              <option value="">请选择测量方案</option>
-                          </select>
-                      </div>
-                  </form>
+          <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
       </div>
 
       <!-- 数据列表 -->
@@ -56,11 +55,12 @@
       soulTable: 'soulTable'  // 模块别名
   });
 
-  layui.use(['element', 'layer', 'table', 'soulTable', 'form'], function(){
+  layui.use(['element', 'layer', 'table', 'soulTable', 'form', 'laydate'], function(){
       var $ = layui.jquery
           ,element = layui.element
           ,table = layui.table
           ,layer = layui.layer
+          ,laydate = layui.laydate
           ,form = layui.form
           ,soulTable = layui.soulTable;
 
@@ -68,46 +68,38 @@
           window.parent.layui.element.tabDelete('tabMain','Dsps');
       });
 
+      laydate.render({
+        elem: '#dtRage'
+        ,type: 'datetime'
+        ,range: true
+      });
+
       //新增按钮事件
-      $("#btnAdd").click(function () {
-          parent.layer.open({
-              type:   2,
-              title:  '新增重点项测点',
-              area: ['1000px','370px'],
-              fixed: false,
-              content: "{% url 'dsps:add' %}",
-              resize: false,
-              move: false
+      $("#btnSearch").click(function () {
+         var schemeid = $("#id_selSol").val();
+         var daterage = $("#dtRage").val();
+
+          table.render({
+              elem: '#datasource',
+              height: 'full-120',
+              url: "{% url 'dsps:get_datasource' %}?schemeid="+schemeid+"&daterage="+daterage,
+              cols: [[
+                  {field:'FMonitor', width: '20%', title: '测点名称', sort: true, filter: true},
+                  {field:'FMonitortypeID', width: '15%', title: '测点类型', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FMonitortypeID, Typeinfo)}}{% endverbatim %}</div>', filter: true},
+                  {field:'FDevID', width: '15%', title: '测量终端', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FDevID, Devinfo)}}{% endverbatim %}</div>', filter: true},
+                  {field:'FDesc', width: '30%', title: '备注', sort: true, filter: true},
+                  {field:'FStatus', width: '15%', title: '状态', sort: true, templet: '#tpStatus'},
+                  {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
+              ]],
+              id: 'runreload'
+
+              ,done: function () {
+                  soulTable.render(this)
+              }
           });
+
       });
 
-      table.render({
-          elem: '#datasource',
-          height: 'full-120',
-          url: "{% url 'dsps:get_datasource' %}",
-          cols: [[
-              {field:'FMonitor', width: '20%', title: '测点名称', sort: true, filter: true},
-              {field:'FMonitortypeID', width: '15%', title: '测点类型', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FMonitortypeID, Typeinfo)}}{% endverbatim %}</div>', filter: true},
-              {field:'FDevID', width: '15%', title: '测量终端', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FDevID, Devinfo)}}{% endverbatim %}</div>', filter: true},
-              {field:'FDesc', width: '30%', title: '备注', sort: true, filter: true},
-              {field:'FStatus', width: '15%', title: '状态', sort: true, templet: '#tpStatus'},
-              {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
-          ]],
-          id: 'runreload'
-
-          ,done: function () {
-              soulTable.render(this)
-          }
-      });
-
-      //监听查询条件提交
-        form.on('submit(formsubmit)', function (data) {
-            var serinput = $("input[name='serinput']").val();
-            //alert(serinput);
-            table.reload('runreload', {where: {resultdict:{FMonitor: serinput}}});
-
-            return false;
-        });
 
 
       //监听工具栏按钮事件

@@ -426,7 +426,7 @@ def get_interface_result(interID, paramsvalue=[], headersvalue=[]):
                 if len(key) == len(headersvalue):
                     headers = headers.replace(key[i], headersvalue[i])
 
-            HEADERS = urllib.parse.parse_qsl(headers)
+            HEADERS =  get_HEADER_json(urllib.parse.parse_qsl(headers))
 
         #HEADERS = {'Content-Type': 'application/json', 'token': '9422e6dcf4db405a975de8232930aada'}
         content = requests.post(url=url, headers=HEADERS, data=param, verify=False ).text
@@ -437,7 +437,12 @@ def get_interface_result(interID, paramsvalue=[], headersvalue=[]):
 
 #处理转换HEADER格式
 def get_HEADER_json(headerlist):
-    pass
+    dict = {}
+
+    for obj in headerlist:
+        dict[obj[0]] = obj[1]
+
+    return dict
 
 
 #获取本月第一天和本月最后一天日期

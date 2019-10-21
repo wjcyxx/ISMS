@@ -29,22 +29,30 @@ class entrance(EntranceView_base):
         self.quer_set_fieldnames = ['FBase', 'FDevice']
 
         initID = '2e8bc6eaf0b311e985c3a860b624be51'
+        global token
         token = get_interface_result(initID)['token']
 
         initID = 'de9dc834f15411e998f0a860b624be51'
-        scheme = get_interface_result(initID, [], [token])['plan_names']
-
+        scheme = get_interface_result(initID, [], [token])
+        if scheme['result'] == 0:
+            self.context['schemename'] = scheme['plan_names']
 
 
 #返回table数据及查询结果
-class get_datasource(get_datasource_base):
-    def get_queryset(self, reqeust):
-        prj_id = self.request.session['PrjID']
+class get_datasource(View):
+    def get(self, request):
+        schemeid = request.GET.get('schemeid')
+        daterage = request.GET.get('daterage')
 
-        serinput = self.request.GET.get("resultdict[FMonitor]", '')
-        dsps_info = T_MonitorPoint.objects.filter(Q(CREATED_PRJ=prj_id), Q(FMonitor__contains=serinput))
+        datelist = str(daterage).split(' - ')
+        begindate = datelist[0]
+        enddate = datelist[1]
 
-        return dsps_info
+
+
+
+
+
 
 #链接增加模板
 class add(add_base):
