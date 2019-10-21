@@ -48,6 +48,7 @@ class get_datasource(View):
         begindate = datelist[0]
         enddate = datelist[1]
 
+        initID = ''
 
 
 

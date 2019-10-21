@@ -3,10 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="13368a02-f9aa-4424-a3e8-8adb41529488" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/6b334d14-81ac-4858-8b3d-58046d741e68/storage_v2/_src_/schema/ISMS-47.IJ2spw.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISMS/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/ISMS/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/content/pedpassage/pedpassageinfo.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/content/pedpassage/pedpassageinfo.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dsps/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/dsps/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -64,28 +62,49 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/personauth/views.py">
+        <entry file="file://$PROJECT_DIR$/common/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="219">
-              <caret line="177" lean-forward="true" selection-start-line="177" selection-end-line="177" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/content/personauth/personauthadd.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="22" column="9" selection-start-line="22" selection-start-column="9" selection-end-line="22" selection-end-column="9" />
+            <state relative-caret-position="248">
+              <caret line="310" selection-start-line="310" selection-end-line="310" />
+              <folding>
+                <element signature="e#0#35#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/templates/content/pedpassage/pedpassageinfo.html">
+        <entry file="file://$PROJECT_DIR$/dsps/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1765">
-              <caret line="209" column="122" lean-forward="true" selection-start-line="209" selection-start-column="122" selection-end-line="209" selection-end-column="122" />
+            <state relative-caret-position="271">
+              <caret line="50" column="18" selection-start-line="50" selection-start-column="18" selection-end-line="50" selection-end-column="18" />
+              <folding>
+                <element signature="e#0#35#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/content/dsps/dspsinfo.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-23">
+              <caret line="27" column="28" lean-forward="true" selection-start-line="27" selection-start-column="28" selection-end-line="27" selection-end-column="28" />
+              <folding>
+                <element signature="n#style#0;n#input#0;n#div#1;n#form#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/towercrane/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-42">
+              <folding>
+                <element signature="e#0#35#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -107,11 +126,11 @@
       <find>devinfo</find>
       <find>gensequence</find>
       <find>STATIC_ROOT</find>
-      <find>{% for</find>
       <find>first()</find>
       <find>2cd8b28cacf111e991437831c1d24216</find>
       <find>FVisitorIDcard</find>
       <find>FFeaturevalue</find>
+      <find>{% for</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -126,9 +145,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/templates/common/sidebar.html" />
-        <option value="$PROJECT_DIR$/templates/content/devinterface/devinterfaceinfo.html" />
-        <option value="$PROJECT_DIR$/unloading/views.py" />
         <option value="$PROJECT_DIR$/templates/content/unloading/unloadinginfo.html" />
         <option value="$PROJECT_DIR$/towercrane/urls.py" />
         <option value="$PROJECT_DIR$/unloading/urls.py" />
@@ -165,7 +181,6 @@
         <option value="$PROJECT_DIR$/devinterface/models.py" />
         <option value="$PROJECT_DIR$/devinterface/forms.py" />
         <option value="$PROJECT_DIR$/templates/content/devinterface/interfaceparamadd.html" />
-        <option value="$PROJECT_DIR$/common/views.py" />
         <option value="$PROJECT_DIR$/devinterface/views.py" />
         <option value="$PROJECT_DIR$/personauth/views.py" />
         <option value="$PROJECT_DIR$/templates/content/personauth/personauthadd.html" />
@@ -175,21 +190,26 @@
         <option value="$PROJECT_DIR$/ismsapi/urls.py" />
         <option value="$PROJECT_DIR$/templates/content/personauth/makeface.html" />
         <option value="$PROJECT_DIR$/ismsapi/views.py" />
-        <option value="$PROJECT_DIR$/ISMS/settings.py" />
         <option value="$PROJECT_DIR$/templates/content/pedpassage/pedpassageinfo.html" />
+        <option value="$PROJECT_DIR$/ISMS/settings.py" />
+        <option value="$PROJECT_DIR$/common/views.py" />
+        <option value="$PROJECT_DIR$/templates/common/sidebar.html" />
+        <option value="$PROJECT_DIR$/templates/content/dsps/dspsinfo.html" />
+        <option value="$PROJECT_DIR$/dsps/views.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="y" value="23" />
-    <option name="width" value="2560" />
-    <option name="height" value="1337" />
+    <option name="width" value="1280" />
+    <option name="height" value="724" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -206,7 +226,20 @@
               <item name="ISMS" type="b2602c69:ProjectViewProjectNode" />
               <item name="ISMS" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="common" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ISMS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ISMS" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
               <item name="content" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ISMS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ISMS" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="content" type="462c0819:PsiDirectoryNode" />
+              <item name="dsps" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="ISMS" type="b2602c69:ProjectViewProjectNode" />
@@ -215,11 +248,15 @@
               <item name="content" type="462c0819:PsiDirectoryNode" />
               <item name="pedpassage" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="ISMS" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ISMS" type="462c0819:PsiDirectoryNode" />
+              <item name="towercrane" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -313,6 +350,7 @@
       <workItem from="1570682941524" duration="1166000" />
       <workItem from="1570859866851" duration="3844000" />
       <workItem from="1571014300774" duration="26656000" />
+      <workItem from="1571618739790" duration="6642000" />
     </task>
     <task id="LOCAL-00001" summary="完成organize模块, 开始project模块">
       <created>1562834926084</created>
@@ -580,11 +618,25 @@
       <option name="project" value="LOCAL" />
       <updated>1571126628423</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="进行用户校验api模块">
+      <created>1571296134144</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1571296134144</updated>
+    </task>
+    <task id="LOCAL-00040" summary="进行用户校验api模块">
+      <created>1571642866732</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1571642866732</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="789374000" />
+    <option name="totallyTimeSpent" value="796278000" />
   </component>
   <component name="TodoView" selected-index="4">
     <todo-panel id="selected-file">
@@ -596,16 +648,17 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1280" height="723" extended-state="6" />
+    <frame x="0" y="23" width="1280" height="724" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Favorites" order="0" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.21001616" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.21324718" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
       <window_info id="Database" order="3" weight="0.21286735" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32753164" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.3058637" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3742972" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.30537975" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.37341774" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3296355" />
@@ -682,7 +735,7 @@
     <option name="LAST_COMMIT_MESSAGE" value="进行用户校验api模块" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/ISMS$debug.coverage" NAME="debug Coverage Results" MODIFIED="1571283491038" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/ISMS$debug.coverage" NAME="debug Coverage Results" MODIFIED="1571630040623" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="watch">
@@ -694,24 +747,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="das://f89171a7-feb3-4368-b6c5-08e5d6fb4599/schema/ISMS/table/T_PersonAuthMode" />
-    <entry file="das://f89171a7-feb3-4368-b6c5-08e5d6fb4599/schema/ISMS/table/T_PersonPassAuth" />
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/6b334d14-81ac-4858-8b3d-58046d741e68/console.sql" />
-    <entry file="file://$PROJECT_DIR$/passagerecord/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="23" column="48" selection-start-line="23" selection-start-column="48" selection-end-line="23" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://6b334d14-81ac-4858-8b3d-58046d741e68/schema/ISMS/table/T_Base" />
-    <entry file="file://$PROJECT_DIR$/templates/content/vehiclegate/vehiclesiginadd.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
-          <caret line="133" selection-start-line="133" selection-end-line="133" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vehiclegate/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-13">
@@ -869,13 +904,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/views/generic/base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="70" selection-start-line="70" selection-end-line="70" />
-        </state>
-      </provider>
-    </entry>
     <entry file="das://56cd8242-a2e3-48e9-94c8-0191afcc1662/schema/ISMS/table/T_PersonAuthMode">
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
@@ -944,16 +972,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/baseframe/baseframe.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="926">
-          <caret line="358" selection-start-line="358" selection-end-line="358" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/login/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
@@ -975,16 +993,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-95">
           <caret line="26" selection-start-line="26" selection-end-line="26" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/common/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1713">
-          <caret line="227" column="4" selection-start-line="227" selection-start-column="4" selection-end-line="227" selection-end-column="4" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>
@@ -1028,14 +1036,14 @@
     <entry file="file://$PROJECT_DIR$/ISMS/settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
-          <caret line="27" column="54" lean-forward="true" selection-start-line="27" selection-start-column="54" selection-end-line="27" selection-end-column="54" />
+          <caret line="27" column="54" selection-start-line="27" selection-start-column="54" selection-end-line="27" selection-end-column="54" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/personauth/views.py">
+    <entry file="file://$PROJECT_DIR$/templates/content/pedpassage/pedpassageinfo.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="177" lean-forward="true" selection-start-line="177" selection-end-line="177" />
+        <state relative-caret-position="387">
+          <caret line="194" column="122" lean-forward="true" selection-start-line="194" selection-start-column="122" selection-end-line="194" selection-end-column="122" />
         </state>
       </provider>
     </entry>
@@ -1046,10 +1054,93 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/content/pedpassage/pedpassageinfo.html">
+    <entry file="file://$PROJECT_DIR$/personauth/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1765">
-          <caret line="209" column="122" lean-forward="true" selection-start-line="209" selection-start-column="122" selection-end-line="209" selection-end-column="122" />
+        <state relative-caret-position="219">
+          <caret line="177" selection-start-line="177" selection-end-line="177" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/common/sidebar.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="428">
+          <caret line="188" column="108" selection-start-line="188" selection-start-column="108" selection-end-line="188" selection-end-column="108" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/content/menccheck/menccheckadd.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="27" column="40" selection-start-line="27" selection-start-column="40" selection-end-line="27" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/common/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="248">
+          <caret line="310" selection-start-line="310" selection-end-line="310" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/baseframe/baseframe.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="70" column="8" selection-start-line="70" selection-start-column="8" selection-end-line="70" selection-end-column="8" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/towercrane/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-42">
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/views/generic/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="123">
+          <caret line="87" selection-start-line="87" selection-end-line="87" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/envrule/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/content/dsps/dspsinfo.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-23">
+          <caret line="27" column="28" lean-forward="true" selection-start-line="27" selection-start-column="28" selection-end-line="27" selection-end-column="28" />
+          <folding>
+            <element signature="n#style#0;n#input#0;n#div#1;n#form#0;n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dsps/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="271">
+          <caret line="50" column="18" selection-start-line="50" selection-start-column="18" selection-end-line="50" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

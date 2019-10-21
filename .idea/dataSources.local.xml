@@ -12,7 +12,7 @@
       <introspection-schemas>*:@</introspection-schemas>
     </data-source>
     <data-source name="47.104.92.203" uuid="56cd8242-a2e3-48e9-94c8-0191afcc1662">
-      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" />
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="MYSQL" exact-version="0" />
       <introspection-schemas>*:@</introspection-schemas>
     </data-source>
   </component>
