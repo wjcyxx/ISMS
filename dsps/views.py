@@ -23,11 +23,6 @@ class entrance(EntranceView_base):
         prj_id = self.request.session['PrjID']
 
         self.template_name = 'content/dsps/dspsinfo.html'
-        self.query_sets = [
-            base.objects.filter(Q(FPID='87fb4ac2c25d11e9b7e67831c1d24216')),
-            device.objects.filter(Q(FStatus=True), Q(FDevtypeID='4d42f810c25f11e9b7e67831c1d24216'), Q(CREATED_PRJ=prj_id))
-        ]
-        self.quer_set_fieldnames = ['FBase', 'FDevice']
 
         initID = '2e8bc6eaf0b311e985c3a860b624be51'
         token = get_interface_result(initID)['token']
@@ -55,61 +50,10 @@ class get_datasource(View):
         token = request.session['gzmtoken']
 
         data = get_interface_result(initID, [schemeid, begindate, enddate], [token])
+        if data['result'] == 0:
+            resultdict = {'code':0, 'msg':"", 'count': len(data['datas']), 'data': data['datas']}
 
-        xx =1
-
-
-#链接增加模板
-class add(add_base):
-    def set_view(self, request):
-        prj_id = self.request.session['PrjID']
-
-        self.template_name = 'content/dsps/dspsadd.html'
-        self.objForm = DspsModelForm
-        self.query_sets = [
-            base.objects.filter(Q(FPID='87fb4ac2c25d11e9b7e67831c1d24216')),
-            device.objects.filter(Q(FStatus=True), Q(FDevtypeID='4d42f810c25f11e9b7e67831c1d24216'), Q(CREATED_PRJ=prj_id))
-        ]
-        self.query_set_idfields = ['FMonitortypeID', 'FDevID']
-        self.query_set_valuefields = ['FBase', 'FDevice']
-
-
-#链接编辑模板
-class edit(edit_base):
-    def set_view(self, request):
-        prj_id = self.request.session['PrjID']
-
-        self.template_name = 'content/dsps/dspsadd.html'
-        self.model = T_MonitorPoint
-        self.objForm = DspsModelForm
-        self.query_sets = [
-            base.objects.filter(Q(FPID='87fb4ac2c25d11e9b7e67831c1d24216')),
-            device.objects.filter(Q(FStatus=True), Q(FDevtypeID='4d42f810c25f11e9b7e67831c1d24216'), Q(CREATED_PRJ=prj_id))
-        ]
-        self.query_set_idfields = ['FMonitortypeID', 'FDevID']
-        self.query_set_valuefields = ['FBase', 'FDevice']
-
-
-#处理新增及保存数据
-class insert(insert_base):
-    def set_view(self, request):
-        prj_id = self.request.session['PrjID']
-
-        self.model = T_MonitorPoint
-        self.objForm = DspsModelForm
-
-        self.query_sets = [
-            base.objects.filter(Q(FPID='87fb4ac2c25d11e9b7e67831c1d24216')),
-            device.objects.filter(Q(FStatus=True), Q(FDevtypeID='4d42f810c25f11e9b7e67831c1d24216'), Q(CREATED_PRJ=prj_id))
-        ]
-        self.query_set_idfields = ['FMonitortypeID', 'FDevID']
-        self.query_set_valuefields = ['FBase', 'FDevice']
-
-
-#处理禁用/启用
-class disabled(disabled_base):
-    def set_view(self, request):
-        self.model = T_MonitorPoint
+            return JsonResponse(resultdict, safe=False)
 
 
 

@@ -31,6 +31,8 @@ def add(request):
 
     return render(request, "content/user/useradd.html" , {'obj': obj, 'action': 'insert'})
 
+
+
 #链接编辑模板
 def edit(request):
     fid = request.GET.get('fid')

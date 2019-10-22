@@ -19,7 +19,7 @@ class entrance(EntranceView_base):
     def set_view(self, request):
         self.template_name = 'content/busmenu/busmenuinfo.html'
 
-#返回物料类型tree数据
+#返回menutree数据
 class get_treedatasource(View):
     def post(self, request):
 
