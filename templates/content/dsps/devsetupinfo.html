@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  {% include "common/resfiles.html" %}
+</head>
+<body>
+
+<form class="layui-form layui-form-pane" accept-charset="utf-8">
+    <div style="padding: 10px; background-color: #F2F2F2;">
+        <div>
+            <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnC">关闭</a>
+        </div>
+
+        <div class="layui-row layui-col-space10" style="padding-top: 1%">
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header">采集器基础配置信息</div>
+                    <div class="layui-card-body">
+                        <!-- 数据列表 -->
+                        <table class="layui-table" id="datasource" lay-filter="toolbar"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</form>
+
+<!-- <script src="//res.layui.com/layui/build/layui.js" charset="utf-8"></script> -->
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+{% include "common/jsfiles.html" %}
+
+
+<script>
+
+layui.use(['element','layer','form'], function () {
+    var element = layui.element
+        , layer = layui.layer
+        , form = layui.form;
+
+    //关闭按钮
+    $("#btnC").click(function () {
+        var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
+        parent.layer.close(index);
+    });
+
+    table.render({
+        elem: '#datasource',
+        url: "{% url 'dsps:get_dev_datasource' %}?devid={{ devid }}",
+        cols: [[
+            {field:'plan_name', width: '10%', title: '方案名称', sort: true, filter: true},
+            {field:'vals', width: '10%', title: '温度', sort: true, filter: true, templet: '<div>{% verbatim %}{{get_vals(d.vals, 1)}}{% endverbatim %}</div>'},
+            {field:'vals', width: '15%', title: 'X轴坐标', sort: true, filter: true, templet: '<div>{% verbatim %}{{get_vals(d.vals, 2)}}{% endverbatim %}</div>'},
+            {field:'vals', width: '15%', title: 'Y轴坐标', sort: true, filter: true, templet: '<div>{% verbatim %}{{get_vals(d.vals, 3)}}{% endverbatim %}</div>'},
+            {field:'vals', width: '15%', title: '压力', sort: true, filter: true, templet: '<div>{% verbatim %}{{get_vals(d.vals, 4)}}{% endverbatim %}</div>'},
+            {field:'vals', width: '15%', title: '位移', sort: true, filter: true, templet: '<div>{% verbatim %}{{get_vals(d.vals, 5)}}{% endverbatim %}</div>'},
+            {field:'vals', width: '15%', title: '采集器电量', sort: true, filter: true, templet: '<div>{% verbatim %}{{get_vals(d.vals, 0)}}{% endverbatim %}</div>'},
+            {field:'sample_dev_id', width: '15%', title: '采集设备编号', sort: true, filter: true},
+            {field:'upload_dev_id', width: '15%', title: '上传设备编号', sort: true, filter: true},
+            {field:'sample_time', width: '20%', title: '数据采集时间', sort: true, filter: true},
+            {field:'upload_time', width: '20%', title: '数据上传时间', sort: true, filter: true},
+            {field:'', title: '操作', width: '25%', toolbar: '#tlbar', fixed: 'right'}
+        ]],
+        id: 'runreload'
+
+        ,done: function () {
+            soulTable.render(this)
+        }
+    });
+
+
+
+
+})
+</script>
+
+</body>
+</html>

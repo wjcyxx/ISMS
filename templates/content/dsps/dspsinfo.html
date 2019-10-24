@@ -83,16 +83,21 @@
           } else {
               table.render({
                   elem: '#datasource',
-                  height: 'full-120',
+                  height: 'full-190',
                   url: "{% url 'dsps:get_datasource' %}?schemeid="+schemeid+"&daterage="+daterage,
                   cols: [[
-                      {field:'plan_name', width: '10%', title: '采集方案名称', sort: true, filter: true},
-                      {field:'vals', width: '20%', title: '采样值', sort: true, filter: true},
+                      {field:'plan_name', width: '10%', title: '方案名称', sort: true, filter: true},
+                      {field:'vals', width: '10%', title: '温度', sort: true, filter: true, templet: '<div>{% verbatim %}{{get_vals(d.vals, 1)}}{% endverbatim %}</div>'},
+                      {field:'vals', width: '15%', title: 'X轴坐标', sort: true, filter: true, templet: '<div>{% verbatim %}{{get_vals(d.vals, 2)}}{% endverbatim %}</div>'},
+                      {field:'vals', width: '15%', title: 'Y轴坐标', sort: true, filter: true, templet: '<div>{% verbatim %}{{get_vals(d.vals, 3)}}{% endverbatim %}</div>'},
+                      {field:'vals', width: '15%', title: '压力', sort: true, filter: true, templet: '<div>{% verbatim %}{{get_vals(d.vals, 4)}}{% endverbatim %}</div>'},
+                      {field:'vals', width: '15%', title: '位移', sort: true, filter: true, templet: '<div>{% verbatim %}{{get_vals(d.vals, 5)}}{% endverbatim %}</div>'},
+                      {field:'vals', width: '15%', title: '采集器电量', sort: true, filter: true, templet: '<div>{% verbatim %}{{get_vals(d.vals, 0)}}{% endverbatim %}</div>'},
                       {field:'sample_dev_id', width: '15%', title: '采集设备编号', sort: true, filter: true},
                       {field:'upload_dev_id', width: '15%', title: '上传设备编号', sort: true, filter: true},
-                      {field:'sample_time', width: '15%', title: '数据采集时间', sort: true, filter: true},
-                      {field:'upload_time', width: '15%', title: '数据上传时间', sort: true, filter: true},
-                      {field:'', title: '操作', width: '10%', toolbar: '#tlbar', fixed: 'right'}
+                      {field:'sample_time', width: '20%', title: '数据采集时间', sort: true, filter: true},
+                      {field:'upload_time', width: '20%', title: '数据上传时间', sort: true, filter: true},
+                      {field:'', title: '操作', width: '25%', toolbar: '#tlbar', fixed: 'right'}
                   ]],
                   id: 'runreload'
 
@@ -107,21 +112,67 @@
       table.render({
           elem: '#datasource',
           height: 'full-190',
+          data: [],
           cols: [[
+              {field:'', width: '10%', title: '方案名称', sort: true, filter: true},
+              {field:'', width: '20%', title: '温度', sort: true, filter: true},
+              {field:'', width: '20%', title: 'X轴坐标', sort: true, filter: true},
+              {field:'', width: '20%', title: 'Y轴坐标', sort: true, filter: true},
+              {field:'', width: '20%', title: '压力', sort: true, filter: true},
+              {field:'', width: '20%', title: '位移', sort: true, filter: true},
+              {field:'', width: '20%', title: '采集器电量', sort: true, filter: true},
+              {field:'', width: '15%', title: '采集设备编号', sort: true, filter: true},
+              {field:'', width: '15%', title: '上传设备编号', sort: true, filter: true},
+              {field:'', width: '15%', title: '数据采集时间', sort: true, filter: true},
+              {field:'', width: '15%', title: '数据上传时间', sort: true, filter: true},
+              {field:'', title: '操作', width: '10%', toolbar: '#tlbar', fixed: 'right'}
           ]]
-          ,done: function () {
-              soulTable.render(this)
-          }
       });
 
 
+      table.on('tool(toolbar)', function (obj) {
+          var data = obj.data;           //获取当前行数据
+          var layEvent = obj.event;      //获取当前行事件
+          var tr = obj.tr;               //获取当前行tr的DOM数据
+
+          switch (layEvent){
+              case 'setup' :              //编辑按钮事件
+                  parent.layer.open({
+                      type:   2,
+                      title:  '采集器配置信息',
+                      area: ['920px','530px'],
+                      fixed: false,
+                      content: "{% url 'dsps:dev_setupinfo' %}?devid="+data.sample_dev_id,
+                      resize: false,
+                      move: false
+                  });
+
+                  break;
+
+              case '' :
+                  break;
+
+          }
+
+      });
+
   });
 </script>
+
+  <script type="text/javascript">
+      function get_vals(vals, index) {
+          var arrs = String(vals).split(',');
+
+          return arrs[index]
+      }
+  </script>
+
 
 <!--生成操作工具栏-->
 <script type="text/html" id="tlbar">
     {% verbatim %}
         <div class="layui-btn-group">
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="setup"><i class="fa fa-cogs" aria-hidden="true"></i>采集仪配置信息</a>
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>获取示意图</a>
         </div>
     {% endverbatim %}

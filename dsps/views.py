@@ -56,4 +56,16 @@ class get_datasource(View):
             return JsonResponse(resultdict, safe=False)
 
 
+#链接采集设备配置信息view
+class dev_setupinfo(EntranceView_base):
+    def set_view(self, request):
+        devid = self.request.GET.get('devid')
 
+        self.template_name = 'content/dsps/devsetupinfo.html'
+        self.context['devid'] = devid
+
+
+#返回采集器配置信息table
+class get_dev_datasource(View):
+    def get(self, request):
+        pass
