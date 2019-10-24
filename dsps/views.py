@@ -60,12 +60,41 @@ class get_datasource(View):
 class dev_setupinfo(EntranceView_base):
     def set_view(self, request):
         devid = self.request.GET.get('devid')
+        schemeid = self.request.GET.get('schemeid')
 
         self.template_name = 'content/dsps/devsetupinfo.html'
         self.context['devid'] = devid
+        self.context['schemeid'] = schemeid
 
 
 #返回采集器配置信息table
 class get_dev_datasource(View):
     def get(self, request):
-        pass
+        devid = request.GET.get('devid')
+        schemeid = request.GET.get('schemeid')
+
+        token = request.session['gzmtoken']
+        initID = '3fd972a6f62d11e98f35a860b624be51'
+
+        data = get_interface_result(initID, [schemeid], [token])
+
+        if data['result'] == 0:
+            data_info = data['l']
+
+            for obj in data_info:
+                if str(obj['i']) == devid:
+                    data = []
+                    a1 = {'title': '预警值', 'a': obj['a1']}
+                    data.append(a1)
+
+                    a2 = {'title': '报警值', 'a': obj['a2']}
+                    data.append(a2)
+
+                    a3 = {'title': '控制值', 'a': obj['a3']}
+                    data.append(a3)
+
+                    resultdict = {'code':0, 'msg':"", 'count': 3, 'data': data}
+                    break
+
+            return JsonResponse(resultdict, safe=False)
+

@@ -134,6 +134,7 @@
           var data = obj.data;           //获取当前行数据
           var layEvent = obj.event;      //获取当前行事件
           var tr = obj.tr;               //获取当前行tr的DOM数据
+          var schemeid = $("#id_selSol").val();
 
           switch (layEvent){
               case 'setup' :              //编辑按钮事件
@@ -142,7 +143,7 @@
                       title:  '采集器配置信息',
                       area: ['920px','530px'],
                       fixed: false,
-                      content: "{% url 'dsps:dev_setupinfo' %}?devid="+data.sample_dev_id,
+                      content: "{% url 'dsps:dev_setupinfo' %}?devid="+data.sample_dev_id+"&schemeid="+schemeid,
                       resize: false,
                       move: false
                   });

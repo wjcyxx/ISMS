@@ -33,11 +33,18 @@
 
 
 <script>
+layui.config({
+    base: '/static/layui/ext/',   // 模块所在目录
+}).extend({
+    soulTable: 'soulTable'  // 模块别名
+});
 
-layui.use(['element','layer','form'], function () {
+layui.use(['element','layer','form', 'table', 'soulTable'], function () {
     var element = layui.element
         , layer = layui.layer
-        , form = layui.form;
+        , form = layui.form
+        ,table = layui.table
+        ,soulTable = layui.soulTable;
 
     //关闭按钮
     $("#btnC").click(function () {
@@ -47,20 +54,15 @@ layui.use(['element','layer','form'], function () {
 
     table.render({
         elem: '#datasource',
-        url: "{% url 'dsps:get_dev_datasource' %}?devid={{ devid }}",
+        height: '300',
+        url: "{% url 'dsps:get_dev_datasource' %}?devid={{ devid }}&schemeid={{ schemeid }}",
         cols: [[
-            {field:'plan_name', width: '10%', title: '方案名称', sort: true, filter: true},
-            {field:'vals', width: '10%', title: '温度', sort: true, filter: true, templet: '<div>{% verbatim %}{{get_vals(d.vals, 1)}}{% endverbatim %}</div>'},
-            {field:'vals', width: '15%', title: 'X轴坐标', sort: true, filter: true, templet: '<div>{% verbatim %}{{get_vals(d.vals, 2)}}{% endverbatim %}</div>'},
-            {field:'vals', width: '15%', title: 'Y轴坐标', sort: true, filter: true, templet: '<div>{% verbatim %}{{get_vals(d.vals, 3)}}{% endverbatim %}</div>'},
-            {field:'vals', width: '15%', title: '压力', sort: true, filter: true, templet: '<div>{% verbatim %}{{get_vals(d.vals, 4)}}{% endverbatim %}</div>'},
-            {field:'vals', width: '15%', title: '位移', sort: true, filter: true, templet: '<div>{% verbatim %}{{get_vals(d.vals, 5)}}{% endverbatim %}</div>'},
-            {field:'vals', width: '15%', title: '采集器电量', sort: true, filter: true, templet: '<div>{% verbatim %}{{get_vals(d.vals, 0)}}{% endverbatim %}</div>'},
-            {field:'sample_dev_id', width: '15%', title: '采集设备编号', sort: true, filter: true},
-            {field:'upload_dev_id', width: '15%', title: '上传设备编号', sort: true, filter: true},
-            {field:'sample_time', width: '20%', title: '数据采集时间', sort: true, filter: true},
-            {field:'upload_time', width: '20%', title: '数据上传时间', sort: true, filter: true},
-            {field:'', title: '操作', width: '25%', toolbar: '#tlbar', fixed: 'right'}
+            {field:'title', width: '15%', title: '数据类型', sort: true, filter: true},
+            {field:'a', width: '15%', title: '电量', sort: true, filter: true, templet: '<div>{% verbatim %}{{get_vals(d.a, 0)}}{% endverbatim %}</div>' },
+            {field:'a', width: '15%', title: 'X轴', sort: true, filter: true, templet: '<div>{% verbatim %}{{get_vals(d.a, 1)}}{% endverbatim %}</div>' },
+            {field:'a', width: '15%', title: 'Y轴', sort: true, filter: true, templet: '<div>{% verbatim %}{{get_vals(d.a, 2)}}{% endverbatim %}</div>' },
+            {field:'a', width: '15%', title: '压力', sort: true, filter: true, templet: '<div>{% verbatim %}{{get_vals(d.a, 3)}}{% endverbatim %}</div>' },
+            {field:'a', width: '15%', title: '位移', sort: true, filter: true, templet: '<div>{% verbatim %}{{get_vals(d.a, 4)}}{% endverbatim %}</div>' },
         ]],
         id: 'runreload'
 
@@ -69,11 +71,17 @@ layui.use(['element','layer','form'], function () {
         }
     });
 
-
-
-
 })
 </script>
+
+<script type="text/javascript">
+    function get_vals(vals, index) {
+        var arrs = String(vals).split(',');
+
+        return arrs[index]
+    }
+</script>
+
 
 </body>
 </html>
