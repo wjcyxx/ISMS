@@ -16,8 +16,12 @@ from baseframe.baseframe import *
 #控制器入口
 class entrance(EntranceView_base):
     def set_view(self, request):
+        Orgid = self.request.session['UserOrg']
+
         self.template_name = 'content/mapview/mapview.html'
         project_info = project.objects.all()
+        condtions = {"FManageORG": Orgid}
+        project_info = org_split(project_info, self.request, **condtions)
 
         self.context['projectinfo'] = project_info
 

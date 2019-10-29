@@ -36,6 +36,7 @@ def get_datasource(request):
     prj_id = request.session['PrjID']
 
     Group_info =  T_Group.objects.filter(Q(FGroup__contains=serinput), Q(CREATED_PRJ=prj_id))
+    Group_info = org_split(Group_info, request)
 
     dict = convert_to_dicts(Group_info)
     resultdict = {'code':0, 'msg':"", 'count': Group_info.count(), 'data': dict}

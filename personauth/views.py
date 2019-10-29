@@ -76,7 +76,7 @@ def auth(request):
         return HttpResponse(json.dumps(response_data))
 
 
-#链接IC卡制卡view
+#链接权限view
 class makeiccard_add(add_base):
     def set_view(self, request):
         area_info = self.request.GET.get('areainfo')
@@ -90,9 +90,9 @@ class makeiccard_add(add_base):
 
 
         authmethod = self.request.GET.get('authmethod')
-        if authmethod == '0':
+        if authmethod == '0':    #IC卡制卡
             self.template_name = 'content/personauth/makeiccard.html'
-        elif authmethod == '1':
+        elif authmethod == '1':  #刷脸
             self.template_name = 'content/personauth/makeface.html'
 
         self.objForm = PersonAuthModelForm

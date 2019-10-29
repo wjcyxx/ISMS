@@ -27,26 +27,26 @@ class entrance(EntranceView_base):
         self.template_name = 'content/personinfomap/personinfomap.html'
 
         #员工、管理人员在册数量
-        person_count = personnel.objects.filter(~Q(FType=0)).count()
-        manager_count = personnel.objects.filter(Q(FType=0)).count()
+        person_count = personnel.objects.filter(~Q(FType=0), Q(CREATED_PRJ=prj_id)).count()
+        manager_count = personnel.objects.filter(Q(FType=0), Q(CREATED_PRJ=prj_id)).count()
 
         year = timezone.now().year
         month = timezone.now().month
         day = timezone.now().day
 
         #员工、管理人员考勤数量
-        person_record = passagerecord.objects.filter(Q(CREATED_TIME__year=year), Q(CREATED_TIME__month=month), Q(CREATED_TIME__day=day), ~Q(FPassageID__FType=0)).count()
-        manager_record = passagerecord.objects.filter(Q(CREATED_TIME__year=year), Q(CREATED_TIME__month=month), Q(CREATED_TIME__day=day), Q(FPassageID__FType=0)).count()
+        person_record = passagerecord.objects.filter(Q(CREATED_TIME__year=year), Q(CREATED_TIME__month=month), Q(CREATED_TIME__day=day), ~Q(FPassageID__FType=0), Q(CREATED_PRJ=prj_id)).count()
+        manager_record = passagerecord.objects.filter(Q(CREATED_TIME__year=year), Q(CREATED_TIME__month=month), Q(CREATED_TIME__day=day), Q(FPassageID__FType=0), Q(CREATED_PRJ=prj_id)).count()
 
         #员工登记，退场，禁用数量
-        dengji_info = personnel.objects.filter(~Q(FType=0), Q(FStatus=0))
-        tuichang_info = personnel.objects.filter(~Q(FType=0),Q(FStatus=1))
-        jinyong_info = personnel.objects.filter(~Q(FType=0),Q(FStatus=2))
+        dengji_info = personnel.objects.filter(~Q(FType=0), Q(FStatus=0), Q(CREATED_PRJ=prj_id))
+        tuichang_info = personnel.objects.filter(~Q(FType=0),Q(FStatus=1), Q(CREATED_PRJ=prj_id))
+        jinyong_info = personnel.objects.filter(~Q(FType=0),Q(FStatus=2), Q(CREATED_PRJ=prj_id))
 
         #通过刷脸，ic卡，身份证考勤数量
-        face_count = passagerecord.objects.filter(Q(CREATED_TIME__year=year), Q(CREATED_TIME__month=month), Q(CREATED_TIME__day=day), ~Q(FPassageID__FType=0), Q(FAuthtypeID='7f183e98acf411e991437831c1d24216')).count()
-        iccard_count = passagerecord.objects.filter(Q(CREATED_TIME__year=year), Q(CREATED_TIME__month=month), Q(CREATED_TIME__day=day), ~Q(FPassageID__FType=0), Q(FAuthtypeID='65c7cfb2acf411e991437831c1d24216')).count()
-        sfz_count = passagerecord.objects.filter(Q(CREATED_TIME__year=year), Q(CREATED_TIME__month=month), Q(CREATED_TIME__day=day), ~Q(FPassageID__FType=0), Q(FAuthtypeID='9015ad48acf411e991437831c1d24216')).count()
+        face_count = passagerecord.objects.filter(Q(CREATED_TIME__year=year), Q(CREATED_TIME__month=month), Q(CREATED_TIME__day=day), ~Q(FPassageID__FType=0), Q(FAuthtypeID='7f183e98acf411e991437831c1d24216'), Q(CREATED_PRJ=prj_id)).count()
+        iccard_count = passagerecord.objects.filter(Q(CREATED_TIME__year=year), Q(CREATED_TIME__month=month), Q(CREATED_TIME__day=day), ~Q(FPassageID__FType=0), Q(FAuthtypeID='65c7cfb2acf411e991437831c1d24216'), Q(CREATED_PRJ=prj_id)).count()
+        sfz_count = passagerecord.objects.filter(Q(CREATED_TIME__year=year), Q(CREATED_TIME__month=month), Q(CREATED_TIME__day=day), ~Q(FPassageID__FType=0), Q(FAuthtypeID='9015ad48acf411e991437831c1d24216'), Q(CREATED_PRJ=prj_id)).count()
 
         groupname = group.objects.filter(Q(FStatus=True), Q(CREATED_PRJ=prj_id))
 
@@ -80,13 +80,13 @@ class groupanalyse(View):
 
             group_fid = ''.join(str(arr.FID).split('-'))
 
-            person_count = personnel.objects.filter(Q(FGroupID=group_fid)).count()
+            person_count = personnel.objects.filter(Q(FGroupID=group_fid), Q(CREATED_PRJ=prj_id)).count()
             gperson_data.append(person_count)
 
             year = timezone.now().year
             month = timezone.now().month
             day = timezone.now().day
-            person_record = passagerecord.objects.filter(Q(FPersonID__FGroupID=group_fid), Q(CREATED_TIME__year=year), Q(CREATED_TIME__month=month), Q(CREATED_TIME__day=day), ~Q(FPassageID__FType=0)).count()
+            person_record = passagerecord.objects.filter(Q(FPersonID__FGroupID=group_fid), Q(CREATED_TIME__year=year), Q(CREATED_TIME__month=month), Q(CREATED_TIME__day=day), ~Q(FPassageID__FType=0), Q(CREATED_PRJ=prj_id)).count()
             gpcq_data.append(person_record)
 
 

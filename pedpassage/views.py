@@ -36,6 +36,7 @@ def get_datasource(request):
     serinput = request.POST.get("resultdict[FPassage]", '')
 
     Pedpassage_info =  T_PedPassage.objects.filter(Q(FPassage__contains=serinput), Q(CREATED_PRJ=prjid))
+    Pedpassage_info = org_split(Pedpassage_info, request)
 
     dict = convert_to_dicts(Pedpassage_info)
     resultdict = {'code':0, 'msg':"", 'count': Pedpassage_info.count(), 'data': dict}

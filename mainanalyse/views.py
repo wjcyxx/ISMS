@@ -36,8 +36,13 @@ class topanalyse(View):
 
         #员工登记，退场，禁用数量
         dengji_info = personnel.objects.filter(~Q(FType=0), Q(FStatus=0))
+        dengji_info = org_split(dengji_info, request)
+
         tuichang_info = personnel.objects.filter(~Q(FType=0),Q(FStatus=1))
+        tuichang_info = org_split(tuichang_info, request)
+
         jinyong_info = personnel.objects.filter(~Q(FType=0),Q(FStatus=2))
+        jinyong_info = org_split(jinyong_info, request)
 
         #人行通道统计信息
         pedpassage_info = pedpassage.objects.filter(Q(CREATED_PRJ=prj_id), Q(FStatus=True))
@@ -70,6 +75,9 @@ class topanalyse(View):
 #人行通道吞吐量分析数据
 class pedpassageanlayse(View):
     def post(self, request):
+        IsSplit = request.session['OrgIsSplit']
+        Orgid = request.session['UserOrg']
+
         end_time = datetime.datetime.now()
         begin_time = (end_time - datetime.timedelta(days=6))
 
@@ -78,7 +86,10 @@ class pedpassageanlayse(View):
 
         cur = connection.cursor()
 
-        sqlstr = "SELECT DATE_FORMAT(dday,'%m-%d') AS dt1,count(*)-1 AS FCust FROM (SELECT datelist AS dday FROM calendar WHERE datelist BETWEEN '"+ begin_time +"' AND '"+ end_time +"' UNION ALL SELECT DATE_FORMAT(a.CREATED_TIME,'%Y-%m-%d') AS dt FROM T_PassageRecord AS a LEFT JOIN T_PedPassage AS b ON a.FPassageID_id=b.FID WHERE b.FStatus=1 AND b.FType=0 AND DATE_FORMAT(a.CREATED_TIME,'%Y-%m-%d') BETWEEN '"+ begin_time +"' AND '"+ end_time +"') a GROUP BY dt1"
+        if IsSplit == True:
+            sqlstr = "SELECT DATE_FORMAT(dday,'%m-%d') AS dt1,count(*)-1 AS FCust FROM (SELECT datelist AS dday FROM calendar WHERE datelist BETWEEN '"+ begin_time +"' AND '"+ end_time +"' UNION ALL SELECT DATE_FORMAT(a.CREATED_TIME,'%Y-%m-%d') AS dt FROM T_PassageRecord AS a LEFT JOIN T_PedPassage AS b ON a.FPassageID_id=b.FID WHERE b.FStatus=1 AND b.FType=0 AND a.CREATED_ORG= '"+ Orgid +"' AND DATE_FORMAT(a.CREATED_TIME,'%Y-%m-%d') BETWEEN '"+ begin_time +"' AND '"+ end_time +"') a GROUP BY dt1"
+        else:
+            sqlstr = "SELECT DATE_FORMAT(dday,'%m-%d') AS dt1,count(*)-1 AS FCust FROM (SELECT datelist AS dday FROM calendar WHERE datelist BETWEEN '"+ begin_time +"' AND '"+ end_time +"' UNION ALL SELECT DATE_FORMAT(a.CREATED_TIME,'%Y-%m-%d') AS dt FROM T_PassageRecord AS a LEFT JOIN T_PedPassage AS b ON a.FPassageID_id=b.FID WHERE b.FStatus=1 AND b.FType=0 AND DATE_FORMAT(a.CREATED_TIME,'%Y-%m-%d') BETWEEN '"+ begin_time +"' AND '"+ end_time +"') a GROUP BY dt1"
 
         cur.execute(sqlstr)
         rows = cur.fetchall()
@@ -94,7 +105,10 @@ class pedpassageanlayse(View):
 
         cur1 = connection.cursor()
 
-        sqlstr = "SELECT DATE_FORMAT(dday,'%m-%d') AS dt1,count(*)-1 AS FCust FROM (SELECT datelist AS dday FROM calendar WHERE datelist BETWEEN '"+ begin_time +"' AND '"+ end_time +"' UNION ALL SELECT DATE_FORMAT(a.CREATED_TIME,'%Y-%m-%d') AS dt FROM T_PassageRecord AS a LEFT JOIN T_PedPassage AS b ON a.FPassageID_id=b.FID WHERE b.FStatus=1 AND b.FType=1 AND DATE_FORMAT(a.CREATED_TIME,'%Y-%m-%d') BETWEEN '"+ begin_time +"' AND '"+ end_time +"') a GROUP BY dt1"
+        if IsSplit == True:
+            sqlstr = "SELECT DATE_FORMAT(dday,'%m-%d') AS dt1,count(*)-1 AS FCust FROM (SELECT datelist AS dday FROM calendar WHERE datelist BETWEEN '"+ begin_time +"' AND '"+ end_time +"' UNION ALL SELECT DATE_FORMAT(a.CREATED_TIME,'%Y-%m-%d') AS dt FROM T_PassageRecord AS a LEFT JOIN T_PedPassage AS b ON a.FPassageID_id=b.FID WHERE b.FStatus=1 AND b.FType=1 AND a.CREATED_ORG='"+ Orgid +"' AND DATE_FORMAT(a.CREATED_TIME,'%Y-%m-%d') BETWEEN '"+ begin_time +"' AND '"+ end_time +"') a GROUP BY dt1"
+        else:
+            sqlstr = "SELECT DATE_FORMAT(dday,'%m-%d') AS dt1,count(*)-1 AS FCust FROM (SELECT datelist AS dday FROM calendar WHERE datelist BETWEEN '"+ begin_time +"' AND '"+ end_time +"' UNION ALL SELECT DATE_FORMAT(a.CREATED_TIME,'%Y-%m-%d') AS dt FROM T_PassageRecord AS a LEFT JOIN T_PedPassage AS b ON a.FPassageID_id=b.FID WHERE b.FStatus=1 AND b.FType=1 AND DATE_FORMAT(a.CREATED_TIME,'%Y-%m-%d') BETWEEN '"+ begin_time +"' AND '"+ end_time +"') a GROUP BY dt1"
 
 
         cur1.execute(sqlstr)
@@ -111,6 +125,9 @@ class pedpassageanlayse(View):
 #车行通道吞吐量数据分析
 class vehpassageanalyse(View):
     def post(self, request):
+        IsSplit = request.session['OrgIsSplit']
+        Orgid = request.session['UserOrg']
+
         end_time = datetime.datetime.now()
         begin_time = (end_time - datetime.timedelta(days=6))
 
@@ -119,7 +136,10 @@ class vehpassageanalyse(View):
 
         cur = connection.cursor()
 
-        sqlstr = "SELECT DATE_FORMAT(dday,'%m-%d') AS dt1,count(*)-1 AS FCust FROM (SELECT datelist AS dday FROM calendar WHERE datelist BETWEEN '"+ begin_time +"' AND '"+ end_time +"' UNION ALL SELECT DATE_FORMAT(a.CREATED_TIME,'%Y-%m-%d') AS dt FROM T_VehiclePassLog AS a LEFT JOIN T_VehicleGate AS b ON a.FGateID_id=b.FID WHERE b.FStatus=1 AND b.FGatetype=0 AND DATE_FORMAT(a.CREATED_TIME,'%Y-%m-%d') BETWEEN '"+ begin_time +"' AND '"+ end_time +"') a GROUP BY dt1"
+        if IsSplit == True:
+            sqlstr = "SELECT DATE_FORMAT(dday,'%m-%d') AS dt1,count(*)-1 AS FCust FROM (SELECT datelist AS dday FROM calendar WHERE datelist BETWEEN '"+ begin_time +"' AND '"+ end_time +"' UNION ALL SELECT DATE_FORMAT(a.CREATED_TIME,'%Y-%m-%d') AS dt FROM T_VehiclePassLog AS a LEFT JOIN T_VehicleGate AS b ON a.FGateID_id=b.FID WHERE b.FStatus=1 AND b.FGatetype=0 AND a.CREATED_ORG='"+ Orgid +"' AND DATE_FORMAT(a.CREATED_TIME,'%Y-%m-%d') BETWEEN '"+ begin_time +"' AND '"+ end_time +"') a GROUP BY dt1"
+        else:
+            sqlstr = "SELECT DATE_FORMAT(dday,'%m-%d') AS dt1,count(*)-1 AS FCust FROM (SELECT datelist AS dday FROM calendar WHERE datelist BETWEEN '"+ begin_time +"' AND '"+ end_time +"' UNION ALL SELECT DATE_FORMAT(a.CREATED_TIME,'%Y-%m-%d') AS dt FROM T_VehiclePassLog AS a LEFT JOIN T_VehicleGate AS b ON a.FGateID_id=b.FID WHERE b.FStatus=1 AND b.FGatetype=0 AND DATE_FORMAT(a.CREATED_TIME,'%Y-%m-%d') BETWEEN '"+ begin_time +"' AND '"+ end_time +"') a GROUP BY dt1"
 
         cur.execute(sqlstr)
         rows = cur.fetchall()
@@ -134,7 +154,10 @@ class vehpassageanalyse(View):
 
         cur1 = connection.cursor()
 
-        sqlstr = "SELECT DATE_FORMAT(dday,'%m-%d') AS dt1,count(*)-1 AS FCust FROM (SELECT datelist AS dday FROM calendar WHERE datelist BETWEEN '"+ begin_time +"' AND '"+ end_time +"' UNION ALL SELECT DATE_FORMAT(a.CREATED_TIME,'%Y-%m-%d') AS dt FROM T_VehiclePassLog AS a LEFT JOIN T_VehicleGate AS b ON a.FGateID_id=b.FID WHERE b.FStatus=1 AND b.FGatetype=1 AND DATE_FORMAT(a.CREATED_TIME,'%Y-%m-%d') BETWEEN '"+ begin_time +"' AND '"+ end_time +"') a GROUP BY dt1"
+        if IsSplit == True:
+            sqlstr = "SELECT DATE_FORMAT(dday,'%m-%d') AS dt1,count(*)-1 AS FCust FROM (SELECT datelist AS dday FROM calendar WHERE datelist BETWEEN '"+ begin_time +"' AND '"+ end_time +"' UNION ALL SELECT DATE_FORMAT(a.CREATED_TIME,'%Y-%m-%d') AS dt FROM T_VehiclePassLog AS a LEFT JOIN T_VehicleGate AS b ON a.FGateID_id=b.FID WHERE b.FStatus=1 AND b.FGatetype=1  AND a.CREATED_ORG='"+ Orgid +"' AND DATE_FORMAT(a.CREATED_TIME,'%Y-%m-%d') BETWEEN '"+ begin_time +"' AND '"+ end_time +"') a GROUP BY dt1"
+        else:
+            sqlstr = "SELECT DATE_FORMAT(dday,'%m-%d') AS dt1,count(*)-1 AS FCust FROM (SELECT datelist AS dday FROM calendar WHERE datelist BETWEEN '"+ begin_time +"' AND '"+ end_time +"' UNION ALL SELECT DATE_FORMAT(a.CREATED_TIME,'%Y-%m-%d') AS dt FROM T_VehiclePassLog AS a LEFT JOIN T_VehicleGate AS b ON a.FGateID_id=b.FID WHERE b.FStatus=1 AND b.FGatetype=1 AND DATE_FORMAT(a.CREATED_TIME,'%Y-%m-%d') BETWEEN '"+ begin_time +"' AND '"+ end_time +"') a GROUP BY dt1"
 
 
         cur1.execute(sqlstr)
@@ -217,7 +240,7 @@ class get_vehpassage_news(View):
         return HttpResponse(json.dumps(result_dict))
 
 
-
+#环境检测数据分析
 class envanalyse(View):
     def post(self, request):
         devkey = request.POST.get('Deykey')

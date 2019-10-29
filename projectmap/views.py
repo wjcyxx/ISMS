@@ -31,6 +31,7 @@ def get_datasource(request):
     prj_id = request.session['PrjID']
 
     Prjmap_info =  T_ProjectMap.objects.filter(Q(FMapdesc__contains=serinput), Q(CREATED_PRJ=prj_id))
+    Prjmap_info = org_split(Prjmap_info, request)
 
     dict = convert_to_dicts(Prjmap_info)
     resultdict = {'code':0, 'msg':"", 'count': Prjmap_info.count(), 'data': dict}

@@ -40,9 +40,13 @@ def project(request):
 
 #返回table数据及查询结果
 def get_datasource(request):
+    Orgid = request.session['UserOrg']
+
     serinput = request.POST.get("resultdict[FPrjname]", '')
+    condtions = {"FManageORG": Orgid}
 
     Project_info =  T_Project.objects.filter(Q(FPrjname__contains=serinput))
+    Project_info = org_split(Project_info, request, **condtions)
 
     dict = convert_to_dicts(Project_info)
     resultdict = {'code':0, 'msg':"", 'count': Project_info.count(), 'data': dict}

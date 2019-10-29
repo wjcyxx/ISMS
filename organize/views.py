@@ -28,6 +28,7 @@ def get_datasource(request):
     serinput = request.POST.get("resultdict[FOrgname]", '')
 
     Organize_info = T_Organize.objects.filter(Q(FOrgname__contains=serinput))
+    Organize_info = org_split(Organize_info, request)
 
     dict = convert_to_dicts(Organize_info)
     resultdict = {'code':0, 'msg':"", 'count': Organize_info.count(), 'data': dict}

@@ -26,6 +26,7 @@ def get_datasource(request):
     serinput = request.POST.get("resultdict[FDevice]", '')
 
     Device_info =  T_Device.objects.filter(Q(FDevice__contains=serinput))
+    Device_info = org_split(Device_info, request)
 
     dict = convert_to_dicts(Device_info)
     resultdict = {'code':0, 'msg':"", 'count': Device_info.count(), 'data': dict}

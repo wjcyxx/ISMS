@@ -54,6 +54,8 @@ class get_datasource_base(View):
         try:
             self.request = request
             query_set = self.get_queryset(self)
+            query_set = org_split(query_set, request)
+
             if self.type == 0:
                 dict = convert_to_dicts(query_set)
             else:

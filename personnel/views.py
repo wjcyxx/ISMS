@@ -41,6 +41,7 @@ def get_datasource(request):
     prj_id = request.session['PrjID']
 
     Person_info =  T_Personnel.objects.filter(Q(FName__contains=serinput), Q(CREATED_PRJ=prj_id))
+    Person_info = org_split(Person_info, request)
 
     dict = convert_to_dicts(Person_info)
     resultdict = {'code':0, 'msg':"", 'count': Person_info.count(), 'data': dict}

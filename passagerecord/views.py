@@ -43,6 +43,8 @@ def get_datasource(request):
 
     passagerecord_info =  T_PassageRecord.objects.filter(Q(FPersonID__FName__contains=serinput), Q(CREATED_PRJ=prj_id)).values('FPersonID__FName','FPersonID__FGroupID', 'FPersonID__FWorktypeID', 'FPassageID__FAreaID', 'FPassageID__FPassage', 'FPassageID__FType', 'FAuthtypeID', 'CREATED_TIME' )
 
+    passagerecord_info = org_split(passagerecord_info, request)
+
     dict = list(passagerecord_info)
     resultdict = {'code':0, 'msg':"", 'count': passagerecord_info.count(), 'data': dict}
 
