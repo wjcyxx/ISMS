@@ -4,6 +4,8 @@ from login.models import *
 from django.db.models import Q
 from common.views import *
 from django.http import JsonResponse
+from organize.models import organize
+from usergroup.models import usergroup
 from .forms import *
 import json
 from django.utils import timezone
@@ -17,20 +19,31 @@ def user(request):
 #返回table数据及查询结果
 def get_datasource(request):
     serinput = request.POST.get("resultdict[FBase]", '')
+    Orgid = request.session['UserOrg']
 
     User_info = User.objects.filter(Q(FUserID__contains=serinput))
+    condtions = {"FOrgID": Orgid}
+    User_info = org_split(User_info, request, **condtions)
 
     dict = convert_to_dicts(User_info)
     resultdict = {'code':0, 'msg':"", 'count': User_info.count(), 'data': dict}
 
     return  JsonResponse(resultdict, safe=False)
 
+
+def ref_dropdowndata(obj, request):
+    Organize_info = organize.objects.filter(Q(FStatus=True))
+    Usergroup_info = usergroup.objects.filter(Q(FStatus=True))
+
+    obj.fields['FOrgID'].choices = get_dict_object(request, Organize_info, 'FID', 'FOrgname')
+    obj.fields['FRoleID'].choices = get_dict_object(request, Usergroup_info, 'FID', 'FName')
+
 #链接增加模板
 def add(request):
     obj = UserModelForm()
 
+    ref_dropdowndata(obj, request)
     return render(request, "content/user/useradd.html" , {'obj': obj, 'action': 'insert'})
-
 
 
 #链接编辑模板
@@ -40,6 +53,7 @@ def edit(request):
     User_info = User.objects.get(FID=fid)
     obj = UserModelForm(instance=User_info)
 
+    ref_dropdowndata(obj, request)
     return render(request, "content/user/useradd.html", {'obj': obj, 'action': 'update'})
 
 #处理新增及保存
@@ -56,6 +70,8 @@ def insert(request):
         else:
             response_data['result'] = '2'
             return HttpResponse(json.dumps(response_data))
+
+        ref_dropdowndata(obj, request)
 
         try:
             if obj.is_valid():
@@ -81,7 +97,7 @@ def insert(request):
             return HttpResponse(json.dumps(response_data))
 
 
-#处理禁用设备
+#处理禁用用户
 def disabled(request):
     response_data = {}
     if request.method == 'POST':

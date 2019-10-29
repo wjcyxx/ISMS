@@ -481,4 +481,15 @@ def getModelResult(model, *orders, **wheres):
 
     return ret
 
+#处理组织数据隔离
+def org_split(queryset, request, **condtions):
+    IsSplit = request.session['OrgIsSplit']
+    Orgid = request.session['UserOrg']
 
+    if IsSplit == True:
+        if len(condtions) == 0:
+            condtions = {"CREATED_ORG": Orgid}
+
+        return queryset.filter(**condtions)
+
+    return queryset

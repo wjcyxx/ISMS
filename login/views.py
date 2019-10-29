@@ -6,6 +6,7 @@ from django.db.models import Q
 from django.http import JsonResponse
 from .models import *
 from project.models import *
+from organize.models import organize
 from common.views import *
 import json
 import urllib.parse
@@ -39,9 +40,13 @@ def login_chk(request):
         response_data['result'] = '0'  # 返回正常登录
         response_data['orgid'] = user_info.FOrgID
 
+        Organize_info = organize.objects.get(Q(FID=user_info.FOrgID))
+
         request.session['UserID'] = UserID
         request.session['Username'] = user_info.FUsername
         request.session['UserOrg'] = user_info.FOrgID
+        request.session['OrgIsSplit'] = Organize_info.FIssplit
+
         return HttpResponse(json.dumps(response_data))
 
     return HttpResponse(request)
