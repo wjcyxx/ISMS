@@ -13,6 +13,8 @@ import json
 from django.utils import timezone
 from django.forms import widgets as Fwidge
 from django.core.exceptions import ObjectDoesNotExist
+from django.conf import settings
+import os
 
 # Create your views here.
 #接口管理控制器入口
@@ -245,3 +247,10 @@ def param_delete(request):
         return HttpResponse(json.dumps(response_data))
 
 
+def test(request):
+    pyfiles = settings.BASE_DIR + os.sep + 'script' + os.sep + 'test.py'
+
+    cmd = "python3 " + pyfiles
+    os.system(cmd)
+
+    return HttpResponse("is ok")
