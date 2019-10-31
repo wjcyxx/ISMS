@@ -12,7 +12,12 @@
       <introspection-schemas>*:@</introspection-schemas>
     </data-source>
     <data-source name="47.104.92.203" uuid="56cd8242-a2e3-48e9-94c8-0191afcc1662">
-      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="MYSQL" exact-version="0" />
+      <database-info product="MySQL" version="5.7.27" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.47 ( Revision: fe1903b1ecb4a96a917f7ed3190d80c049b1de29 )" dbms="MYSQL" exact-version="5.7.27" exact-driver-version="5.1">
+        <extra-name-characters>#@</extra-name-characters>
+        <identifier-quote-string>`</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact" />
+      <user-name>isms</user-name>
       <introspection-schemas>*:@</introspection-schemas>
     </data-source>
   </component>
