@@ -19,7 +19,7 @@ class entrance(EntranceView_base):
         Orgid = self.request.session['UserOrg']
 
         self.template_name = 'content/mapview/mapview.html'
-        project_info = project.objects.all()
+        project_info = project.objects.filter(Q(FStatus=True))
         condtions = {"FManageORG": Orgid}
         project_info = org_split(project_info, self.request, **condtions)
 

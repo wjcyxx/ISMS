@@ -60,12 +60,18 @@
              myIcon.setImageSize(new BMap.Size(44,48));
 
              var marker = new BMap.Marker(point, {icon: myIcon});
+             marker.addEventListener("click", mapOnClick);
              map.addOverlay(marker);
 
              var label = new BMap.Label("{{ prj.FPrjname }}",{offset:new BMap.Size(25, 0)});
              marker.setLabel(label);
 
+            function mapOnClick(e) {
+                window.parent.document.getElementById('Mapview').contentWindow.location.href="{% url 'envdetection:entrance' %}";
+            }
+
         {% endfor %}
+
 
         map.centerAndZoom(new BMap.Point(point), 17);
         map.panTo(point);

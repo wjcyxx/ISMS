@@ -239,7 +239,7 @@ class insert_base(View):
         pass
 
     def set_view_beforesave(self, request):
-        pass
+        return 1
 
 class disabled_base(View):
     response_data ={}

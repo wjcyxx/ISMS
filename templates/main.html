@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>智慧工地管控平台</title>
+  <title>南昌市智慧工地一体化监测监控信息平台</title>
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -67,7 +67,10 @@
 
 
         var d = new Date();
-        var sd = d.getFullYear()+'-'+ lay.digit(d.getMonth() + 1)+'-'+lay.digit(d.getDate()-2);
+
+        sday = (lay.digit(d.getDate()-2) < 0) ? '01' : lay.digit(d.getDate()-2);
+
+        var sd = d.getFullYear()+'-'+ lay.digit(d.getMonth() + 1)+'-'+ sday;
         var md = d.getFullYear()+'-'+ lay.digit(d.getMonth() + 1)+'-'+lay.digit(d.getDate());
 
         //日期时间范围
@@ -355,6 +358,9 @@
 
         function tabAdd(title,id,url)
         {
+            if (url == "show?url=") {
+                return false;
+            }
             //判断tab是否存在
             if(arry.find(id).value!=id){
                 element.tabAdd('tabMain', {

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include "common/resfiles.html" %}
+</head>
+<body>
+
+  <!--可视化-->
+
+<div style="padding: 20px; background-color: #F2F2F2; overflow-y: scroll; height: max-content">
+    <div class="layui-inline" style="padding-top: 10px; padding-left: 10px"><img src="/static/images/commu-3.png" height="32" width="32"></div>
+
+    <div class="layui-inline" style="padding-top: 10px; padding-left: 2px">
+        <span style="color: #373E40"><H2>{{ project_info.FPrjname }}</H2></span>
+    </div>
+    <div class="layui-inline" style="padding-top: 15px; padding-left: 22px">
+        <span style="color: #373E40" >  <u>{{ project_info.FAddress }}</u></span>
+    </div>
+
+    <div class="layui-row layui-col-space15" style="padding-left: 60px; margin-top: 10px">
+        <img src="/static/images/dangan.png" height="32" width="32">  <span>基础信息</span>
+    </div>
+
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md3">
+            <div class="layui-card" style="height: 105px">
+                <div class="layui-card-header">升降机(吊笼)数量</div>
+                <div class="layui-card-body">
+                    <div style="height: 25px; line-height:25px">
+                        <span style="color: #25C6FC"><h3>2台</h3></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md3">
+            <div class="layui-card" style="height: 105px">
+                <div class="layui-card-header">安全员信息</div>
+                <div class="layui-card-body">
+                    <div style="height: 25px; line-height:25px">
+                        <span style="color: #25C6FC"><h3></h3></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-md6">
+            {% for jj in person_info %}
+                <div class="layui-inline">
+                    <div class="layui-card layui-inline" style="width: 220px; height: 105px; margin-left: 10px ">
+                        <div class="layui-card-header">升降机操作员</div>
+                        <div class="layui-card-body">
+                            <div style="height: 20px; line-height:20px">
+                                <span style="color: #25C6FC">姓名: {{ jj.FName }}</span> </br>
+                                <span style="color: #25C6FC">电话: {{ jj.FTel }}</span> </br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="layui-row layui-col-space15" style="padding-left: 60px; margin-top: 10px">
+        <img src="/static/images/dianti01.png" height="32" width="32">  <span>特种设备信息</span>
+    </div>
+
+    <div class="layui-row layui-col-space15" style="margin-top: 20px">
+        <div class="layui-card" style="height: 105px">
+            <div class="layui-card-header">升降机实时状态一览</div>
+            <div class="layui-card-body">
+                <div id="elevatorlist">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% include "common/jsfiles.html" %}
+
+<script type="text/javascript">
+    var showlist = function () {
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'elevator:get_datasource' %}",
+            data: {},
+            datatype: "json",
+            success: function (data) {
+                result = JSON.parse(data);
+
+            }
+        });
+    }
+
+    showlist();
+
+
+</script>
+
+
+
+</body>
+</html>

@@ -48,6 +48,7 @@ class insert(insert_base):
     def set_view(self, request):
         self.model = T_UserGroup
         self.objForm = UserGroupModelForm
+        
 
 
 #处理禁用/启用

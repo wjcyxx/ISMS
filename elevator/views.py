@@ -11,16 +11,24 @@ import json
 from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
 from baseframe.baseframe import *
+from project.models import project
+from personnel.models import personnel
 # Create your views here.
 
 #控制器入口
 class entrance(EntranceView_base):
     def set_view(self, request):
-        self.template_name = 'content/elevator/elevatorinfo.html'
+        prj_id = self.request.session['PrjID']
+        project_info = project.objects.get(Q(FID=prj_id))
+        person_info = personnel.objects.filter(Q(FStatus=0), Q(CREATED_PRJ=prj_id), Q(FSpecialequ=True))
+
+        self.template_name = 'content/elevator/elevatorvisual.html'
+        self.context['project_info'] = project_info
+        self.context['person_info'] = person_info
 
 
 class get_datasource(View):
-    def get(self, request):
+    def post(self, request):
         initID = 'cdc1cf78cf8111e9af1d7831c1d24216'
 
         token = get_interface_result(initID)['data']['token']
@@ -29,9 +37,20 @@ class get_datasource(View):
         initID = '7293af48cfab11e9b5c17831c1d24216'
         result = get_interface_result(initID, [token])['data']
 
-        resultdict = {'code':0, 'msg':"", 'count': len(result), 'data': result}
+        resultdict = []
 
-        return JsonResponse(resultdict, safe=False)
+        for dt in result:
+            dict = {}
+
+            dict['hoist_box_id'] = dt['hoist_box_id']
+
+
+            resultdict.append(dict)
+
+
+
+
+        #return JsonResponse(resultdict, safe=False)
 
 
 class get_run_datasource(View):

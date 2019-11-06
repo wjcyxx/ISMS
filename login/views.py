@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from .models import *
 from project.models import *
 from organize.models import organize
+from basedata.models import base
 from common.views import *
 import json
 import urllib.parse
@@ -63,7 +64,10 @@ def get_project(request):
 
         serinput = request.POST.get("resultdict[FPrjname]", '')
 
-        prj_info = project.objects.filter(Q(FManageORG=orgid), Q(FPrjname__contains=serinput), Q(FStatus=True))
+        condtions = {"FManageORG": orgid}
+        prj_info = project.objects.filter(Q(FPrjname__contains=serinput), Q(FStatus=True))
+        prj_info = org_split(prj_info, request, **condtions)
+
         dict = convert_to_dicts(prj_info)
 
         resultdict = {'code': 0, 'msg': "", 'count': prj_info.count(), 'data': dict}
@@ -74,6 +78,7 @@ def login_ok(request):
         prjid = request.GET.get('prjid')
         prjid = ''.join(str(prjid).split('-'))
 
+        #prj_info = project.objects.all()
         prj_info = project.objects.get(Q(FID=prjid))
         request.session['PrjID'] = prjid
 
@@ -91,6 +96,7 @@ def login_ok(request):
         result = json.loads(data)
         devkey = ''
 
+
         for r in result:
             if r['DevStatus'] == 'true':
                 devkey = r['DevKey']
@@ -100,6 +106,9 @@ def login_ok(request):
         context['prjinfo'] = prj_info
         context['envdevice'] = result
         context['devkey'] = devkey
+
+        base_info = base.objects.filter(Q(FPID__isnull=True))
+        context['base_info'] =  base_info
 
         return render(request, "main.html", context)
 

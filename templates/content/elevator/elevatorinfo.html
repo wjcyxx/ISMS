@@ -112,7 +112,6 @@
                               {field: 'real_time_height', title: '实时高度', width: '15%', sort: true, filter: true},
                               {field: 'real_time_lifting_weight', title: '实时起重量', width: '15%', sort: true, filter: true},
                               {field: 'real_time_height', title: '实时高度', width: '15%', sort: true, filter: true},
-                              {field: 'real_time_number_of_people', title: '实时人数', width: '15%', sort: true, filter: true},
                               {field: 'real_time_speed', title: '实时速度', width: '15%', sort: true, filter: true},
                               {field: 'real_time_speed_direction', title: '运行方向', width: '15%', sort: true, filter: true, templet: '#tpDir'},
                               {field: 'tilt_percentage1', title: '倾斜百分比1', width: '15%', sort: true, filter: true},
@@ -163,7 +162,10 @@
 
   <script type="text/javascript">
       function door_state (num) {
-            a = digit(num, 3);
+
+            num2 = num.toString(2);
+            a = digit(num2, 3);
+            //alert(a);
             b = "";
             for (i=0; i < a.length; i++) {
                 s = a.substring(a.length-i-1, a.length-i);
@@ -260,9 +262,9 @@
       {% verbatim %}
       {{#  if(d.real_time_speed_direction == 0){ }}
       <span>停止</span>
-      {{#  } else if(d.real_time_speed_direction == 1) { }}
-      <span>上行</span>
       {{#  } else if(d.real_time_speed_direction == 2) { }}
+      <span>上行</span>
+      {{#  } else if(d.real_time_speed_direction == 1) { }}
       <span>下行</span>
       {{#  } }}
       {% endverbatim %}
