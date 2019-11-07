@@ -13,7 +13,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from baseframe.baseframe import *
 from project.models import project
 from personnel.models import personnel
-from menchanical.models import menchanical
+from menchanical.models import menchanical, mecoperauth
 # Create your views here.
 
 #控制器入口
@@ -34,23 +34,27 @@ class entrance(EntranceView_base):
 
 class get_datasource(View):
     def post(self, request):
+        prj_id = request.session['PrjID']
+
         initID = 'cdc1cf78cf8111e9af1d7831c1d24216'
 
         token = get_interface_result(initID)['data']['token']
         request.session['mectoken'] = token
 
-        initID = '7293af48cfab11e9b5c17831c1d24216'
-        result = get_interface_result(initID, [token])['data']
-
         initSubID = 'b49d3f2ed04d11e9b9dd7831c1d24216'
-
         resultdict = []
 
-        for dt in result:
+        elevator_info = menchanical.objects.filter(Q(FStatus=True), Q(CREATED_PRJ=prj_id), Q(FMectypeID='fa606fec009311eaab497831c1d24216'))
+
+        for dt in elevator_info:
             dict = {}
 
-            dict['hoist_box_id'] = dt['hoist_box_id']
-            result_run = get_interface_result(initSubID, [token, dt['hoist_box_id']])['data']
+            fid = ''.join(str(dt.FID).split('-'))
+            person_fid = mecoperauth.objects.get(Q(FPID=fid))
+            elevotor_oper = personnel.objects.get(Q(FID=person_fid.FAuthpersonID))
+
+            dict['hoist_box_id'] = dt.FMecserialID
+            result_run = get_interface_result(initSubID, [token, dt.FMecserialID])['data']
             if len(result_run) == 0:
                 dict['status'] = 0
                 dict['cage_id'] = '--'
@@ -70,6 +74,9 @@ class get_datasource(View):
                 dict['tilt_percentage1'] = '--'
                 dict['tilt_percentage2'] = '--'
                 dict['weight_percentage'] = '--'
+                dict['elevator_manager'] = '--'
+                dict['elevator_mgrtel'] = '--'
+
             else:
                 dict['status'] = 1
                 dict['cage_id'] = result_run[0]['cage_id']
@@ -90,6 +97,10 @@ class get_datasource(View):
                 dict['tilt_percentage2'] = result_run[0]['tilt_percentage2']
                 dict['weight_percentage'] = result_run[0]['weight_percentage']
                 dict['system_state'] = result_run[0]['system_state']
+                dict['elevator_manager'] = dt.FMecmanager
+                dict['elevator_mgrtel'] = dt.FMecmanagertel
+                dict['elevator_oper'] = elevotor_oper.FName
+                dict['elevator_opertel'] = elevotor_oper.FTel
 
             resultdict.append(dict)
 

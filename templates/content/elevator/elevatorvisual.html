@@ -12,7 +12,7 @@
 
     <div class="layui-collapse">
         <div class="layui-colla-item">
-            <h2 class="layui-colla-title">升降机基础信息</h2>
+            <h2 class="layui-colla-title">升降机设备信息概要</h2>
             <div class="layui-colla-content layui-show">
                 <div class="layui-row layui-col-space15">
                     <div class="layui-col-md3">
@@ -36,7 +36,7 @@
                         <div class="layui-card animated flipInX" style="background-color: #27ae60; height: 90px; padding: 5px">
                             <h3>
                             <span style="color: white">&nbsp;&nbsp;
-                                <img src="/static/images/lianwang.png" height="24" width="24" />  在线升降机监控终端
+                                <img src="/static/images/lianwang.png" height="24" width="24" />  在线监控终端总数
                             </span>
                             </h3>
 
@@ -53,7 +53,7 @@
                         <div class="layui-card animated flipInX" style="background-color: #e74c3c; height: 90px; padding: 5px">
                             <h3>
                             <span style="color: white">&nbsp;&nbsp;
-                                <img src="/static/images/lixian.png" height="24" width="24" />  离线升降机监控终端
+                                <img src="/static/images/lixian.png" height="24" width="24" />  离线监控终端总数
                             </span>
                             </h3>
 
@@ -67,10 +67,10 @@
                     </div>
 
                     <div class="layui-col-md3">
-                        <div class="layui-card animated flipInX" style="background-color: #e74c3c; height: 90px; padding: 5px">
+                        <div class="layui-card animated flipInX" style="background-color: #9b59b6; height: 90px; padding: 5px">
                             <h3>
                             <span style="color: white">&nbsp;&nbsp;
-                                <img src="/static/images/lixian.png" height="24" width="24" />  报警升降机监控终端
+                                <img src="/static/images/baojing.png" height="24" width="24" />  报警监控终端总数
                             </span>
                             </h3>
 
@@ -133,7 +133,9 @@ layui.use(['element', 'layer', 'table'], function(){
                         str = str + "<img src='/static/images/dianti_disable.png' name='dtDev' height='96' width='96'>";
                     }
 
-                    str = str + "<div class='layui-inline layui-card' style='width: 275px; height: 200px; margin-left: 10px; margin-top: 5px'>";
+
+
+                    str = str + "<div class='layui-inline layui-card' style='width: 280px; height: 250px; margin-left: 10px; margin-top: 5px'>";
                     if (resultj[i].status == 0) {
                         str = str + "<div class='layui-card-header'><span style='color: red'>电梯实时运行状态[离线]</span></div>";
                     } else {
@@ -167,6 +169,13 @@ layui.use(['element', 'layer', 'table'], function(){
                     } else {
                         str = str + "<span>门锁状态: --</span>";
                     }
+
+                    str = str + "</br>";
+                    str = str + "<span>安全员: </span>" + resultj[i].elevator_manager + "&nbsp;&nbsp;<span>[电话: " + resultj[i].elevator_mgrtel + "]</span>";
+
+                    str = str + "</br>";
+                    str = str + "<span>操作员: </span>" + resultj[i].elevator_oper + "&nbsp;&nbsp;<span>[电话: " + resultj[i].elevator_opertel + "]</span>";
+
 
                     if (resultj[i].real_time_or_alarm == 0) {
                         k += 1;
@@ -237,10 +246,6 @@ layui.use(['element', 'layer', 'table'], function(){
     function system_state(num) {
         for (i=0; i < num.length; i=i+2) {
             s = num.substring(num.length-i-2, num.length-i);
-
-
-
-
         }
         return i;
     }
@@ -248,7 +253,7 @@ layui.use(['element', 'layer', 'table'], function(){
 
     showlist();
 
-    //time = setInterval(showlist, 1000);
+    time = setInterval(showlist, 1000);
 });
 
 </script>

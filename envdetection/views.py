@@ -41,7 +41,8 @@ class entrance(EntranceView_base):
                 j += 1
 
 
-        self.template_name = 'content/envdetection/envdetectioninfo.html'
+        #self.template_name = 'content/envdetection/envdetectioninfo.html'
+        self.template_name = 'content/envdetection/envvisual.html'
         self.context['devinfo'] = result
         self.context['count'] = len(result)
         self.context['online'] = len(result) - i
@@ -51,7 +52,7 @@ class entrance(EntranceView_base):
 #返回table数据及查询结果
 class get_datasource(View):
 
-    def get(self, request):
+    def post(self, request):
 
         initID = 'b93df570c31c11e982a27831c1d24216'
 
@@ -66,10 +67,20 @@ class get_datasource(View):
 
         result = json.loads(data)
 
-        serinput = request.POST.get("resultdict[DevKey]", '')
+        dict = {}
+        for dt in result:
+            if dt['DevName'] == 'PM':
+                dict['PM10'] = dt['DevTempValue']
+                dict['PM2.5'] = dt['DevHumiValue']
 
-        resultdict = {'code':0, 'msg':"", 'count': len(result), 'data': result}
+            elif dt['DevName'] == '噪声':
+                dict['ZS'] = dt['DevHumiValue']
 
-        return JsonResponse(resultdict, safe=False)
+            elif dt['DevName'] == '温度湿度':
+                dict['WD'] = dt['DevTempValue']
+                dict['SD'] = dt['DevHumiValue']
+
+
+        return JsonResponse(dict, safe=False)
 
 
