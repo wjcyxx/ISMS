@@ -168,9 +168,9 @@ layui.use(['element', 'layer', 'table'], function(){
                         str = str + "<span>门锁状态: --</span>";
                     }
 
-                    //if (resultj[i].real_time_or_alarm == 0) {
-                     //   k += 1;
-                    //}
+                    if (resultj[i].real_time_or_alarm == 0) {
+                        k += 1;
+                    }
 
                     str = str + "</div>";
                     str = str + "</div>";
@@ -184,8 +184,8 @@ layui.use(['element', 'layer', 'table'], function(){
 
                 }
                 $("#onlinebox").html(j+"<span style='font-size: 15px; color: white'> 台</span>");
-                $("#offlinebox").html(i-j-1+"<span style='font-size: 15px; color: white'> 台</span>");
-                $("#alarmbox").html(i-k-1+"<span style='font-size: 15px; color: white'> 台</span>");
+                $("#offlinebox").html(i-j+1+"<span style='font-size: 15px; color: white'> 台</span>");
+                $("#alarmbox").html(k+"<span style='font-size: 15px; color: white'> 台</span>");
 
 
             }
@@ -199,10 +199,10 @@ layui.use(['element', 'layer', 'table'], function(){
         a = digit(num2, 3);
         //alert(a);
         b = "";
-        for (i=0; i < a.length; i++) {
-            s = a.substring(a.length-i-1, a.length-i);
+        for (index_i=0; index_i < a.length; index_i++) {
+            s = a.substring(a.length-index_i-1, a.length-index_i);
 
-            if (i == 2) {
+            if (index_i == 2) {
                 if (s == 0) {
                     st = "正常"
                 } else if (s == 1) {
@@ -216,7 +216,7 @@ layui.use(['element', 'layer', 'table'], function(){
                 }
             }
 
-            switch (i) {
+            switch (index_i) {
                 case 0:
                     b = b + "前门" + st +",";
                     break;
