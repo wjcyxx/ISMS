@@ -8,6 +8,7 @@
     <script type="text/javascript" src="/static/js/china.js"></script>
     <script type="text/javascript" src="/static/js/js.js"></script>
     <script type="text/javascript" src="/static/js/jquery.cxselect.min.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=oRd3s4xjRXGIxWp3jlgjWDP7DT1i75jl"></script>
     <link rel="stylesheet" href="/static/css/comon0.css">
 
     {% include "common/resfiles.html" %}
@@ -72,36 +73,60 @@
 
                         </div>
                     </div>
-                    <div class="boxall" style="height:360px;">
+                    <div class="boxall" style="height:420px;">
                         <div class="alltitle">节点信息</div>
                         <div class="navboxall">
 
                             <div class="sycm">
                                 <ul class="clearfix">
                                     <li>
-                                        <h2>PM 2.5</h2>
-                                        <span>76</span>
+                                        <h2>PM 10(ug/m³)</h2>
+                                        <div id="pm10">
+                                            <span>--</span>
+                                        </div>
                                     </li>
                                     <li>
-                                        <h2>1920</h2>
-                                        <span>当月销售额</span>
+                                        <h2>PM2.5(ug/m³)</h2>
+                                        <div id="pm">
+                                            <span>--</span>
+                                        </div>
                                     </li>
                                     <li>
-                                        <h2>19%</h2>
-                                        <span>利润额</span>
+                                        <h2>噪声(dB)</h2>
+                                        <div id="ZS">
+                                            <span>--</span>
+                                        </div>
                                     </li>
 
                                     <li>
-                                        <h2>1824</h2>
-                                        <span>当年销售额</span>
+                                        <h2>温度(℃)</h2>
+                                        <div id="WD">
+                                            <span>--</span>
+                                        </div>
                                     </li>
                                     <li>
-                                        <h2>1920</h2>
-                                        <span>当月销售额</span>
+                                        <h2>湿度(%RH)</h2>
+                                        <div id="SD">
+                                            <span>--</span>
+                                        </div>
                                     </li>
                                     <li>
-                                        <h2>19%</h2>
-                                        <span>利润额</span>
+                                        <h2>风速(m/s)</h2>
+                                        <div id="FS">
+                                            <span>--</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <h2>风向(方位)</h2>
+                                        <div id="FXFW">
+                                            <span>--</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <h2>风向(度数)</h2>
+                                        <div id="FXDS">
+                                            <span>--</span>
+                                        </div>
                                     </li>
                                 </ul>
                             </div>
@@ -113,73 +138,36 @@
                     <div class="boxall" style="height:100px">
                         <div class="navboxall"><h1>扬尘一体化检测监控信息平台</h1></div>
                     </div>
-                    <div class="boxall" style="height:610px">
-
+                    <div class="boxall" style="height:840px">
                         <div class="navboxall" style="overflow: hidden;height: 100%">
-                            <div style="width: 120%; height: 120%; position: relative; left: -10%; top: -11%;" id="echart3">
-
+                            <div style="width: 120%; height: 120%; position: relative; left: -10%; top: -11%;" id="allmap">
                             </div>
                         </div>
                     </div>
-
                 </li>
                 <li>
-                    <div class="boxall" style="height:350px; overflow: scroll">
+                    <div class="boxall" style="height: 955px">
                         <div class="alltitle">接入项目名称</div>
                         <div class="navboxall">
                             <table class="table1" width="100%" border="0" cellspacing="0" cellpadding="0">
                                 <tbody>
                                     <tr>
-                                        <th scope="col">排名</th>
-                                        <th scope="col">名称</th>
-                                        <th scope="col">金额</th>
+                                        <th scope="col" align="center">序号</th>
+                                        <th scope="col" align="center">项目名称</th>
+                                        <th scope="col" align="center">项目地址</th>
                                     </tr>
-                                    <tr>
-                                        <td><span>1</span></td>
-                                        <td>腾讯科技</td>
-                                        <td>114万<br></td>
-                                    </tr>
-                                    <tr>
-                                        <td><span>2</span></td>
-                                        <td>百度公司</td>
-                                        <td>923823万</td>
-                                    </tr>
-                                    <tr>
-                                        <td><span>3</span></td>
-                                        <td>新浪</td>
-                                        <td>1240253万</td>
-                                    </tr>
-                                    <tr>
-                                        <td><span>4</span></td>
-                                        <td>网易</td>
-                                        <td>1.2亿</td>
-                                    </tr>
-                                    <tr>
-                                        <td><span>5</span></td>
-                                        <td>雅虎</td>
-                                        <td>13423万</td>
-                                    </tr>
-                                    <tr>
-                                        <td><span>6</span></td>
-                                        <td>雅虎</td>
-                                        <td>13423万</td>
-                                    </tr>
-                                    <tr>
-                                        <td><span>6</span></td>
-                                        <td>雅虎</td>
-                                        <td>13423万</td>
-                                    </tr>
-                                    <tr>
-                                        <td><span>6</span></td>
-                                        <td>雅虎</td>
-                                        <td>13423万</td>
-                                    </tr>
-
-
+                                    {% for prj in projectinfo %}
+                                        <tr>
+                                            <td><span>1</span></td>
+                                            <td>{{ prj.FPrjname }}</td>
+                                            <td>{{ prj.FAddress }}<br></td>
+                                        </tr>
+                                    {% endfor %}
                                 </tbody>
                             </table>
                         </div>
                     </div>
+                    <!--
                     <div class="boxall" style="height: 360px">
                         <div class="alltitle">标题样式</div>
                         <div class="navboxall">
@@ -224,19 +212,22 @@
                             </table>
                         </div>
                     </div>
+                    -->
 
                 </li>
             </ul>
+            <!--
             <ul class="clearfix">
                 <li style="width:100%">
                     <div class="boxall" style="height:300px;">
                         <div class="alltitle">节点区间动态数据</div>
-                        <div class="navboxall " id="echart2">
+                        <div class="navboxall " id="">
 
                         </div>
                     </div>
                 </li>
             </ul>
+            -->
 
         </div>
     </div>
@@ -251,7 +242,6 @@
 
     </script>
 
-
     <script type="text/javascript">
         var showData = function () {
             $.ajax({
@@ -260,16 +250,67 @@
                 data: {},
                 datatype: "json",
                 success: function (data) {
+                    result = JSON.parse(data);
 
-
+                    pm10 = result.PM10
+                    if (pm10 <= 50) {
+                        //$("#pm10").html("<span style='color: green'>"+result.PM10+"</span>");
+                    } else if (pm10 >50 && pm10<=100) {
+                        //$("#pm10").html("<span style='color: #FFD700'>"+result.PM10+"</span>");
+                    }
+                    $("#pm10").html("<span>"+result.PM10+"</span>");
+                    $("#pm").html("<span>"+result.PM+"</span>");
+                    $("#ZS").html("<span>"+result.ZS+"</span>");
+                    $("#WD").html("<span>"+result.WD+"</span>");
+                    $("#SD").html("<span>"+result.SD+"</span>");
+                    $("#FS").html("<span>"+result.FS+"</span>");
+                    $("#FXFW").html("<span>"+result.FXFW+"</span>");
+                    $("#FXDS").html("<span>"+result.FXDS+"</span>");
                 }
             });
         };
 
         showData();
 
+        time = setInterval(showData, 600000);
+
     </script>
 
+    <script type="text/javascript">
+        // 百度地图API功能
+        var map = new BMap.Map("allmap", {enableMapClick:false});    // 创建Map实例
+
+        //map.enableScrollWheelZoom(false);     //开启鼠标滚轮缩放
+        map.disableDoubleClickZoom(true);
+        map.addControl(new BMap.NavigationControl());
+
+        var myStyleJson=[
+            {
+                "featureType": ["road"],
+                "styleId":  "c138bb5899e96c3174b9804dbd8d165e"
+
+            }];
+
+        map.setMapStyle({styleJson: [[myStyleJson]]});
+
+        {% for prj in projectinfo %}
+            var point = new BMap.Point({{ prj.FLong }}, {{ prj.FLat }});
+            var myIcon = new BMap.Icon("/static/images/icongd.png", new BMap.Size(50,50));
+            myIcon.setImageSize(new BMap.Size(44,48));
+
+            var marker = new BMap.Marker(point, {icon: myIcon});
+            map.addOverlay(marker);
+
+            var label = new BMap.Label("{{ prj.FPrjname }}",{offset:new BMap.Size(25, 0)});
+            marker.setLabel(label);
+        {% endfor %}
+
+
+
+        map.centerAndZoom(new BMap.Point(point), 15);
+        map.panTo(point);
+
+    </script>
 
 </body>
 </html>

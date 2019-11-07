@@ -11,6 +11,7 @@ import json
 from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
 from baseframe.baseframe import *
+from project.models import project
 # Create your views here.
 
 
@@ -41,6 +42,10 @@ class entrance(EntranceView_base):
                 j += 1
 
 
+        Orgid = self.request.session['UserOrg']
+        project_info = project.objects.filter(Q(FStatus=True))
+        condtions = {"FManageORG": Orgid}
+        project_info = org_split(project_info, self.request, **condtions)
         #self.template_name = 'content/envdetection/envdetectioninfo.html'
         self.template_name = 'content/envdetection/envvisual.html'
         self.context['devinfo'] = result
@@ -48,6 +53,7 @@ class entrance(EntranceView_base):
         self.context['online'] = len(result) - i
         self.context['alert'] = j
         self.context['offline'] = i
+        self.context['projectinfo'] = project_info
 
 #返回table数据及查询结果
 class get_datasource(View):
@@ -71,7 +77,7 @@ class get_datasource(View):
         for dt in result:
             if dt['DevName'] == 'PM':
                 dict['PM10'] = dt['DevTempValue']
-                dict['PM2.5'] = dt['DevHumiValue']
+                dict['PM'] = dt['DevHumiValue']
 
             elif dt['DevName'] == '噪声':
                 dict['ZS'] = dt['DevHumiValue']
@@ -80,7 +86,16 @@ class get_datasource(View):
                 dict['WD'] = dt['DevTempValue']
                 dict['SD'] = dt['DevHumiValue']
 
+            elif dt['DevName'] == '风力风速':
+                dict['FL'] = dt['DevTempValue']
+                dict['FS'] = dt['DevHumiValue']
 
-        return JsonResponse(dict, safe=False)
+            elif dt['DevName'] == '风向（方位）':
+                dict['FXFW'] = dt['DevTempValue']
+
+            elif dt['DevName'] == '风向（度数）':
+                dict['FXDS'] = dt['DevHumiValue']
+
+        return HttpResponse(json.dumps(dict))
 
 

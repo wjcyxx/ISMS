@@ -389,10 +389,15 @@
             var data = {
                 id : $a.attr('data-id'),
                 url: $a.attr('data-url'),
-                title : elem.children("span").text()
+                title : elem.children("span").text(),
+                target: $a.attr('data-target')
             };
-           
-            tabAdd(data.title, data.id, 'show?url='+data.url)
+
+            if (data.target == 'nw') {
+                window.open(data.url, '_blank');
+            } else {
+                tabAdd(data.title, data.id, 'show?url='+data.url);
+            }
         });
 
         element.on('nav(navSidebar)', function (elem) {
@@ -400,12 +405,18 @@
             var data = {
                 id : $a.attr('data-id'),
                 url: $a.attr('data-url'),
-                title : elem.children("span").text()
+                title : elem.children("span").text(),
+                target: $a.attr('data-target')
             };
             //alert($a.attr('data-id'));
-            tabAdd(data.title, data.id, 'show?url='+data.url)
-        });
+            //tabAdd(data.title, data.id, 'show?url='+data.url)
 
+            if (data.target == 'nw') {
+                window.open(data.url, '_blank');
+            } else {
+                tabAdd(data.title, data.id, 'show?url='+data.url);
+            }
+        });
 
             $("a[name='prj_click']").click(function(){
                 window.top.layer.open({
