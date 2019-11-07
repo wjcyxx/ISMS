@@ -89,6 +89,7 @@ class get_datasource(View):
                 dict['tilt_percentage1'] = result_run[0]['tilt_percentage1']
                 dict['tilt_percentage2'] = result_run[0]['tilt_percentage2']
                 dict['weight_percentage'] = result_run[0]['weight_percentage']
+                dict['system_state'] = result_run[0]['system_state']
 
             resultdict.append(dict)
 

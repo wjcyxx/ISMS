@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% include "common/resfiles.html" %}
+</head>
+<body>
+
+  <!--可视化-->
+
+<div style="padding: 20px; background-color: #F2F2F2; overflow-y: scroll; height: max-content">
+
+
+    <div class="layui-collapse">
+        <div class="layui-colla-item">
+            <h2 class="layui-colla-title">升降机基础信息</h2>
+            <div class="layui-colla-content layui-show">
+                <div class="layui-row layui-col-space15">
+                    <div class="layui-col-md3">
+                        <div class="layui-card" style="height: 105px">
+                            <div class="layui-card-header">升降机(吊笼)数量</div>
+                            <div class="layui-card-body">
+                                <div style="height: 25px; line-height:25px">
+                                    <span style="color: #25C6FC"><h3>2台</h3></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-col-md3">
+                        <div class="layui-card" style="height: 105px">
+                            <div class="layui-card-header">安全员信息</div>
+                            <div class="layui-card-body">
+                                <div style="height: 25px; line-height:25px">
+                                    <span style="color: #25C6FC"><h3></h3></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-col-md6">
+                        {% for jj in person_info %}
+                            <div class="layui-inline">
+                                <div class="layui-card layui-inline" style="width: 220px; height: 105px; margin-left: 10px ">
+                                    <div class="layui-card-header">升降机操作员</div>
+                                    <div class="layui-card-body">
+                                        <div style="height: 20px; line-height:20px">
+                                            <span style="color: #25C6FC">姓名: {{ jj.FName }}</span> </br>
+                                            <span style="color: #25C6FC">电话: {{ jj.FTel }}</span> </br>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-colla-item">
+            <h2 class="layui-colla-title">升降机实时状态一览</h2>
+            <div class="layui-colla-content layui-show">
+                <div id="elevatorlist">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% include "common/jsfiles.html" %}
+
+<script type="text/javascript">
+
+layui.use(['element', 'layer', 'table'], function(){
+    var $ = layui.jquery
+            ,element = layui.element
+            ,table = layui.table
+            ,layer = layui.layer;
+
+    var showlist = function () {
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'elevator:get_datasource' %}",
+            data: {},
+            datatype: "json",
+            success: function (data) {
+                result = JSON.parse(data);
+
+                var str = '';
+                for (i in result) {
+                    str = str + "<div class='layui-inline' style='margin-left: 30px; margin-top: 30px'>";
+                    if (result[i].real_time_speed_direction == 0) {
+                        str = str + "<img src='/static/images/dianti.png' name='dtDev' height='96' width='96'>";
+                    } else if (result[i].real_time_speed_direction == 1) {
+                        str = str + "<img src='/static/images/dianti_down.png' name='dtDev' height='96' width='96'>";
+                    } else if (result[i].real_time_speed_direction == 2) {
+                        str = str + "<img src='/static/images/dianti_up.png' name='dtDev' height='96' width='96'>";
+                    } else if (result[i].real_time_speed_direction == 3) {
+                        str = str + "<img src='/static/images/dianti_disable.png' name='dtDev' height='96' width='96'>";
+                    }
+
+                    str = str + "<div class='layui-inline layui-card' style='width: 275px; height: 200px; margin-left: 10px; margin-top: 5px'>";
+                    if (result[i].status == 0) {
+                        str = str + "<div class='layui-card-header'><span style='color: red'>电梯实时运行状态[离线]</span></div>";
+                    } else {
+                        str = str + "<div class='layui-card-header'><span style='color: green'>电梯实时运行状态[在线]</span></div>";
+                    }
+
+                    str = str + "<div class='layui-card-body'>";
+                    str = str + "<div style='height: 50px;'>";
+                    if (result[i].driver_identification_state == 0) {
+                        str = str + "<span>驾驶员身份认证: </span><span style='color: red'>未认证</span>";
+                    } else if (result[i].driver_identification_state == '--') {
+                        str = str + "<span>驾驶员身份认证: --</span>";
+                    } else {
+                        str = str + "<span>驾驶员身份认证: </span><span style='color: green'>认证通过</span>";
+                    }
+                    str = str + "</br>";
+                    str = str + "<span>实时高度: </span>" + result[i].real_time_height + "米&nbsp;&nbsp;<span>[" + result[i].height_percentage + "%]</span>";
+                    str = str + "</br>";
+                    str = str + "<span>实时重量: </span>" + result[i].real_time_lifting_weight * 1000 + "公斤&nbsp;&nbsp;<span>[" + result[i].weight_percentage + "%]</span>";
+
+                    str = str + "</br>";
+                    str = str + "<span>倾斜角度: </span>" + result[i].real_time_gradient1 + "度&nbsp;&nbsp;<span>[" + result[i].tilt_percentage1 + "%]</span>";
+                    str = str + "</br>";
+                    str = str + "<span>实时速度: </span>" + result[i].real_time_speed + "米/秒&nbsp;&nbsp;<span>";
+
+                    str = str + "</br>";
+                    if (result[i].status == 1) {
+                        str = str + "<span>门锁状态: </span>" + door_state(result[i].door_lock_state);
+                    } else {
+                        str = str + "<span>门锁状态: --</span>";
+                    }
+
+                    str = str + "</div>";
+                    str = str + "</div>";
+                    str = str + "</div>";
+                    str = str + "</div>";
+
+                    $("#elevatorlist").html(str);
+                }
+
+            }
+        });
+    };
+
+    function door_state (num) {
+
+        num2 = num.toString(2);
+        a = digit(num2, 3);
+        //alert(a);
+        b = "";
+        for (i=0; i < a.length; i++) {
+            s = a.substring(a.length-i-1, a.length-i);
+
+            if (s == 0) {
+                st = "关闭"
+            } else if (s == 1) {
+                st = "开启"
+            }
+
+
+            switch (i) {
+                case 0:
+                    b = b + "前门" + st +",";
+                    break;
+
+                case 1:
+                    b = b + "后门" + st +", ";
+                    break;
+
+                case 2:
+                    b = b + "门锁" + st;
+            }
+        }
+
+        return b;
+
+    }
+
+    //showlist();
+
+    time = setInterval(showlist, 1000);
+});
+
+</script>
+
+
+
+</body>
+</html>
