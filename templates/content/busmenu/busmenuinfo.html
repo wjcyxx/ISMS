@@ -8,7 +8,7 @@
 </head>
 <body style="overflow: hidden;">
 
-  <!--安全帽规则信息列表  -->
+  <!--系统菜单列表  -->
 
     <!-- 工具条 -->
       <!-- 查询框 -->
@@ -18,7 +18,7 @@
               <div class="layui-colla-content">
                   <form class="layui-form" method="post">
                       <div class="layui-inline">
-                          <input type="text" name="serinput" placeholder="输入物料名称" autocomplete="off" class="layui-input" value="" style="width: 120%">
+                          <input type="text" name="serinput" placeholder="输入菜单名称" autocomplete="off" class="layui-input" value="" style="width: 120%">
                       </div>
 
                       <div class="layui-inline" style="margin-left: 35px">
@@ -50,8 +50,6 @@
 {% include "common/jsfiles.html" %}
 
 <script>
-  var Goodstype = {{ goodstype|safe }};
-  var Unitinfo = {{ unit|safe }};
   var node_id = '';
   var node_pid = '';
 
@@ -62,7 +60,7 @@
           ,layer = layui.layer;
 
       $("#btnClose").click(function () {
-          window.parent.layui.element.tabDelete('tabMain','Materials');
+          window.parent.layui.element.tabDelete('tabMain','Busmenu');
       });
 
       //新增按钮事件
@@ -81,19 +79,16 @@
       table.render({
           page: true,
           limit: 20,
+          height: 'full-130',
           elem: '#datasource',
-          url: "{% url 'materials:get_datasource' %}",
+          url: "{% url 'busmenu:get_datasource' %}",
           cols: [[
-              {field:'FMaterID', width: '20%', title: '物料编号', sort: true},
-              {field:'FName', width: '20%', title: '物料名称', sort: true},
-              {field:'FGoodsTypeID', width: '20%', title: '物料类型', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FGoodsTypeID, Goodstype)}}{% endverbatim %}</div>'},
-              {field:'FUnitID', width: '20%', title: '计量单位', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FUnitID, Unitinfo)}}{% endverbatim %}</div>'},
-              {field:'FSpec', width: '20%', title: '规格型号', sort: true},
-              {field:'FTexture', width: '20%', title: '材质', sort: true},
-              {field:'FPositiveDeviation', width: '15%', title: '正偏差', sort: true},
-              {field:'FNegativeDeviation', width: '15%', title: '负偏差', sort: true},
-              {field:'FRFID', width: '15%', title: 'RFID标签', sort: true},
-              {field:'FDesc', width: '30%', title: '描述', sort: true},
+              {field:'FSequence', width: '10%', title: '顺序号', sort: true},
+              {field:'FMenuName', width: '20%', title: '菜单名称', sort: true},
+              {field:'FMenuID', width: '20%', title: '菜单编号', sort: true},
+              {field:'FUrl', width: '20%', title: '菜单链接', sort: true},
+              {field:'FMenuIcon', width: '20%', title: '菜单图标', sort: true},
+              {field:'FMenuPosition', width: '20%', title: '菜单位置', sort: true},
               {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
           ]],
           id: 'runreload'
@@ -147,7 +142,7 @@
         // 初始化树
         var DemoTree = dtree.render({
             elem: "#demoTree",
-            url: "{% url 'materials:get_treedatasource' %}", // 使用url加载（可与data加载同时存在）
+            url: "{% url 'busmenu:get_treedatasource' %}", // 使用url加载（可与data加载同时存在）
             dataFormat: "list",
             initLevel: "1"
         });
@@ -161,19 +156,16 @@
             table.render({
                 page: true,
                 limit: 20,
+                height: 'full-130',
                 elem: '#datasource',
-                url: "{% url 'materials:get_refdatasource' %}?fid="+id+"&fpid="+pid,
+                url: "{% url 'busmenu:get_refdatasource' %}?fid="+id+"&fpid="+pid,
                 cols: [[
-                    {field:'FMaterID', width: '20%', title: '物料编号', sort: true},
-                    {field:'FName', width: '20%', title: '物料名称', sort: true},
-                    {field:'FGoodsTypeID', width: '20%', title: '物料类型', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FGoodsTypeID, Goodstype)}}{% endverbatim %}</div>'},
-                    {field:'FUnitID', width: '20%', title: '计量单位', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FUnitID, Unitinfo)}}{% endverbatim %}</div>'},
-                    {field:'FSpec', width: '20%', title: '规格型号', sort: true},
-                    {field:'FTexture', width: '20%', title: '材质', sort: true},
-                    {field:'FPositiveDeviation', width: '15%', title: '正偏差', sort: true},
-                    {field:'FNegativeDeviation', width: '15%', title: '负偏差', sort: true},
-                    {field:'FRFID', width: '15%', title: 'RFID标签', sort: true},
-                    {field:'FDesc', width: '30%', title: '描述', sort: true},
+                    {field:'FSequence', width: '10%', title: '顺序号', sort: true},
+                    {field:'FMenuName', width: '20%', title: '菜单名称', sort: true},
+                    {field:'FMenuID', width: '20%', title: '菜单编号', sort: true},
+                    {field:'FUrl', width: '20%', title: '菜单链接', sort: true},
+                    {field:'FMenuIcon', width: '20%', title: '菜单图标', sort: true},
+                    {field:'FMenuPosition', width: '20%', title: '菜单位置', sort: true},
                     {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
                 ]],
                 id: 'runreload'

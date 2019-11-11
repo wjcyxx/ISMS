@@ -23,10 +23,9 @@ class entrance(EntranceView_base):
 class get_treedatasource(View):
     def post(self, request):
 
-        org_id = request.session['orgid']
         obj_arr = []
-
-        menu_info = T_Menu.objects.filter(Q(CREATED_ORG=org_id))
+        menu_info = T_Menu.objects.all()
+        menu_info = org_split(menu_info, request).order_by('FSequence')
 
         for obj in menu_info:
             dict = {}
@@ -44,3 +43,27 @@ class get_treedatasource(View):
 
         return JsonResponse(resultdict, safe=False)
 
+
+#返回table数据及查询结果
+class get_datasource(get_datasource_base):
+    def get_queryset(self, reqeust):
+        serinput = self.request.GET.get("resultdict[FMenuName]", '')
+        menu_info =  T_Menu.objects.filter(Q(FMenuName__contains=serinput))
+
+        return menu_info
+
+
+class get_refdatasource(get_datasource_base):
+    def get_queryset(self, reqeust):
+        fid = self.request.GET.get('fid')
+        fpid = self.request.GET.get('fpid')
+
+        if fpid != '0':
+            menu_info =  T_Menu.objects.filter(Q(FID=fid)).order_by('FSequence')
+        else:
+            arr_id = []
+
+            menu_info =  T_Menu.objects.filter(Q(FPID=fid)).order_by('FSequence')
+
+
+        return menu_info
