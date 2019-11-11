@@ -1,5 +1,5 @@
 from django import template
-from basedata.models import base
+from busmenu.models import busmenu
 from django.db.models import Q
 
 register = template.Library()
@@ -7,6 +7,6 @@ register = template.Library()
 @register.filter
 def get_submenu(value):
     FPID = ''.join(str(value).split('-'))
-    submenu_info = base.objects.filter(Q(FPID=FPID))
+    submenu_info = busmenu.objects.filter(Q(FPID=FPID))
     return submenu_info
 

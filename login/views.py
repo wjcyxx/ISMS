@@ -11,6 +11,7 @@ from basedata.models import base
 from common.views import *
 import json
 import urllib.parse
+from busmenu.models import busmenu
 import re
 
 # Create your views here.
@@ -107,8 +108,8 @@ def login_ok(request):
         context['envdevice'] = result
         context['devkey'] = devkey
 
-        base_info = base.objects.filter(Q(FPID__isnull=True))
-        context['base_info'] =  base_info
+        busmenu_info = busmenu.objects.filter(Q(FPID__isnull=True), Q(FMenuPosition=0)).order_by('FSequence')
+        context['busmenu_info'] = busmenu_info
 
         return render(request, "main.html", context)
 
@@ -116,7 +117,4 @@ def show(request):
     url = request.GET.get('url')
     #return HttpResponse(url)
     return redirect(url)
-
-
-
 

@@ -1,3 +1,4 @@
+{% load getsubmenu %}
 <div class="layui-header header">
    <div class="layui-main">
      <div>
@@ -9,44 +10,18 @@
          </div>
      </div>
      <ul class="layui-nav" lay-filter="navTop" style="text-align:left">
-         <li class="layui-nav-item">
-             <a href="javascript:;"><i class="fa fa-product-hunt" aria-hidden="true"></i>项目管理</a>
-             <dl class="layui-nav-child">
-                 <dd><a href="javascript:;" data-id="Project" data-url="{% url 'project:project' %}"><span>项目管理</span></a></dd>
-                 <dd><a href="javascript:;" data-id="Area" data-url="{% url 'area:area' %}"><span>项目区域管理</span></a></dd>
-                 <dd><a href="javascript:;" data-id="Prjmap" data-url="{% url 'projectmap:projectmap' %}"><span>项目平面图</span></a></dd>
-             </dl>
-         </li>
+            {% for hmenu in busmenu_info %}
+                <li class="layui-nav-item">
+                    <a href="javascript:;"><i class="{{ hmenu.FMenuIcon }}" aria-hidden="true"></i>{{ hmenu.FMenuName }}</a>
+                    <dl class="layui-nav-child">
+                        {% for sub_menu in hmenu.FID|get_submenu %}
+                            <dd><a href="javascript:;" data-id="{{ sub_menu.FMenuID }}" data-url="{% url sub_menu.FUrl %}"><span>{{ sub_menu.FMenuName }}</span></a></dd>
+                        {% endfor %}
+                    </dl>
+                </li>
+            {% endfor %}
 
          <li class="layui-nav-item">
-             <a href="javascript:;"><i class="iconfont icon-zuzhiguanli"></i>组织管理</a>
-             <dl class="layui-nav-child">
-                 <dd><a href="javascript:;" data-id="Organize" data-url="{% url 'organize:organize' %}"><span>组织管理</span></a></dd>
-                 <dd><a href="javascript:;" data-id="Usergroup" data-url="{% url 'usergroup:entrance' %}"><span>用户组管理</span></a></dd>
-                 <dd><a href="javascript:;" data-id="Userinfo" data-url="{% url 'user:user' %}"><span>用户管理</span></a></dd>
-             </dl>
-         </li>
-
-         <li class="layui-nav-item">
-             <a href="javascript:;"><i class="fa fa-database" aria-hidden="true"></i>基础数据</a>
-             <dl class="layui-nav-child">
-                 <dd><a href="javascript:;" data-id="Device" data-url="{% url 'device:device' %}"><span>设备管理</span></a></dd>
-                 <dd><a href="javascript:;" data-id="Interface" data-url="{% url 'devinterface:devinterface' %}"><span>接口管理</span></a></dd>
-                 <dd><a href="javascript:;" data-id="Unit" data-url="{% url 'unit:entrance' %}"><span>计量单位</span></a></dd>
-             </dl>
-         </li>
-
-         <li class="layui-nav-item">
-             <a href="javascript:;"><i class="layui-icon">&#xe614;</i>系统设置</a>
-             <dl class="layui-nav-child">
-                <dd><a href="javascript:;" data-id="Basetype" data-url="{% url 'basedata:basetype' %}"><span>字典类型</span></a></dd>
-                <dd><a href="javascript:;" data-id="Basedata" data-url="{% url 'basedata:basedata' %}"><span>数据字典</span></a></dd>
-                <dd><a href="javascript:;" data-id="Appkey" data-url="{% url 'appkey:entrance' %}"><span>注册APP</span></a></dd>
-             </dl>
-         </li>
-
-        <li class="layui-nav-item">
-          <!-- <a href="javascript:;">{$Think.session.usrtag}</a> -->
           <div class="layui-inline">
             <img src="/static/images/title1.png" height="28" width="28" />
           </div>
