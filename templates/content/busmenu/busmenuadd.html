@@ -15,28 +15,28 @@
         <div class="layui-row layui-col-space10" style="padding-top: 1%">
             <div class="layui-col-md12">
                 <div class="layui-card">
-                    <div class="layui-card-header">物料基础信息</div>
+                    <div class="layui-card-header">系统菜单信息</div>
                     <div class="layui-card-body">
                         <div class="layui-row layui-col-space15">
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">物料编码</label>
+                                <label class="layui-form-label" style="color: red">菜单编号</label>
                                 <div class="layui-input-block">
                                     {{ obj.FID }}
-                                    {{ obj.FMaterID }}
+                                    {{ obj.FMenuID }}
                                 </div>
                             </div>
 
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">物料名称</label>
+                                <label class="layui-form-label" style="color: red">菜单名称</label>
                                 <div class="layui-input-block">
-                                    {{ obj.FName }}
+                                    {{ obj.FMenuName }}
                                 </div>
                             </div>
 
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">物料类别</label>
+                                <label class="layui-form-label" style="color: red">父类菜单</label>
                                 <div class="layui-input-block">
-                                    {{ obj.FGoodsTypeID }}
+                                    {{ obj.FPID }}
                                 </div>
                             </div>
 
@@ -44,23 +44,23 @@
 
                         <div class="layui-row layui-col-space10">
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">计量单位</label>
+                                <label class="layui-form-label" style="color: red">顺序号</label>
                                 <div class="layui-input-block">
-                                    {{ obj.FUnitID }}
+                                    {{ obj.FSequence }}
                                 </div>
                             </div>
 
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label">规格型号</label>
+                                <label class="layui-form-label">菜单地址</label>
                                 <div class="layui-input-block">
-                                    {{ obj.FSpec }}
+                                    {{ obj.FUrl }}
                                 </div>
                             </div>
 
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label">材质</label>
+                                <label class="layui-form-label">菜单图标</label>
                                 <div class="layui-input-block">
-                                    {{ obj.FTexture }}
+                                    {{ obj.FMenuIcon }}
                                 </div>
                             </div>
 
@@ -68,34 +68,12 @@
 
                         <div class="layui-row layui-col-space10">
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label">正偏差</label>
+                                <label class="layui-form-label">菜单位置</label>
                                 <div class="layui-input-block">
-                                    {{ obj.FPositiveDeviation }}
+                                    {{ obj.FMenuPosition }}
                                 </div>
                             </div>
 
-                            <div class="layui-col-xs4">
-                                <label class="layui-form-label">负偏差</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FNegativeDeviation }}
-                                </div>
-                            </div>
-
-                            <div class="layui-col-xs4">
-                                <label class="layui-form-label">RFID标签</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FRFID }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="layui-row layui-col-space10">
-                            <div class="layui-col-xs12">
-                                <label class="layui-form-label">备注</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FDesc }}
-                                </div>
-                            </div>
                         </div>
 
                     </div>
@@ -112,7 +90,7 @@
 {% include "common/jsfiles.html" %}
 
 <style>
-    .layui-unselect dl { max-height:250px; }
+    .layui-unselect dl { max-height:180px; }
 </style>
 
 
@@ -121,7 +99,7 @@
 layui.use(['element','layer','form', 'table'], function () {
     var element = layui.element
         , layer = layui.layer
-        , form = layui.form
+        , form = layui.form;
 
     //关闭按钮
     $("#btnC").click(function () {
@@ -129,22 +107,16 @@ layui.use(['element','layer','form', 'table'], function () {
         parent.layer.close(index);
     });
 
-
-    if ('{{ GoodsType_ID }}' != 'null' && "{{ action }}" == 'insert' ) {
-        $("#id_FGoodsTypeID").val('{{ GoodsType_ID }}');
-        form.render('select');
-    }
-
     //监听窗口提交
     form.on('submit(formsubmit)', function (data) {
         $.ajax({
             type: "POST",
-            url:  "{% url 'materials:insert' %}?actype={{ action }}",
+            url:  "{% url 'busmenu:insert' %}?actype={{ action }}",
             data: data.field,
             dataType: "json",
             success: function (data) {
                 if (data.result=='0') {
-                    window.parent.document.getElementById('Materials').contentWindow.location.reload();
+                    window.parent.document.getElementById('Busmenu').contentWindow.location.reload();
 
                     var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
                     parent.layer.close(index);

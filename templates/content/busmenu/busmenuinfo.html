@@ -67,10 +67,10 @@
       $("#btnAdd").click(function () {
           parent.layer.open({
               type:   2,
-              title:  '新增物料主档',
-              area: ['1000px','430px'],
+              title:  '新增系统菜单项',
+              area: ['1000px','340px'],
               fixed: false,
-              content: "{% url 'materials:add' %}?nodeid="+node_id+"&nodepid="+node_pid,
+              content: "{% url 'busmenu:add' %}?nodeid="+node_id+"&nodepid="+node_pid,
               resize: false,
               move: false
           });

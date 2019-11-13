@@ -8,10 +8,9 @@ from django.utils.encoding import python_2_unicode_compatible
 
 class busmenu(models.Model):
     MENUPOS_CHOICES = (
-        (0, None),
-        (1, '顶部'),
-        (2, '侧边')
-
+        (None, '请选择数据'),
+        (0, '顶部'),
+        (1, '侧边')
     )
 
 
@@ -23,6 +22,7 @@ class busmenu(models.Model):
     FUrl = models.CharField(max_length=100, verbose_name='菜单地址', blank=True, null=True)
     FMenuIcon = models.CharField(max_length=32, verbose_name='菜单图标', blank=True, null=True)
     FMenuPosition = models.IntegerField(choices=MENUPOS_CHOICES, default=0, verbose_name='菜单位置', blank=True, null=True)
+    FStatus = models.BooleanField(default=True, verbose_name='状态')
     CREATED_ORG = models.CharField(max_length=32, verbose_name='创建组织', blank=True, null=True)
     CREATED_BY = models.CharField(max_length=32, verbose_name='创建人', blank=True, null=True)
     CREATED_TIME = models.DateTimeField(blank=True, null=True, verbose_name='创建时间')

@@ -7,6 +7,6 @@ register = template.Library()
 @register.filter
 def get_submenu(value):
     FPID = ''.join(str(value).split('-'))
-    submenu_info = busmenu.objects.filter(Q(FPID=FPID)).order_by('FSequence')
+    submenu_info = busmenu.objects.filter(Q(FPID=FPID), Q(FStatus=True)).order_by('FSequence')
     return submenu_info
 

@@ -12,6 +12,7 @@ from django.utils import timezone
 from django.forms import widgets as Fwidge
 from django.core.exceptions import ObjectDoesNotExist
 from baseframe.baseframe import *
+from .forms import *
 # Create your views here.
 
 #控制器入口
@@ -31,7 +32,7 @@ class get_treedatasource(View):
             dict = {}
             dict['id'] = ''.join(str(obj.FID).split('-'))
             dict['title'] = obj.FMenuName
-            if obj.FPID == None:
+            if obj.FPID == None or obj.FPID == '':
                 dict['parentId'] = '0'
             else:
                 dict['parentId'] = obj.FPID
@@ -52,7 +53,7 @@ class get_datasource(get_datasource_base):
 
         return menu_info
 
-
+#返回点击菜单节点刷新数据结果
 class get_refdatasource(get_datasource_base):
     def get_queryset(self, reqeust):
         fid = self.request.GET.get('fid')
@@ -65,5 +66,47 @@ class get_refdatasource(get_datasource_base):
 
             menu_info =  T_Menu.objects.filter(Q(FPID=fid)).order_by('FSequence')
 
-
         return menu_info
+
+
+#链接增加模板
+class add(add_base):
+    def set_view(self, request):
+        self.template_name = 'content/busmenu/busmenuadd.html'
+        self.objForm = BusMenuModelForm
+        self.query_sets = [
+            T_Menu.objects.all().order_by('FSequence')
+        ]
+        self.query_set_idfields = ['FPID']
+        self.query_set_valuefields = ['FMenuName']
+
+#链接编辑模板
+class edit(edit_base):
+    def set_view(self, request):
+        self.template_name = 'content/busmenu/busmenuadd.html'
+        self.model = T_Menu
+        self.objForm = BusMenuModelForm
+        self.query_sets = [
+            T_Menu.objects.filter(Q(FPID__isnull=True)).order_by('FSequence')
+        ]
+        self.query_set_idfields = ['FPID']
+        self.query_set_valuefields = ['FMenuName']
+
+
+#处理新增及保存数据
+class insert(insert_base):
+    def set_view(self, request):
+        self.model = T_Menu
+        self.objForm = BusMenuModelForm
+        self.query_sets = [
+            T_Menu.objects.all(),
+        ]
+        self.query_set_idfields = ['FPID']
+        self.query_set_valuefields = ['FMenuName']
+
+
+#处理禁用/启用
+class disabled(disabled_base):
+    def set_view(self, request):
+        self.model = T_Menu
+

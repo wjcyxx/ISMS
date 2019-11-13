@@ -76,6 +76,7 @@ class get_datasource(View):
                 dict['weight_percentage'] = '--'
                 dict['elevator_manager'] = '--'
                 dict['elevator_mgrtel'] = '--'
+                dict['wind_speed'] = '--'
 
             else:
                 dict['status'] = 1
@@ -97,6 +98,7 @@ class get_datasource(View):
                 dict['tilt_percentage2'] = result_run[0]['tilt_percentage2']
                 dict['weight_percentage'] = result_run[0]['weight_percentage']
                 dict['system_state'] = result_run[0]['system_state']
+                dict['wind_speed'] = result_run[0]['wind_speed']
                 dict['elevator_manager'] = dt.FMecmanager
                 dict['elevator_mgrtel'] = dt.FMecmanagertel
                 dict['elevator_oper'] = elevotor_oper.FName

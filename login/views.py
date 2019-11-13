@@ -108,7 +108,7 @@ def login_ok(request):
         context['envdevice'] = result
         context['devkey'] = devkey
 
-        busmenu_info = busmenu.objects.filter(Q(FPID__isnull=True), Q(FMenuPosition=0)).order_by('FSequence')
+        busmenu_info = busmenu.objects.filter(Q(FPID__isnull=True), Q(FStatus=True), Q(FMenuPosition=0)).order_by('FSequence')
         context['busmenu_info'] = busmenu_info
 
         return render(request, "main.html", context)
