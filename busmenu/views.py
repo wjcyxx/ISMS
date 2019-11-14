@@ -87,7 +87,7 @@ class edit(edit_base):
         self.model = T_Menu
         self.objForm = BusMenuModelForm
         self.query_sets = [
-            T_Menu.objects.filter(Q(FPID__isnull=True)).order_by('FSequence')
+            T_Menu.objects.all().order_by('FSequence')
         ]
         self.query_set_idfields = ['FPID']
         self.query_set_valuefields = ['FMenuName']
