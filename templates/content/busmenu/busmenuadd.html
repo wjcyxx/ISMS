@@ -113,6 +113,11 @@ layui.use(['element','layer','form', 'table'], function () {
         parent.layer.close(index);
     });
 
+    if ('{{ node_id }}' != 'null' && "{{ action }}" == 'insert' ) {
+        $("#id_FPID").val('{{ node_id }}');
+        form.render('select');
+    }
+
     //监听窗口提交
     form.on('submit(formsubmit)', function (data) {
         $.ajax({

@@ -111,6 +111,9 @@ def login_ok(request):
         busmenu_info = busmenu.objects.filter(Q(FPID__isnull=True), Q(FStatus=True), Q(FMenuPosition=0)).order_by('FSequence')
         context['busmenu_info'] = busmenu_info
 
+        side_busmenu_info = busmenu.objects.filter(Q(FPID__isnull=True) | Q(FPID=''), Q(FMenuPosition=1)).order_by('FSequence')
+        context['side_busmenu_info'] = side_busmenu_info
+
         return render(request, "main.html", context)
 
 def show(request):

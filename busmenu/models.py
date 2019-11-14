@@ -13,6 +13,17 @@ class busmenu(models.Model):
         (1, '侧边')
     )
 
+    FLOD_CHOICES = (
+        (None, '请选择数据'),
+        (0, '折叠'),
+        (1, '展开')
+    )
+
+    NEWFORM_CHOICES = (
+        (None, '请选择数据'),
+        (0, '嵌入式'),
+        (1, '新窗口')
+    )
 
     FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
     FPID = models.CharField(max_length=32, blank=True, null=True)
@@ -22,6 +33,8 @@ class busmenu(models.Model):
     FUrl = models.CharField(max_length=100, verbose_name='菜单地址', blank=True, null=True)
     FMenuIcon = models.CharField(max_length=32, verbose_name='菜单图标', blank=True, null=True)
     FMenuPosition = models.IntegerField(choices=MENUPOS_CHOICES, default=0, verbose_name='菜单位置', blank=True, null=True)
+    FFoldState = models.IntegerField(choices=FLOD_CHOICES, default=0, verbose_name='菜单折叠', blank=True, null=True)
+    FFormState = models.IntegerField(choices=NEWFORM_CHOICES, default=0, verbose_name='打开模式', blank=True, null=True)
     FStatus = models.BooleanField(default=True, verbose_name='状态')
     CREATED_ORG = models.CharField(max_length=32, verbose_name='创建组织', blank=True, null=True)
     CREATED_BY = models.CharField(max_length=32, verbose_name='创建人', blank=True, null=True)

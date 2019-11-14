@@ -88,7 +88,7 @@
               {field:'FMenuID', width: '20%', title: '菜单编号', sort: true},
               {field:'FUrl', width: '20%', title: '菜单链接', sort: true},
               {field:'FMenuIcon', width: '20%', title: '菜单图标', sort: true},
-              {field:'FMenuPosition', width: '20%', title: '菜单位置', sort: true},
+              {field:'FMenuPosition', width: '20%', title: '菜单位置', sort: true, templet: '#tpPosition'},
               {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
           ]],
           id: 'runreload'
@@ -165,7 +165,7 @@
                     {field:'FMenuID', width: '20%', title: '菜单编号', sort: true},
                     {field:'FUrl', width: '20%', title: '菜单链接', sort: true},
                     {field:'FMenuIcon', width: '20%', title: '菜单图标', sort: true},
-                    {field:'FMenuPosition', width: '20%', title: '菜单位置', sort: true},
+                    {field:'FMenuPosition', width: '20%', title: '菜单位置', sort: true, templet: '#tpPosition'},
                     {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
                 ]],
                 id: 'runreload'
@@ -178,6 +178,18 @@
 
 
 </script>
+
+
+  <!--显示菜单位置模板-->
+  <script type="text/html" id="tpPosition">
+      {% verbatim %}
+      {{#  if(d.FMenuPosition == 0){ }}
+      <span>顶部</span>
+      {{#  } else if(d.FMenuPosition == 1) { }}
+      <span>侧边</span>
+      {{#  } }}
+      {% endverbatim %}
+  </script>
 
 
 <!--生成操作工具栏-->

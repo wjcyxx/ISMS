@@ -49,7 +49,7 @@ class get_treedatasource(View):
 class get_datasource(get_datasource_base):
     def get_queryset(self, reqeust):
         serinput = self.request.GET.get("resultdict[FMenuName]", '')
-        menu_info =  T_Menu.objects.filter(Q(FMenuName__contains=serinput))
+        menu_info =  T_Menu.objects.filter(Q(FMenuName__contains=serinput)).order_by('FMenuPosition', 'FSequence')
 
         return menu_info
 
@@ -73,12 +73,17 @@ class get_refdatasource(get_datasource_base):
 class add(add_base):
     def set_view(self, request):
         self.template_name = 'content/busmenu/busmenuadd.html'
+        node_id = self.request.GET.get('nodeid')
+        node_pid = self.request.GET.get('nodepid')
+
         self.objForm = BusMenuModelForm
         self.query_sets = [
             T_Menu.objects.all().order_by('FSequence')
         ]
         self.query_set_idfields = ['FPID']
         self.query_set_valuefields = ['FMenuName']
+        self.context['node_id'] = node_id
+        self.context['node_pid'] = node_pid
 
 #链接编辑模板
 class edit(edit_base):
