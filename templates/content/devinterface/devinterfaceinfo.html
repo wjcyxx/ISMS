@@ -28,7 +28,8 @@
 
       <div style="padding-top: 10px" >
           <a href="javascript:;" class="layui-btn layui-btn-normal" id="btnAdd">增加</a>
-          <a href="javascript:;" class="layui-btn layui-btn-normal" id="btnTest">测试</a>
+          <a href="javascript:;" class="layui-btn layui-btn-normal" id="btnTest">测试开始</a>
+          <a href="javascript:;" class="layui-btn layui-btn-normal" id="btnTestStop">测试停止</a>
           <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
       </div>
 
@@ -41,6 +42,7 @@
 <script>
   var Deviceinfo = {{ deviceinfo|safe }};
   var InterfaceType = {{ interfacetypeinfo|safe }};
+  var ident = 0;
 
   layui.use(['element', 'layer', 'table'], function(){
       var $ = layui.jquery
@@ -66,14 +68,27 @@
       });
 
       $("#btnTest").click(function () {
-          parent.layer.open({
-              type:   2,
-              title:  '新增接口',
-              area: ['920px','470px'],
-              fixed: false,
-              content: "{% url 'devinterface:test' %}",
-              resize: false,
-              move: false
+          $.ajax({
+              type: 'POST',
+              url: "{% url 'devinterface:test' %}",
+              data: {"mode": "1"},
+              datatype: "json",
+              success: function (data) {
+                   result = JSON.parse(data);
+                   ident = result.ident
+              }
+          });
+      });
+
+      $("#btnTestStop").click(function () {
+          $.ajax({
+              type: 'POST',
+              url: "{% url 'devinterface:test' %}",
+              data: {"mode": "2", "tid": ident},
+              datatype: "json",
+              success: function (data) {
+
+              }
           });
       });
 

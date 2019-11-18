@@ -1,6 +1,7 @@
 import sys
 import os
 import django
+import time
 
 
 BASE_DIR = os.path.dirname(os.path.dirname((os.path.abspath(__file__))))
@@ -11,5 +12,9 @@ django.setup()
 
 
 if __name__ == "__main__":
-
-    print(BASE_DIR)
+    i = 0
+    while True:
+        i += 1
+        print(i)
+        time.sleep(5)
+        print(os.getpid())

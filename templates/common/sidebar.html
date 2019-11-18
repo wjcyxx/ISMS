@@ -14,7 +14,7 @@
                                     <a href="javascript:;">{{ sub_node.FMenuName }}</a>
                                     <dl class="layui-nav-child">
                                     {% for leaf_node in sub_node.FID|get_submenu %}
-                                        <dd><a href="javascript:;" data-id="{{ leaf_node.FMenuID }}" data-url="{% if leaf_node.FUrl == None %}'' {% else %}{% url leaf_node.FUrl %}{% endif %}" {% if sub_node.FFormState == 1 %} data-target="nw" {% endif %}><span>{{ leaf_node.FMenuName }}</span></a></dd>
+                                        <dd><a href="javascript:;" data-id="{{ leaf_node.FMenuID }}" data-url="{% if leaf_node.FUrl == None %}'' {% else %}{% url leaf_node.FUrl %}{% endif %}" {% if leaf_node.FFormState == 1 %} data-target="nw" {% endif %}><span>{{ leaf_node.FMenuName }}</span></a></dd>
                                     {% endfor %}
                                     </dl>
                                 </dd>

@@ -18,6 +18,8 @@ class BusMenuModelForm(ModelForm):
             'FUrl': Fwidgets.Input(attrs={'class': 'layui-input', 'autocomplete': 'off'}),
             'FMenuIcon': Fwidgets.Input(attrs={'class': 'layui-input', 'autocomplete': 'off'}),
             'FMenuPosition': Fwidgets.Select(),
+            'FFoldState': Fwidgets.Select(),
+            'FFormState': Fwidgets.Select(),
             'FStatus': Fwidgets.CheckboxInput(attrs={'lay-skin': 'switch', 'lay-text': '启用|禁用', 'disabled': 'disabled'}),
 
         }

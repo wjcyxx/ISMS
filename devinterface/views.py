@@ -15,6 +15,9 @@ from django.forms import widgets as Fwidge
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
 import os
+from threading import Thread
+import inspect
+import ctypes
 
 # Create your views here.
 #接口管理控制器入口
@@ -248,9 +251,42 @@ def param_delete(request):
 
 
 def test(request):
-    pyfiles = settings.BASE_DIR + os.sep + 'script' + os.sep + 'test.py'
+    if request.method == "POST":
+        pyfiles = settings.BASE_DIR + os.sep + 'script' + os.sep + 'test.py'
+        pyfiles = str(pyfiles).replace(' ', '\ ')
 
-    cmd = "python3 " + pyfiles
-    os.system(cmd)
+        cmd = "python3 " + pyfiles
+        thread = Thread()
+        result_dict = {}
 
-    return HttpResponse("is ok")
+        mode = request.POST.get('mode')
+        if mode == '1':
+            thread.run = lambda: os.system(cmd)
+            thread.start()
+            #os.system(cmd)
+
+            result_dict['result'] = 0
+            #result_dict['ident'] = thread.ident
+        elif mode == '2':
+            pass
+            # tid = int(request.POST.get('tid'))
+            # _async_raise(tid, SystemExit)
+        #print(str(os.getppid()))
+
+        return HttpResponse(json.dumps(result_dict))
+
+
+def _async_raise(tid, exctype):
+    """raises the exception, performs cleanup if needed"""
+    tid = ctypes.c_long(tid)
+    if not inspect.isclass(exctype):
+        exctype = type(exctype)
+    res = ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, ctypes.py_object(exctype))
+    if res == 0:
+        raise ValueError("invalid thread id")
+    elif res != 1:
+        # """if it returns a number greater than one, you're in trouble,
+        # and you should call it again with exc=NULL to revert the effect"""
+        ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, None)
+        raise SystemError("PyThreadState_SetAsyncExc failed")
+

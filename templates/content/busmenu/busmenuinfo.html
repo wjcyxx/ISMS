@@ -68,7 +68,7 @@
           parent.layer.open({
               type:   2,
               title:  '新增系统菜单项',
-              area: ['1000px','340px'],
+              area: ['1000px','360px'],
               fixed: false,
               content: "{% url 'busmenu:add' %}?nodeid="+node_id+"&nodepid="+node_pid,
               resize: false,
@@ -115,10 +115,10 @@
               case 'edit' :              //编辑按钮事件
                   parent.layer.open({
                       type:   2,
-                      title:  '编辑物料主档',
-                      area: ['1000px','430px'],
+                      title:  '编辑系统菜单项',
+                      area: ['1000px','360px'],
                       fixed: false,
-                      content: "{% url 'materials:edit' %}?fid="+data.FID,
+                      content: "{% url 'busmenu:edit' %}?fid="+data.FID,
                       resize: false,
                       move: false
                   });
