@@ -15,5 +15,5 @@ urlpatterns = [
     path('param_insert/', views.param_insert, name='param_insert'),
     path('get_paramdatasource/', views.get_paramdatasource, name='get_paramdatasource'),
     path('param_delete/', views.param_delete, name='param_delete'),
-    path('test/', views.test, name='test'),
+    path('devservice/', views.devservice, name='devservice'),
 ]

@@ -25,3 +25,19 @@ class DeviceModelForm(ModelForm):
             'FDesc': Fwidgets.Textarea(attrs={'class': 'layui-textarea', 'autocomplete': 'off', 'rows': '1'}),
             'FStatus': Fwidgets.CheckboxInput(attrs={'lay-skin': 'switch', 'lay-text': '启用|禁用', 'disabled': 'disabled'}),
         }
+
+
+class DevCallInterfaceModelForm(ModelForm):
+    FInterfaceID = forms.ChoiceField(widget=forms.Select(attrs={'lay-verify': 'required'}), required=False)
+
+    class Meta:
+        model = devcallinterface
+        fields = '__all__'
+
+        widgets = {
+            'FID': Fwidgets.Input(attrs={'type': 'hidden'}),
+            'FPID': Fwidgets.Input(attrs={'type': 'hidden'}),
+            'FCallSigCode': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
+            'FDataMode': Fwidgets.Select(),
+            'FDesc': Fwidgets.Textarea(attrs={'class': 'layui-textarea', 'autocomplete': 'off', 'rows': '1'}),
+        }

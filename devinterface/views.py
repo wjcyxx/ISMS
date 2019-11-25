@@ -33,10 +33,11 @@ def devinterface(request):
 
 #返回table数据及查询结果
 def get_datasource(request):
+    prj_id = request.session['PrjID']
     serinput = request.POST.get("resultdict[FName]", '')
 
-    Devinterface_info =  T_DevInterface.objects.filter(Q(FName__contains=serinput))
-    Devinterface_info = org_split(Devinterface_info, request)
+    Devinterface_info =  T_DevInterface.objects.filter(Q(FName__contains=serinput), Q(CREATED_PRJ=prj_id))
+    #Devinterface_info = org_split(Devinterface_info, request)
 
     dict = convert_to_dicts(Devinterface_info)
     resultdict = {'code':0, 'msg':"", 'count': Devinterface_info.count(), 'data': dict}
@@ -250,9 +251,14 @@ def param_delete(request):
         return HttpResponse(json.dumps(response_data))
 
 
-def test(request):
+def devservice(request):
     if request.method == "POST":
-        pyfiles = settings.BASE_DIR + os.sep + 'script' + os.sep + 'test.py'
+        fid = request.POST.get('fid')
+        interface_info = T_DevInterface.objects.get(Q(FID=fid))
+
+        srvfile = interface_info.FSrvFile
+
+        pyfiles = settings.BASE_DIR + os.sep + 'script' + os.sep + srvfile + '.py'
         pyfiles = str(pyfiles).replace(' ', '\ ')
 
         cmd = "python3 " + pyfiles
@@ -264,7 +270,7 @@ def test(request):
             thread.run = lambda: os.system(cmd)
             thread.start()
             #os.system(cmd)
-
+            thread.join()
             result_dict['result'] = 0
             #result_dict['ident'] = thread.ident
         elif mode == '2':

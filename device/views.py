@@ -3,6 +3,7 @@ from django.shortcuts import HttpResponse
 from django.shortcuts import redirect
 from django.db.models import Q
 from .models import device as T_Device
+from .models import devcallinterface as T_DevCallInterface
 from basedata.models import base
 from common.views import *
 from django.http import JsonResponse
@@ -11,22 +12,29 @@ import json
 from django.utils import timezone
 from django.forms import widgets as Fwidge
 from django.core.exceptions import ObjectDoesNotExist
+from baseframe.baseframe import *
+from devinterface.models import devinterface
 
 # Create your views here.
 #设备管理控制器入口
 def device(request):
+    prj_id = request.session['PrjID']
+
     devicetype_info = base.objects.filter(Q(FPID='8feb17b2aaf211e99741708bcdb9b39a'))
     devicetypeinfo = get_dict_table(devicetype_info, 'FID', 'FBase')
 
-    return render(request, 'content/device/deviceinfo.html', {'devicetypeinfo': devicetypeinfo})
+    devinterface_info = devinterface.objects.filter(Q(FStatus=True), Q(CREATED_PRJ=prj_id))
+    devinterfaceinfo = get_dict_table(devinterface_info, 'FID', 'FName')
 
+    return render(request, 'content/device/deviceinfo.html', {'devicetypeinfo': devicetypeinfo, 'devinterfaceinfo': devinterfaceinfo})
 
 #返回table数据及查询结果
 def get_datasource(request):
+    prj_id = request.session['PrjID']
     serinput = request.POST.get("resultdict[FDevice]", '')
 
-    Device_info =  T_Device.objects.filter(Q(FDevice__contains=serinput))
-    Device_info = org_split(Device_info, request)
+    Device_info =  T_Device.objects.filter(Q(FDevice__contains=serinput), Q(CREATED_PRJ=prj_id))
+    #Device_info = org_split(Device_info, request)
 
     dict = convert_to_dicts(Device_info)
     resultdict = {'code':0, 'msg':"", 'count': Device_info.count(), 'data': dict}
@@ -129,5 +137,44 @@ def disabled(request):
         return HttpResponse(json.dumps(response_data))
 
 
+#链接挂接接口模板
+class add_callinterface(add_base):
+    def set_view(self, request):
+        fid = ''.join(str(self.request.GET.get('fid')).split('-'))
+        prj_id = self.request.session['PrjID']
+
+        self.template_name = 'content/device/devcallinterface.html'
+        self.objForm = DevCallInterfaceModelForm
+        self.query_sets = [
+            devinterface.objects.filter(Q(CREATED_PRJ=prj_id), Q(FStatus=True))
+        ]
+        self.query_set_idfields = ['FInterfaceID']
+        self.query_set_valuefields = ['FName']
+        self.context['fid'] = fid
 
 
+#处理挂接接口新增及保存数据
+class insert_callinterface(insert_base):
+    def set_view(self, request):
+        prj_id = self.request.session['PrjID']
+
+        self.model = T_DevCallInterface
+        self.objForm = DevCallInterfaceModelForm
+
+        #模式一、保存时自动保存子表FPID
+        self.type = 1
+
+        self.query_sets = [
+            devinterface.objects.filter(Q(CREATED_PRJ=prj_id), Q(FStatus=True))
+        ]
+        self.query_set_idfields = ['FInterfaceID']
+        self.query_set_valuefields = ['FName']
+
+
+#返回接口挂接table数据
+class get_callinterface_datasource(get_datasource_base):
+    def get_queryset(self, reqeust):
+        fid = ''.join(str(self.request.GET.get('fid')).split('-'))
+
+        devcallinterface_info = T_DevCallInterface.objects.filter(Q(FPID=fid))
+        return devcallinterface_info

@@ -26,7 +26,7 @@ class get_treedatasource(View):
 
         obj_arr = []
         menu_info = T_Menu.objects.all()
-        menu_info = org_split(menu_info, request).order_by('FSequence')
+        #menu_info = org_split(menu_info, request).order_by('FSequence')
 
         for obj in menu_info:
             dict = {}

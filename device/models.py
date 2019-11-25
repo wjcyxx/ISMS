@@ -34,4 +34,28 @@ class device(models.Model):
 
     class Meta:
         db_table = 'T_Device'
-        ordering = ['FDevtypeID']
+        ordering = ['FDevtypeID', 'FDevID']
+
+class devcallinterface(models.Model):
+    DATAMODE_CHOICES = (
+        (None, '请选择数据'),
+        (0, '仅调用'),
+        (1, '数据存储')
+    )
+
+    FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
+    FPID = models.CharField(max_length=32, blank=True, null=True)
+    FCallSigCode = models.CharField(max_length=32, verbose_name='调用特征码', blank=True, null=True)
+    FInterfaceID = models.CharField(max_length=32, verbose_name='接口FID', blank=True, null=True)
+    FDataMode = models.IntegerField(choices=DATAMODE_CHOICES, verbose_name='数据模式', default=0, blank=True, null=True)
+    FDesc = models.CharField(max_length=1024, verbose_name='备注', blank=True, null=True)
+    FStatus = models.BooleanField(default=True, verbose_name='状态')
+    CREATED_PRJ = models.CharField(max_length=32, verbose_name='所属项目', blank=True, null=True)
+    CREATED_ORG = models.CharField(max_length=32, verbose_name='创建组织', blank=True, null=True)
+    CREATED_BY = models.CharField(max_length=32, verbose_name='创建人', blank=True, null=True)
+    CREATED_TIME = models.DateTimeField(blank=True, null=True, verbose_name='创建时间')
+    UPDATED_BY = models.CharField(max_length=32, verbose_name='更新人', blank=True, null=True)
+    UPDATED_TIME = models.DateTimeField(auto_now=True, verbose_name='更新时间')
+
+    class Meta:
+        db_table = 'T_DevCallInterface'

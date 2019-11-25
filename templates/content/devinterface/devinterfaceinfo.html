@@ -68,22 +68,12 @@
       });
 
       $("#btnTest").click(function () {
-          $.ajax({
-              type: 'POST',
-              url: "{% url 'devinterface:test' %}",
-              data: {"mode": "1"},
-              datatype: "json",
-              success: function (data) {
-                   result = JSON.parse(data);
-                   ident = result.ident
-              }
-          });
       });
 
       $("#btnTestStop").click(function () {
           $.ajax({
               type: 'POST',
-              url: "{% url 'devinterface:test' %}",
+              url: "",
               data: {"mode": "2", "tid": ident},
               datatype: "json",
               success: function (data) {
@@ -103,8 +93,7 @@
           cols: [[
               {field:'FName', width: '20%', title: '接口名称', sort: true},
               {field:'FInterfaceTypeID', width: '15%', title: '接口方式', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FInterfaceTypeID, InterfaceType)}}{% endverbatim %}</div>'},
-              {field:'FDevID', width: '15%', title: '绑定设备', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FDevID, Deviceinfo)}}{% endverbatim %}</div>'},
-              {field:'FAddress', width: '15%', title: '接口地址', sort: true},
+              {field:'FAddress', width: '30%', title: '接口地址', sort: true},
               {field:'FPort', width: '10%', title: '使用端口', sort: true},
               {field:'FTransmode', width: '15%', title: '传输方式', sort: true, templet: '#tpTransmode'},
               {field:'FDesc', width: '25%', title: '接口描述', sort: true},
@@ -146,7 +135,7 @@
                   break;
 
 
-              case 'addparam' :              //编辑按钮事件
+              case 'addparam' :              //添加参数按钮事件
                   parent.layer.open({
                       type:   2,
                       title:  '添加接口参数',
@@ -159,6 +148,27 @@
 
                   break;
 
+              case 'startsrv':               //启动服务按钮事件
+                  if (data.FInterfaceTypeID != '787aacd20f5b11eab439acde48001122') {
+                      parent.layer.alert('此接口不是服务类接口,无法启动',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                  } else {
+                      if (data.FSrvFile == '' || data.FSrvFile == null) {
+                          parent.layer.alert('服务名称为空,无法启动',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                      } else {
+                          $.ajax({
+                              type: 'POST',
+                              url: "{% url 'devinterface:devservice' %}",
+                              data: {"mode": "1", "fid": data.FID},
+                              datatype: "json",
+                              success: function (data) {
+                                  //result = JSON.parse(data);
+                                  //ident = result.ident
+                              }
+                          });
+                      }
+                  }
+
+                  break;
 
               case 'disabled' :               //禁用按钮事件
                   parent.layer.open({
@@ -241,6 +251,14 @@
         <div class="layui-btn-group">
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>编辑</a>
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="addparam"><i class="fa fa-plug" aria-hidden="true"></i>添加接口参数</a>
+
+            {{# if(d.FSrvStatus == true){ }}
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="stopsrv"><i class="fa fa-stop-circle-o" aria-hidden="true"></i>停止服务</a>
+            {{# } else if(d.FStatus == false){ }}
+            <a class="layui-btn layui-btn-xs" lay-event="startsrv"><i class="fa fa-play-circle-o" aria-hidden="true"></i>启动服务</a>
+            {{# } else { }}
+            <a class="layui-btn layui-btn-xs" lay-event="startsrv"><i class="fa fa-play-circle-o" aria-hidden="true"></i>启动服务</a>
+            {{# } }}
 
             {{# if(d.FStatus == true){ }}
             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>
