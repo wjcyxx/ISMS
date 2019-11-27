@@ -251,48 +251,6 @@ def param_delete(request):
         return HttpResponse(json.dumps(response_data))
 
 
-def devservice(request):
-    if request.method == "POST":
-        fid = request.POST.get('fid')
-        interface_info = T_DevInterface.objects.get(Q(FID=fid))
-
-        srvfile = interface_info.FSrvFile
-
-        pyfiles = settings.BASE_DIR + os.sep + 'script' + os.sep + srvfile + '.py'
-        pyfiles = str(pyfiles).replace(' ', '\ ')
-
-        cmd = "python3 " + pyfiles
-        thread = Thread()
-        result_dict = {}
-
-        mode = request.POST.get('mode')
-        if mode == '1':
-            thread.run = lambda: os.system(cmd)
-            thread.start()
-            #os.system(cmd)
-            thread.join()
-            result_dict['result'] = 0
-            #result_dict['ident'] = thread.ident
-        elif mode == '2':
-            pass
-            # tid = int(request.POST.get('tid'))
-            # _async_raise(tid, SystemExit)
-        #print(str(os.getppid()))
-
-        return HttpResponse(json.dumps(result_dict))
 
 
-def _async_raise(tid, exctype):
-    """raises the exception, performs cleanup if needed"""
-    tid = ctypes.c_long(tid)
-    if not inspect.isclass(exctype):
-        exctype = type(exctype)
-    res = ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, ctypes.py_object(exctype))
-    if res == 0:
-        raise ValueError("invalid thread id")
-    elif res != 1:
-        # """if it returns a number greater than one, you're in trouble,
-        # and you should call it again with exc=NULL to revert the effect"""
-        ctypes.pythonapi.PyThreadState_SetAsyncExc(tid, None)
-        raise SystemError("PyThreadState_SetAsyncExc failed")
 

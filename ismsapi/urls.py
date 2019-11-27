@@ -13,6 +13,7 @@ urlpatterns = [
     path('get_group/', views.get_group.as_view(), name='get_group'),
     path('get_personnel/', views.get_personnel.as_view(), name='get_personnel'),
     path('get_pedpassage/', views.get_pedpassage.as_view(), name='get_pedpassage'),
-    path('get_passagerecord/', views.get_passagerecord.as_view(), name='get_passagerecord')
+    path('get_passagerecord/', views.get_passagerecord.as_view(), name='get_passagerecord'),
+    path('get_env_realdata/', views.get_env_realdata.as_view(), name='get_env_realdata')
 
 ]

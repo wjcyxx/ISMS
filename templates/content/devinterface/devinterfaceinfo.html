@@ -68,16 +68,14 @@
       });
 
       $("#btnTest").click(function () {
-      });
-
-      $("#btnTestStop").click(function () {
           $.ajax({
-              type: 'POST',
-              url: "",
-              data: {"mode": "2", "tid": ident},
+              type: "POST",
+              url: "http://127.0.0.1:8000/ismsapi/get_env_realdata/",
+              contentType: "application/x-www-form-urlencoded",
+              data: {"appkey": "JDNkYn4pUa", "token": "MTU3NDg2MjE2Mi40MjY4NDQ6ODc1OWExYjFlZmQ4YmRiM2M3ZTdiMzE1ZTFkYWZiZDBmZGFjZGNmYQ==", "prjid":"09dc5718-a079-11e9-b707-7831c1d24216"},
               datatype: "json",
               success: function (data) {
-
+                  alert(data.data0.length);
               }
           });
       });
@@ -119,6 +117,7 @@
           var layEvent = obj.event;      //获取当前行事件
           var tr = obj.tr;               //获取当前行tr的DOM数据
           var fid = {"fid":data.FID};
+          var x = this;
 
           switch (layEvent){
               case 'edit' :              //编辑按钮事件
@@ -157,13 +156,25 @@
                       } else {
                           $.ajax({
                               type: 'POST',
-                              url: "{% url 'devinterface:devservice' %}",
+                              url: "{% url 'devinterfacesrv:devservice' %}",
                               data: {"mode": "1", "fid": data.FID},
                               datatype: "json",
+                              timeout: 10000,
+                              beforeSend: function(XMLHttpRequest){
+                                  if(layEvent === 'startsrv') {
+                                      $(x).text("服务启动中");
+                                  }
+                              },
                               success: function (data) {
+
                                   //result = JSON.parse(data);
                                   //ident = result.ident
+                              },
+                              complete: function (XMLHttpRequest, textStatus) {
+                                   //alert("tststs");
+                                  table.reload('runreload', {where: {resultdict:{FName: serinput}}});
                               }
+
                           });
                       }
                   }
@@ -255,9 +266,9 @@
             {{# if(d.FSrvStatus == true){ }}
             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="stopsrv"><i class="fa fa-stop-circle-o" aria-hidden="true"></i>停止服务</a>
             {{# } else if(d.FStatus == false){ }}
-            <a class="layui-btn layui-btn-xs" lay-event="startsrv"><i class="fa fa-play-circle-o" aria-hidden="true"></i>启动服务</a>
+            <a class="layui-btn layui-btn-xs" id="id_startsrv" lay-event="startsrv"><i class="fa fa-play-circle-o" aria-hidden="true"></i>启动服务</a>
             {{# } else { }}
-            <a class="layui-btn layui-btn-xs" lay-event="startsrv"><i class="fa fa-play-circle-o" aria-hidden="true"></i>启动服务</a>
+            <a class="layui-btn layui-btn-xs" id="id_startsrv" lay-event="startsrv"><i class="fa fa-play-circle-o" aria-hidden="true"></i>启动服务</a>
             {{# } }}
 
             {{# if(d.FStatus == true){ }}

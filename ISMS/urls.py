@@ -77,7 +77,8 @@ urlpatterns = [
     path('unloading/', include('unloading.urls'), name='unloading'),
     path('busmenu/', include('busmenu.urls'), name='busmenu'),
     path('appkey/', include('appkey.urls'), name='appkey'),
-    path('ismsapi/', include('ismsapi.urls'), name='ismsapi')
+    path('ismsapi/', include('ismsapi.urls'), name='ismsapi'),
+    path('devinterfacesrv/', include('devinterfacesrv.urls'), name='devinterfacesrv')
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

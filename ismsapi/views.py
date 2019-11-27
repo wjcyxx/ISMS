@@ -15,6 +15,7 @@ from personnel.models import personnel
 from organize.models import organize
 from basedata.models import base
 from pedpassage.models import pedpassage, passagerecord
+from device.models import device, devcallinterface
 from django.http import JsonResponse
 import json
 from django.utils import timezone
@@ -597,6 +598,58 @@ class get_pedpassage(api_base):
 class get_passagerecord(api_base):
     def set_view(self, request):
         self.model = passagerecord
+
+
+
+
+class get_env_realdata(View):
+    def post(self, request):
+        APPKEY = request.POST.get('appkey')
+        TOKEN = request.POST.get('token')
+        PRJ_ID = ''.join(str(request.POST.get('prjid')).split('-'))
+
+        if (APPKEY == None and TOKEN == None):
+            reqbody = request.body
+            request_json = eval(reqbody.decode())
+            APPKEY = request_json['appkey']
+            TOKEN = request_json['token']
+            PRJ_ID = request_json['prjid']
+
+        response_data = {}
+
+        try:
+            appkey_info = T_AppKey.objects.get(Q(FAppkey=APPKEY), Q(FStatus=True))
+            response_data = certify_token(APPKEY, TOKEN)
+
+            if response_data['result'] != '0':
+                return HttpResponse(json.dumps(response_data))
+            else:
+                dev_info = device.objects.filter(Q(FStatus=True), Q(CREATED_PRJ=PRJ_ID), Q(FDevtypeID='dc511ffcaaf211e99741708bcdb9b39a'))
+
+                i = 0
+                for obj_dev in dev_info:
+                    dev_fid = ''.join(str(obj_dev.FID).split('-'))
+
+                    interface_info = devcallinterface.objects.get(Q(FPID=dev_fid), Q(FCallSigCode='GETREALDATA'))
+                    initID = ''.join(str(interface_info.FInterfaceID).split('-'))
+
+                    result_run = get_interface_result(initID)
+                    response_data['result'] = '0'
+                    response_data['msg'] = 'data returned successfully'
+                    response_data['data'+str(i)] = result_run
+                    i += 1
+
+            return JsonResponse(response_data, safe=False)
+
+        except ObjectDoesNotExist:
+            response_data['result'] = '4'
+            response_data['msg'] = 'APIKEY serial is UNREGISTERED'
+
+            return HttpResponse(json.dumps(response_data))
+
+
+
+
 
 
 

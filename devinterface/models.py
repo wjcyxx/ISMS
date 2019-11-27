@@ -10,7 +10,8 @@ class devinterface(models.Model):
     TRANSMODE_CHOICES = (
         (None, '请选择数据'),
         (0, '实时'),
-        (1, '间隔')
+        (1, '间隔'),
+        (2, '单次')
     )
 
     REQUEST_CHOICES = (
@@ -35,6 +36,7 @@ class devinterface(models.Model):
     FStatus = models.BooleanField(default=True, verbose_name='状态')
     FSrvStatus = models.BooleanField(default=False, verbose_name='服务状态')
     FSrvFile = models.CharField(max_length=20, verbose_name='服务文件', blank=True, null=True)
+    FSrvPID = models.IntegerField(verbose_name='服务文件PID', blank=True, null=True, default=0)
     CREATED_PRJ = models.CharField(max_length=32, verbose_name='所属项目', blank=True, null=True)
     CREATED_ORG = models.CharField(max_length=32, verbose_name='创建组织', blank=True, null=True)
     CREATED_BY = models.CharField(max_length=32, verbose_name='创建人', blank=True, null=True)

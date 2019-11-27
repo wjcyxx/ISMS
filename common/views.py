@@ -4,6 +4,7 @@ from django.shortcuts import redirect
 from .models import sequence
 from django.db.models import Q
 from devinterface.models import devinterface, interfaceparam
+from device.models import device, devcallinterface
 import time
 import base64
 import hmac
@@ -356,8 +357,19 @@ def gensequence(appname, prefix, zfill, type):
 def get_interface_url(interID):
 
     interface_info = devinterface.objects.get(Q(FID=interID))
-
-    return interface_info.FAddress
+    callinterface_info = devcallinterface.objects.filter(Q(FInterfaceID=interID)).first()
+    if callinterface_info != None:
+        inter_address = []
+        dev_info = device.objects.filter(Q(FID=callinterface_info.FPID))
+        for obj_dev in dev_info:
+            if str(obj_dev.FDevIP) == '0.0.0.0':
+                inter_address = interface_info.FAddress
+            else:
+                inter_address.append(str(obj_dev.FDevIP) + ':' + str(obj_dev.FPort) + interface_info.FAddress)
+    else:
+        # inter_address.append(interface_info.FAddress)
+        inter_address = interface_info.FAddress
+    return inter_address
 
 
 #根据接口编号获取接口参数
