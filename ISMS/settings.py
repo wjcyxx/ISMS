@@ -92,7 +92,8 @@ INSTALLED_APPS = [
     'unloading',
     'appkey',
     'ismsapi',
-    'devinterfacesrv'
+    'devinterfacesrv',
+    'datacockpit'
 ]
 
 MIDDLEWARE = [

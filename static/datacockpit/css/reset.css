@@ -1,0 +1,87 @@
+@charset "UTF-8";
+a,
+a img,
+address,
+b,
+blockquote,
+body,
+code,
+dd,
+div,
+dl,
+dt,
+font,
+form,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+html,
+iframe,
+img,
+label,
+li,
+map,
+ol,
+p,
+samp,
+span,
+strong,
+table,
+td,
+th,
+tr,
+ul {
+	padding: 0;
+	margin: 0;
+	border: 0;
+	font-weight: normal;
+	font-family: 'Microsoft YaHei', Arial, Helvetica, sans-serif;
+	list-style: none;
+}
+
+body,
+html {
+	position: relative;
+	height: 100%;
+}
+
+body {
+	background: #fff;
+	font: normal 12px/22px "微软雅黑";
+}
+
+img {
+	border: 0;
+}
+
+a {
+	text-decoration: none;
+	color: #000;
+}
+
+
+.clear {
+	clear: both;
+}
+
+div {
+	box-sizing: border-box;
+}
+
+.fl {
+	float: left;
+}
+
+.fr {
+	float: right;
+}
+div, li, ul{
+	box-sizing: border-box;
+}
+h1, h2, h3, h5, h4, h6{
+	line-height: 1;
+}

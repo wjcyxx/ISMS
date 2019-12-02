@@ -49,12 +49,14 @@ class EntranceView_base(View):
 class get_datasource_base(View):
     request = None
     type = 0
+    orgsplit_type = 0
 
     def get(self, request):
         try:
             self.request = request
             query_set = self.get_queryset(self)
-            query_set = org_split(query_set, request)
+            if self.orgsplit_type == 0:
+                query_set = org_split(query_set, request)
 
             if self.type == 0:
                 dict = convert_to_dicts(query_set)

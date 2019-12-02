@@ -87,15 +87,19 @@
                                     } else if (data.result==='3') {
                                         layer.alert('该用户账户已被禁用', {skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
                                     } else {
-                                        layer.open({
-                                            type: 2,
-                                            title: '选择所属项目',
-                                            fixed: false,
-                                            resize: false,
-                                            move: false,
-                                            area: ['900px', '500px'],
-                                            content: "{% url 'login:login_showPrj' %}?orgid="+data.orgid
-                                        });
+                                        if (data.orgtype == 1) {
+                                            window.location.href="{% url 'login:login_ok' %}?prjid="+data.FID+"&orgtype=1";
+                                        } else {
+                                            layer.open({
+                                                type: 2,
+                                                title: '选择所属项目',
+                                                fixed: false,
+                                                resize: false,
+                                                move: false,
+                                                area: ['900px', '500px'],
+                                                content: "{% url 'login:login_showPrj' %}?orgid="+data.orgid
+                                            });
+                                        }
                                     }
                                 }
                             });

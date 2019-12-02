@@ -60,7 +60,7 @@
           var data = obj.data;
 
           //layer.alert(data.FID );
-          parent.window.location.href="{% url 'login:login_ok' %}?prjid="+data.FID;
+          parent.window.location.href="{% url 'login:login_ok' %}?prjid="+data.FID+"&orgtype=0";
           var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
           parent.layer.close(index);
       });

@@ -10,7 +10,8 @@ class busmenu(models.Model):
     MENUPOS_CHOICES = (
         (None, '请选择数据'),
         (0, '顶部'),
-        (1, '侧边')
+        (1, '侧边'),
+        (2, '数据中心')
     )
 
     FLOD_CHOICES = (

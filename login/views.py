@@ -43,6 +43,10 @@ def login_chk(request):
         response_data['orgid'] = user_info.FOrgID
 
         Organize_info = organize.objects.get(Q(FID=user_info.FOrgID))
+        if Organize_info.FOrgtypeID == '90644de2f94611e980fe7831c1d24216':
+            response_data['orgtype'] = 1
+        else:
+            response_data['orgtype'] = 0
 
         request.session['UserID'] = UserID
         request.session['Username'] = user_info.FUsername
@@ -76,45 +80,58 @@ def get_project(request):
 
 def login_ok(request):
     if request.method == "GET":
+        orgtype = request.GET.get('orgtype')
         prjid = request.GET.get('prjid')
         prjid = ''.join(str(prjid).split('-'))
 
-        #prj_info = project.objects.all()
-        prj_info = project.objects.get(Q(FID=prjid))
-        request.session['PrjID'] = prjid
+        if orgtype == '0':
+            #prj_info = project.objects.all()
+            prj_info = project.objects.get(Q(FID=prjid))
+            request.session['PrjID'] = prjid
 
-        initID = 'b93df570c31c11e982a27831c1d24216'
+            initID = 'b93df570c31c11e982a27831c1d24216'
 
-        url = get_interface_url(initID)
-        param = get_interface_param(initID)
+            url = get_interface_url(initID)
+            param = get_interface_param(initID)
 
-        req = url + '?' + param
+            req = url + '?' + param
 
-        response = urllib.request.urlopen(req)
-        data = response.read()
-        data = data.decode('utf-8')
+            response = urllib.request.urlopen(req)
+            data = response.read()
+            data = data.decode('utf-8')
 
-        result = json.loads(data)
-        devkey = ''
+            result = json.loads(data)
+            devkey = ''
 
 
-        for r in result:
-            if r['DevStatus'] == 'true':
-                devkey = r['DevKey']
-                break
+            for r in result:
+                if r['DevStatus'] == 'true':
+                    devkey = r['DevKey']
+                    break
 
-        context = {}
-        context['prjinfo'] = prj_info
-        context['envdevice'] = result
-        context['devkey'] = devkey
+            context = {}
+            context['prjinfo'] = prj_info
+            context['envdevice'] = result
+            context['devkey'] = devkey
 
-        busmenu_info = busmenu.objects.filter(Q(FPID__isnull=True), Q(FStatus=True), Q(FMenuPosition=0)).order_by('FSequence')
-        context['busmenu_info'] = busmenu_info
+            busmenu_info = busmenu.objects.filter(Q(FPID__isnull=True), Q(FStatus=True), Q(FMenuPosition=0)).order_by('FSequence')
+            context['busmenu_info'] = busmenu_info
 
-        side_busmenu_info = busmenu.objects.filter(Q(FPID__isnull=True) | Q(FPID=''), Q(FMenuPosition=1)).order_by('FSequence')
-        context['side_busmenu_info'] = side_busmenu_info
+            side_busmenu_info = busmenu.objects.filter(Q(FPID__isnull=True) | Q(FPID=''), Q(FStatus=True), Q(FMenuPosition=1)).order_by('FSequence')
+            context['side_busmenu_info'] = side_busmenu_info
 
-        return render(request, "main.html", context)
+            return render(request, "main.html", context)
+        else:
+            context = {}
+
+            busmenu_info = busmenu.objects.filter(Q(FPID__isnull=True) | Q(FPID=''), Q(FStatus=True), Q(FMenuPosition=2)).order_by('FSequence')
+            org_cont = organize.objects.all().count()
+
+            context['busmenu_info'] = busmenu_info
+            context['org_count'] = org_cont
+
+
+            return render(request, "content/datacockpit/datacockpit.html", context)
 
 def show(request):
     url = request.GET.get('url')
