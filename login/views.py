@@ -2,12 +2,13 @@ from django.shortcuts import render
 from django.shortcuts import HttpResponse
 from django.shortcuts import redirect
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Q
+from django.db.models import Q, Sum
 from django.http import JsonResponse
 from .models import *
 from project.models import *
 from organize.models import organize
 from basedata.models import base
+from device.models import device
 from common.views import *
 import json
 import urllib.parse
@@ -126,10 +127,27 @@ def login_ok(request):
 
             busmenu_info = busmenu.objects.filter(Q(FPID__isnull=True) | Q(FPID=''), Q(FStatus=True), Q(FMenuPosition=2)).order_by('FSequence')
             org_cont = organize.objects.all().count()
+            prj_count = project.objects.all().count()
+            prj_status = base.objects.filter(Q(FPID='22682ae6a3da11e9920c708bcdb9b39a')).order_by('FBaseID')
+            arr_status = []
+
+            for obj in prj_status:
+                arr_status.append(obj.FBase)
+
+            prj_cost = project.objects.filter(Q(FStatus=True)).annotate(cost=Sum('FPrjcost')).values('cost')
+            dev_count = device.objects.all().count()
 
             context['busmenu_info'] = busmenu_info
             context['org_count'] = org_cont
+            context['prj_count'] = prj_count
+            context['prj_status'] = arr_status
 
+            if len(prj_cost) == 0:
+                context['prj_cost'] = 0
+            else:
+                context['prj_cost'] = int(prj_cost[0]['cost'])/10000
+
+            context['dev_count'] = dev_count
 
             return render(request, "content/datacockpit/datacockpit.html", context)
 

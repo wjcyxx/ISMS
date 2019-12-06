@@ -175,6 +175,7 @@ class insert_callinterface(insert_base):
 class get_callinterface_datasource(get_datasource_base):
     def get_queryset(self, reqeust):
         fid = ''.join(str(self.request.GET.get('fid')).split('-'))
+        self.orgsplit_type = 1
 
         devcallinterface_info = T_DevCallInterface.objects.filter(Q(FPID=fid))
         return devcallinterface_info

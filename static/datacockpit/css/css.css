@@ -122,7 +122,7 @@
   align-items: center;
 }
 .content .main_box .top .fr .fr_top .num p {
-  font-size: 39px;
+  font-size: 25px;
   color: #c9905e;
 }
 .content .main_box .top .fr .fr_top .num img {
@@ -146,9 +146,9 @@
   margin-top: 2.037037037vh;
 }
 .content .main_box .bottom .item {
-  width: 31.5104166667vw;
+  width: 100%;
   border: 1px solid #29243F;
-  height: 100%;
+  height: 26.5740740741vh;
   background-image: url(/static/datacockpit/images/HOME_03.png);
   background-size: cover;
   float: left;
@@ -797,6 +797,38 @@
 .swiper-slide a {
   /*color: #7d7a93;*/
   color: wheat;
+}
+
+.user_boxs {
+  overflow: hidden;
+  float: right;
+  width: 21.7708333333vw;
+  height: 100%;
+  background-image: url(/static/datacockpit/images/HOME_hov_02.png);
+  background-size: 100% 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 4.53125vw;
+}
+.user_boxs img {
+  width: 2.2395833333vw;
+  border-radius: 50%;
+  margin-right: 0.6770833333vw;
+}
+.user_boxs p {
+  font-size: 20px;
+  color: #7d7a93;
+}
+.user_boxs em {
+  font-style: normal;
+  font-size: 20px;
+  color: #7d7a93;
+  margin: 0 0.7291666667vw;
+}
+.user_boxs a {
+  display: block;
+  font-size: 16px;
+  color: #7D7A93;
 }
 
 /*# sourceMappingURL=css.css.map */

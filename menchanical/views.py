@@ -36,6 +36,7 @@ class entrance(EntranceView_base):
 class get_datasource(get_datasource_base):
     def get_queryset(self, reqeust):
         prj_id = self.request.session['PrjID']
+        self.orgsplit_type = 1
         serinput = self.request.GET.get("resultdict[FMecspec]", '')
         mench_info = T_Menchanical.objects.filter(Q(CREATED_PRJ=prj_id), Q(FMecspec__contains=serinput))
 
@@ -128,7 +129,7 @@ class insert_auth(insert_base):
 class get_operauth_datasource(get_datasource_base):
     def get_queryset(self, reqeust):
         fid = ''.join(str(self.request.GET.get('fid')).split('-'))
-
+        self.orgsplit_type = 1
         auth_info = T_MecOperAuth.objects.filter(Q(FPID=fid))
         return auth_info
 
