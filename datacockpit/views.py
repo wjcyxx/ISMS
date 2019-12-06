@@ -9,6 +9,7 @@ from basedata.models import base
 from organize.models import organize
 from project.models import project
 from device.models import device
+from personnel.models import personnel
 from common.views import *
 from django.http import JsonResponse
 import json
@@ -186,6 +187,26 @@ class get_iotdev(View):
         response_data.append(dict)
 
         return JsonResponse(response_data, safe=False)
+
+
+class get_personregcount(View):
+    def post(self, request):
+        response_data = []
+
+        reg_count = personnel.objects.filter(Q(FStatus=0)).count()
+
+        dict = {}
+        dict['value'] = reg_count
+        dict['name'] = '在册人员'
+        dict['itemStyle'] = {'color': '#A7FFFD'}
+        dict['label'] = {'fontSize': 30, 'color': '#FFB24E'}
+
+        response_data.append(dict)
+
+        return JsonResponse(response_data, safe=False)
+
+
+
 
 
 

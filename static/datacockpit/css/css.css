@@ -152,12 +152,12 @@
   background-image: url(/static/datacockpit/images/HOME_03.png);
   background-size: cover;
   float: left;
-  display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   margin-right: 0.8854166667vw;
 }
+
 .content .main_box .bottom .item:last-child {
   margin-right: 0;
 }

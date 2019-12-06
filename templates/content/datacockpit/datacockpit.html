@@ -72,15 +72,15 @@
                     <div class="layui-row layui-col-space15">
                         <div style="padding-left: 2%; padding-top: 1%"><span style="color: wheat"><h3>人员劳工数据:</h3></span></div>
                         <div class="layui-col-md8">
-                            <div class="item">
+                            <div class="item" style="overflow-y: auto; scrollbar-track-color: #1a1a1c" >
                                 <div class="icon"><img src="/static/datacockpit/images/HOME_11.png" class="frs" /><img src="/static/datacockpit/images/HOME_23.png" class="fls" /></div>
                                 <div class="layui-row layui-col-space10" style="width: 100%; padding-top: 0px " >
                                      <div class="layui-col-md3">
-                                         <div id="main1-test" style="width: 100%;height: 100%; background-color: #1A1826"></div>
+                                         <div id="main_person_regcount" style="width: 100%;height: 100%; background-color: #1A1826"></div>
                                      </div>
 
                                      <div class="layui-col-md3">
-                                         <div id="main2-test" style="width: 100%;height: 100%; background-color: #1A1826"></div>
+                                         <div id="main_person_quitcount" style="width: 100%;height: 100%; background-color: #1A1826"></div>
                                      </div>
 
                                      <div class="layui-col-md3">
@@ -89,6 +89,12 @@
 
                                     <div class="layui-col-md3">
                                         <div id="main4-test" style="width: 100%;height: 100%; background-color: #1A1826"></div>
+                                    </div>
+                                </div>
+
+                                <div class="layui-row layui-col-space10" style="width: 100%; padding-top: 0px " >
+                                    <div class="layui-col-md12">
+                                        <div id="main5-test" style="width: 100%;height: 200px; background-color: #1A1826"></div>
                                     </div>
                                 </div>
 					        </div>
@@ -225,7 +231,7 @@
                     zlevel: 0,
                     text: [
                         '{value|'+ {{ prj_count }} +'}',
-                        '{name|接入项目总数}',
+                        '{name|项目总数}',
                     ].join('\n'),
                     top: 'center',
                     left: '49%',
@@ -367,7 +373,7 @@
                     zlevel: 0,
                     text: [
                         '{value|'+ {{ prj_cost }} +'万元}',
-                        '{name|接入项目总投资额}',
+                        '{name|项目总投资额}',
                     ].join('\n'),
                     top: 'center',
                     left: '49%',
@@ -613,66 +619,271 @@
       spaceBetween: 10,
     });
 
-	var myCharta1test = echarts.init(document.getElementById('main1-test'));
-	var option1 = {
-			tooltip: {
-				trigger: 'item',
-				formatter: "{a} <br/>{b}: {c} ({d}%)"
-			},
-			series: [{
-				name: '访问来源',
-				type: 'pie',
-				radius: ['50%', '70%'],
-				avoidLabelOverlap: false,
-				labelLine: {
-					length: 20,
-					length2: 40,
+    var personregcount = function (data) {
+        var myChartPersonRegCount = echarts.init(document.getElementById('main_person_regcount'));
+        var option1 = {
+            title: {
+                zlevel: 0,
+                text: [
+                    '{value|'+ {{ person_regcount }} +'}',
+                    '{name|在册}',
+                ].join('\n'),
+                top: 'center',
+                left: '49%',
+                textAlign: 'center',
+                textStyle: {
+                    rich: {
+                        value: {
+                            color: '#FFB24E',
+                            fontSize: 18,
+                            fontWeight: 'bold',
+                            lineHeight: 15,
+                        },
+                        name: {
+                            color: '#FFB24E',
+                            fontSize: 13,
+                            lineHeight: 15
+                        },
+                    },
+                },
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b}: {c} ({d}%)"
+            },
+            series: [{
+                name: '',
+                type: 'pie',
+                radius: ['50%', '70%'],
+                avoidLabelOverlap: false,
+                labelLine: {
+                    length: 20,
+                    length2: 40,
                     normal: {
                         show: false,
                     },
-					color: {
-						color: '#999999'
-					}
-				},
-				label: {
+                    color: {
+                        color: '#999999'
+                    }
+                },
+                label: {
                     normal: {
                         show: false,
                     },
-					formatter: "{c}"
-						},
-				itemStyle: {
-					borderColor: '#000',
-					borderWidth: 1
-				},
-				markPoint: {
-					symbol: 'images/page_61.png'
-				},
-				data: [{
-						value: 8,
-						name: '18FF',
-						itemStyle: {
-							color: '#A7FFFD'
-						},
-						label: {
-							fontSize: 30,
-							color: '#FFB24E',
-						},
-					}
-				]
-			}]
-		};
+                    formatter: "{c}"
+                },
+                itemStyle: {
+                    borderColor: '#000',
+                    borderWidth: 1
+                },
+                markPoint: {
+                    symbol: 'images/page_61.png'
+                },
+                data: data
+            }]
+        };
+        myChartPersonRegCount.setOption(option1);
+    };
 
-        myCharta1test.setOption(option1);
+    var drawPersonRegCount = function () {
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'datacockpit:get_personregcount' %}",
+            data: {},
+            datatype: "JSON",
+            success: function (data) {
+                personregcount(data)
+            }
+        });
+    };
+
+    drawPersonRegCount();
+
+    var personquitcount = function (data) {
+
+    };
+
+    var drawPersonQuitCount = function () {
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'datacockpit:get_personregcount' %}",
+            data: {},
+            datatype: "JSON",
+            success: function (data) {
+                personquitcount(data)
+            }
+        });
+    };
+
+
+        var option1a = {
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b}: {c} ({d}%)"
+            },
+            series: [{
+                name: '',
+                type: 'pie',
+                radius: ['50%', '70%'],
+                avoidLabelOverlap: false,
+                labelLine: {
+                    length: 20,
+                    length2: 40,
+                    normal: {
+                        show: false,
+                    },
+                    color: {
+                        color: '#999999'
+                    }
+                },
+                label: {
+                    normal: {
+                        show: false,
+                    },
+                    formatter: "{c}"
+                },
+                itemStyle: {
+                    borderColor: '#000',
+                    borderWidth: 1
+                },
+                markPoint: {
+                    symbol: 'images/page_61.png'
+                },
+                data: [{
+                    value: 8,
+                    name: '18FF',
+                    itemStyle: {
+                        color: '#A7FFFD'
+                    },
+                    label: {
+                        fontSize: 30,
+                        color: '#FFB24E',
+                    },
+                }
+                ]
+            }]
+        };
 
         var myCharta2test = echarts.init(document.getElementById('main2-test'));
         var myCharta3test = echarts.init(document.getElementById('main3-test'));
         var myCharta4test = echarts.init(document.getElementById('main4-test'));
 
-        myCharta2test.setOption(option1);
-        myCharta3test.setOption(option1);
-        myCharta4test.setOption(option1);
+        myCharta2test.setOption(option1a);
+        myCharta3test.setOption(option1a);
+        myCharta4test.setOption(option1a);
 
+        var myCharta5test = echarts.init(document.getElementById('main5-test'));
+        var option1b = {
+			tooltip: {
+				trigger: 'axis',
+				axisPointer: {
+					type: 'shadow'
+				}
+			},
+			xAxis: {
+				type: 'category',
+				axisTick   :{
+					show:false,
+				},
+				axisLine :{
+					show: false,
+				},
+				data: [{
+					value: '医疗',
+					textStyle:{
+						color: '#fff'
+					}
+				},{
+					value: '3C',
+					textStyle:{
+						color: '#fff'
+					}
+				},{
+					value: 'MRO',
+					textStyle:{
+						color: '#fff'
+					}
+				},{
+					value: '安防',
+					textStyle:{
+						color: '#fff'
+					}
+				},{
+					value: '包材',
+					textStyle:{
+						color: '#fff'
+					}
+				},{
+					value: '保健',
+					textStyle:{
+						color: '#fff'
+					}
+				}]
+			},
+			yAxis: {
+				type: 'value',
+				boundaryGap: [0, 0.01],
+				color: '#fff',
+				min:0,
+				max:1000,
+				splitNumber: 6,
+				axisLine :{
+					show: false,
+				},
+				axisTick   :{
+					show:false,
+				},
+				splitLine :{
+					show: false,
+				},
+				axisLine :{
+					show: false,
+					lineStyle :{
+						color: '#fff'
+					}
+				},
+				axisLabel :{
+					fontSize : 10,
+					lineStyle :{
+						color: '#fff'
+					}
+				},
+				splitLine :{
+					lineStyle :{
+						color: '#272434'
+					}
+				}
+			},
+			series: [{
+				data: [200, 932, 901, 934, 600, 580, 400],
+				type: 'line',
+				lineStyle :{
+					color: '#01F8F9'
+				},
+				itemStyle :{
+					color :'#01f8f9'
+				},
+				areaStyle: {
+					normal: {
+						color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
+							offset: 0,
+							color: "#192C3D" // 0% 处的颜色
+						}, {
+							offset: 0.6,
+							color: "#192C3D" // 60% 处的颜色
+						}, {
+							offset: 1,
+							color: "#193040" // 100% 处的颜色
+						}], false)
+					},
+				},
+			}]
+		};
+
+        myCharta5test.setOption(option1b);
 
     });
 	</script>
+
+
 </html>

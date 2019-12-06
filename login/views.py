@@ -8,6 +8,7 @@ from .models import *
 from project.models import *
 from organize.models import organize
 from basedata.models import base
+from personnel.models import personnel
 from device.models import device
 from common.views import *
 import json
@@ -136,11 +137,13 @@ def login_ok(request):
 
             prj_cost = project.objects.filter(Q(FStatus=True)).annotate(cost=Sum('FPrjcost')).values('cost')
             dev_count = device.objects.all().count()
+            person_regcount = personnel.objects.filter(Q(FStatus=0)).count()
 
             context['busmenu_info'] = busmenu_info
             context['org_count'] = org_cont
             context['prj_count'] = prj_count
             context['prj_status'] = arr_status
+            context['person_regcount'] = person_regcount
 
             if len(prj_cost) == 0:
                 context['prj_cost'] = 0
