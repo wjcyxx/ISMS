@@ -36,17 +36,13 @@
 					<div class="fl">
 						<div class="fl_top">
 							<div class="icon"><img src="/static/datacockpit/images/HOME_11.png" class="frs" /><img src="/static/datacockpit/images/HOME_23.png" class="fls" /></div>
-							<div style="padding-left: 2%; padding-top: 1%"><span style="color: wheat"><h3>平台接入组织数据:</h3></span></div>
+							<div style="padding-left: 2%; padding-top: 1%"><span style="color: wheat"><h3><i class="fa fa-sitemap" aria-hidden="true"></i> 平台接入组织数据:</h3></span></div>
                             <div id="main_org" style="width: 100%;height: 100%;"></div>
                         </div>
 						<div class="fl_bot">
 							<div class="icon"><img src="/static/datacockpit/images/HOME_11.png" class="frs" /><img src="/static/datacockpit/images/HOME_23.png" class="fls" /></div>
-                            <div style="padding-left: 2%; padding-top: 1%"><span style="color: wheat"><h3>平台接入设备数据:</h3></span></div>
-                            <div class="layui-carousel" id="pl_device" lay-filter="change_dev">
-                                <div carousel-item>
-                                    <div id="main_device_iot" style="width: 100%;height: 100%; background-color: #1A1826"></div>
-                                </div>
-                            </div>
+                            <div style="padding-left: 2%; padding-top: 1%"><span style="color: wheat"><h3><i class="fa fa-bar-chart" aria-hidden="true"></i> 平台接入设备数据:</h3></span></div>
+                            <div id="main_device_iot" style="width: 100%;height: 100%; "></div>
                         </div>
 					</div>
 					<div class="mid">
@@ -55,14 +51,14 @@
 					<div class="fr">
 						<div class="fr_top">
 							<div class="icon"><img src="/static/datacockpit/images/HOME_11.png" class="frs" /><img src="/static/datacockpit/images/HOME_23.png" class="fls" /></div>
-                            <div style="padding-left: 2%; padding-top: 1%; position: relative"><span style="color: wheat"><h2>平台接入项目数据:</h2></span></div>
+                            <div style="padding-left: 2%; padding-top: 1%; position: relative; "><span style="color: wheat"><h2><i class="fa fa-area-chart" aria-hidden="true"></i> 平台接入项目数据:</h2></span></div>
 						</div>
 						<div class="fr_bot">
                             <div class="layui-carousel" id="pl_project" lay-filter="change_prj">
                                 <div carousel-item>
-                                    <div id="main_project" style="width: 100%;height: 100%; background-color: #1A1826"></div>
-                                    <div id="main_project_status" style="width: 100%; height: 100%; background-color: #1A1826"></div>
-                                    <div id="main_project_cost" style="width: 100%; height: 100%; background-color: #1A1826"></div>
+                                    <div id="main_project" style="width: 100%;height: 100%; background-color: rgb(28,27,41)"></div>
+                                    <div id="main_project_status" style="width: 100%; height: 100%; background-color: rgb(28,27,41)"></div>
+                                    <div id="main_project_cost" style="width: 100%; height: 100%; background-color: rgb(28,27,41)"></div>
                                 </div>
                             </div>
 						</div>
@@ -70,31 +66,31 @@
 				</div>
 				<div class="bottom">
                     <div class="layui-row layui-col-space15">
-                        <div style="padding-left: 2%; padding-top: 1%"><span style="color: wheat"><h3>人员劳工数据:</h3></span></div>
+                        <div style="padding-left: 2%; padding-top: 1%"><span style="color: wheat"><h3><i class="fa fa-users" aria-hidden="true"></i> 人员劳工数据:</h3></span></div>
                         <div class="layui-col-md8">
-                            <div class="item" style="overflow-y: auto; scrollbar-track-color: #1a1a1c" >
+                            <div class="item" style="overflow-y: auto;" >
                                 <div class="icon"><img src="/static/datacockpit/images/HOME_11.png" class="frs" /><img src="/static/datacockpit/images/HOME_23.png" class="fls" /></div>
                                 <div class="layui-row layui-col-space10" style="width: 100%; padding-top: 0px " >
                                      <div class="layui-col-md3">
-                                         <div id="main_person_regcount" style="width: 100%;height: 100%; background-color: #1A1826"></div>
+                                         <div id="main_person_regcount" style="width: 100%;height: 100%; background-color: rgb(28,26,40)"></div>
                                      </div>
 
                                      <div class="layui-col-md3">
-                                         <div id="main_person_quitcount" style="width: 100%;height: 100%; background-color: #1A1826"></div>
+                                         <div id="main_person_quitcount" style="width: 100%;height: 100%; background-color: rgb(28,26,40)"></div>
                                      </div>
 
                                      <div class="layui-col-md3">
-                                         <div id="main3-test" style="width: 100%;height: 100%; background-color: #1A1826"></div>
+                                         <div id="main_person_sitcount" style="width: 100%;height: 100%; background-color: rgb(28,26,40)"></div>
                                      </div>
 
-                                    <div class="layui-col-md3">
-                                        <div id="main4-test" style="width: 100%;height: 100%; background-color: #1A1826"></div>
-                                    </div>
+                                     <div class="layui-col-md3">
+                                         <div id="main_person_authcount" style="width: 100%;height: 100%; background-color: rgb(28,26,40)"></div>
+                                     </div>
                                 </div>
 
                                 <div class="layui-row layui-col-space10" style="width: 100%; padding-top: 0px " >
                                     <div class="layui-col-md12">
-                                        <div id="main5-test" style="width: 100%;height: 200px; background-color: #1A1826"></div>
+                                        <div id="main_person_atten" style="width: 100%;height: 300px; background-color: rgb(28,26,40)"></div>
                                     </div>
                                 </div>
 					        </div>
@@ -102,6 +98,48 @@
                         <div class="layui-col-md4">
                             <div class="item">
 						        <div class="icon"><img src="/static/datacockpit/images/HOME_11.png" class="frs" /><img src="/static/datacockpit/images/HOME_23.png" class="fls" /></div>
+                                 <div class="layui-row layui-col-space10" style="width: 100%; padding: 10px " >
+                                    <div class="layui-col-md12">
+                                        <span style="color: wheat;"><h3><i class="fa fa-cloud" aria-hidden="true"></i> 南昌空气环境指数:</h3></span>
+                                    </div>
+                                 </div>
+
+                                <div class="layui-row layui-col-space10" style="width: 100%; padding: 20px " >
+                                    <div class="layui-col-md3">
+                                        <p align="center"><img align="left" src="/static/datacockpit/images/PM25.png" title="PM2.5指数" style="height: 48px; width: 48px" /><div id="city_pm25"><span style="font-size: 38px; color: #A7FFFD">&nbsp;--</span></div></p>
+                                    </div>
+
+                                    <div class="layui-col-md3">
+                                        <p align="center"><img align="left" src="/static/datacockpit/images/PM10.png" title="PM10指数" style="height: 48px; width: 48px" /><div id="city_pm10"><span style="font-size: 38px; color: #A7FFFD">&nbsp;--</span></div></p>
+                                    </div>
+
+                                    <div class="layui-col-md3">
+                                        <p align="center"><img align="left" src="/static/datacockpit/images/AQI.png" title="AQI指数" style="height: 48px; width: 48px" /><div id="city_aqi"><span style="font-size: 38px; color: #A7FFFD">&nbsp;--</span></div></p>
+                                    </div>
+
+                                    <div class="layui-col-md3">
+                                        <p align="center"><img align="left" src="/static/datacockpit/images/level.png" title="空气质量" style="height: 48px; width: 48px" /><div id="city_level"><span style="font-size: 38px; color: #A7FFFD">&nbsp;--</span></div></p>
+                                    </div>
+                                </div>
+
+                                <div class="layui-row layui-col-space10" style="width: 100%; padding: 20px " >
+                                    <div class="layui-col-md3">
+                                        <p align="center"><img align="left" src="/static/datacockpit/images/weather.png" title="天气" style="height: 48px; width: 48px" /><div id="city_weather"><span style="font-size: 38px; color: #A7FFFD">&nbsp;--</span></div></p>
+                                    </div>
+
+                                    <div class="layui-col-md3">
+                                        <p align="center"><img align="left" src="/static/datacockpit/images/temp.png" title="温度" style="height: 48px; width: 48px" /><div id="city_temp"><span style="font-size: 38px; color: #A7FFFD">&nbsp;--</span></div></p>
+                                    </div>
+
+                                    <div class="layui-col-md3">
+                                        <p align="center"><img align="left" src="/static/datacockpit/images/wd.png" title="风向" style="height: 48px; width: 48px" /><div id="city_wd"><span style="font-size: 38px; color: #A7FFFD">&nbsp;--</span></div></p>
+                                    </div>
+
+                                    <div class="layui-col-md3">
+                                        <p align="center"><img align="left" src="/static/datacockpit/images/wdforce.png" title="风速" style="height: 48px; width: 48px" /><div id="city_wdforce"><span style="font-size: 38px; color: #A7FFFD">&nbsp;--</span></div></p>
+                                    </div>
+                                </div>
+
 					        </div>
                         </div>
                     </div>
@@ -112,6 +150,7 @@
 	<script type="text/javascript" src="/static/datacockpit/js/jquery-2.1.4.js"></script>
 	<script type="text/javascript" src="/static/datacockpit/js/swiper.min.js"></script>
 	<script type="text/javascript" src="/static/datacockpit/js/echarts.min.js"></script>
+    <script type="text/javascript" src="/static/datacockpit/js/dark.js"></script>
     <script type="text/javascript" src="/static/layui/layui.js"></script>
 	<script>
     var prj_status = {{ prj_status|safe }}
@@ -129,7 +168,7 @@
         carousel.render({
             elem: '#pl_project'
             ,width: '100%' //设置容器宽度
-            ,height: '38.8vh'
+            ,height: '42vh'
             ,arrow: 'none'
             ,indicator: 'outside'
             ,interval: '10000'
@@ -154,7 +193,7 @@
                    zlevel: 0,
                    text: [
                         '{value|'+ {{ org_count }} +'}',
-                        '{name|接入组织总数}',
+                        '{name|接入组织}',
                    ].join('\n'),
                    top: 'center',
                    left: '49%',
@@ -169,7 +208,7 @@
                             },
                             name: {
                                 color: '#A7FFFD',
-                                fontSize: 17,
+                                fontSize: 19,
                                 lineHeight: 40
                             },
                         },
@@ -223,7 +262,6 @@
 
         drawdatacockpit();
 
-
         var prjcockpit = function (data) {
             var myChart_prj = echarts.init(document.getElementById('main_project'));
             var option = {
@@ -247,7 +285,7 @@
                             name: {
                                 color: '#A7FFFD',
                                 fontSize: 25,
-                                lineHeight: 40
+                                lineHeight: 47
                             },
                         },
                     },
@@ -388,8 +426,8 @@
                             },
                             name: {
                                 color: '#A7FFFD',
-                                fontSize: 18,
-                                lineHeight: 20
+                                fontSize: 27,
+                                lineHeight: 40
                             },
                         },
                     },
@@ -463,7 +501,7 @@
                    zlevel: 0,
                    text: [
                        '{value|'+ {{ dev_count }} +'}',
-                       '{name|接入IOT总数}',
+                       '{name|接入设备}',
                    ].join('\n'),
                    top: 'center',
                    left: '49%',
@@ -478,12 +516,13 @@
                            },
                            name: {
                                color: '#A7FFFD',
-                               fontSize: 17,
-                               lineHeight: 40
+                               fontSize: 19,
+                               lineHeight: 30
                            },
                        },
                    },
                },
+
                tooltip: {
                    trigger: 'item',
                    formatter: "{a} <br/>{b}: {c} ({d}%)"
@@ -496,12 +535,18 @@
                    labelLine: {
                        length: 20,
                        length2: 40,
+                       normal: {
+                           show: false,
+                       },
                        color: {
                            color: '#999999'
                        }
                    },
                    label: {
-                       formatter: "{c}"
+                       normal: {
+                           show: false,
+                       },
+                       formatter: "{c}",
                    },
                    itemStyle: {
                        borderColor: '#000',
@@ -629,7 +674,7 @@
                     '{name|在册}',
                 ].join('\n'),
                 top: 'center',
-                left: '49%',
+                left: '48%',
                 textAlign: 'center',
                 textStyle: {
                     rich: {
@@ -700,23 +745,33 @@
     drawPersonRegCount();
 
     var personquitcount = function (data) {
-
-    };
-
-    var drawPersonQuitCount = function () {
-        $.ajax({
-            type: 'POST',
-            url: "{% url 'datacockpit:get_personregcount' %}",
-            data: {},
-            datatype: "JSON",
-            success: function (data) {
-                personquitcount(data)
-            }
-        });
-    };
-
-
-        var option1a = {
+        var myChartPersonQuitCount = echarts.init(document.getElementById('main_person_quitcount'));
+        var option1 = {
+            title: {
+                zlevel: 0,
+                text: [
+                    '{value|'+ {{ person_quitcount }} +'}',
+                    '{name|退场}',
+                ].join('\n'),
+                top: 'center',
+                left: '48%',
+                textAlign: 'center',
+                textStyle: {
+                    rich: {
+                        value: {
+                            color: '#FFB24E',
+                            fontSize: 18,
+                            fontWeight: 'bold',
+                            lineHeight: 15,
+                        },
+                        name: {
+                            color: '#FFB24E',
+                            fontSize: 13,
+                            lineHeight: 15
+                        },
+                    },
+                },
+            },
             tooltip: {
                 trigger: 'item',
                 formatter: "{a} <br/>{b}: {c} ({d}%)"
@@ -749,138 +804,343 @@
                 markPoint: {
                     symbol: 'images/page_61.png'
                 },
-                data: [{
-                    value: 8,
-                    name: '18FF',
-                    itemStyle: {
-                        color: '#A7FFFD'
-                    },
-                    label: {
-                        fontSize: 30,
-                        color: '#FFB24E',
-                    },
-                }
-                ]
+                data: data
             }]
         };
+        myChartPersonQuitCount.setOption(option1);
 
-        var myCharta2test = echarts.init(document.getElementById('main2-test'));
-        var myCharta3test = echarts.init(document.getElementById('main3-test'));
-        var myCharta4test = echarts.init(document.getElementById('main4-test'));
+    };
 
-        myCharta2test.setOption(option1a);
-        myCharta3test.setOption(option1a);
-        myCharta4test.setOption(option1a);
+    var drawPersonQuitCount = function () {
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'datacockpit:get_personquitcount' %}",
+            data: {},
+            datatype: "JSON",
+            success: function (data) {
+                personquitcount(data)
+            }
+        });
+    };
 
-        var myCharta5test = echarts.init(document.getElementById('main5-test'));
-        var option1b = {
-			tooltip: {
-				trigger: 'axis',
-				axisPointer: {
-					type: 'shadow'
-				}
-			},
-			xAxis: {
-				type: 'category',
-				axisTick   :{
-					show:false,
-				},
-				axisLine :{
-					show: false,
-				},
-				data: [{
-					value: '医疗',
-					textStyle:{
-						color: '#fff'
-					}
-				},{
-					value: '3C',
-					textStyle:{
-						color: '#fff'
-					}
-				},{
-					value: 'MRO',
-					textStyle:{
-						color: '#fff'
-					}
-				},{
-					value: '安防',
-					textStyle:{
-						color: '#fff'
-					}
-				},{
-					value: '包材',
-					textStyle:{
-						color: '#fff'
-					}
-				},{
-					value: '保健',
-					textStyle:{
-						color: '#fff'
-					}
-				}]
-			},
-			yAxis: {
-				type: 'value',
-				boundaryGap: [0, 0.01],
-				color: '#fff',
-				min:0,
-				max:1000,
-				splitNumber: 6,
-				axisLine :{
-					show: false,
-				},
-				axisTick   :{
-					show:false,
-				},
-				splitLine :{
-					show: false,
-				},
-				axisLine :{
-					show: false,
-					lineStyle :{
-						color: '#fff'
-					}
-				},
-				axisLabel :{
-					fontSize : 10,
-					lineStyle :{
-						color: '#fff'
-					}
-				},
-				splitLine :{
-					lineStyle :{
-						color: '#272434'
-					}
-				}
-			},
-			series: [{
-				data: [200, 932, 901, 934, 600, 580, 400],
-				type: 'line',
-				lineStyle :{
-					color: '#01F8F9'
-				},
-				itemStyle :{
-					color :'#01f8f9'
-				},
-				areaStyle: {
-					normal: {
-						color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [{
-							offset: 0,
-							color: "#192C3D" // 0% 处的颜色
-						}, {
-							offset: 0.6,
-							color: "#192C3D" // 60% 处的颜色
-						}, {
-							offset: 1,
-							color: "#193040" // 100% 处的颜色
-						}], false)
-					},
-				},
-			}]
-		};
+    drawPersonQuitCount();
 
-        myCharta5test.setOption(option1b);
+    var personsitcount = function (data) {
+        var myChartPersonSitCount = echarts.init(document.getElementById('main_person_sitcount'));
+        var option1 = {
+            title: {
+                zlevel: 0,
+                text: [
+                    '{value|'+ {{ sit_count }} +'}',
+                    '{name|在场}',
+                ].join('\n'),
+                top: 'center',
+                left: '48%',
+                textAlign: 'center',
+                textStyle: {
+                    rich: {
+                        value: {
+                            color: '#FFB24E',
+                            fontSize: 18,
+                            fontWeight: 'bold',
+                            lineHeight: 15,
+                        },
+                        name: {
+                            color: '#FFB24E',
+                            fontSize: 13,
+                            lineHeight: 15
+                        },
+                    },
+                },
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b}: {c} ({d}%)"
+            },
+            series: [{
+                name: '',
+                type: 'pie',
+                radius: ['50%', '70%'],
+                avoidLabelOverlap: false,
+                labelLine: {
+                    length: 20,
+                    length2: 40,
+                    normal: {
+                        show: false,
+                    },
+                    color: {
+                        color: '#999999'
+                    }
+                },
+                label: {
+                    normal: {
+                        show: false,
+                    },
+                    formatter: "{c}"
+                },
+                itemStyle: {
+                    borderColor: '#000',
+                    borderWidth: 1
+                },
+                markPoint: {
+                    symbol: 'images/page_61.png'
+                },
+                data: data
+            }]
+        };
+        myChartPersonSitCount.setOption(option1);
+    };
+
+    var drawPersonSitCount = function () {
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'datacockpit:get_personsitcount' %}",
+            data: {},
+            datatype: "JSON",
+            success: function (data) {
+                personsitcount(data)
+            }
+        });
+    };
+
+    drawPersonSitCount();
+
+    var personauthcount = function (data) {
+        var myChartPersonAuthCount = echarts.init(document.getElementById('main_person_authcount'));
+        var option1 = {
+            title: {
+                zlevel: 0,
+                text: [
+                    '{value|'+ {{ auth_count }} +'}',
+                    '{name|授权}',
+                ].join('\n'),
+                top: 'center',
+                left: '48%',
+                textAlign: 'center',
+                textStyle: {
+                    rich: {
+                        value: {
+                            color: '#FFB24E',
+                            fontSize: 18,
+                            fontWeight: 'bold',
+                            lineHeight: 15,
+                        },
+                        name: {
+                            color: '#FFB24E',
+                            fontSize: 13,
+                            lineHeight: 15
+                        },
+                    },
+                },
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b}: {c} ({d}%)"
+            },
+            series: [{
+                name: '',
+                type: 'pie',
+                radius: ['50%', '70%'],
+                avoidLabelOverlap: false,
+                labelLine: {
+                    length: 20,
+                    length2: 40,
+                    normal: {
+                        show: false,
+                    },
+                    color: {
+                        color: '#999999'
+                    }
+                },
+                label: {
+                    normal: {
+                        show: false,
+                    },
+                    formatter: "{c}"
+                },
+                itemStyle: {
+                    borderColor: '#000',
+                    borderWidth: 1
+                },
+                markPoint: {
+                    symbol: 'images/page_61.png'
+                },
+                data: data
+            }]
+        };
+        myChartPersonAuthCount.setOption(option1);
+    };
+
+    var drawPersonAuthCount = function () {
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'datacockpit:get_personauthcount' %}",
+            data: {},
+            datatype: "JSON",
+            success: function (data) {
+                personauthcount(data)
+            }
+        });
+    };
+
+    drawPersonAuthCount();
+
+
+    var personatten = function (data) {
+        var dom = document.getElementById("main_person_atten");
+        var myChart = echarts.init(dom, 'dark');
+
+        var days = data.FDay;
+        var dengji = data.FDengji;
+        var tuic = data.FTuic;
+
+        option = {
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    animation: false
+                }
+            },
+            legend: {
+                data:['登记人员','退场人员'],
+                x: 'left'
+            },
+            toolbox: {
+                feature: {
+                    dataZoom: {
+                        yAxisIndex: 'none'
+                    },
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            axisPointer: {
+                link: {xAxisIndex: 'all'}
+            },
+            dataZoom: [
+                {
+                    show: true,
+                    realtime: true,
+                    start: 30,
+                    end: 70,
+                    xAxisIndex: [0, 1]
+                },
+                {
+                    type: 'inside',
+                    realtime: true,
+                    start: 30,
+                    end: 70,
+                    xAxisIndex: [0, 1]
+                }
+            ],
+            grid: [{
+                left: 50,
+                right: 50,
+                height: '35%'
+            }, {
+                left: 50,
+                right: 50,
+                top: '55%',
+                height: '35%'
+            }],
+            xAxis : [
+                {
+                    type : 'category',
+                    boundaryGap : false,
+                    splitLine: {
+                        show: false
+                    },
+                    axisLine: {onZero: true},
+                    data: days
+                },
+                {
+                    gridIndex: 1,
+                    type : 'category',
+                    boundaryGap : false,
+                    splitLine: {
+                        show: false
+                    },
+                    axisLine: {onZero: true},
+                    data: days,
+                    position: 'top'
+                }
+            ],
+            yAxis : [
+                {
+                    name : '登记人员',
+                    type : 'value',
+                    minInterval: 1
+                    //max : 500
+                },
+                {
+                    gridIndex: 1,
+                    name : '退场人员',
+                    type : 'value',
+                    minInterval: 1,
+                    inverse: true
+                }
+            ],
+            series : [
+                {
+                    name:'登记人员',
+                    type:'line',
+                    symbolSize: 8,
+                    hoverAnimation: false,
+                    data: dengji
+                },
+                {
+                    name:'退场人员',
+                    type:'line',
+                    xAxisIndex: 1,
+                    yAxisIndex: 1,
+                    symbolSize: 8,
+                    hoverAnimation: false,
+                    data: tuic
+                }
+            ]
+        };
+
+        myChart.setOption(option, true);
+    };
+
+
+    var drawPersonAtten = function () {
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'personinfomap:attenanalyse' %}",
+            data: {},
+            datatype: "JSON",
+            success: function (data) {
+                personatten(data);
+            }
+        });
+    };
+
+    drawPersonAtten();
+
+
+    var drawCityPM = function () {
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'datacockpit:get_citypm' %}",
+            data: {},
+            datatype: "JSON",
+            success: function (data) {
+                result = JSON.parse(data);
+                $("#city_pm25").html("<span style='font-size: 30px; color: #A7FFFD'>&nbsp;"+ result.pm25 +"</span>");
+                $("#city_pm10").html("<span style='font-size: 30px; color: #A7FFFD'>&nbsp;"+ result.pm10 +"</span>");
+                $("#city_aqi").html("<span style='font-size: 30px; color: #A7FFFD'>&nbsp;"+ result.aqi +"</span>");
+                $("#city_level").html("<span style='font-size: 14px; color: #A7FFFD'>&nbsp;"+ result.level +"</span>");
+
+                $("#city_weather").html("<span style='font-size: 30px; color: #A7FFFD'>&nbsp;"+ result.weather +"</span>");
+                $("#city_temp").html("<span style='font-size: 30px; color: #A7FFFD'>&nbsp;"+ result.temp +"</span>");
+                $("#city_wd").html("<span style='font-size: 20px; color: #A7FFFD'>&nbsp;"+ result.wd +"</span>");
+                $("#city_wdforce").html("<span style='font-size: 20px; color: #A7FFFD'>&nbsp;"+ result.wdforce +"</span>");
+            }
+        });
+    };
+
+    drawCityPM();
 
     });
 	</script>

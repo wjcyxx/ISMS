@@ -4,12 +4,14 @@ import urllib.request
 from django.shortcuts import render
 from django.shortcuts import HttpResponse
 from django.http import HttpRequest
-from django.db.models import Q, Sum
+from django.db.models import Q, Sum, Count
 from basedata.models import base
 from organize.models import organize
 from project.models import project
 from device.models import device
 from personnel.models import personnel
+from pedpassage.models import passagerecord
+from personauth.models import personauth
 from common.views import *
 from django.http import JsonResponse
 import json
@@ -40,7 +42,7 @@ class get_datacockpit(View):
 
             dict['value'] = org_count
             dict['name'] = name
-            dict['itemStyle'] = {'color': '#FFB24E'}
+            #dict['itemStyle'] = {'color': '#FFB24E'}
             dict['label'] = {'fontSize': 30, 'color': '#A7FFFD'}
 
             response_data.append(dict)
@@ -168,7 +170,7 @@ class get_iotdev(View):
 
             dict['value'] = dev_count
             dict['name'] = name
-            dict['itemStyle'] = {'color': '#FFB24E'}
+            #dict['itemStyle'] = {'color': '#FFB24E'}
             dict['label'] = {'fontSize': 30, 'color': '#A7FFFD'}
 
             response_data.append(dict)
@@ -193,7 +195,7 @@ class get_personregcount(View):
     def post(self, request):
         response_data = []
 
-        reg_count = personnel.objects.filter(Q(FStatus=0)).count()
+        reg_count = personnel.objects.filter(Q(FStatus=0), ~Q(FType=0)).count()
 
         dict = {}
         dict['value'] = reg_count
@@ -205,6 +207,81 @@ class get_personregcount(View):
 
         return JsonResponse(response_data, safe=False)
 
+
+
+class get_personquitcount(View):
+    def post(self, request):
+        response_data = []
+
+        quit_count = personnel.objects.filter(Q(FStatus=1), ~Q(FType=0)).count()
+
+        dict = {}
+        dict['value'] = quit_count
+        dict['name'] = '退场人员'
+        dict['itemStyle'] = {'color': '#A7FFFD'}
+        dict['label'] = {'fontSize': 30, 'color': '#FFB24E'}
+
+        response_data.append(dict)
+
+        return JsonResponse(response_data, safe=False)
+
+
+class get_personsitcount(View):
+    def post(self, request):
+        response_data = []
+
+        sit_count = passagerecord.objects.filter(Q(CREATED_TIME__year=timezone.now().year), Q(CREATED_TIME__month=timezone.now().month), Q(CREATED_TIME__day=timezone.now().day)).values('FPersonID').annotate(total=Count('FPersonID'))
+
+        dict = {}
+        dict['value'] = len(sit_count)
+        dict['name'] = '在场人员'
+        dict['itemStyle'] = {'color': '#A7FFFD'}
+        dict['label'] = {'fontSize': 30, 'color': '#FFB24E'}
+
+        response_data.append(dict)
+
+        return JsonResponse(response_data, safe=False)
+
+
+class get_personauthcount(View):
+    def post(self, request):
+        response_data = []
+
+        auth_count = personauth.objects.all().values('FPersonID').annotate(total=Count('FPersonID'))
+
+        dict = {}
+        dict['value'] = len(auth_count)
+        dict['name'] = '授权人员'
+        dict['itemStyle'] = {'color': '#A7FFFD'}
+        dict['label'] = {'fontSize': 30, 'color': '#FFB24E'}
+
+        response_data.append(dict)
+
+        return JsonResponse(response_data, safe=False)
+
+
+class get_citypm(View):
+    def post(self, request):
+
+        initID = '7698fa5e195b11eaad2facde48001122'
+        city_pm = get_interface_result(initID)
+
+        initID = 'cccc50ca195f11ea8c4aacde48001122'
+        city_weather = get_interface_result(initID)
+
+        response_data = {}
+
+        response_data['pm25'] = city_pm['pm25']
+        response_data['pm10'] = city_pm['pm10']
+        response_data['aqi'] = city_pm['aqi']
+        response_data['level'] = city_pm['level']
+        response_data['temp'] = city_weather['temp']
+        response_data['weather'] = city_weather['weather']
+        response_data['wd'] = city_weather['wd']
+        response_data['wdforce'] = city_weather['wdforce']
+        response_data['wdspd'] = city_weather['wdspd']
+
+        return HttpResponse(json.dumps(response_data))
 
 
 

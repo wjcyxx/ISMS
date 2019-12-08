@@ -2,13 +2,15 @@ from django.shortcuts import render
 from django.shortcuts import HttpResponse
 from django.shortcuts import redirect
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Q, Sum
+from django.db.models import Q, Sum, Count
 from django.http import JsonResponse
 from .models import *
 from project.models import *
 from organize.models import organize
 from basedata.models import base
 from personnel.models import personnel
+from pedpassage.models import passagerecord
+from personauth.models import personauth
 from device.models import device
 from common.views import *
 import json
@@ -137,13 +139,15 @@ def login_ok(request):
 
             prj_cost = project.objects.filter(Q(FStatus=True)).annotate(cost=Sum('FPrjcost')).values('cost')
             dev_count = device.objects.all().count()
-            person_regcount = personnel.objects.filter(Q(FStatus=0)).count()
+            person_regcount = personnel.objects.filter(Q(FStatus=0), ~Q(FType=0)).count()
+            person_quitcount = personnel.objects.filter(Q(FStatus=1), ~Q(FType=0)).count()
 
             context['busmenu_info'] = busmenu_info
             context['org_count'] = org_cont
             context['prj_count'] = prj_count
             context['prj_status'] = arr_status
             context['person_regcount'] = person_regcount
+            context['person_quitcount'] = person_quitcount
 
             if len(prj_cost) == 0:
                 context['prj_cost'] = 0
@@ -151,6 +155,12 @@ def login_ok(request):
                 context['prj_cost'] = int(prj_cost[0]['cost'])/10000
 
             context['dev_count'] = dev_count
+
+            sit_count = passagerecord.objects.filter(Q(CREATED_TIME__year=timezone.now().year), Q(CREATED_TIME__month=timezone.now().month),Q(CREATED_TIME__day=timezone.now().day)).values('FPersonID').annotate(total=Count('FPersonID'))
+            context['sit_count'] = len(sit_count)
+
+            auth_count = personauth.objects.all().values('FPersonID').annotate(total=Count('FPersonID'))
+            context['auth_count'] = len(auth_count)
 
             return render(request, "content/datacockpit/datacockpit.html", context)
 
