@@ -13,5 +13,6 @@ urlpatterns = [
     path('get_personquitcount/', views.get_personquitcount.as_view(), name='get_personquitcount'),
     path('get_personsitcount/', views.get_personsitcount.as_view(), name='get_personsitcount'),
     path('get_personauthcount/', views.get_personauthcount.as_view(), name='get_personauthcount'),
-    path('get_citypm/', views.get_citypm.as_view(), name='get_citypm')
+    path('get_citypm/', views.get_citypm.as_view(), name='get_citypm'),
+    path('get_mapdata/', views.get_mapdata.as_view(), name='get_mapdata')
 ]

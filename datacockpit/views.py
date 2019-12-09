@@ -284,6 +284,26 @@ class get_citypm(View):
         return HttpResponse(json.dumps(response_data))
 
 
+class get_mapdata(View):
+    def post(self, request):
+        response_data = []
+
+        prj_info = project.objects.filter(Q(FStatus=True))
+
+        for obj in prj_info:
+            dict = {}
+
+            dict['latitude'] = obj.FLat
+            dict['longitude'] = obj.FLong
+            dict['name'] = obj.FPrjname
+            dict['value'] = 32358260
+            dict['color'] = '#d94d02'
+
+            response_data.append(dict)
+
+        return HttpResponse(json.dumps(response_data))
+
+
 
 
 

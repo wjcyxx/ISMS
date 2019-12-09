@@ -15,6 +15,7 @@ from personnel.models import personnel
 from organize.models import organize
 from basedata.models import base
 from pedpassage.models import pedpassage, passagerecord
+from interface.models import prjcheck
 from device.models import device, devcallinterface
 from django.http import JsonResponse
 import json
@@ -649,9 +650,55 @@ class get_env_realdata(View):
 
 
 
+class create_prjcheck(View):
+    def post(self, request):
+        content = request.POST.get('content')
+
+        response_data = {}
+
+        try:
+            content = json.loads(content)
+
+            prj_check = prjcheck()
+            prj_check.FAddress = content['FAddress']
+            prj_check.FPrjID = content['FPrjID']
+            prj_check.FProblem = content['FProblem']
+            prj_check.FDesc = content['FDesc']
+            prj_check.CREATED_TIME = timezone.now()
+            prj_check.CREATED_BY = content['CREATED_BY']
+            prj_check.UPDATED_BY = content['UPDATED_BY']
+
+            prj_check.save()
+
+            response_data['result'] = 0
+            response_data['msg'] = '数据添加成功'
+
+            return JsonResponse(response_data, safe=False)
+        except Exception as e:
+            response_data['result'] = 1
+            response_data['msg'] = '数据添加失败'
+
+            return HttpResponse(json.dumps(response_data))
 
 
+class get_prjcheck(View):
+    def post(self, request):
+        conditions = request.POST.get('conditions')
+        response_data = {}
 
+        if conditions != '':
+            conditions = json.loads(request.POST.get('conditions'))
+            obj = prjcheck.objects.filter(**conditions)
+        else:
+            obj =prjcheck.objects.all()
+
+        dict_arr = convert_to_dicts(obj)
+
+        response_data['result'] = '0'
+        response_data['msg'] = '数据获取成功'
+        response_data['data'] = dict_arr
+
+        return JsonResponse(response_data, safe=False)
 
 
 
