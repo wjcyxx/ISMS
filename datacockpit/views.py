@@ -292,11 +292,12 @@ class get_mapdata(View):
 
         for obj in prj_info:
             dict = {}
+            fid = ''.join(str(obj.FID).split('-'))
 
             dict['latitude'] = obj.FLat
             dict['longitude'] = obj.FLong
             dict['name'] = obj.FPrjname
-            dict['value'] = 32358260
+            dict['value'] = fid
             dict['color'] = '#d94d02'
 
             response_data.append(dict)

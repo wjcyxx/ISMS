@@ -666,6 +666,15 @@
 
         }]
     });
+
+    myChart.on('click', function (params) {
+        if (params.componentType == "series") {
+            window.location.href = "{% url 'login:login_ok' %}?prjid="+params.value[2]+"&orgtype=0"
+        }
+        //console.log(params);
+        //alert(params.value[2])
+    });
+
     window.onresize = function() {
         myChart_org.resize();
         //chart.resize();
