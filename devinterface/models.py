@@ -35,7 +35,7 @@ class devinterface(models.Model):
     FDesc = models.CharField(max_length=1024, verbose_name='备注', blank=True, null=True)
     FStatus = models.BooleanField(default=True, verbose_name='状态')
     FSrvStatus = models.BooleanField(default=False, verbose_name='服务状态')
-    FSrvFile = models.CharField(max_length=20, verbose_name='服务文件', blank=True, null=True)
+    FSrvFile = models.CharField(max_length=100, verbose_name='服务文件', blank=True, null=True)
     FSrvPID = models.IntegerField(verbose_name='服务文件PID', blank=True, null=True, default=0)
     CREATED_PRJ = models.CharField(max_length=32, verbose_name='所属项目', blank=True, null=True)
     CREATED_ORG = models.CharField(max_length=32, verbose_name='创建组织', blank=True, null=True)

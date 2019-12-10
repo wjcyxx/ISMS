@@ -43,3 +43,35 @@ class elevatorinterfacesrv(models.Model):
 
     class Meta:
         db_table = 'T_ElevatorHisData'
+
+
+
+class envinterfacesrv(models.Model):
+
+    FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
+    FCommandType = models.IntegerField(verbose_name='命令类型', default=2, blank=True, null=True)
+    FDeviceId = models.CharField(max_length=32, verbose_name='设备编号', blank=True, null=True)
+    FTimestamp = models.IntegerField(verbose_name='原始时间戳', blank=True, null=True)
+    FSPM = models.FloatField(verbose_name='SPM粉尘数据', blank=True, null=True)
+    FPM25 = models.FloatField(verbose_name='PM2.5数据', blank=True, null=True)
+    FPM10 = models.FloatField(verbose_name='PM10数据', blank=True, null=True)
+    FTYPE = models.IntegerField(verbose_name='数据类型', blank=True, null=True)
+    FWIND_SPEED = models.FloatField(verbose_name='风速', blank=True, null=True)
+    FWIND_DIRECT = models.FloatField(verbose_name='风向度数', blank=True, null=True)
+    FWIND_DIRECT_STR = models.CharField(max_length=32, verbose_name='风向文字', blank=True, null=True)
+    FTemperature = models.FloatField(verbose_name='温度', blank=True, null=True)
+    FHumidity = models.FloatField(verbose_name='湿度', blank=True, null=True)
+    FNoise = models.FloatField(verbose_name='噪音等效值', blank=True, null=True)
+    FNoiseMax = models.FloatField(verbose_name='噪音峰值', blank=True, null=True)
+    FLongitude = models.FloatField(verbose_name='经度', blank=True, null=True)
+    FLatitude = models.FloatField(verbose_name='纬度', blank=True, null=True)
+    FPressure = models.IntegerField(verbose_name='大气压值', blank=True, null=True)
+    CREATED_PRJ = models.CharField(max_length=32, verbose_name='所属项目', blank=True, null=True)
+    CREATED_ORG = models.CharField(max_length=32, verbose_name='创建组织', blank=True, null=True)
+    CREATED_BY = models.CharField(max_length=32, verbose_name='创建人', blank=True, null=True)
+    CREATED_TIME = models.DateTimeField(blank=True, null=True, verbose_name='创建时间')
+    UPDATED_BY = models.CharField(max_length=32, verbose_name='更新人', blank=True, null=True)
+    UPDATED_TIME = models.DateTimeField(auto_now=True, verbose_name='更新时间')
+
+    class Meta:
+        db_table = 'T_EnvdetectionHisData'

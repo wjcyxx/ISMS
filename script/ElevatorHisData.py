@@ -151,7 +151,7 @@ if __name__ == "__main__":
         if runservice() == False:
             devinterface_info.FSrvStatus = False
             devinterface_info.save()
-    else:
+    elif devinterface_info.FTransmode == 1:
         devinterface_info.FSrvStatus = True
         devinterface_info.save()
 
