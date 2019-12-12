@@ -9,10 +9,11 @@ from django.utils import timezone
 from django.forms import widgets as Fwidge
 from django.core.exceptions import ObjectDoesNotExist
 from django.conf import settings
-import os
+import os, signal
 from threading import Thread
 import inspect
 import ctypes
+import socket
 from devinterface.models import devinterface
 from device.models import device, devcallinterface
 from menchanical.models import menchanical
@@ -21,50 +22,39 @@ import datetime
 
 
 def runservice(request):
-    SERVICE_NAME = 'ElevatorHisData'
+    SERVICE_NAME = 'EnvdetectionMetroHisData'
 
     devinterface_info = devinterface.objects.filter(Q(FSrvFile=SERVICE_NAME)).first()
     interID = ''.join(str(devinterface_info.FID).split('-'))
-    # PRJ_ID = devinterface_info.CREATED_PRJ
-    PRJ_ID = request.session['PrjID']
 
-    elevator_info = menchanical.objects.filter(Q(FStatus=True), Q(CREATED_PRJ=PRJ_ID), Q(FMectypeID='fa606fec009311eaab497831c1d24216'))
+    devinterface_info.FSrvPID = os.getpid()
+    devinterface_info.save()
 
-    arr_devID = []
-    for obj_elevator in elevator_info:
-        arr_devID.append(obj_elevator.FMonitordevID)
+    TIME_INTERVAL = devinterface_info.FInterval
+    IPADDRESS = devinterface_info.FAddress
+    PORT = devinterface_info.FPort
 
-    device_info = device.objects.filter(Q(FStatus=True), Q(CREATED_PRJ=PRJ_ID), Q(FID__in=arr_devID))
+    try:
+        Server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-    token = ''
-    resultdict = []
-    dev_id = ''
+        Server.bind(('127.0.0.1', 9000))
+        Server.listen(100)
+        print('Waiting connect......')
 
-    for obj_device in device_info:
-        fid = ''.join(str(obj_device.FID).split('-'))
+        while True:
+            serverThisClient, ClientInfo = Server.accept()
+            print('Waiting connect......')
 
-        if token == '':
-            interface_info = devcallinterface.objects.filter(Q(FPID=fid), Q(FCallSigCode='GETTOKEN')).first()
-            initID = interface_info.FInterfaceID
+            recvData = serverThisClient.recv(1024)
 
-            token = get_interface_result(initID)['data']['token']
+            x = ClientInfo[0]
+            aa = recvData.hex()
 
-        if dev_id == '':
-            dev_id = obj_device.FDevID + ', '
-        else:
-            dev_id = dev_id + obj_device.FDevID + ', '
+            print(aa)
 
-    endTime = datetime.datetime.now()
-    delta = datetime.timedelta(seconds=devinterface_info.FInterval)
-    startTime = endTime - delta
+    except Exception as e:
+        return False
 
-    endTime = endTime.strftime('%Y%m%d%H%M%S')
-    startTime = startTime.strftime('%Y%m%d%H%M%S')
-
-    result_run = get_interface_result(interID, [token, dev_id, startTime, endTime])['data']
-    cnt = str(len(result_run))
-
-    xx =1
 
 def devservice(request):
     if request.method == "POST":
@@ -76,6 +66,8 @@ def devservice(request):
         pyfiles = settings.BASE_DIR + os.sep + 'script' + os.sep + srvfile + '.py'
         pyfiles = str(pyfiles).replace(' ', '\ ')
 
+        p_id = interface_info.FSrvPID
+
         cmd = "python3 " + pyfiles
         thread = Thread()
         result = {}
@@ -84,18 +76,26 @@ def devservice(request):
         if mode == '1':
             thread.run = lambda: os.system(cmd)
             thread.start()
-            thread.join()
-            result['status'] = 200
+            #thread.join()
+            result['state'] = 200
             result['msg'] = '服务启动成功'
 
-            #result_dict['ident'] = thread.ident
-        elif mode == '2':
-            pass
-            # tid = int(request.POST.get('tid'))
-            # _async_raise(tid, SystemExit)
-        #print(str(os.getppid()))
+            interface_info.FSrvStatus = True
+            interface_info.save()
 
-        return HttpResponse(json.dumps(result))
+            return HttpResponse(json.dumps(result))
+        elif mode == '2':
+            #stop_cmd = "kill " + str(p_id)
+
+            interface_info.FSrvStatus = False
+            interface_info.save()
+
+            a = os.kill(p_id, signal.SIGKILL)
+
+            result['state'] = 200
+            result['msg'] = '服务停止成功'
+
+            return HttpResponse(json.dumps(result))
 
 
 def _async_raise(tid, exctype):

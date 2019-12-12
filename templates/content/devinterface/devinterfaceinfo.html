@@ -69,15 +69,16 @@
 
       $("#btnTest").click(function () {
           $.ajax({
-              type: "POST",
-              url: "http://39.106.148.205/ismsapi/get_env_realdata/",
-              contentType: "application/x-www-form-urlencoded",
-              data: {"appkey": "JDNkYn4pUa", "token": "MTU3NDg2MjE2Mi40MjY4NDQ6ODc1OWExYjFlZmQ4YmRiM2M3ZTdiMzE1ZTFkYWZiZDBmZGFjZGNmYQ==", "prjid":"09dc5718-a079-11e9-b707-7831c1d24216"},
+              type: 'POST',
+              url: "{% url 'devinterfacesrv:runservice' %}",
+              data: {},
               datatype: "json",
               success: function (data) {
-                  alert(data.data0.length);
-              }
+                  //result = JSON.parse(data);
+                  //ident = result.ident
+              },
           });
+
       });
 
 
@@ -166,18 +167,36 @@
                                   }
                               },
                               success: function (data) {
-
-                                  //result = JSON.parse(data);
-                                  //ident = result.ident
-                              },
-                              complete: function (XMLHttpRequest, textStatus) {
-                                   //alert("tststs");
-                                  table.reload('runreload', {where: {resultdict:{FName: serinput}}});
+                                  data = JSON.parse(data);
+                                  if (data.state == 200 ) {
+                                      window.parent.document.getElementById('Interface').contentWindow.location.reload();
+                                  }
                               }
-
                           });
                       }
                   }
+
+                  break;
+
+              case 'stopsrv':
+                  $.ajax({
+                      type: 'POST',
+                      url: "{% url 'devinterfacesrv:devservice' %}",
+                      data: {"mode": "2", "fid": data.FID},
+                      datatype: "json",
+                      timeout: 10000,
+                      beforeSend: function(XMLHttpRequest){
+                          if(layEvent === 'stopsrv') {
+                              $(x).text("服务停止中");
+                          }
+                      },
+                      success: function (data) {
+                          data = JSON.parse(data);
+                          if (data.state == 200 ) {
+                              window.parent.document.getElementById('Interface').contentWindow.location.reload();
+                          }
+                      }
+                  });
 
                   break;
 
