@@ -93,7 +93,8 @@ INSTALLED_APPS = [
     'appkey',
     'ismsapi',
     'devinterfacesrv',
-    'datacockpit'
+    'datacockpit',
+    'envcockpit'
 ]
 
 MIDDLEWARE = [
@@ -163,9 +164,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'ISMS',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': '39.106.148.205',
+        'USER': 'isms',
+        'PASSWORD': 'isms123456',
+        'HOST': '47.104.92.203',
         'PORT': '3306',
         'OPTIONS':{
             "init_command":"SET foreign_key_checks = 0;",

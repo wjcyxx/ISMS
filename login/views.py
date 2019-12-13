@@ -74,7 +74,7 @@ def get_project(request):
         serinput = request.POST.get("resultdict[FPrjname]", '')
 
         condtions = {"FManageORG": orgid}
-        prj_info = project.objects.filter(Q(FPrjname__contains=serinput), Q(FStatus=True))
+        prj_info = project.objects.filter(Q(FPrjname__contains=serinput), Q(FStatus=True)).order_by('FPrjID')
         prj_info = org_split(prj_info, request, **condtions)
 
         dict = convert_to_dicts(prj_info)
@@ -137,7 +137,8 @@ def login_ok(request):
             for obj in prj_status:
                 arr_status.append(obj.FBase)
 
-            prj_cost = project.objects.filter(Q(FStatus=True)).annotate(cost=Sum('FPrjcost')).values('cost')
+            prj_cost = project.objects.filter(Q(FStatus=True)).values('FPrjcost').annotate(cost=Sum('FPrjcost'))
+
             dev_count = device.objects.all().count()
             person_regcount = personnel.objects.filter(Q(FStatus=0), ~Q(FType=0)).count()
             person_quitcount = personnel.objects.filter(Q(FStatus=1), ~Q(FType=0)).count()
@@ -152,7 +153,11 @@ def login_ok(request):
             if len(prj_cost) == 0:
                 context['prj_cost'] = 0
             else:
-                context['prj_cost'] = int(prj_cost[0]['cost'])/10000
+                sum_cost = 0
+                for obj in prj_cost:
+                    sum_cost = sum_cost + obj['FPrjcost']
+
+                context['prj_cost'] = sum_cost/10000
 
             context['dev_count'] = dev_count
 
