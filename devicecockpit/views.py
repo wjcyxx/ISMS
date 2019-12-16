@@ -48,6 +48,7 @@ class get_envrealtimedata(View):
         dict = {}
         dict['value'] = realtime_data.FPM25
         dict['name'] = 'PM2.5'
+        dict['itemStyle'] = {'color': '#FFB24E'}
         dict['label'] = {'fontSize': 30, 'color': '#A7FFFD'}
         response_data.append(dict)
 
@@ -93,4 +94,10 @@ class get_envrealtimedata(View):
         dict['label'] = {'fontSize': 30, 'color': '#A7FFFD'}
         response_data.append(dict)
 
-        return JsonResponse(response_data, safe=False)
+        return HttpResponse(json.dumps(response_data))
+        #return JsonResponse(response_data, safe=False)
+
+
+class get_envhisdata(View):
+    def post(self, request):
+        pass

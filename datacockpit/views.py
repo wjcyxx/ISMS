@@ -12,6 +12,7 @@ from device.models import device
 from personnel.models import personnel
 from pedpassage.models import passagerecord
 from personauth.models import personauth
+from devinterfacesrv.models import envinterfacesrv
 from common.views import *
 from django.http import JsonResponse
 import json
@@ -298,7 +299,25 @@ class get_mapdata(View):
             dict['longitude'] = obj.FLong
             dict['name'] = obj.FPrjname
             dict['value'] = fid
-            dict['color'] = '#d94d02'
+
+            type = request.POST.get('type')
+
+            if type == '1':
+                env_info = envinterfacesrv.objects.filter(Q(CREATED_PRJ=fid)).order_by('FTemperature').first()
+                if env_info != None:
+                    if env_info.FPM25 <= 115:
+                        dict['color'] = '#66cc00'
+                    elif env_info.FPM25 > 115 and env_info.FPM25 <= 150:
+                        dict['color'] = '#ffff00'
+                    elif env_info.FPM25 > 150 and env_info.FPM25 <= 250:
+                        dict['color'] = '#d94d02'
+                    elif env_info.FPM25 > 250 and env_info.FPM25 <= 500:
+                        dict['color'] = '#ff0033'
+                else:
+                    dict['color'] = '#66cc00'
+
+            elif type == '0':
+                dict['color'] = '#d94d02'
 
             response_data.append(dict)
 

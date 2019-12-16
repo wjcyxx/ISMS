@@ -587,7 +587,7 @@
         $.ajax({
             type: 'POST',
             url: "{% url 'datacockpit:get_mapdata' %}",
-            data: {},
+            data: {"type": "0"},
             datatype: "JSON",
             async: false,
             success: function (data) {

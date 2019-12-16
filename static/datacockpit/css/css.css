@@ -606,11 +606,10 @@
   margin-left: 8px;
 }
 .main_content .main_right {
-  overflow: hidden;
-  height: 100vh;
+  height: max-content;
   float: left;
-  width: 26.0416666667vw;
-  padding-top: 6.4814814815vh;
+  width: 28.0416666667vw;
+  padding-top: 3.4814814815vh;
 }
 .main_content .main_right .right_tit {
   overflow: hidden;

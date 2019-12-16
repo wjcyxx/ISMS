@@ -12,6 +12,7 @@
 		<link rel="stylesheet" type="text/css" href="/static/datacockpit/css/swiper.min.css" />
 		<link rel="stylesheet" type="text/css" href="/static/datacockpit/css/reset.css" />
 		<link rel="stylesheet" type="text/css" href="/static/datacockpit/css/css.css" />
+        <link rel="stylesheet" href="/static/layui/css/layui.css">
 	</head>
 
 	<body>
@@ -24,7 +25,19 @@
 				<div class="cc c5"><img src="/static/datacockpit/images/page_65.png" class="ic1"/><img src="/static/datacockpit/images/tp_12.png" class="ics1"/></div>
 				<div class="cc c6"><img src="/static/datacockpit/images/page_74.png" class="ic1"/><img src="/static/datacockpit/images/tp_14.png" class="ics1"/></div>
 				<div id = 'caption' class="ics">
-					 <span style="font-size: 30px; color: white;"><p>环境监测</p></span>
+					 <span style="font-size: 30px; color: white;"><p>环境监测</p></span> <br/>
+                     <div>
+                         <img src="/static/datacockpit/images/pmzc.png" height="20" width="20"><span style="font-size: 15px; color: white;"><p>PM 2.5 正常</p></span> <br/>
+                     </div>
+                    <div>
+                        <img src="/static/datacockpit/images/pmhs.png" height="20" width="20"><span style="font-size: 15px; color: white;"><p>PM 2.5 黄色预警</p></span> <br/>
+                    </div>
+                    <div>
+                        <img src="/static/datacockpit/images/pmcs.png" height="20" width="20"><span style="font-size: 15px; color: white;"><p>PM 2.5 橙色预警</p></span> <br/>
+                    </div>
+                    <div>
+                        <img src="/static/datacockpit/images/pmred.png" height="20" width="20"><span style="font-size: 15px; color: white;"><p>PM 2.5 红色预警</p></span> <br/>
+                    </div>
 				</div>
 			</div>
 			<div class="main_mid">
@@ -68,17 +81,59 @@
 					<p>运行状态</p>
 					<span>RUNNING<br />STATE</span>
 				</div>
+                <div id="prjName">
+                    <span style="color: wheat; font-size: 15px"><p><i class="fa fa-street-view" aria-hidden="true"></i> 实时数据</p></span>
+                </div>
+                <div class="layui-row layui-col-space10" style="width: 100%; padding: 10px" >
+                    <div class="layui-col-md4">
+                        <p align="center"><img align="left" src="/static/datacockpit/images/PM25.png" title="PM2.5指数" style="height: 48px; width: 48px" /><div id="city_pm25"><span style="font-size: 38px; color: #A7FFFD">&nbsp;--</span></div></p>
+                    </div>
+
+                    <div class="layui-col-md4">
+                        <p align="center"><img align="left" src="/static/datacockpit/images/PM10.png" title="PM10指数" style="height: 48px; width: 48px" /><div id="city_pm10"><span style="font-size: 38px; color: #A7FFFD">&nbsp;--</span></div></p>
+                    </div>
+
+                    <div class="layui-col-md4">
+                        <p align="center"><img align="left" src="/static/datacockpit/images/noise.png" title="噪声" style="height: 48px; width: 48px" /><div id="city_noise"><span style="font-size: 38px; color: #A7FFFD">&nbsp;--</span></div></p>
+                    </div>
+                </div>
+
+                <div class="layui-row layui-col-space10" style="width: 100%; padding: 10px" >
+                    <div class="layui-col-md4">
+                        <p align="center"><img align="left" src="/static/datacockpit/images/temp.png" title="温度" style="height: 48px; width: 48px" /><div id="city_temp"><span style="font-size: 38px; color: #A7FFFD">&nbsp;--</span></div></p>
+                    </div>
+
+                    <div class="layui-col-md4">
+                        <p align="center"><img align="left" src="/static/datacockpit/images/shidu.png" title="湿度" style="height: 48px; width: 48px" /><div id="city_shidu"><span style="font-size: 38px; color: #A7FFFD">&nbsp;--</span></div></p>
+                    </div>
+
+                    <div class="layui-col-md4">
+                        <p align="center"><img align="left" src="/static/datacockpit/images/fengsu.png" title="风速" style="height: 48px; width: 48px" /><div id="city_fengsu"><span style="font-size: 38px; color: #A7FFFD">&nbsp;--</span></div></p>
+                    </div>
+                </div>
+
+                <span style="color: wheat; font-size: 15px"><p><i class="fa fa-area-chart" aria-hidden="true"></i> 历史数据</p></span>
+
+                <div class="layui-row layui-col-space10" style="width: 100%; padding-top: 0px;" >
+                    <div class="layui-col-md12" style="height: auto; overflow: hidden">
+                        <div id="prj_hisdata" style="width: 100%; height: 240px"></div>
+                        <div style="height:1px; margin-top:-1px;clear: both;overflow:hidden;"></div>
+                    </div>
+                </div>
+
 				<div class="box_ect">
 					<div class="tt">
-						<p><i class="fa fa-street-view" aria-hidden="true"></i> 实时数据</p>
 					</div>
-					<div id="main" style="width: 100%;height: 100%;"></div>
+					<!--
+                    <div id="main" style="width: 100%;height: 100%;"></div>
+                    -->
 				</div>
 				<div class="box_ect">
 					<div class="tt">
-						<p><i class="fa fa-area-chart" aria-hidden="true"></i> 市平均数据</p>
 					</div>
-					<div id="main1" style="width: 100%;height: 100%;"></div>
+					<!--
+                    <div id="main1" style="width: 100%;height: 100%;"></div>
+                    -->
 				</div>
 			</div>
 		</div>
@@ -87,39 +142,9 @@
 	<script type="text/javascript" src="/static/datacockpit/js/swiper.min.js"></script>
 	<script type="text/javascript" src="/static/datacockpit/js/echarts.min.js"></script>
     <script type="text/javascript" src="/static/datacockpit/js/dark.js"></script>
+    <script type="text/javascript" src="/static/layui/layui.js"></script>
 	<script>
-		var myCharta1 = echarts.init(document.getElementById('main1'), 'dark');
-		var option1 = {
-			tooltip: {
-				trigger: 'item',
-				formatter: "{a} <br/>{b}: {c} ({d}%)"
-			},
-			series: [{
-				name: '访问来源',
-				type: 'pie',
-				radius: ['50%', '70%'],
-				avoidLabelOverlap: false,
-				labelLine: {
-					length: 20,
-					length2: 40,
-					color: {
-						color: '#999999'
-					}
-				},
-				label: {
-					formatter: "{c}"
-                },
-				itemStyle: {
-					borderColor: '#000',
-					borderWidth: 1
-				},
-				markPoint: {
-					symbol: 'images/page_61.png'
-				},
-				data: []
-			}]
-		};
-		myCharta1.setOption(option1);
+
 
 		$('.main_content .main_left .cc').click(function(){
 			var n = $(this).index();
@@ -135,7 +160,7 @@
             $.ajax({
                 type: 'POST',
                 url: "{% url 'datacockpit:get_mapdata' %}",
-                data: {},
+                data: {"type": "1"},
                 datatype: "JSON",
                 async: false,
                 success: function (data) {
@@ -223,77 +248,185 @@
                     data: {"prjid": params.value[2]},
                     datatype: "JSON",
                     success: function (data) {
-                        envrealtime_cockpit(data)
+                        result = JSON.parse(data);
+                        $("#prjName").html("<span style='color: wheat; font-size: 15px'><p><i class='fa fa-street-view' aria-hidden='true'></i> 实时数据 ["+ params.name +"]</p></span>");
+
+                        $("#city_pm25").html("<span style='font-size: 34px; color: #A7FFFD'>&nbsp;"+ result[0].value +"</span>");
+                        $("#city_pm10").html("<span style='font-size: 34px; color: #A7FFFD'>&nbsp;"+ result[1].value +"</span>");
+                        $("#city_noise").html("<span style='font-size: 34px; color: #A7FFFD'>&nbsp;"+ result[6].value.toFixed(1) +"</span>");
+
+                        $("#city_temp").html("<span style='font-size: 34px; color: #A7FFFD'>&nbsp;"+ result[4].value.toFixed(1) +"</span>");
+                        $("#city_shidu").html("<span style='font-size: 34px; color: #A7FFFD'>&nbsp;"+ result[5].value.toFixed(1) +"</span>");
+                        if (result[3].value <= 0.2){
+                            $("#city_fengsu").html("<span style='font-size: 32px; color: #A7FFFD'>&nbsp;无风</span>");
+                        } else if (result[3].value > 0.2 && result[3].value <= 1.5) {
+                            $("#city_fengsu").html("<span style='font-size: 32px; color: #A7FFFD'>&nbsp;一级</span>");
+                        } else if (result[3].value > 1.5 && result[3].value <= 3.3) {
+                            $("#city_fengsu").html("<span style='font-size: 32px; color: #A7FFFD'>&nbsp;二级</span>");
+                        } else if (result[3].value > 3.3 && result[3].value <= 5.4) {
+                            $("#city_fengsu").html("<span style='font-size: 32px; color: #A7FFFD'>&nbsp;三级</span>");
+                        } else if (result[3].value > 5.4 && result[3].value <= 7.9) {
+                            $("#city_fengsu").html("<span style='font-size: 32px; color: #A7FFFD'>&nbsp;四级</span>");
+                        } else if (result[3].value > 7.9 && result[3].value <= 10.7) {
+                            $("#city_fengsu").html("<span style='font-size: 32px; color: #A7FFFD'>&nbsp;五级</span>");
+                        } else if (result[3].value > 10.7 && result[3].value <= 13.8) {
+                            $("#city_fengsu").html("<span style='font-size: 32px; color: #A7FFFD'>&nbsp;六级</span>");
+                        } else if (result[3].value > 13.8 && result[3].value <= 17.1) {
+                            $("#city_fengsu").html("<span style='font-size: 32px; color: #A7FFFD'>&nbsp;七级</span>");
+                        } else if (result[3].value > 17.1 && result[3].value <= 20.7) {
+                            $("#city_fengsu").html("<span style='font-size: 32px; color: #A7FFFD'>&nbsp;八级</span>");
+                        }
+
+                        //envrealtime_cockpit(data)
                     }
                 });
+
+
+
             }
         });
 
-        var draw_envrealtime=function () {
+        var personatten = function (data) {
+            var dom = document.getElementById("prj_hisdata");
+            var myChart = echarts.init(dom);
+
+            var days = data.FDay;
+            var dengji = data.FDengji;
+            var tuic = data.FTuic;
+
+            option = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        animation: false
+                    }
+                },
+                textStyle:{
+                    color:'white'
+                },
+                legend: {
+                    x: 'left',
+                    y: 'top',
+                    data:["PM2.5", "PM10"],
+                },
+                toolbox: {
+                    feature: {
+                        dataZoom: {
+                            yAxisIndex: 'none'
+                        },
+                        restore: {},
+                        saveAsImage: {}
+                    }
+                },
+                axisPointer: {
+                    link: {xAxisIndex: 'all'}
+                },
+                dataZoom: [
+                    {
+                        show: true,
+                        realtime: true,
+                        start: 30,
+                        end: 70,
+                        xAxisIndex: [0, 1]
+                    },
+                    {
+                        type: 'inside',
+                        realtime: true,
+                        start: 30,
+                        end: 70,
+                        xAxisIndex: [0, 1]
+                    }
+                ],
+                grid: [{
+                    left: 50,
+                    right: 50,
+                    height: '35%'
+                }, {
+                    left: 50,
+                    right: 50,
+                    top: '55%',
+                    height: '35%'
+                }],
+                xAxis : [
+                    {
+                        type : 'category',
+                        boundaryGap : false,
+                        splitLine: {
+                            show: false
+                        },
+                        axisLine: {onZero: true},
+                        data: days
+                    },
+                    {
+                        gridIndex: 1,
+                        type : 'category',
+                        boundaryGap : false,
+                        splitLine: {
+                            show: false
+                        },
+                        axisLine: {onZero: true},
+                        data: days,
+                        position: 'top'
+                    }
+                ],
+                yAxis : [
+                    {
+                        name : 'PM2.5',
+                        type : 'value',
+                        minInterval: 1
+                        //max : 500
+                    },
+                    {
+                        gridIndex: 1,
+                        name : 'PM10',
+                        type : 'value',
+                        minInterval: 1,
+                        inverse: true
+                    }
+                ],
+                series : [
+                    {
+                        name:'PM2.5',
+                        type:'line',
+                        symbolSize: 8,
+                        hoverAnimation: false,
+                        data: dengji
+                    },
+                    {
+                        name:'PM10',
+                        type:'line',
+                        xAxisIndex: 1,
+                        yAxisIndex: 1,
+                        symbolSize: 8,
+                        hoverAnimation: false,
+                        data: tuic
+                    }
+                ]
+            };
+
+            myChart.setOption(option, true);
+        };
+
+
+        var drawPersonAtten = function () {
             $.ajax({
                 type: 'POST',
-                url: "{% url 'devicecockpit:get_envrealtimedata' %}",
-                data: {"prjid": ""},
+                url: "{% url 'personinfomap:attenanalyse' %}",
+                data: {},
                 datatype: "JSON",
                 success: function (data) {
-                    envrealtime_cockpit(data)
+                    personatten(data);
                 }
             });
         };
 
-        draw_envrealtime();
+        drawPersonAtten();
 
-        var envrealtime_cockpit=function (data) {
-            var myCharta = echarts.init(document.getElementById('main'));
-
-            var option = {
-                tooltip: {
-                    trigger: 'item',
-                    formatter: "{a} <br/>{b}: {c} ({d}%)"
-                },
-                series: [{
-                    name: '实时数据',
-                    type: 'pie',
-                    radius: ['50%', '70%'],
-                    avoidLabelOverlap: false,
-                    labelLine: {
-                        normal: {
-                            show: false,
-                        },
-                        length: 20,
-                        length2: 40,
-                        color: {
-                            color: '#999999'
-                        }
-                    },
-                    label: {
-                        normal: {
-                            show: false,
-                            position: 'center'
-                        },
-                        emphasis: {
-                            show: true,
-                            textStyle: {
-                            fontSize: '30',
-                            fontWeight: 'bold'
-                            }
-                        }
-                    },
-                    itemStyle: {
-                        borderColor: '#000',
-                        borderWidth: 1
-                    },
-
-                    data: data
-                }]
-            };
-
-            myCharta.setOption(option);
-        };
 
         window.onresize = function() {
+
             myCharta.resize();
-            myCharta1.resize();
+            //myCharta1.resize();
         };
 	</script>
 
