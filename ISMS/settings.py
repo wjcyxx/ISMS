@@ -94,7 +94,7 @@ INSTALLED_APPS = [
     'ismsapi',
     'devinterfacesrv',
     'datacockpit',
-    'envcockpit'
+    'devicecockpit'
 ]
 
 MIDDLEWARE = [
