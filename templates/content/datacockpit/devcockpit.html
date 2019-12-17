@@ -43,98 +43,103 @@
 			<div class="main_mid">
                 <div id="china-map" style="width: 100%;height: 100%;"></div>
 			</div>
-			<div class="main_right">
-				<div class="right_tit">
-					<div class="fl">
-						<p>{{ envdev_count }}</p>
-					</div>
-					<div class="fr">
-						<p>ENVDETECTION TOTAL</p>
-						<span>环境传感器总数</span>
-					</div>
-				</div>
-				<div class="num">
-					<div class="t">
-						<p>{{ enable_count.count }}</p>
-                        {% for rows in enable_count %}
-	    					<img src="/static/datacockpit/images/page_14.png" />
-                        {% endfor %}
-					</div>
-					<div class="b">
-						<p>在线总数</p>
-						<span>ONLINE<br />NUMBER</span>
-					</div>
-				</div>
-				<div class="num">
-					<div class="t">
-						<p>{{ disable_count.count }}</p>
-                        {% for rows in disable_count %}
-	    					<img src="/static/datacockpit/images/page_14.png" />
-                        {% endfor %}
-					</div>
-					<div class="b">
-						<p>离线总数</p>
-						<span>OFFLINE<br />NUMBER</span>
-					</div>
-				</div>
-				<div class="zt">
-					<p>运行状态</p>
-					<span>RUNNING<br />STATE</span>
-				</div>
-                <div id="prjName">
-                    <span style="color: wheat; font-size: 15px"><p><i class="fa fa-street-view" aria-hidden="true"></i> 实时数据</p></span>
+            <div class="main_right">
+                <div class="layui-carousel" id="pl_env" lay-filter="change_env" style="background-color: rgba(28,27,41, 0.3);">
+                    <div carousel-item>
+                        <div id="ENV_TOTAL" style="width: 100%; height: 100%; background-color: rgba(28,27,41, 0.3); padding: 20px" >
+                            <div class="right_tit">
+                                <div class="fl">
+                                    <p>{{ envdev_count }}</p>
+                                </div>
+                                <div class="fr">
+                                    <p>ENVDETECTION TOTAL</p>
+                                    <span>环境传感器总数</span>
+                                </div>
+                            </div>
+                            <div class="num">
+                                <div class="t">
+                                    <p>{{ enable_count.count }}</p>
+                                    {% for rows in enable_count %}
+                                        <img src="/static/datacockpit/images/page_14.png" />
+                                    {% endfor %}
+                                </div>
+                                <div class="b">
+                                    <p>在线总数</p>
+                                    <span>ONLINE<br />NUMBER</span>
+                                </div>
+                            </div>
+                            <div class="num">
+                                <div class="t">
+                                    <p>{{ disable_count.count }}</p>
+                                    {% for rows in disable_count %}
+                                        <img src="/static/datacockpit/images/page_14.png" />
+                                    {% endfor %}
+                                </div>
+                                <div class="b">
+                                    <p>离线总数</p>
+                                    <span>OFFLINE<br />NUMBER</span>
+                                </div>
+                            </div>
+                            <div class="zt">
+                                <p>运行状态</p>
+                                <span>RUNNING<br />STATE</span>
+                            </div>
+                            <div id="prjName">
+                                <span style="color: wheat; font-size: 15px"><p><i class="fa fa-street-view" aria-hidden="true"></i> 实时数据</p></span>
+                            </div>
+                            <div class="layui-row layui-col-space10" style="width: 100%; padding: 10px" >
+                                <div class="layui-col-md4">
+                                    <p align="center"><img align="left" src="/static/datacockpit/images/PM25.png" title="PM2.5指数" style="height: 48px; width: 48px" /><div id="city_pm25"><span style="font-size: 38px; color: #A7FFFD">&nbsp;--</span></div></p>
+                                </div>
+
+                                <div class="layui-col-md4">
+                                    <p align="center"><img align="left" src="/static/datacockpit/images/PM10.png" title="PM10指数" style="height: 48px; width: 48px" /><div id="city_pm10"><span style="font-size: 38px; color: #A7FFFD">&nbsp;--</span></div></p>
+                                </div>
+
+                                <div class="layui-col-md4">
+                                    <p align="center"><img align="left" src="/static/datacockpit/images/noise.png" title="噪声" style="height: 48px; width: 48px" /><div id="city_noise"><span style="font-size: 38px; color: #A7FFFD">&nbsp;--</span></div></p>
+                                </div>
+                            </div>
+
+                            <div class="layui-row layui-col-space10" style="width: 100%; padding: 10px" >
+                                <div class="layui-col-md4">
+                                    <p align="center"><img align="left" src="/static/datacockpit/images/temp.png" title="温度" style="height: 48px; width: 48px" /><div id="city_temp"><span style="font-size: 38px; color: #A7FFFD">&nbsp;--</span></div></p>
+                                </div>
+
+                                <div class="layui-col-md4">
+                                    <p align="center"><img align="left" src="/static/datacockpit/images/shidu.png" title="湿度" style="height: 48px; width: 48px" /><div id="city_shidu"><span style="font-size: 38px; color: #A7FFFD">&nbsp;--</span></div></p>
+                                </div>
+
+                                <div class="layui-col-md4">
+                                    <p align="center"><img align="left" src="/static/datacockpit/images/fengsu.png" title="风速" style="height: 48px; width: 48px" /><div id="city_fengsu"><span style="font-size: 38px; color: #A7FFFD">&nbsp;--</span></div></p>
+                                </div>
+                            </div>
+
+                            <span style="color: wheat; font-size: 15px"><p><i class="fa fa-area-chart" aria-hidden="true"></i> 历史数据</p></span>
+
+                            <div class="layui-row layui-col-space10" style="width: 100%; padding-top: 0px;" >
+                                <div class="layui-col-md12">
+                                    <div id="prj_hisdata" style="width: 100%; height: 35vh"></div>
+                                    <div style="height:1px; margin-top:-1px;clear: both;overflow:hidden;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="ENV_DETAIL" style="width: 100%; height: 100%; background-color: rgba(28,27,41, 0.3); padding: 20px">
+                            <div class="right_tit">
+                                <div class="fl">
+                                    <p>9 区/县</p>
+                                </div>
+                                <div class="fr">
+                                    <p>ENVDETECTION AREA ANALYSE</p>
+                                    <span>环境数据分析</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
                 </div>
-                <div class="layui-row layui-col-space10" style="width: 100%; padding: 10px" >
-                    <div class="layui-col-md4">
-                        <p align="center"><img align="left" src="/static/datacockpit/images/PM25.png" title="PM2.5指数" style="height: 48px; width: 48px" /><div id="city_pm25"><span style="font-size: 38px; color: #A7FFFD">&nbsp;--</span></div></p>
-                    </div>
-
-                    <div class="layui-col-md4">
-                        <p align="center"><img align="left" src="/static/datacockpit/images/PM10.png" title="PM10指数" style="height: 48px; width: 48px" /><div id="city_pm10"><span style="font-size: 38px; color: #A7FFFD">&nbsp;--</span></div></p>
-                    </div>
-
-                    <div class="layui-col-md4">
-                        <p align="center"><img align="left" src="/static/datacockpit/images/noise.png" title="噪声" style="height: 48px; width: 48px" /><div id="city_noise"><span style="font-size: 38px; color: #A7FFFD">&nbsp;--</span></div></p>
-                    </div>
-                </div>
-
-                <div class="layui-row layui-col-space10" style="width: 100%; padding: 10px" >
-                    <div class="layui-col-md4">
-                        <p align="center"><img align="left" src="/static/datacockpit/images/temp.png" title="温度" style="height: 48px; width: 48px" /><div id="city_temp"><span style="font-size: 38px; color: #A7FFFD">&nbsp;--</span></div></p>
-                    </div>
-
-                    <div class="layui-col-md4">
-                        <p align="center"><img align="left" src="/static/datacockpit/images/shidu.png" title="湿度" style="height: 48px; width: 48px" /><div id="city_shidu"><span style="font-size: 38px; color: #A7FFFD">&nbsp;--</span></div></p>
-                    </div>
-
-                    <div class="layui-col-md4">
-                        <p align="center"><img align="left" src="/static/datacockpit/images/fengsu.png" title="风速" style="height: 48px; width: 48px" /><div id="city_fengsu"><span style="font-size: 38px; color: #A7FFFD">&nbsp;--</span></div></p>
-                    </div>
-                </div>
-
-                <span style="color: wheat; font-size: 15px"><p><i class="fa fa-area-chart" aria-hidden="true"></i> 历史数据</p></span>
-
-                <div class="layui-row layui-col-space10" style="width: 100%; padding-top: 0px;" >
-                    <div class="layui-col-md12">
-                        <div id="prj_hisdata" style="width: 100%; height: 35vh"></div>
-                        <div style="height:1px; margin-top:-1px;clear: both;overflow:hidden;"></div>
-                    </div>
-                </div>
-
-				<div class="box_ect">
-					<div class="tt">
-					</div>
-					<!--
-                    <div id="main" style="width: 100%;height: 100%;"></div>
-                    -->
-				</div>
-				<div class="box_ect">
-					<div class="tt">
-					</div>
-					<!--
-                    <div id="main1" style="width: 100%;height: 100%;"></div>
-                    -->
-				</div>
 			</div>
 		</div>
 	</body>
@@ -143,6 +148,33 @@
 	<script type="text/javascript" src="/static/datacockpit/js/echarts.min.js"></script>
     <script type="text/javascript" src="/static/datacockpit/js/dark.js"></script>
     <script type="text/javascript" src="/static/layui/layui.js"></script>
+
+    <script type="text/javascript">
+        layui.use(['element','layer','laydate','carousel', 'form'], function() {
+            var
+                $ = layui.jquery
+                , element = layui.element //Tab的切换功能，切换事件监听等，需要依赖element模块
+                , layer = layui.layer
+                , laydate = layui.laydate
+                , carousel = layui.carousel
+                , form = layui.form;
+
+            carousel.render({
+                elem: '#pl_env'
+                ,width: '100%' //设置容器宽度
+                ,height: '100vh'
+                ,arrow: 'none'
+                ,indicator: 'inside'
+                ,interval: '10000'
+                ,autoplay: true
+            });
+
+        });
+
+    </script>
+
+
+
 	<script>
 
 

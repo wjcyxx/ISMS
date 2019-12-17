@@ -72,6 +72,30 @@
                 </div>
 
                 <div class="layui-row layui-col-space10" style="padding-left: 2%">
+                    <div class="layui-col-xs8">
+                        <label class="layui-form-label" style="color: red">所在位置</label>
+                        <div class="layui-input-block">
+                            <div class="layui-input-inline">
+                                <select name="provid" id="Fprovid" lay-filter="provid">
+                                    <option value="">请选择省</option>
+                                </select>
+                            </div>
+                            <div class="layui-input-inline">
+                                <select name="cityid" id="Fcityid" lay-filter="cityid">
+                                    <option value="">请选择市</option>
+                                </select>
+                            </div>
+                            <div class="layui-input-inline">
+                                <select name="areaid" id="Fareaid" lay-filter="areaid">
+                                    <option value="">请选择县/区</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="layui-row layui-col-space10" style="padding-left: 2%">
                     <div class="layui-col-xs4">
                         <label class="layui-form-label" style="color: red">工程类别</label>
                         <div class="layui-input-block">
@@ -301,6 +325,23 @@
 <!-- <script src="//res.layui.com/layui/build/layui.js" charset="utf-8"></script> -->
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 {% include "common/jsfiles.html" %}
+
+<script>
+    var defaults = {
+        s1: 'provid',
+        s2: 'cityid',
+        s3: 'areaid',
+        {% if action == 'insert' %}
+            v1: null,
+            v2: null,
+            v3: null
+        {% else %}
+            v1: {{ Project_info.provid }},
+            v2: {{ Project_info.cityid }},
+            v3: {{ Project_info.areaid }}
+        {% endif %}
+    };
+</script>
 
 <script>
 layui.use(['element','layer','form', 'laydate'], function () {

@@ -83,7 +83,7 @@ def edit(request):
     obj = ProjectModelForm(instance=Project_info)
 
     ref_dropdowndata(obj, request)
-    return render(request, "content/project/projectadd.html", {'obj': obj, 'action': 'update'})
+    return render(request, "content/project/projectadd.html", {'obj': obj,  'Project_info': Project_info,  'action': 'update'})
 
 #处理新增及保存
 def insert(request):
