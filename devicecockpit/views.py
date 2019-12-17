@@ -19,6 +19,7 @@ import datetime
 from django.db import connection
 from django.db.models import Sum, Count
 import re
+from django.db import connection
 
 # Create your views here.
 
@@ -100,4 +101,40 @@ class get_envrealtimedata(View):
 
 class get_envhisdata(View):
     def post(self, request):
-        pass
+        end_time = (datetime.datetime.now() + datetime.timedelta(days=1)).strftime("%Y-%m-%d")
+        begin_time = (datetime.datetime.now() + datetime.timedelta(days=-3)).strftime("%Y-%m-%d")
+
+        prjID = request.POST.get('prjid')
+
+        cur = connection.cursor()
+        sqlstr = "SELECT FROM_UNIXTIME(FSRCTimestamp-FSRCTimestamp % (60*60), '%m-%d %H:%i'), format(avg(FPM25), 1) from T_EnvdetectionHisData where CREATED_PRJ='"+ prjID +"' and FTimestamp BETWEEN '"+ begin_time +"' and '"+ end_time +"' group by FROM_UNIXTIME(FSRCTimestamp-FSRCTimestamp % (60*60), '%m-%d %H:%i')"
+
+        cur.execute(sqlstr)
+
+        rows = cur.fetchall()
+
+        response_days = []
+        response_pm25 = []
+        response_pm10 = []
+
+
+        for r in rows:
+            response_days.append(r[0])
+            response_pm25.append(r[1])
+
+
+        cur1 = connection.cursor()
+        sqlstr = "SELECT FROM_UNIXTIME(FSRCTimestamp-FSRCTimestamp % (60*60), '%m-%d %H:%i'), format(avg(FPM10), 1) from T_EnvdetectionHisData where CREATED_PRJ='"+ prjID +"' and FTimestamp BETWEEN '"+ begin_time +"' and '"+ end_time +"' group by FROM_UNIXTIME(FSRCTimestamp-FSRCTimestamp % (60*60), '%m-%d %H:%i')"
+
+        cur1.execute(sqlstr)
+        rows1 = cur1.fetchall()
+
+        for r1 in rows1:
+            response_pm10.append(r1[1])
+
+
+        result_dict = {'FDay': response_days, 'FPM25': response_pm25, 'FPM10': response_pm10}
+
+        return JsonResponse(result_dict, safe=False)
+
+

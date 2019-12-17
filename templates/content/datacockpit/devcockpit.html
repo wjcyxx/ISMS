@@ -115,8 +115,8 @@
                 <span style="color: wheat; font-size: 15px"><p><i class="fa fa-area-chart" aria-hidden="true"></i> 历史数据</p></span>
 
                 <div class="layui-row layui-col-space10" style="width: 100%; padding-top: 0px;" >
-                    <div class="layui-col-md12" style="height: auto; overflow: hidden">
-                        <div id="prj_hisdata" style="width: 100%; height: 240px"></div>
+                    <div class="layui-col-md12">
+                        <div id="prj_hisdata" style="width: 100%; height: 35vh"></div>
                         <div style="height:1px; margin-top:-1px;clear: both;overflow:hidden;"></div>
                     </div>
                 </div>
@@ -281,12 +281,149 @@
                     }
                 });
 
+                $.ajax({
+                    type: 'POST',
+                    url: "{% url 'devicecockpit:get_envhisdata' %}",
+                    data: {"prjid": params.value[2]},
+                    datatype: "JSON",
+                    success: function (data) {
+                        var dom = document.getElementById("prj_hisdata");
+                        var myChart = echarts.init(dom);
 
+                        var days = data.FDay;
+                        var pm25 = data.FPM25;
+                        var pm10 = data.FPM10;
+
+                        option = {
+                            tooltip: {
+                                trigger: 'axis',
+                                axisPointer: {
+                                    animation: false
+                                }
+                            },
+                            textStyle:{
+                                color:'white',
+                                fontStyle: "bold"
+                            },
+                            legend: {
+                                x: 'left',
+                                y: 'top',
+                                color: ["#66cc00", "#d94d02"],
+                                data:[{name: "PM2.5", textStyle:{color: "#66cc00"}}, {name: "PM10", textStyle:{color: "#d94d02"}}],
+                            },
+                            toolbox: {
+                                feature: {
+                                    dataZoom: {
+                                        yAxisIndex: 'none'
+                                    },
+                                    restore: {},
+                                    saveAsImage: {}
+                                }
+                            },
+                            axisPointer: {
+                                link: {xAxisIndex: 'all'}
+                            },
+                            dataZoom: [
+                                {
+                                    show: true,
+                                    realtime: true,
+                                    start: 30,
+                                    end: 70,
+                                    xAxisIndex: [0, 1]
+                                },
+                                {
+                                    type: 'inside',
+                                    realtime: true,
+                                    start: 30,
+                                    end: 70,
+                                    xAxisIndex: [0, 1]
+                                }
+                            ],
+                            grid: [{
+                                left: 50,
+                                right: 50,
+                                height: '35%'
+                            }, {
+                                left: 50,
+                                right: 50,
+                                top: '55%',
+                                height: '35%'
+                            }],
+                            xAxis : [
+                                {
+                                    type : 'category',
+                                    boundaryGap : false,
+                                    splitLine: {
+                                        show: false
+                                    },
+                                    axisLine: {onZero: true},
+                                    data: days
+                                },
+                                {
+                                    gridIndex: 1,
+                                    type : 'category',
+                                    boundaryGap : false,
+                                    splitLine: {
+                                        show: false
+                                    },
+                                    axisLine: {onZero: true},
+                                    data: days,
+                                    position: 'top'
+                                }
+                            ],
+                            yAxis : [
+                                {
+                                    name : 'PM2.5',
+                                    type : 'value',
+                                    minInterval: 1
+                                    //max : 500
+                                },
+                                {
+                                    gridIndex: 1,
+                                    name : 'PM10',
+                                    type : 'value',
+                                    minInterval: 1,
+                                    inverse: true
+                                }
+                            ],
+                            series : [
+                                {
+                                    name:'PM2.5',
+                                    type:'line',
+                                    itemStyle : {
+                                        normal : {
+                                            color:'#e01f54',   // 设置最高气温线的颜色
+                                        }
+                                    },
+                                    symbolSize: 10,
+                                    hoverAnimation: false,
+                                    data: pm25
+                                },
+                                {
+                                    name:'PM10',
+                                    type:'line',
+                                    itemStyle : {
+                                        normal : {
+                                            color:'#82b6e9',   // 设置最高气温线的颜色
+                                        }
+                                    },
+                                    xAxisIndex: 1,
+                                    yAxisIndex: 1,
+                                    symbolSize: 10,
+                                    hoverAnimation: false,
+                                    data: pm10
+                                }
+                            ]
+                        };
+
+                        myChart.setOption(option, true);
+                    }
+                });
 
             }
         });
 
-        var personatten = function (data) {
+        var envHisData = function (data) {
             var dom = document.getElementById("prj_hisdata");
             var myChart = echarts.init(dom);
 
@@ -307,7 +444,8 @@
                 legend: {
                     x: 'left',
                     y: 'top',
-                    data:["PM2.5", "PM10"],
+                    color: ["#66cc00", "#d94d02"],
+                    data:[{name: "PM2.5", textStyle:{color: "#66cc00"}}, {name: "PM10", textStyle:{color: "#d94d02"}}],
                 },
                 toolbox: {
                     feature: {
@@ -415,7 +553,7 @@
                 data: {},
                 datatype: "JSON",
                 success: function (data) {
-                    personatten(data);
+                    envHisData(data);
                 }
             });
         };

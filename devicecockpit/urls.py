@@ -5,5 +5,6 @@ app_name="devicecockpit"
 
 urlpatterns = [
     path('envcockpit_entrance/', views.envcockpit_entrance.as_view(), name='envcockpit_entrance'),
-    path('get_envrealtimedata/', views.get_envrealtimedata.as_view(), name='get_envrealtimedata')
+    path('get_envrealtimedata/', views.get_envrealtimedata.as_view(), name='get_envrealtimedata'),
+    path('get_envhisdata/', views.get_envhisdata.as_view(), name='get_envhisdata')
 ]
