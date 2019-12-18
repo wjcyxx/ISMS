@@ -138,3 +138,15 @@ class get_envhisdata(View):
         return JsonResponse(result_dict, safe=False)
 
 
+class get_area_analyse(View):
+    def post(self, request):
+        cur = connection.cursor()
+
+        sqlstr = "SELECT * FROM cc_region WHERE parent_id=360100 ORDER BY id"
+        cur.execute(sqlstr)
+
+        rows = cur.fetchall()
+
+
+
+
