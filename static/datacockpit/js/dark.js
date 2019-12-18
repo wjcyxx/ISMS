@@ -33,7 +33,7 @@
             "#91ca8c",
             "#f49f42"
         ],
-        "backgroundColor": "rgba(28,26,40,1)",
+        "backgroundColor": "rgba(28,26,40,0.3)",
         "textStyle": {},
         "title": {
             "textStyle": {

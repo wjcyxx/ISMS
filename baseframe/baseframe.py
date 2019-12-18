@@ -60,10 +60,15 @@ class get_datasource_base(View):
 
             if self.type == 0:
                 dict = convert_to_dicts(query_set)
+            elif self.type == 2:
+                dict = query_set
             else:
                 dict = list(query_set)
 
-            resultdict = {'code':0, 'msg':"", 'count': query_set.count(), 'data': dict}
+            if self.type == 2:
+                resultdict = {'code':0, 'msg':"", 'count': len(query_set) , 'data': dict}
+            else:
+                resultdict = {'code':0, 'msg':"", 'count': query_set.count(), 'data': dict}
 
             return  JsonResponse(resultdict, safe=False)
         except  Exception as e:
