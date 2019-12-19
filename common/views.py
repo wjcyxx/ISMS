@@ -395,7 +395,7 @@ def get_interface_param(interID):
 
 
 #调用接口获得返回值
-def get_interface_result(interID, paramsvalue=[], headersvalue=[]):
+def get_interface_result(interID, paramsvalue=[], headersvalue=[], urlsvalue=[]):
 
     url = get_interface_url(interID)
     param = get_interface_param(interID)
@@ -408,8 +408,13 @@ def get_interface_result(interID, paramsvalue=[], headersvalue=[]):
             if len(key) == len(paramsvalue):
                 param = param.replace(key[i], paramsvalue[i])
 
-    interface_info = devinterface.objects.get(Q(FID=interID))
+    if len(urlsvalue) > 0:
+        key = re.findall(r"\$\{.*?\}", url)
 
+        for i in range(len(key)):
+            url = url.replace(key[i], urlsvalue[i])
+
+    interface_info = devinterface.objects.get(Q(FID=interID))
 
     if interface_info.FRequestType == 0:
         req = url + '?' + param

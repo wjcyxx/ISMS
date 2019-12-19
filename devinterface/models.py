@@ -30,6 +30,7 @@ class devinterface(models.Model):
     FPort = models.IntegerField(verbose_name='设备端口号', blank=True, null=True)
     FInterval = models.IntegerField(verbose_name='间隔时间', blank=True, null=True)
     FAddress = models.CharField(max_length=1000, verbose_name='访问地址', blank=True, null=True)
+    FAppFID = models.CharField(max_length=32, verbose_name='调用AppID', blank=True, null=True)
     FDevID = models.CharField(max_length=32, verbose_name='绑定设备', blank=True, null=True)           #已废弃
     FInterfaceExtID = models.CharField(max_length=32, verbose_name='扩展分类', blank=True, null=True)  #已废弃
     FDesc = models.CharField(max_length=1024, verbose_name='备注', blank=True, null=True)

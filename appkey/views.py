@@ -50,9 +50,10 @@ class insert(insert_base):
         self.objForm = AppKeyModelForm
 
         if self.request.GET.get('actype') == 'insert':
-            appkey = get_Random_String(10)
-            self.set_fields = ['FAppkey']
-            self.set_value = [appkey]
+            if self.request.POST.get('FType') == 0:
+                appkey = get_Random_String(10)
+                self.set_fields = ['FAppkey']
+                self.set_value = [appkey]
 
 
 #处理禁用/启用

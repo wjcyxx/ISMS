@@ -5,6 +5,7 @@ from django.db.models import Q
 from .models import devinterface as T_DevInterface
 from .models import interfaceparam as T_InterfaceParam
 from device.models import device
+from appkey.models import appkey
 from basedata.models import base
 from common.views import *
 from django.http import JsonResponse
@@ -49,10 +50,12 @@ def ref_dropdowndata(obj, request):
     device_info = device.objects.filter(Q(FStatus=True))
     interfacetype_info = base.objects.filter(Q(FPID='08a3e2b0ab7a11e9891f708bcdb9b39a'))
     interext_info = base.objects.filter(Q(FPID__isnull=False)).order_by('FBaseID')
+    appkey_info = appkey.objects.filter(Q(FStatus=True), Q(FType=1))
 
     obj.fields['FDevID'].choices = get_dict_object(request, device_info, 'FID', 'FDevice')
     obj.fields['FInterfaceTypeID'].choices = get_dict_object(request, interfacetype_info, 'FID', 'FBase')
     obj.fields['FInterfaceExtID'].choices = get_dict_object(request, interext_info, 'FID', 'FBase')
+    obj.fields['FAppFID'].choices = get_dict_object(request, appkey_info, 'FID', 'FAppName')
 
 #链接增加模板
 def add(request):

@@ -26,15 +26,36 @@
                                 </div>
                             </div>
 
-                            <div class="layui-col-xs8">
-                                <label class="layui-form-label" style="color: red">APP名称</label>
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label" style="color: red">APPID</label>
                                 <div class="layui-input-block">
-                                    {{ obj.FAppName }}
+                                    {{ obj.FAppID }}
+                                </div>
+                            </div>
+
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label" style="color: red">AppSecret</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FAppSecret }}
                                 </div>
                             </div>
                         </div>
 
                         <div class="layui-row layui-col-space10">
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label" style="color: red">APP类型</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FType }}
+                                </div>
+                            </div>
+
+                            <div class="layui-col-xs4">
+                                <label class="layui-form-label" style="color: red">APP名称</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FAppName }}
+                                </div>
+                            </div>
+
                             <div class="layui-col-xs4">
                                 <label class="layui-form-label">状态</label>
                                 <div class="layui-input-block">

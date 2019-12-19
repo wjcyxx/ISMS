@@ -4,6 +4,7 @@ from django.forms import widgets as Fwidgets
 from .models import *
 
 class DeviceInterfaceModelForm(ModelForm):
+    FAppFID = forms.ChoiceField(required=False)
     FDevID = forms.ChoiceField(required=False)   #已废弃
     FInterfaceTypeID = forms.ChoiceField(widget=forms.Select(attrs={'lay-verify': 'required'}), required=False)
     FInterfaceExtID = forms.ChoiceField(required=False)   #已废弃

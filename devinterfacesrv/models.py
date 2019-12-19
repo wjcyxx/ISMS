@@ -76,3 +76,20 @@ class envinterfacesrv(models.Model):
 
     class Meta:
         db_table = 'T_EnvdetectionHisData'
+
+
+class interfacesrvdata(models.Model):
+
+    FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
+    FCallSigCode = models.CharField(max_length=32, verbose_name='调用特征码', blank=True, null=True)
+    FTag = models.CharField(max_length=20, verbose_name='标签', blank=True, null=True)
+    FValue = models.CharField(max_length=20, verbose_name='值', blank=True, null=True)
+    CREATED_PRJ = models.CharField(max_length=32, verbose_name='所属项目', blank=True, null=True)
+    CREATED_ORG = models.CharField(max_length=32, verbose_name='创建组织', blank=True, null=True)
+    CREATED_BY = models.CharField(max_length=32, verbose_name='创建人', blank=True, null=True)
+    CREATED_TIME = models.DateTimeField(blank=True, null=True, verbose_name='创建时间')
+    UPDATED_BY = models.CharField(max_length=32, verbose_name='更新人', blank=True, null=True)
+    UPDATED_TIME = models.DateTimeField(auto_now=True, verbose_name='更新时间')
+
+    class Meta:
+        db_table = 'T_InterfaceSrvData'
