@@ -86,17 +86,22 @@ def devservice(request):
             return HttpResponse(json.dumps(result))
         elif mode == '2':
             #stop_cmd = "kill " + str(p_id)
+            try:
+                interface_info.FSrvStatus = False
+                interface_info.save()
 
-            interface_info.FSrvStatus = False
-            interface_info.save()
+                a = os.kill(p_id, signal.SIGKILL)
 
-            a = os.kill(p_id, signal.SIGKILL)
+                result['state'] = 200
+                result['msg'] = '服务停止成功'
+            except Exception as e:
+                interface_info.FSrvStatus = False
+                interface_info.save()
 
-            result['state'] = 200
-            result['msg'] = '服务停止成功'
+                result['state'] = 200
+                result['msg'] = '服务停止成功'
 
             return HttpResponse(json.dumps(result))
-
 
 def _async_raise(tid, exctype):
     """raises the exception, performs cleanup if needed"""

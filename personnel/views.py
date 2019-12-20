@@ -329,3 +329,16 @@ def get_safetrain(request):
         resultdict = {'code':0, 'msg':"", 'count': Person_info.count(), 'data': dict}
 
         return  JsonResponse(resultdict, safe=False)
+
+
+#上传数据至沃土平台
+def upload_person(request):
+    if request.method == 'POST':
+        prj_id = request.session['PrjID']
+
+        upload_info = T_Personnel.objects.filter(Q(FWoTuGUID__isnull=True), Q(CREATED_PRJ=prj_id), Q(FStatus=True))
+
+        for rows in upload_info:
+
+
+            pass

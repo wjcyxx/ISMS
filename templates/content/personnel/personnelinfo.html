@@ -27,7 +27,8 @@
       </div>
 
       <div style="padding-top: 10px" >
-        <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
+          <a href="javascript:;" class="layui-btn layui-btn-normal" id="btnUpload"><i class="fa fa-cloud-upload" aria-hidden="true"></i> 上传至设备</a>
+          <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
       </div>
 
       <!-- 数据列表 -->
@@ -59,6 +60,17 @@
 
       $("#btnClose").click(function () {
           window.parent.layui.element.tabDelete('tabMain','Personnel');
+      });
+
+      $("#btnUpload").click(function () {
+          $.post("{% url 'personnel:sign' %}", fid, function (data) {
+              if (data.result=='0') {
+                  table.reload('runreload', {where: {resultdict:{FName: ''}}});
+              } else if (data.result=='2') {
+                  parent.layer.alert('人员退场失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+              }
+
+          },"json");
       });
 
       table.render({

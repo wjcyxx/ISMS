@@ -19,6 +19,7 @@ class appkey(models.Model):
     FAppSecret = models.CharField(max_length=50, verbose_name='appkey', blank=True, null=True)
     FAppName = models.CharField(max_length=50, verbose_name='应用名称', blank=True, null=True)
     FDesc = models.CharField(max_length=1024, verbose_name='备注', blank=True, null=True)
+    FAppCreateTime = models.DateTimeField(verbose_name='app创建时间', blank=True, null=True)
     FType = models.IntegerField(choices=TYPE_CHOICES, verbose_name='APP类型', default=0, blank=True, null=True)
     FStatus = models.BooleanField(default=True, verbose_name='状态')
     CREATED_ORG = models.CharField(max_length=32, verbose_name='创建组织', blank=True, null=True)
