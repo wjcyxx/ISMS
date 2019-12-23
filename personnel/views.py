@@ -337,8 +337,15 @@ def get_safetrain(request):
 def upload_person(request):
     if request.method == 'POST':
         prj_id = request.session['PrjID']
+        response_data = {}
 
         upload_info = T_Personnel.objects.filter(Q(FWoTuGUID__isnull=True), Q(CREATED_PRJ=prj_id), ~Q(FStatus=2))
+
+        if upload_info.count() == 0:
+            response_data['result'] = 1
+
+            return HttpResponse(json.dumps(response_data))
+
         devinterface_info = devinterface.objects.get(Q(FScope__gt=0), Q(FCallSigCode='UPLOADPERSON'))
         APPFID = devinterface_info.FAppFID
         initID = ''.join(str(devinterface_info.FID).split('-'))
@@ -346,13 +353,6 @@ def upload_person(request):
         app_info = appkey.objects.get(Q(FID=APPFID))
         APPID = app_info.FAppID
         TOKEN = interfacesrvdata.objects.get(Q(FCallSigCode='WOTU_APP'), Q(FTag='TOKEN')).FValue
-
-        response_data = {}
-
-        if len(upload_info) == 0:
-            response_data['result'] = 1
-
-            return HttpResponse(json.dumps(response_data))
 
         for rows in upload_info:
             person_name = rows.FName
@@ -375,3 +375,45 @@ def upload_person(request):
                 response_data['msg'] = result['msg']
 
         return HttpResponse(json.dumps(response_data))
+
+
+#批量注册人脸至沃土平台
+def regface_person(request):
+    if request.method == 'POST':
+        prj_id = request.session['PrjID']
+        response_data = {}
+
+        regface_info = T_Personnel.objects.filter(Q(FWoTuGUID__isnull=False), Q(CREATED_PRJ=prj_id))
+
+        if regface_info.count() == 0:
+            response_data['result'] = 1
+
+            return HttpResponse(json.dumps(response_data))
+
+        devinterface_info = devinterface.objects.get(Q(FScope__gt=0), Q(FCallSigCode='REGFACE'))
+        initID = ''.join(str(devinterface_info.FID).split('-'))
+
+        APPFID = devinterface_info.FAppFID
+        app_info = appkey.objects.get(Q(FID=APPFID))
+        APPID = app_info.FAppID
+        TOKEN = interfacesrvdata.objects.get(Q(FCallSigCode='WOTU_APP'), Q(FTag='TOKEN')).FValue
+
+        for rows in regface_info:
+            person_guid = rows.FWoTuGUID
+
+            hostpath = request.get_host()
+            imagepath = "http://" + hostpath + "/media/" + str(rows.FPhoto)
+
+            result = get_interface_result(initID, [APPID, TOKEN, person_guid, imagepath], [], [APPID, person_guid])
+
+            if result['result'] == 1:
+                response_data['result'] = 1
+            else:
+                response_data['result'] = 0
+                response_data['msg'] = result['msg']
+
+        return HttpResponse(json.dumps(response_data))
+
+
+
+

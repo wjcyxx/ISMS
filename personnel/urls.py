@@ -16,6 +16,7 @@ urlpatterns = [
     path('showTrain_upload/', views.showTrain_upload, name='showTrain_upload'),
     path('showPhoto_upload/', views.showPhoto_upload, name='showPhoto_upload'),
     path('get_safetrain/', views.get_safetrain, name='get_safetrain'),
-    path('upload_person/', views.upload_person, name='upload_person')
+    path('upload_person/', views.upload_person, name='upload_person'),
+    path('regface_person/', views.regface_person, name='regface_person')
 
 ]
