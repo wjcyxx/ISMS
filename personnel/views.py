@@ -383,7 +383,7 @@ def regface_person(request):
         prj_id = request.session['PrjID']
         response_data = {}
 
-        regface_info = T_Personnel.objects.filter(Q(FWoTuGUID__isnull=False), Q(CREATED_PRJ=prj_id))
+        regface_info = T_Personnel.objects.filter(Q(FWoTuGUID__isnull=False), Q(CREATED_PRJ=prj_id), Q(FWoTuFaceGUID__isnull=True))
 
         if regface_info.count() == 0:
             response_data['result'] = 1
@@ -402,12 +402,17 @@ def regface_person(request):
             person_guid = rows.FWoTuGUID
 
             hostpath = request.get_host()
-            imagepath = "http://" + hostpath + "/media/" + str(rows.FPhoto)
+            #imagepath = "http://" + hostpath + "/media/" + str(rows.FPhoto)
+            imagepath = "http://39.106.148.205/media/" + str(rows.FPhoto)
 
             result = get_interface_result(initID, [APPID, TOKEN, person_guid, imagepath], [], [APPID, person_guid])
 
             if result['result'] == 1:
+                rows.FWoTuFaceGUID = result['data']['guid']
+                rows.save()
+
                 response_data['result'] = 1
+
             else:
                 response_data['result'] = 0
                 response_data['msg'] = result['msg']
@@ -415,5 +420,8 @@ def regface_person(request):
         return HttpResponse(json.dumps(response_data))
 
 
-
+#批量授权人员至沃土平台
+def auth_person(request):
+    if request.method == 'POST':
+        pass
 
