@@ -63,11 +63,11 @@
       });
 
       $("#btnUpload").click(function () {
-          $.post("{% url 'personnel:sign' %}", fid, function (data) {
-              if (data.result=='0') {
-                  table.reload('runreload', {where: {resultdict:{FName: ''}}});
-              } else if (data.result=='2') {
-                  parent.layer.alert('人员退场失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+          $.post("{% url 'personnel:upload_person' %}", {}, function (data) {
+              if (data.result==1) {
+                  parent.layer.alert('人员上传成功',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+              } else if (data.result=='0') {
+                  parent.layer.alert('人员上传失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
               }
 
           },"json");

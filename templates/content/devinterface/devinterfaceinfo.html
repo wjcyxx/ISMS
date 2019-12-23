@@ -111,6 +111,7 @@
           url: "{% url 'devinterface:get_datasource' %}",
           cols: [[
               {field:'FName', width: '20%', title: '接口名称', sort: true},
+              {field:'FScope', width: '10%', title: '适配范围', sort: true, templet: '#tpScope'},
               {field:'FInterfaceTypeID', width: '15%', title: '接口方式', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FInterfaceTypeID, InterfaceType)}}{% endverbatim %}</div>'},
               {field:'FAddress', width: '30%', title: '接口地址', sort: true},
               {field:'FPort', width: '10%', title: '使用端口', sort: true},
@@ -293,6 +294,18 @@
       {% endverbatim %}
   </script>
 
+  <!--显示适配范围模板-->
+  <script type="text/html" id="tpScope">
+      {% verbatim %}
+      {{#  if(d.FScope == 0){ }}
+      <span>项目</span>
+      {{#  } else if(d.FScope == 1) { }}
+      <span style="color: orange">组织</span>
+      {{#  } else if(d.FScope == 2) { }}
+      <span style="color: green">全局</span>
+      {{#  } }}
+      {% endverbatim %}
+  </script>
 
 
 <!--生成操作工具栏-->

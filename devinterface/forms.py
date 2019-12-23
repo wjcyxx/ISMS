@@ -22,6 +22,8 @@ class DeviceInterfaceModelForm(ModelForm):
             'FAddress': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
             'FPort': Fwidgets.Input(attrs={'class': 'layui-input', 'autocomplete': 'off'}),
             'FSrvFile': Fwidgets.Input(attrs={'class': 'layui-input', 'autocomplete': 'off'}),
+            'FScope': Fwidgets.Select(attrs={'lay-verify': 'required'}),
+            'FCallSigCode': Fwidgets.Input(attrs={'class': 'layui-input', 'autocomplete': 'off'}),
             'FDesc': Fwidgets.Textarea(attrs={'class': 'layui-textarea', 'autocomplete': 'off', 'rows': '1'}),
             'FStatus': Fwidgets.CheckboxInput(attrs={'lay-skin': 'switch', 'lay-text': '启用|禁用', 'disabled': 'disabled'}),
             'FSrvStatus': Fwidgets.CheckboxInput(attrs={'lay-skin': 'switch', 'lay-text': '运行|停止', 'disabled': 'disabled'}),

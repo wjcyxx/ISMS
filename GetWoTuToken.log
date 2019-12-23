@@ -1,5 +1,5 @@
-2019-12-20 12:02:49,620 - /Users/weijing/Documents/BRJ_DEV/ISMS/script/GetWoTuToken.py[line:100] - INFO: 获取WoTu TOKEN服务启动
-2019-12-20 12:02:50,219 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/urllib3/connectionpool.py[line:225] - DEBUG: Starting new HTTP connection (1): gs-api.uface.uni-ubi.com:80
-2019-12-20 12:02:50,257 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/urllib3/connectionpool.py[line:437] - DEBUG: http://gs-api.uface.uni-ubi.com:80 "POST /v1/760F6AEE4BF941D68A969C6D1C5511D2/auth HTTP/1.1" 200 None
-2019-12-20 12:02:50,258 - /Users/weijing/Documents/BRJ_DEV/ISMS/script/GetWoTuToken.py[line:68] - INFO: TOKEN:16141978a3462f064f2efa4014b8cb1bfdd3aae83f9645d5368cb579b2b0b1a5
-2019-12-20 12:02:50,336 - /Users/weijing/Documents/BRJ_DEV/ISMS/script/GetWoTuToken.py[line:92] - INFO: token获取成功
+2019-12-22 19:54:39,196 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/GetWoTuToken.py[line:100] - INFO: 获取WoTu TOKEN服务启动
+2019-12-22 19:54:39,908 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/urllib3/connectionpool.py[line:225] - DEBUG: Starting new HTTP connection (1): gs-api.uface.uni-ubi.com:80
+2019-12-22 19:54:40,002 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/urllib3/connectionpool.py[line:437] - DEBUG: http://gs-api.uface.uni-ubi.com:80 "POST /v1/760F6AEE4BF941D68A969C6D1C5511D2/auth HTTP/1.1" 200 None
+2019-12-22 19:54:40,003 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/GetWoTuToken.py[line:68] - INFO: TOKEN:06cc218de6e60d40eecb8a8e973e2c5a526c00350a5c8a64cb48bb7a134087fc
+2019-12-22 19:54:40,283 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/GetWoTuToken.py[line:92] - INFO: token获取成功

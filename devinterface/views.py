@@ -36,8 +36,9 @@ def devinterface(request):
 def get_datasource(request):
     prj_id = request.session['PrjID']
     serinput = request.POST.get("resultdict[FName]", '')
+    org_id = request.session['UserOrg']
 
-    Devinterface_info =  T_DevInterface.objects.filter(Q(FName__contains=serinput), Q(CREATED_PRJ=prj_id))
+    Devinterface_info =  T_DevInterface.objects.filter(Q(FName__contains=serinput), Q(CREATED_PRJ=prj_id) | Q(CREATED_ORG=org_id) | Q(FScope=2))
     #Devinterface_info = org_split(Devinterface_info, request)
 
     dict = convert_to_dicts(Devinterface_info)

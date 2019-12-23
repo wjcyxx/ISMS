@@ -406,7 +406,9 @@ def get_interface_result(interID, paramsvalue=[], headersvalue=[], urlsvalue=[])
 
         for i in range(len(key)):
             if len(key) == len(paramsvalue):
-                param = param.replace(key[i], paramsvalue[i])
+                param = param.replace(key[i], str(paramsvalue[i]))
+
+        param = param.encode('utf-8')
 
     if len(urlsvalue) > 0:
         key = re.findall(r"\$\{.*?\}", url)
@@ -447,6 +449,7 @@ def get_interface_result(interID, paramsvalue=[], headersvalue=[], urlsvalue=[])
 
         #HEADERS = {'Content-Type': 'application/json', 'token': '9422e6dcf4db405a975de8232930aada'}
         content = requests.post(url=url, headers=HEADERS, data=param, verify=False ).text
+        #content.encoding = 'utf-8'
 
         content = json.loads(content)
 

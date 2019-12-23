@@ -22,6 +22,13 @@ class devinterface(models.Model):
         (3, 'DELETE')
     )
 
+    SCOPE_CHOICES = (
+        (None, '请选择数据'),
+        (0, '项目'),
+        (1, '组织'),
+        (2, '全局')
+    )
+
     FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
     FName = models.CharField(max_length=32, verbose_name='接口名称', blank=True, null=True)
     FInterfaceTypeID = models.CharField(max_length=32, verbose_name='接口方式', blank=True, null=True)
@@ -38,6 +45,8 @@ class devinterface(models.Model):
     FSrvStatus = models.BooleanField(default=False, verbose_name='服务状态')
     FSrvFile = models.CharField(max_length=100, verbose_name='服务文件', blank=True, null=True)
     FSrvPID = models.IntegerField(verbose_name='服务文件PID', blank=True, null=True, default=0)
+    FScope = models.IntegerField(choices=SCOPE_CHOICES, verbose_name='适配范围', blank=True, null=True, default=0)
+    FCallSigCode = models.CharField(max_length=32, verbose_name='调用特征码', blank=True, null=True, unique=True)
     CREATED_PRJ = models.CharField(max_length=32, verbose_name='所属项目', blank=True, null=True)
     CREATED_ORG = models.CharField(max_length=32, verbose_name='创建组织', blank=True, null=True)
     CREATED_BY = models.CharField(max_length=32, verbose_name='创建人', blank=True, null=True)

@@ -7,6 +7,8 @@ from .models import personcertif as T_PersonnelCertificate
 from group.models import group
 from team.models import team
 from basedata.models import base
+from devinterfacesrv.models import interfacesrvdata
+from appkey.models import appkey
 from common.views import *
 from django.http import JsonResponse
 from .forms import *
@@ -336,9 +338,40 @@ def upload_person(request):
     if request.method == 'POST':
         prj_id = request.session['PrjID']
 
-        upload_info = T_Personnel.objects.filter(Q(FWoTuGUID__isnull=True), Q(CREATED_PRJ=prj_id), Q(FStatus=True))
+        upload_info = T_Personnel.objects.filter(Q(FWoTuGUID__isnull=True), Q(CREATED_PRJ=prj_id), ~Q(FStatus=2))
+        devinterface_info = devinterface.objects.get(Q(FScope__gt=0), Q(FCallSigCode='UPLOADPERSON'))
+        APPFID = devinterface_info.FAppFID
+        initID = ''.join(str(devinterface_info.FID).split('-'))
+
+        app_info = appkey.objects.get(Q(FID=APPFID))
+        APPID = app_info.FAppID
+        TOKEN = interfacesrvdata.objects.get(Q(FCallSigCode='WOTU_APP'), Q(FTag='TOKEN')).FValue
+
+        response_data = {}
+
+        if len(upload_info) == 0:
+            response_data['result'] = 1
+
+            return HttpResponse(json.dumps(response_data))
 
         for rows in upload_info:
+            person_name = rows.FName
+            person_idcard = rows.FIDcard
+            if rows.FTel == None:
+                person_tel = ''
+            else:
+                person_tel = rows.FTel
+            person_type = str(rows.FType)
 
+            result = get_interface_result(initID, [APPID, TOKEN, person_name, person_idcard, person_tel, person_type],[],[APPID])
 
-            pass
+            if result['result'] == 1:
+                rows.FWoTuGUID = result['data']['guid']
+                rows.save()
+
+                response_data['result'] = 1
+            else:
+                response_data['result'] = 0
+                response_data['msg'] = result['msg']
+
+        return HttpResponse(json.dumps(response_data))
