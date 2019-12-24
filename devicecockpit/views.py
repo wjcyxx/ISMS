@@ -38,11 +38,14 @@ class get_envrealtimedata(View):
     def post(self, request):
         prjID = request.POST.get('prjid')
 
+        end_time = (datetime.datetime.now() + datetime.timedelta(days=1)).strftime("%Y-%m-%d")
+        begin_time = (datetime.datetime.now() + datetime.timedelta(days=-3)).strftime("%Y-%m-%d")
+
         if prjID == '':
             #device_info = device.objects.filter(Q(FDevtypeID='dc511ffcaaf211e99741708bcdb9b39a')).first()
             cur = connection.cursor()
 
-            sqlstr = "SELECT FORMAT(AVG(FPM25),1) as FPM25, FORMAT(AVG(FPM10), 1) as FPM10, FORMAT(AVG(FSPM), 1) as FSPM, FORMAT(AVG(FWIND_SPEED), 1) as FWIND_SPEED, FORMAT(AVG(FTemperature), 1) as FTemperature, FORMAT(AVG(FHumidity), 1) as FHumidity, FORMAT(AVG(FNoise), 1) as FNoise, FORMAT(AVG(FNoiseMax), 1) as FNoiseMax  FROM T_EnvdetectionHisData"
+            sqlstr = "SELECT FORMAT(AVG(FPM25),1) as FPM25, FORMAT(AVG(FPM10), 1) as FPM10, FORMAT(AVG(FSPM), 1) as FSPM, FORMAT(AVG(FWIND_SPEED), 1) as FWIND_SPEED, FORMAT(AVG(FTemperature), 1) as FTemperature, FORMAT(AVG(FHumidity), 1) as FHumidity, FORMAT(AVG(FNoise), 1) as FNoise, FORMAT(AVG(FNoiseMax), 1) as FNoiseMax  FROM T_EnvdetectionHisData WHERE FTimestamp BETWEEN '"+ begin_time +"' and '"+ end_time +"' group by FROM_UNIXTIME(FSRCTimestamp-FSRCTimestamp % (60*60), '%m-%d %H:%i')"
             cur.execute(sqlstr)
 
             rows = dictfetchall(cur)

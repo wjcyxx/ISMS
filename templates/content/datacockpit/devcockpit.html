@@ -194,7 +194,7 @@
                 ,arrow: 'none'
                 ,indicator: 'inside'
                 ,interval: '10000'
-                ,autoplay: true
+                ,autoplay: false
             });
 
             table.render({
@@ -355,8 +355,7 @@
                         data: {"prjid": params.value[2]},
                         datatype: "JSON",
                         success: function (data) {
-
-                            ins.slide("sub");
+                            //ins.slide("sub");
 
                             result = JSON.parse(data);
                             $("#prjName").html("<span style='color: wheat; font-size: 15px'><p><i class='fa fa-street-view' aria-hidden='true'></i> 实时数据 ["+ params.name +"]</p></span>");
