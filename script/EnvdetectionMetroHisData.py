@@ -125,16 +125,6 @@ if __name__ == "__main__":
             return False
 
 
-    def deviceID_2_prjID(deviceID):
-        deviceID = str(deviceID)
-
-        try:
-            device_info = device.objects.get(Q(FDevID=deviceID))
-
-            return device_info.CREATED_PRJ
-        except ObjectDoesNotExist:
-            return ''
-
     def prjID_2_manorgID(prjID):
         try:
             if prjID == '':

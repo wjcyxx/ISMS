@@ -1,0 +1,4 @@
+2019-12-24 15:21:39,571 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:99] - INFO: 获取南昌市西湖区桃花安置房项目扬尘数据服务启动
+2019-12-24 15:21:42,243 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:91] - WARNING: 接口调用失败:could not convert string to float: '温度(℃)'
+2019-12-24 15:23:42,301 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:99] - INFO: 获取南昌市西湖区桃花安置房项目扬尘数据服务启动
+2019-12-24 15:23:43,319 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:91] - WARNING: 接口调用失败:could not convert string to float: '温度(℃)'

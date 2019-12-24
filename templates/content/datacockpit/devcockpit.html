@@ -193,8 +193,8 @@
                 ,height: '100vh'
                 ,arrow: 'none'
                 ,indicator: 'inside'
-                ,interval: '10000'
-                ,autoplay: false
+                ,interval: '20000'
+                ,autoplay: true
             });
 
             table.render({
@@ -278,7 +278,7 @@
                         brushType: 'stroke'
                     },
                     symbolSize: function (val,params) {
-                        return 20;
+                        return 15;
                     },
                     data: mapData.map(function (itemOpt) {
                         return {

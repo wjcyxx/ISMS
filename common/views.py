@@ -5,6 +5,7 @@ from .models import sequence
 from django.db.models import Q
 from devinterface.models import devinterface, interfaceparam
 from device.models import device, devcallinterface
+from project.models import project
 import time
 import base64
 import hmac
@@ -523,3 +524,25 @@ def dictfetchall(cursor):
         dict(zip([col[0] for col in desc], row))
         for row in cursor.fetchall()
     ]
+
+#根据项目返回管理组织
+def prj_2_manageorg(prjID):
+    try:
+        if prjID == '':
+            return ''
+        else:
+            prj_info = project.objects.get(Q(FID=prjID))
+        return prj_info.FManageORG
+    except ObjectDoesNotExist:
+        return ''
+
+#根据设备号返回项目值
+def deviceID_2_prjID(deviceID):
+    deviceID = str(deviceID)
+
+    try:
+        device_info = device.objects.get(Q(FDevID=deviceID))
+
+        return device_info.CREATED_PRJ
+    except ObjectDoesNotExist:
+        return ''
