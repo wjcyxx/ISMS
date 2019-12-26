@@ -16,5 +16,6 @@ urlpatterns = [
     path('get_passagerecord/', views.get_passagerecord.as_view(), name='get_passagerecord'),
     path('get_env_realdata/', views.get_env_realdata.as_view(), name='get_env_realdata'),
     path('create_prjcheck/', views.create_prjcheck.as_view(), name='create_prjcheck'),
-    path('get_prjcheck/', views.get_prjcheck.as_view(), name='get_prjcheck')
+    path('get_prjcheck/', views.get_prjcheck.as_view(), name='get_prjcheck'),
+    path('get_env_hisdata/', views.get_env_hisdata.as_view(), name='get_env_hisdata')
 ]

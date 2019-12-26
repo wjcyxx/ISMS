@@ -15,6 +15,7 @@ from personnel.models import personnel
 from organize.models import organize
 from basedata.models import base
 from pedpassage.models import pedpassage, passagerecord
+from devinterfacesrv.models import envinterfacesrv
 from interface.models import prjcheck
 from device.models import device, devcallinterface
 from django.http import JsonResponse
@@ -601,8 +602,7 @@ class get_passagerecord(api_base):
         self.model = passagerecord
 
 
-
-
+#获取环境监测实时数据(山东建大仁科)
 class get_env_realdata(View):
     def post(self, request):
         APPKEY = request.POST.get('appkey')
@@ -649,7 +649,7 @@ class get_env_realdata(View):
             return HttpResponse(json.dumps(response_data))
 
 
-
+#创建项目检查
 class create_prjcheck(View):
     def post(self, request):
         content = request.POST.get('content')
@@ -681,6 +681,7 @@ class create_prjcheck(View):
             return HttpResponse(json.dumps(response_data))
 
 
+#获取项目检查
 class get_prjcheck(View):
     def post(self, request):
         conditions = request.POST.get('conditions')
@@ -701,6 +702,11 @@ class get_prjcheck(View):
         return JsonResponse(response_data, safe=False)
 
 
+
+#获取环境监测历史数据(通用接口)
+class get_env_hisdata(api_base):
+    def set_view(self, request):
+        self.model = envinterfacesrv
 
 
 

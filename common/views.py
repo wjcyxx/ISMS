@@ -147,6 +147,7 @@ def convert_to_dicts(objs):
         dict.pop("model", None)
         dict.pop("_state", None)
         dict.pop("pk", None)
+        dict['FID_Split'] = ''.join(str(o.FID).split('-'))
 
         obj_arr.append(dict)
     return obj_arr
