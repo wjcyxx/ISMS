@@ -100,6 +100,10 @@ if __name__ == "__main__":
 
             EnvHisData.save()
 
+            sendData1 = '0000000c8002000000000000'
+            s_b = bytes.fromhex(sendData1)
+            serverThisClient.send(s_b)
+
             logging.info('info 本次连接关闭...')
             serverThisClient.close()
 
