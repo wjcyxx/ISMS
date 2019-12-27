@@ -48,59 +48,65 @@ if __name__ == "__main__":
                         )
 
     def getData(serverThisClient, ClientInfo):
-        recvData = serverThisClient.recv(1024)
-        recvData = recvData.hex()
-        logging.info('info 接收到数据'+str(recvData)+', 来自:'+ClientInfo[0])
+        try:
+            recvData = serverThisClient.recv(1024)
+            recvData = recvData.hex()
+            logging.info('info 接收到数据'+str(recvData)+', 来自:'+ClientInfo[0])
 
-        DeviceID = int(recvData[24:32], 16)
-        TimeStamp = int(recvData[32:40], 16)
-        SPM = int(recvData[40:48], 16)/10000
-        PM25 = int(recvData[48:56], 16)/100
-        PM10 = int(recvData[56:64], 16)/100
-        TYPE = int(recvData[64:68], 16)
-        WIND_SPEED = int(recvData[68:76], 16)/100
-        WIND_DIRECT = int(recvData[76:84], 16)/10
-        Temperature = int(recvData[84:92], 16)/100
-        Humidity = int(recvData[92:100], 16)/10
-        Noise = int(recvData[100:108], 16)/10
-        NoiseMax = int(recvData[108:116], 16)/10
-        Longitude = int(recvData[116:124], 16)/1000000
-        Latitude = int(recvData[124:132], 16)/1000000
-        Pressure = int(recvData[132:140], 16)
+            DeviceID = int(recvData[24:32], 16)
+            TimeStamp = int(recvData[32:40], 16)
+            SPM = int(recvData[40:48], 16)/10000
+            PM25 = int(recvData[48:56], 16)/100
+            PM10 = int(recvData[56:64], 16)/100
+            TYPE = int(recvData[64:68], 16)
+            WIND_SPEED = int(recvData[68:76], 16)/100
+            WIND_DIRECT = int(recvData[76:84], 16)/10
+            Temperature = int(recvData[84:92], 16)/100
+            Humidity = int(recvData[92:100], 16)/10
+            Noise = int(recvData[100:108], 16)/10
+            NoiseMax = int(recvData[108:116], 16)/10
+            Longitude = int(recvData[116:124], 16)/1000000
+            Latitude = int(recvData[124:132], 16)/1000000
+            Pressure = int(recvData[132:140], 16)
 
-        EnvHisData = envinterfacesrv()
+            EnvHisData = envinterfacesrv()
 
-        EnvHisData.FDeviceId = str(DeviceID)
-        EnvHisData.FSRCTimestamp = TimeStamp
+            EnvHisData.FDeviceId = str(DeviceID)
+            EnvHisData.FSRCTimestamp = TimeStamp
 
-        timeArray = time.localtime(TimeStamp)
-        realTime = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
-        EnvHisData.FTimestamp = realTime
+            timeArray = time.localtime(TimeStamp)
+            realTime = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
+            EnvHisData.FTimestamp = realTime
 
-        EnvHisData.FSPM = SPM
-        EnvHisData.FPM25 = PM25
-        EnvHisData.FPM10 = PM10
-        EnvHisData.FTYPE = TYPE
-        EnvHisData.FWIND_SPEED = WIND_SPEED
-        EnvHisData.FWIND_DIRECT = WIND_DIRECT
-        EnvHisData.FTemperature = Temperature
-        EnvHisData.FHumidity = Humidity
-        EnvHisData.FNoise = Noise
-        EnvHisData.FNoiseMax = NoiseMax
-        EnvHisData.FLongitude = Longitude
-        EnvHisData.FLatitude = Latitude
-        EnvHisData.FPressure = Pressure
-        prjID = deviceID_2_prjID(DeviceID)
-        EnvHisData.CREATED_PRJ = prjID
-        EnvHisData.CREATED_ORG = prjID_2_manorgID(prjID)
-        EnvHisData.CREATED_BY = ClientInfo[0]
-        EnvHisData.CREATED_TIME = timezone.now()
-        EnvHisData.UPDATED_BY = ClientInfo[0]
+            EnvHisData.FSPM = SPM
+            EnvHisData.FPM25 = PM25
+            EnvHisData.FPM10 = PM10
+            EnvHisData.FTYPE = TYPE
+            EnvHisData.FWIND_SPEED = WIND_SPEED
+            EnvHisData.FWIND_DIRECT = WIND_DIRECT
+            EnvHisData.FTemperature = Temperature
+            EnvHisData.FHumidity = Humidity
+            EnvHisData.FNoise = Noise
+            EnvHisData.FNoiseMax = NoiseMax
+            EnvHisData.FLongitude = Longitude
+            EnvHisData.FLatitude = Latitude
+            EnvHisData.FPressure = Pressure
+            prjID = deviceID_2_prjID(DeviceID)
+            EnvHisData.CREATED_PRJ = prjID
+            EnvHisData.CREATED_ORG = prjID_2_manorgID(prjID)
+            EnvHisData.CREATED_BY = ClientInfo[0]
+            EnvHisData.CREATED_TIME = timezone.now()
+            EnvHisData.UPDATED_BY = ClientInfo[0]
 
-        EnvHisData.save()
+            EnvHisData.save()
 
-        logging.info('info 本次连接关闭...')
-        serverThisClient.close()
+            logging.info('info 本次连接关闭...')
+            serverThisClient.close()
+
+        except Exception as e:
+            logging.warning('数据接收错误:'+str(e))
+            serverThisClient.close()
+
 
     def runservice():
         try:
