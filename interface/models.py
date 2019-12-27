@@ -13,6 +13,7 @@ class prjcheck(models.Model):
     FAddress = models.CharField(max_length=100, verbose_name='事件地址', blank=True, null=True)
     FProblem = models.CharField(max_length=100, verbose_name='问题名称', blank=True, null=True)
     FDesc = models.CharField(max_length=1024, verbose_name='事件描述', blank=True, null=True)
+    FPic = models.ImageField(upload_to='itemcheckpic/', default='', verbose_name='检查图片', blank=True, null=True)
     CREATED_PRJ = models.CharField(max_length=32, verbose_name='所属项目', blank=True, null=True)
     CREATED_ORG = models.CharField(max_length=32, verbose_name='创建组织', blank=True, null=True)
     CREATED_BY = models.CharField(max_length=32, verbose_name='创建人', blank=True, null=True)

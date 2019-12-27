@@ -653,6 +653,7 @@ class get_env_realdata(View):
 class create_prjcheck(View):
     def post(self, request):
         content = request.POST.get('content')
+        picfile = request.FILES.get('picfile')
 
         response_data = {}
 
@@ -667,6 +668,9 @@ class create_prjcheck(View):
             prj_check.CREATED_TIME = timezone.now()
             prj_check.CREATED_BY = content['CREATED_BY']
             prj_check.UPDATED_BY = content['UPDATED_BY']
+
+            if picfile != None:
+                prj_check.FPic = picfile
 
             prj_check.save()
 
