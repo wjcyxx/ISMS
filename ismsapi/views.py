@@ -697,7 +697,17 @@ class get_prjcheck(View):
         else:
             obj =prjcheck.objects.all()
 
-        dict_arr = convert_to_dicts(obj)
+        dict_arr = []
+
+        for o in obj:
+            dict = {}
+            dict.update(o.__dict__)
+            dict.pop("model", None)
+            dict.pop("_state", None)
+            dict.pop("pk", None)
+            dict['FPicFullpath'] = 'http://'+request.get_host()+'/media/'+str(o.FPic)
+
+            dict_arr.append(dict)
 
         response_data['result'] = '0'
         response_data['msg'] = '数据获取成功'
@@ -705,6 +715,30 @@ class get_prjcheck(View):
 
         return JsonResponse(response_data, safe=False)
 
+
+#删除检查项目
+class delete_prjcheck(View):
+    def post(self, request):
+        response_data = {}
+        try:
+            conditions = request.POST.get('conditions')
+
+            if conditions == '':
+                obj = prjcheck.objects.all().delete()
+            else:
+                conditions = json.loads(request.POST.get('conditions'))
+                obj = prjcheck.objects.filter(**conditions).delete()
+
+            response_data['result'] = '0'
+            response_data['msg'] = '删除成功'
+
+            return JsonResponse(response_data, safe=False)
+
+        except Exception as e:
+            response_data['result'] = '1'
+            response_data['msg'] = '数据删除失败'
+
+            return JsonResponse(response_data, safe=False)
 
 
 #获取环境监测历史数据(通用接口)

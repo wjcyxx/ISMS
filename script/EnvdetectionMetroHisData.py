@@ -129,7 +129,7 @@ if __name__ == "__main__":
 
                 t = threading.Thread(target=getData, args=(serverThisClient, ClientInfo))
                 t.start()
-                t.join()
+                #t.join()
 
         except Exception as e:
             return False
