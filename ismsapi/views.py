@@ -693,9 +693,9 @@ class get_prjcheck(View):
 
         if conditions != '':
             conditions = json.loads(request.POST.get('conditions'))
-            obj = prjcheck.objects.filter(**conditions)
+            obj = prjcheck.objects.filter(**conditions).order_by("-CREATED_TIME")
         else:
-            obj =prjcheck.objects.all()
+            obj =prjcheck.objects.all().order_by("-CREATED_TIME")
 
         dict_arr = []
 
