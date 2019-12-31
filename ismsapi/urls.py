@@ -18,5 +18,7 @@ urlpatterns = [
     path('create_prjcheck/', views.create_prjcheck.as_view(), name='create_prjcheck'),
     path('get_prjcheck/', views.get_prjcheck.as_view(), name='get_prjcheck'),
     path('get_env_hisdata/', views.get_env_hisdata.as_view(), name='get_env_hisdata'),
-    path('delete_prjcheck/', views.delete_prjcheck.as_view(), name='delete_prjcheck')
+    path('delete_prjcheck/', views.delete_prjcheck.as_view(), name='delete_prjcheck'),
+    path('create_prjcheck_pic/', views.create_prjcheck_pic.as_view(), name='create_prjcheck_pic'),
+    path('get_prjcheck_pic/', views.get_prjcheck_pic.as_view(), name='get_prjcheck_pic')
 ]

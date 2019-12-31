@@ -16,7 +16,7 @@ from organize.models import organize
 from basedata.models import base
 from pedpassage.models import pedpassage, passagerecord
 from devinterfacesrv.models import envinterfacesrv
-from interface.models import prjcheck
+from interface.models import prjcheck, prjcheckpic
 from device.models import device, devcallinterface
 from django.http import JsonResponse
 import json
@@ -653,7 +653,7 @@ class get_env_realdata(View):
 class create_prjcheck(View):
     def post(self, request):
         content = request.POST.get('content')
-        picfile = request.FILES.get('picfile')
+        #picfile = request.FILES.get('picfile')
 
         response_data = {}
 
@@ -669,8 +669,8 @@ class create_prjcheck(View):
             prj_check.CREATED_BY = content['CREATED_BY']
             prj_check.UPDATED_BY = content['UPDATED_BY']
 
-            if picfile != None:
-                prj_check.FPic = picfile
+            # if picfile != None:
+            #     prj_check.FPic = picfile
 
             prj_check.save()
 
@@ -715,6 +715,64 @@ class get_prjcheck(View):
 
         return JsonResponse(response_data, safe=False)
 
+#创建检查图片【根据检查项目创建】
+class create_prjcheck_pic(View):
+    def post(self, request):
+        fid = request.POST.get('fid')
+        fid = ''.join(str(fid).split('-'))
+
+        picfile = request.FILES.get('picfile')
+
+        response_data = {}
+
+        if fid != '':
+            checkpic_info = prjcheckpic()
+
+            checkpic_info.FPID = fid
+
+            if picfile != None:
+                checkpic_info.FPic = picfile
+
+            checkpic_info.CREATED_TIME = timezone.now()
+
+            checkpic_info.save()
+
+            response_data['result'] = 0
+            response_data['msg'] = '数据添加成功'
+        else:
+            response_data['result'] = 1
+            response_data['msg'] = '数据添加失败，fid不能为空'
+
+        return JsonResponse(response_data, safe=False)
+
+class get_prjcheck_pic(api_base):
+    def post(self, request):
+        conditions = request.POST.get('conditions')
+        response_data = {}
+
+        if conditions != '':
+            conditions = json.loads(request.POST.get('conditions'))
+            obj = prjcheckpic.objects.filter(**conditions).order_by("-CREATED_TIME")
+        else:
+            obj = prjcheckpic.objects.all().order_by("-CREATED_TIME")
+
+        dict_arr = []
+
+        for o in obj:
+            dict = {}
+            dict.update(o.__dict__)
+            dict.pop("model", None)
+            dict.pop("_state", None)
+            dict.pop("pk", None)
+            dict['FPicFullpath'] = 'http://'+request.get_host()+'/media/'+str(o.FPic)
+
+            dict_arr.append(dict)
+
+        response_data['result'] = '0'
+        response_data['msg'] = '数据获取成功'
+        response_data['data'] = dict_arr
+
+        return JsonResponse(response_data, safe=False)
 
 #删除检查项目
 class delete_prjcheck(View):
