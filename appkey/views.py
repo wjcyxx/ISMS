@@ -23,8 +23,10 @@ class entrance(EntranceView_base):
 #返回table数据及查询结果
 class get_datasource(get_datasource_base):
     def get_queryset(self, reqeust):
+        prj_id = self.request.session['PrjID']
+        self.orgsplit_type = 1
         serinput = self.request.GET.get("resultdict[FAppName]", '')
-        appkey_info =  T_AppKey.objects.filter(Q(FAppName__contains=serinput))
+        appkey_info =  T_AppKey.objects.filter(Q(FAppName__contains=serinput), Q(FType=0) | Q(CREATED_PRJ=prj_id))
 
         return appkey_info
 

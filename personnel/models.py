@@ -81,6 +81,7 @@ class personnel(models.Model):
 
     class Meta:
         db_table = 'T_Personnel'
+        ordering = ['FType', 'FWorktypeID']
 
 
 class personcertif(models.Model):

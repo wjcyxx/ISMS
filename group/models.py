@@ -23,4 +23,4 @@ class group(models.Model):
 
     class Meta:
         db_table = "T_Group"
-        ordering = ['FTeamID']
+        ordering = ['FTeamID', 'CREATED_TIME']

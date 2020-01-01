@@ -333,6 +333,33 @@ def get_safetrain(request):
         return  JsonResponse(resultdict, safe=False)
 
 
+#获取沃土平台token
+def get_wotutoken(prjid, callsigcode):
+    try:
+        devinterface_info = devinterface.objects.get(Q(CREATED_PRJ=prjid), Q(FCallSigCode=callsigcode))
+        initID = ''.join(str(devinterface_info.FID).split('-'))
+
+        APPFID = devinterface_info.FAppFID
+
+        app_info = appkey.objects.get(Q(FID=APPFID))
+
+        APPID = app_info.FAppID
+        APPKEY = app_info.FAppkey
+        APPSECRET = app_info.FAppSecret
+        TIMESTAMP = round(app_info.FAppCreateTime.timestamp() * 1000)
+
+        strkey = APPKEY + str(TIMESTAMP) + APPSECRET
+        md_5 = hashlib.md5()
+        md_5.update(strkey.encode("utf-8"))
+        SIGN = md_5.hexdigest()
+
+        token = get_interface_result(initID, [APPID, APPKEY, str(TIMESTAMP), SIGN], [], [APPID])['data']
+
+        return token
+    except ObjectDoesNotExist:
+        return  ''
+
+
 #上传数据至沃土平台
 def upload_person(request):
     if request.method == 'POST':
@@ -346,13 +373,13 @@ def upload_person(request):
 
             return HttpResponse(json.dumps(response_data))
 
-        devinterface_info = devinterface.objects.get(Q(FScope__gt=0), Q(FCallSigCode='UPLOADPERSON'))
+        devinterface_info = devinterface.objects.get(Q(FScope=0), Q(FCallSigCode='UPLOADPERSON'), Q(CREATED_PRJ=prj_id))
         APPFID = devinterface_info.FAppFID
         initID = ''.join(str(devinterface_info.FID).split('-'))
 
         app_info = appkey.objects.get(Q(FID=APPFID))
         APPID = app_info.FAppID
-        TOKEN = interfacesrvdata.objects.get(Q(FCallSigCode='WOTU_APP'), Q(FTag='TOKEN')).FValue
+        TOKEN = get_wotutoken(prj_id, 'TOKENWOTU')
 
         for rows in upload_info:
             person_name = rows.FName
@@ -383,7 +410,7 @@ def regface_person(request):
         prj_id = request.session['PrjID']
         response_data = {}
 
-        regface_info = T_Personnel.objects.filter(Q(FWoTuGUID__isnull=False), Q(CREATED_PRJ=prj_id), Q(FWoTuFaceGUID__isnull=True))
+        regface_info = T_Personnel.objects.filter(Q(FWoTuGUID__isnull=False), Q(CREATED_PRJ=prj_id), Q(FWoTuFaceGUID__isnull=True), ~Q(FPhoto=""))
 
         if regface_info.count() == 0:
             response_data['result'] = 1
@@ -396,14 +423,15 @@ def regface_person(request):
         APPFID = devinterface_info.FAppFID
         app_info = appkey.objects.get(Q(FID=APPFID))
         APPID = app_info.FAppID
-        TOKEN = interfacesrvdata.objects.get(Q(FCallSigCode='WOTU_APP'), Q(FTag='TOKEN')).FValue
+        TOKEN = get_wotutoken(prj_id, 'TOKENWOTU')
+        #TOKEN = interfacesrvdata.objects.get(Q(FCallSigCode='WOTU_APP'), Q(FTag='TOKEN')).FValue
 
         for rows in regface_info:
             person_guid = rows.FWoTuGUID
 
             hostpath = request.get_host()
-            #imagepath = "http://" + hostpath + "/media/" + str(rows.FPhoto)
-            imagepath = "http://39.106.148.205/media/" + str(rows.FPhoto)
+            imagepath = "http://" + hostpath + "/media/" + str(rows.FPhoto)
+            #imagepath = "http://39.106.148.205/media/" + str(rows.FPhoto)
 
             result = get_interface_result(initID, [APPID, TOKEN, person_guid, imagepath], [], [APPID, person_guid])
 
@@ -416,6 +444,8 @@ def regface_person(request):
             else:
                 response_data['result'] = 0
                 response_data['msg'] = result['msg']
+
+                break
 
         return HttpResponse(json.dumps(response_data))
 

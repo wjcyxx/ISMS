@@ -35,13 +35,13 @@ class topanalyse(View):
         group_info = group.objects.filter(Q(CREATED_PRJ=prj_id), Q(FStatus=True))
 
         #员工登记，退场，禁用数量
-        dengji_info = personnel.objects.filter(~Q(FType=0), Q(FStatus=0))
+        dengji_info = personnel.objects.filter(Q(FStatus=0))
         dengji_info = org_split(dengji_info, request)
 
-        tuichang_info = personnel.objects.filter(~Q(FType=0),Q(FStatus=1))
+        tuichang_info = personnel.objects.filter(Q(FStatus=1))
         tuichang_info = org_split(tuichang_info, request)
 
-        jinyong_info = personnel.objects.filter(~Q(FType=0),Q(FStatus=2))
+        jinyong_info = personnel.objects.filter(Q(FStatus=2))
         jinyong_info = org_split(jinyong_info, request)
 
         #人行通道统计信息
