@@ -417,7 +417,7 @@ def regface_person(request):
 
             return HttpResponse(json.dumps(response_data))
 
-        devinterface_info = devinterface.objects.get(Q(FScope__gt=0), Q(FCallSigCode='REGFACE'))
+        devinterface_info = devinterface.objects.get(Q(FScope=0), Q(FCallSigCode='REGFACE'), Q(CREATED_PRJ=prj_id))
         initID = ''.join(str(devinterface_info.FID).split('-'))
 
         APPFID = devinterface_info.FAppFID
