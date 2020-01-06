@@ -453,5 +453,7 @@ def regface_person(request):
 #批量授权人员至沃土平台
 def auth_person(request):
     if request.method == 'POST':
-        pass
+        prj_id = request.session['PrjID']
+        response_data = {}
 
+        auth_info = T_Personnel.objects.filter(Q(FWoTuGUID__isnull=False), Q(FWoTuFaceGUID__isnull=False), Q(CREATED_PRJ=prj_id))

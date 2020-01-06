@@ -745,6 +745,7 @@ class create_prjcheck_pic(View):
 
         return JsonResponse(response_data, safe=False)
 
+#获取检查图片
 class get_prjcheck_pic(api_base):
     def post(self, request):
         conditions = request.POST.get('conditions')
@@ -797,6 +798,32 @@ class delete_prjcheck(View):
             response_data['msg'] = '数据删除失败'
 
             return JsonResponse(response_data, safe=False)
+
+
+#删除检查图片
+class delete_prjcheck_pic(View):
+    def post(self, request):
+        response_data = {}
+        try:
+            conditions = request.POST.get('conditions')
+
+            if conditions == '':
+                obj = prjcheckpic.objects.all().delete()
+            else:
+                conditions = json.loads(request.POST.get('conditions'))
+                obj = prjcheckpic.objects.filter(**conditions).delete()
+
+            response_data['result'] = '0'
+            response_data['msg'] = '删除成功'
+
+            return JsonResponse(response_data, safe=False)
+
+        except Exception as e:
+            response_data['result'] = '1'
+            response_data['msg'] = '数据删除失败'
+
+            return JsonResponse(response_data, safe=False)
+
 
 
 #获取环境监测历史数据(通用接口)
