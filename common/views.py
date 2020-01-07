@@ -5,6 +5,7 @@ from .models import sequence
 from django.db.models import Q
 from devinterface.models import devinterface, interfaceparam
 from device.models import device, devcallinterface
+from pedpassage.models import pedpassage
 from project.models import project
 import time
 import base64
@@ -547,3 +548,13 @@ def deviceID_2_prjID(deviceID):
         return device_info.CREATED_PRJ
     except ObjectDoesNotExist:
         return ''
+
+
+#根据设备返回项目区域
+def deviceID_2_areaID(deviceID):
+    try:
+        rs = pedpassage.objects.get(Q(FDevID=deviceID))
+
+        return rs.FAreaID
+    except ObjectDoesNotExist:
+        return  ''

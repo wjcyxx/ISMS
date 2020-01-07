@@ -18,6 +18,7 @@ from pedpassage.models import pedpassage, passagerecord
 from devinterfacesrv.models import envinterfacesrv
 from interface.models import prjcheck, prjcheckpic
 from device.models import device, devcallinterface
+from devinterfacesrv.models import elevatorinterfacesrv
 from django.http import JsonResponse
 import json
 from django.utils import timezone
@@ -601,6 +602,67 @@ class get_passagerecord(api_base):
     def set_view(self, request):
         self.model = passagerecord
 
+#获取升降机监测数据(通用接口)
+"""
+@api {POST} /ismsapi/get_elevator_hisdata/ 获取升降机监测数据(通用接口)
+@apiGroup DEV
+@apiDescription 调用地址:http://39.106.148.205/ismsapi/get_elevator_hisdata/ API接口必须用POST:方法提交,请求类型为：x-www-form-urlencoded
+@apiParam {string} appkey 在后台管理系统中注册的APPKEY[必填]
+@apiParam {string} token 对应该appkey的有效token, token的有效期为一小时[必填]
+@apiParam {string} conditions 过滤条件,必须为JSON格式字符串,例如{"条件":"值", "条件","值"},不传递此参数则不进行过滤获取全部数据[选填],支持时间段查询,例如{"CREATED_TIME__gte": "2020-01-07 15:00:00", "CREATED_TIME__lte": "2020-01-07 15:20:00"}, 字段后加上__gte标示大于等于,__lte标示小于等于
+@apiSampleRequest http://39.106.148.205/ismsapi/get_elevator_hisdata/
+@apiSuccess (返回消息) {string} result 返回码
+@apiSuccess (返回消息) {string} msg 返回消息
+@apiSuccess (返回消息) {string} data 安全规则结构体
+@apiSuccess (消息内容) {string} 0 数据获取成功
+@apiSuccess (消息内容) {string} 1 token过期
+@apiSuccess (消息内容) {string} 2 token校验失败
+@apiSuccess (消息内容) {string} 3 token校验传递参数错误
+@apiSuccess (消息内容) {string} 4 APPKEY未注册,或被禁用
+@apiSuccess (消息内容) {string} 5 API接口必须用POST方法提交
+@apiSuccess (结构体) {string} FID 记录UUID，唯一标识
+@apiSuccess (结构体) {string} FElevatorID 设备唯一编码,对应获取设备接口的FID
+@apiSuccess (结构体) {string} hoist_box_id 黑匣子编号,对应获取设备接口的FDevID
+@apiSuccess (结构体) {string} cage_id 吊笼编号
+@apiSuccess (结构体) {string} door_lock_state 门锁状态(从右往左数，第0位前门第1位后门，数值1代表开启，0带便关闭。第2位门锁异常指示，0无异常1有异常)
+@apiSuccess (结构体) {string} driver_identification_state 身份认证状态
+@apiSuccess (结构体) {string} height_percentage 高度百分比
+@apiSuccess (结构体) {string} hoist_system_state 系统状态(从右往左数，第0-1位重量，第2-3位高度限位，第4-5位超速，第6-7 位人数，第8-9位倾斜 数值0代表正常，数值1代表预警，数值2代表报警。第10位前门锁状态 第11位后门锁状态:数字0正常,数值1异常)
+@apiSuccess (结构体) {string} hoist_time 时间戳
+@apiSuccess (结构体) {string} real_time_gradient1 实时倾斜度1
+@apiSuccess (结构体) {string} real_time_gradient2 实时倾斜度2
+@apiSuccess (结构体) {string} real_time_height 实时高度
+@apiSuccess (结构体) {string} real_time_lifting_weight 实时起重量
+@apiSuccess (结构体) {string} real_time_number_of_people 实时人数
+@apiSuccess (结构体) {string} real_time_or_alarm 结果返回类型,0代表实时值,1代表报警值
+@apiSuccess (结构体) {string} real_time_speed 实时速度
+@apiSuccess (结构体) {string} real_time_speed_direction 运行方向,方向 0停止1下2上
+@apiSuccess (结构体) {string} tilt_percentage1 倾斜百分比1
+@apiSuccess (结构体) {string} tilt_percentage2 倾斜百分比2
+@apiSuccess (结构体) {string} weight_percentage 重量百分比
+@apiSuccess (结构体) {string} system_state 系统状态
+@apiSuccess (结构体) {string} wind_speed 实时速度(加工后)
+@apiSuccess (结构体) {string} elevator_manager 安全员
+@apiSuccess (结构体) {string} elevator_mgrtel 安全员电话
+@apiSuccess (结构体) {string} elevator_oper 操作员
+@apiSuccess (结构体) {string} wind_speed 操作员电话
+@apiSuccess (结构体) {string} CREATED_PRJ 所属项目,需要调用项目接口过滤指定项目的班组
+@apiSuccess (结构体) {string} CREATED_ORG 创建组织
+@apiSuccess (结构体) {string} CREATED_BY 创建人员
+@apiSuccess (结构体) {datetime} CREATED_TIME 通行时间
+@apiSuccess (结构体) {datetime} UPDATED_TIME 更新时间
+@apiErrorExample {json} 错误返回样例：
+{"result": "1", "msg": "token has expired"}
+{"result": "2", "msg": "token validation failed"}
+{"result": "3", "msg": "args illegal"}
+{"result": "4", "msg": "APPKEY serial is UNREGISTERED"}
+{"result": "5", "msg": "API interface must be submitted by post method."}
+
+"""
+class get_elevator_hisdata(api_base):
+    def set_view(self, request):
+        self.model = elevatorinterfacesrv
+
 
 #获取环境监测实时数据(山东建大仁科)
 class get_env_realdata(View):
@@ -825,8 +887,59 @@ class delete_prjcheck_pic(View):
             return JsonResponse(response_data, safe=False)
 
 
-
 #获取环境监测历史数据(通用接口)
+"""
+@api {POST} /ismsapi/get_env_hisdata/ 获取环境监测历史数据(通用接口)
+@apiGroup DEV
+@apiDescription 调用地址:http://39.106.148.205/ismsapi/get_env_hisdata/ API接口必须用POST:方法提交,请求类型为：x-www-form-urlencoded
+@apiParam {string} appkey 在后台管理系统中注册的APPKEY[必填]
+@apiParam {string} token 对应该appkey的有效token, token的有效期为一小时[必填]
+@apiParam {string} conditions 过滤条件,必须为JSON格式字符串,例如{"条件":"值", "条件","值"},不传递此参数则不进行过滤获取全部数据[选填],支持时间段查询,例如{"FTimestamp__gte": "2020-01-07 15:00:00", "FTimestamp__lte": "2020-01-07 15:20:00"}, 字段后加上__gte标示大于等于,__lte标示小于等于
+@apiSampleRequest http://39.106.148.205/ismsapi/get_env_hisdata/
+@apiSuccess (返回消息) {string} result 返回码
+@apiSuccess (返回消息) {string} msg 返回消息
+@apiSuccess (返回消息) {string} data 安全规则结构体
+@apiSuccess (消息内容) {string} 0 数据获取成功
+@apiSuccess (消息内容) {string} 1 token过期
+@apiSuccess (消息内容) {string} 2 token校验失败
+@apiSuccess (消息内容) {string} 3 token校验传递参数错误
+@apiSuccess (消息内容) {string} 4 APPKEY未注册,或被禁用
+@apiSuccess (消息内容) {string} 5 API接口必须用POST方法提交
+@apiSuccess (结构体) {string} FID 记录UUID，唯一标识
+@apiSuccess (结构体) {string} FCommandType 命令类型,2为实时数据
+@apiSuccess (结构体) {string} FDeviceId 设备唯一编码,对应获取设备接口的FDevID
+@apiSuccess (结构体) {string} FSRCTimestamp 原始时间戳,从设备获取数据的linux格式时间戳,到秒
+@apiSuccess (结构体) {string} FTimestamp 时间戳,从设备获取数据的DateTime格式时间戳
+@apiSuccess (结构体) {string} FSPM 粉尘数据
+@apiSuccess (结构体) {string} FPM25 PM2.5
+@apiSuccess (结构体) {string} FPM10 PM10
+@apiSuccess (结构体) {string} FWIND_SPEED 风速
+@apiSuccess (结构体) {string} FWIND_DIRECT 风向,度数
+@apiSuccess (结构体) {string} FWIND_DIRECT_STR 风向,文字
+@apiSuccess (结构体) {string} FTemperature 温度
+@apiSuccess (结构体) {string} FHumidity 湿度
+@apiSuccess (结构体) {string} FNoise 噪音
+@apiSuccess (结构体) {string} FNoiseMax 噪音峰值
+@apiSuccess (结构体) {string} FLongitude 经度
+@apiSuccess (结构体) {string} FLatitude 纬度
+@apiSuccess (结构体) {string} FPressure 大气压值
+@apiSuccess (结构体) {string} FWIND_SPEED 风速
+@apiSuccess (结构体) {string} FWIND_SPEED 风速
+@apiSuccess (结构体) {string} FWIND_SPEED 风速
+@apiSuccess (结构体) {string} FWIND_SPEED 风速
+@apiSuccess (结构体) {string} CREATED_PRJ 所属项目,需要调用项目接口过滤指定项目的班组
+@apiSuccess (结构体) {string} CREATED_ORG 创建组织
+@apiSuccess (结构体) {string} CREATED_BY 创建人员
+@apiSuccess (结构体) {datetime} CREATED_TIME 通行时间
+@apiSuccess (结构体) {datetime} UPDATED_TIME 更新时间
+@apiErrorExample {json} 错误返回样例：
+{"result": "1", "msg": "token has expired"}
+{"result": "2", "msg": "token validation failed"}
+{"result": "3", "msg": "args illegal"}
+{"result": "4", "msg": "APPKEY serial is UNREGISTERED"}
+{"result": "5", "msg": "API interface must be submitted by post method."}
+
+"""
 class get_env_hisdata(api_base):
     def set_view(self, request):
         self.model = envinterfacesrv

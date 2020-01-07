@@ -86,6 +86,19 @@
           },"json");
       });
 
+      $("#btnAuth").click(function () {
+          $.post("{% url 'personauth:auth_batch_person' %}", {}, function (data) {
+              if (data.result==1) {
+                  parent.layer.alert('人员批量授权成功',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+              } else if (data.result=='0') {
+                  parent.layer.alert('人员批量授权失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+              }
+
+          },"json");
+      });
+
+
+
       table.render({
           method: 'post',
           elem: '#datasource',

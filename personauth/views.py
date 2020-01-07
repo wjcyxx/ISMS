@@ -3,10 +3,13 @@ from django.shortcuts import HttpResponse
 from django.shortcuts import redirect
 from django.db.models import Q
 from area.models import area
+from appkey.models import appkey
 from .models import personauth as T_PersonAuth, personauthmode as T_PersonAuthMode
+from personnel.views import get_wotutoken
+from pedpassage.models import pedpassage
 from visitor.models import visitor
 from personnel.models import personnel
-from personnel.models import personnel
+from device.models import device
 from basedata.models import base
 from common.views import *
 from django.http import JsonResponse
@@ -25,8 +28,9 @@ def add(request):
 
     fid = ''.join(str(request.GET.get('fid')).split('-'))
     authtype = request.GET.get('authtype', 0)
+    prj_id = request.session['PrjID']
 
-    area_info = area.objects.all()
+    area_info = area.objects.filter(Q(CREATED_PRJ=prj_id))
     areadict = get_dict_transfer(area_info, 'FID', 'FName', 'FStatus')
 
     auth_info = T_PersonAuth.objects.filter(Q(FPersonID=fid))
@@ -274,6 +278,95 @@ class makeface(insert_base):
 
 
         return  result
+
+
+#批量授权人员至沃土平台
+class auth_batch_person(View):
+    def post(self, request):
+        prj_id = request.session['PrjID']
+        response_data = {}
+
+        try:
+            auth_personID = T_PersonAuth.objects.filter(Q(FAuthtype=0)).values('FPersonID').distinct()
+
+            auth_info = personnel.objects.filter(Q(FWoTuGUID__isnull=False), Q(FWoTuFaceGUID__isnull=False), Q(CREATED_PRJ=prj_id), ~Q(FID__in=auth_personID))
+
+            if auth_info.count() == 0:
+                response_data['result'] = 1
+
+                return HttpResponse(json.dumps(response_data))
+
+            devinterface_info = devinterface.objects.get(Q(FScope=0), Q(FCallSigCode='BATCHPERSONAUTH'), Q(CREATED_PRJ=prj_id))
+            initID = ''.join(str(devinterface_info.FID).split('-'))
+
+            APPFID = devinterface_info.FAppFID
+            app_info = appkey.objects.get(Q(FID=APPFID))
+            APPID = app_info.FAppID
+            TOKEN = get_wotutoken(prj_id, 'TOKENWOTU')
+            PERSONGUID = ''
+            PERSONFID = ''
+
+            for rows in auth_info:
+                PERSONGUID = PERSONGUID + rows.FWoTuGUID + ','
+                PERSONFID = PERSONFID + ''.join(str(rows.FID).split('-')) + ','
+
+                person_authmode = T_PersonAuthMode()
+                person_authmode.FPersonID = ''.join(str(rows.FID).split('-'))
+                person_authmode.FAuthtypeID = 'e5544348310411ea94afacde48001122'   #批量授权
+                person_authmode.FFeaturevalue = rows.FWoTuFaceGUID
+                person_authmode.FStatus = 0
+                person_authmode.CREATED_PRJ = prj_id
+                person_authmode.CREATED_ORG = prj_2_manageorg(prj_id)
+                person_authmode.CREATED_BY = request.session['UserID']
+                person_authmode.UPDATED_BY = request.session['UserID']
+                person_authmode.CREATED_TIME = timezone.now()
+
+                person_authmode.save()
+
+
+            PERSONGUID = PERSONGUID[:-1]
+            PERSONFID = PERSONFID[:-1]
+
+            device_info = device.objects.filter(Q(FStatus=True), Q(CREATED_PRJ=prj_id))
+
+            for rs in device_info:
+                DEVKEY = rs.FDevID
+
+                resultdata = get_interface_result(initID, [APPID, TOKEN, DEVKEY, PERSONGUID], [], [APPID, DEVKEY])
+
+                response_data['result'] = resultdata['result']
+                response_data['msg'] = resultdata['msg']
+                response_data['code'] = resultdata['code']
+
+                if resultdata['result'] != 1:
+                    return HttpResponse(json.dumps(response_data))
+
+            area_info = area.objects.filter(Q(FStatus=True), Q(CREATED_PRJ=prj_id))
+
+            for rs_area in area_info:
+                personfid_arr = PERSONFID.split(',')
+                for rs1 in personfid_arr:
+                    person_auth = T_PersonAuth()
+                    person_auth.FPersonID = rs1
+                    person_auth.FAreaID = ''.join(str(rs_area.FID).split('-'))
+                    person_auth.FAuthtype = 0
+                    person_auth.FStatus = 0
+                    person_auth.CREATED_PRJ = prj_id
+                    person_auth.CREATED_ORG = prj_2_manageorg(prj_id)
+                    person_auth.CREATED_BY = request.session['UserID']
+                    person_auth.UPDATED_BY = request.session['UserID']
+                    person_auth.CREATED_TIME = timezone.now()
+
+                    person_auth.save()
+
+
+            return HttpResponse(json.dumps(response_data))
+
+        except Exception as e:
+            response_data['result'] = 0
+            response_data['msg'] = str(e)
+
+            return HttpResponse(json.dumps(response_data))
 
 
 

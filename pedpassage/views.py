@@ -47,7 +47,7 @@ def get_datasource(request):
 def ref_dropdowndata(obj, request):
     prjid = request.session['PrjID']
 
-    device_info = device.objects.filter(Q(FStatus=True))
+    device_info = device.objects.filter(Q(FStatus=True), Q(CREATED_PRJ=prjid))
     area_info = area.objects.filter(Q(FStatus=True), Q(CREATED_PRJ=prjid))
 
     obj.fields['FDevID'].choices = get_dict_object(request, device_info, 'FID', 'FDevice')

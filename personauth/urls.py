@@ -9,5 +9,6 @@ urlpatterns = [
     path('makeiccard_add/', views.makeiccard_add.as_view(), name='makeiccard_add'),
     path('makeiccard/', views.makeiccard.as_view(), name='makeiccard'),
     path('makeface/', views.makeface.as_view(), name='makeface'),
-    path('get_datasource/', views.get_datasource.as_view(), name='get_datasource')
+    path('get_datasource/', views.get_datasource.as_view(), name='get_datasource'),
+    path('auth_batch_person/', views.auth_batch_person.as_view(), name='auth_batch_person')
 ]
