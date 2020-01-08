@@ -29,6 +29,7 @@ class monitordev(models.Model):
 
 
     FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
+    FDevID = models.CharField(max_length=32, verbose_name='设备唯一编码', blank=True, null=True)
     FChannel = models.CharField(max_length=32, verbose_name='通道名称', blank=True, null=True)
     FIPAddress = models.GenericIPAddressField(protocol='ipv4', verbose_name='设备IP地址', blank=True, null=True)
     FAccessuser = models.CharField(max_length=32, verbose_name='接入用户名', blank=True, null=True)

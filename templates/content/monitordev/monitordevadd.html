@@ -42,22 +42,31 @@
                         </div>
 
                         <div class="layui-row layui-col-space10">
+                            <div class="layui-col-xs8">
+                                <label class="layui-form-label" style="color: red">设备编码</label>
+                                <div class="layui-input-block">
+                                    {{ obj.FDevID }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layui-row layui-col-space10">
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">设备IP</label>
+                                <label class="layui-form-label">设备IP</label>
                                 <div class="layui-input-block">
                                     {{ obj.FIPAddress }}
                                 </div>
                             </div>
 
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">接入账号</label>
+                                <label class="layui-form-label">接入账号</label>
                                 <div class="layui-input-block">
                                     {{ obj.FAccessuser }}
                                 </div>
                             </div>
 
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">接入密码</label>
+                                <label class="layui-form-label">接入密码</label>
                                 <div class="layui-input-block">
                                     {{ obj.FAccesspwd }}
                                 </div>
@@ -66,21 +75,21 @@
 
                         <div class="layui-row layui-col-space10">
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">通道号</label>
+                                <label class="layui-form-label">通道号</label>
                                 <div class="layui-input-block">
                                     {{ obj.FChannelNo }}
                                 </div>
                             </div>
 
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">端口号</label>
+                                <label class="layui-form-label">端口号</label>
                                 <div class="layui-input-block">
                                     {{ obj.FPort }}
                                 </div>
                             </div>
 
                             <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">云台控制</label>
+                                <label class="layui-form-label">云台控制</label>
                                 <div class="layui-input-block">
                                     {{ obj.FIsYuntai }}
                                 </div>
@@ -96,7 +105,7 @@
                             </div>
 
                             <div class="layui-col-xs8">
-                                <label class="layui-form-label" style="color: red">协议地址</label>
+                                <label class="layui-form-label">协议地址</label>
                                 <div class="layui-input-block">
                                     {{ obj.FProtocol }}
                                 </div>

@@ -19,6 +19,7 @@ from devinterfacesrv.models import envinterfacesrv
 from interface.models import prjcheck, prjcheckpic
 from device.models import device, devcallinterface
 from devinterfacesrv.models import elevatorinterfacesrv
+from menchanical.models import menchanical
 from django.http import JsonResponse
 import json
 from django.utils import timezone
@@ -601,6 +602,60 @@ class get_pedpassage(api_base):
 class get_passagerecord(api_base):
     def set_view(self, request):
         self.model = passagerecord
+
+
+
+#获取机械设备列表api接口
+"""
+@api {POST} /ismsapi/get_menchanical/ 获取机械设备列表
+@apiGroup DEV
+@apiDescription 调用地址:http://39.106.148.205/ismsapi/get_menchanical/ API接口必须用POST:方法提交,请求类型为：x-www-form-urlencoded
+@apiParam {string} appkey 在后台管理系统中注册的APPKEY[必填]
+@apiParam {string} token 对应该appkey的有效token, token的有效期为一小时[必填]
+@apiParam {json} conditions 过滤条件,必须为JSON格式,例如{"条件":"值", "条件","值"},不传递此参数则不进行过滤获取全部数据[选填]
+@apiSampleRequest http://39.106.148.205/ismsapi/get_menchanical/
+@apiSuccess (返回消息) {string} result 返回码
+@apiSuccess (返回消息) {string} msg 返回消息
+@apiSuccess (返回消息) {string} data 安全规则结构体
+@apiSuccess (消息内容) {string} 0 数据获取成功
+@apiSuccess (消息内容) {string} 1 token过期
+@apiSuccess (消息内容) {string} 2 token校验失败
+@apiSuccess (消息内容) {string} 3 token校验传递参数错误
+@apiSuccess (消息内容) {string} 4 APPKEY未注册,或被禁用
+@apiSuccess (消息内容) {string} 5 API接口必须用POST方法提交
+@apiSuccess (结构体) {string} FID 记录UUID，唯一标识
+@apiSuccess (结构体) {string} FMecserialID 机械唯一编码
+@apiSuccess (结构体) {string} FMectypeID 机械类型,升降机械:fa606fec009311eaab497831c1d24216,起重机械:f9f44816bd7311e9a59c7831c1d24216,桩工机械:064d7e0cbd7411e9a59c7831c1d24216,压实机械:13e4ecf8bd7411e9a59c7831c1d24216
+@apiSuccess (结构体) {string} FMecspec 机械型号
+@apiSuccess (结构体) {string} FMecsource 机械来源:0自有,1租赁
+@apiSuccess (结构体) {string} FOwnerOrg 产权单位
+@apiSuccess (结构体) {string} FRecordNo 产权备案号
+@apiSuccess (结构体) {string} FRecorddate 备案日期
+@apiSuccess (结构体) {string} FLease 租赁单位
+@apiSuccess (结构体) {string} FManufacturer 生产厂家
+@apiSuccess (结构体) {string} FProducdate 出厂日期
+@apiSuccess (结构体) {string} FProducNo 出厂编号
+@apiSuccess (结构体) {string} FMecmanager 机械管理员
+@apiSuccess (结构体) {string} FMecmanagertel 联系方式
+@apiSuccess (结构体) {string} FParameter 机械参数
+@apiSuccess (结构体) {string} FStatus 状态:True启用False禁用
+@apiSuccess (结构体) {string} CREATED_PRJ 所属项目
+@apiSuccess (结构体) {string} CREATED_ORG 创建组织
+@apiSuccess (结构体) {string} CREATED_BY 创建人员
+@apiSuccess (结构体) {datetime} CREATED_TIME 通行时间
+@apiSuccess (结构体) {datetime} UPDATED_TIME 更新时间
+@apiErrorExample {json} 错误返回样例：
+{"result": "1", "msg": "token has expired"}
+{"result": "2", "msg": "token validation failed"}
+{"result": "3", "msg": "args illegal"}
+{"result": "4", "msg": "APPKEY serial is UNREGISTERED"}
+{"result": "5", "msg": "API interface must be submitted by post method."}
+
+"""
+class get_menchanical(api_base):
+    def set_view(self, request):
+        self.model = menchanical
+
 
 #获取升降机监测数据(通用接口)
 """

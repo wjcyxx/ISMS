@@ -76,7 +76,8 @@
           url: "{% url 'monitordev:get_datasource' %}",
           cols: [[
               {field:'FChannel', width: '20%', title: '通道名称', sort: true, filter: true},
-              {field:'FIPAddress', width: '20%', title: '设备IP地址', sort: true, filter: true},
+              {field:'FDevID', width: '20%', title: '设备唯一编码', sort: true, filter: true},
+              {field:'FIPAddress', width: '15%', title: '设备IP地址', sort: true, filter: true},
               {field:'FAreaID', width: '20%', title: '安装区域', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FAreaID, Areainfo)}}{% endverbatim %}</div>', filter: true},
               {field:'FAccessuser', width: '15%', title: '接入用户名', sort: true, filter: true},
               {field:'FAccesspwd', width: '15%', title: '接入密码', sort: true, filter: true},
