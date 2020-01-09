@@ -80,7 +80,8 @@ urlpatterns = [
     path('ismsapi/', include('ismsapi.urls'), name='ismsapi'),
     path('devinterfacesrv/', include('devinterfacesrv.urls'), name='devinterfacesrv'),
     path('datacockpit/', include('datacockpit.urls'), name='datacockpit'),
-    path('devicecockpit/', include('devicecockpit.urls'), name='devicecockpit')
+    path('devicecockpit/', include('devicecockpit.urls'), name='devicecockpit'),
+    path('videocockpit/', include('videocockpit.urls'), name='videocockpit')
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
