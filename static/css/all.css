@@ -1,0 +1,61 @@
+
+/* 大数据 */
+
+.icon-dashuju {
+    color: #fff;
+    font-size: 36px !important;
+}
+
+.layui-header .layui-nav li:first-child {
+    margin-right: 10px !important;
+}
+
+.layui-layer-rim {
+    border: none !important;
+}
+
+.layui-layer-title {
+    height: 0 !important;
+}
+
+.layui-layer-setwin .layui-layer-close1 {
+    position: absolute !important;
+    background-position: -500px -200px !important;
+}
+
+.layui-layer-setwin a {
+    width: 36px !important;
+    height: 36px !important;
+}
+
+.selectFile {
+    width: 70px;
+}
+
+.fileList {
+    margin-bottom: 10px;
+    display: none;
+}
+
+.previewBtn,
+.downloadBtn,
+.uploadBtn,
+.deleteBtn {
+    line-height: 24px;
+    border: 1px solid #fff;
+    float: right;
+}
+
+.previewBtn,
+.downloadBtn {
+    display: none;
+}
+
+.fileName {
+    width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+    float: left;
+}

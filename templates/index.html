@@ -54,7 +54,7 @@
                     </form>
                     <br/>
                     <br/>
-                    <p>浙江浙大中控信息技术有限公司提供技术支持</p>
+                    <p>赣ICP备19014877号</p>
                 </div>
             </div>
         </div>
@@ -88,7 +88,7 @@
                                         layer.alert('该用户账户已被禁用', {skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
                                     } else {
                                         if (data.orgtype == 1) {
-                                            window.location.href="{% url 'login:login_ok' %}?prjid="+data.FID+"&orgtype=1";
+                                            window.location.href="{% url 'login:login_ok' %}?orgtype=1";
                                         } else {
                                             layer.open({
                                                 type: 2,

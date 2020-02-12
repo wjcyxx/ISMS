@@ -387,8 +387,9 @@ layui.use(['element','layer','form', 'laydate'], function () {
             dataType: "json",
             success: function (data) {
                 if (data.result=='0') {
-                    window.parent.document.getElementById('Project').contentWindow.location.reload();
-
+                    if ({{ type }} == '0') {
+                        window.parent.document.getElementById('Project').contentWindow.location.reload();
+                    }
                     var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
                     parent.layer.close(index);
                 } else if (data.result=='1'){

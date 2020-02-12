@@ -84,8 +84,8 @@ def get_project(request):
 
 def login_ok(request):
     if request.method == "GET":
-        orgtype = request.GET.get('orgtype')
-        prjid = request.GET.get('prjid')
+        orgtype = request.GET.get('orgtype', '1')
+        prjid = request.GET.get('prjid', '')
         prjid = ''.join(str(prjid).split('-'))
 
         if orgtype == '0':

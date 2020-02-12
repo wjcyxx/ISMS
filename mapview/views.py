@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 from django.db.models import Q
 from common.views import *
 from project.models import project
+from basedata.models import base
 from django.http import JsonResponse
 import json
 from django.utils import timezone
@@ -41,4 +42,25 @@ class get_project(View):
             response_data['result'] = 1
 
         return HttpResponse(json.dumps(response_data))
+
+
+class show_projectdetail(EntranceView_base):
+    def set_view(self, request):
+        long = self.request.GET.get('long')
+        lat = self.request.GET.get('lat')
+
+        try:
+            fid = project.objects.get(Q(FLong=long), Q(FLat=lat)).FID
+            project_info = project.objects.get(Q(FID=fid))
+            project_type = base.objects.get(Q(FID=project_info.FPrjtypeID)).FBase
+
+            self.template_name = 'content/datacockpit/projectdetail.html'
+
+            self.context['projectinfo'] = project_info
+            self.context['projecttype'] = project_type
+        except ObjectDoesNotExist:
+            self.template_name = ''
+
+
+
 

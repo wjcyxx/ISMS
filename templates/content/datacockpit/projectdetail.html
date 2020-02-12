@@ -1,0 +1,1642 @@
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bim智慧工地</title>
+    <!-- 框架样式 -->
+    <link rel="stylesheet" href="/static/layui/css/layui.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/iconfont.css">
+    <link rel="stylesheet" href="/static/video-js-7/video-js.min.css">
+    <link rel="stylesheet" href="/static/font-awesome/css/font-awesome.min.css">
+</head>
+
+<style>
+    body {
+        font-family: "Microsoft YaHei";
+    }
+
+    .highcharts-credits {
+        display: none !important;
+    }
+
+    i {
+        font-style: normal;
+    }
+    /* 谷歌滚动条透明 */
+
+    .content::-webkit-scrollbar {
+        display: none;
+    }
+
+     ::-webkit-scrollbar {
+        width: 0;
+        height: 6px;
+    }
+
+
+     ::-webkit-scrollbar-thumb {
+        border-radius: 1em;
+        background-color: rgba(50, 50, 50, .3);
+    }
+
+     ::-webkit-scrollbar-track {
+        border-radius: 1em;
+        background-color: rgba(50, 50, 50, .1);
+    }
+
+    .layui-layout {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        height: 100vh;
+        background-image: url('/static/datacockpit/images/bgww.jpg');
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+
+    .layui-layout-admin .layui-header {
+        background-color: transparent !important;
+        height: 50px;
+    }
+
+    .layui-layout-admin .layui-main {
+        height: 95%;
+        padding: 5px !important;
+        margin: 0 !important;
+    }
+
+    .titleName {
+        color: #fff;
+        text-align: center;
+        height: 50px;
+        line-height: 50px;
+        font-size: 24px;
+        font-weight: bolder;
+    }
+
+    .col-lg-12 {
+        float: left;
+        width: 100%;
+        padding: 0 !important;
+    }
+
+    .col-sm-12 {
+        padding: 0 !important;
+    }
+
+    .topContent {
+        height: 55%;
+        width: 100%;
+    }
+
+    .bottomContent {
+        height: 45%;
+        width: 100%;
+    }
+
+    .topLeft,
+    .topRight {
+        width: 24%;
+        margin: 0 0.5%;
+        border-bottom: 1px solid #A5A5A9;
+    }
+
+    .topLeft {
+        height: 100%;
+        padding: 0 5px 5px 0 !important;
+    }
+
+    .topMiddle {
+        height: 100%;
+        padding: 0 !important;
+    }
+
+    .topRight {
+        height: 100%;
+        padding: 0 0px 5px 5px !important;
+    }
+
+    .bottomOne {
+        height: 100%;
+        padding: 5px 5px 0px 0 !important;
+    }
+
+    .bottomTwo {
+        height: 100%;
+        padding: 5px 5px 0px 5px !important;
+    }
+
+    .bottomThree {
+        height: 100%;
+        padding: 5px 5px 0px 5px !important;
+    }
+
+    .bottomFour {
+        height: 100%;
+        padding: 5px 5px 0px 5px !important;
+    }
+
+    .bottomFive {
+        height: 100%;
+        padding: 5px 0 0 5px !important;
+    }
+
+    .headTitle {
+        color: #fff;
+        font-size: 15px !important;
+        font-weight: 700;
+        margin-bottom: 0 !important;
+    }
+
+    .icon-square {
+        line-height: 24px;
+        margin: 0 5px 0 10px;
+        font-size: 12px;
+    }
+
+    .notice {
+        height: 30px;
+        width: 100%;
+        line-height: 30px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 5px;
+        padding-left: 5px;
+    }
+
+    .icon-gonggao {
+        color: #fff;
+        float: left;
+        font-size: 20px;
+        margin-right: 5px;
+    }
+
+    .textContent {
+        color: #fff;
+        width: 95%;
+        margin-left: 30px;
+        position: absolute;
+        cursor: pointer;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .topMiddle .layui-tab {
+        margin: 0;
+        position: absolute;
+        top: 6%;
+        height: 94%;
+        margin-top: 0;
+        width: 100%;
+        border: none;
+    }
+
+    .topMiddle .layui-tab-title {
+        position: absolute;
+        top: 5%;
+        left: 2%;
+        z-index: 999;
+    }
+
+    .topMiddle .layui-tab-content {
+        /* background-color: #151231; */
+        height: 100%;
+        padding: 0 !important;
+        width: 100%;
+    }
+
+    .layui-tab-item {
+        width: 100%;
+        height: 100%;
+    }
+
+    .layui-tab-item img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .bottomNav {
+        width: 100%;
+        height: 35%;
+    }
+
+    .bottomNav ul li {
+        width: 50%;
+        color: #fff;
+        float: left;
+        text-align: center;
+        height: 100%;
+        padding-top: 15px;
+        font-size: 16px;
+    }
+
+    .bottomNav li span:first-child {
+        font-weight: 700;
+        font-size: 30px;
+    }
+
+    .bottomNav li span:nth-child(2) {
+        color: #626579;
+    }
+
+    .bottomNav li span:last-child {
+        color: #6F7CB8;
+    }
+
+    .switchBox {
+        position: absolute;
+        top: 10%;
+        left: 2%;
+    }
+
+    .switchList {
+        padding: 0 20px;
+        border-radius: 5px;
+        background-color: #ebeef5;
+        color: #8A909F;
+        font-size: 14px;
+        margin-left: 10px !important;
+        height: 30px;
+        display: inline-block;
+        cursor: pointer;
+        line-height: 30px !important;
+    }
+
+    .layui-tab-card>.layui-tab-title {
+        background: transparent;
+        border: none;
+    }
+
+    .layui-tab-card>.layui-tab-title .layui-this {
+        background-color: #6F7CB8;
+        color: #fff;
+        font-weight: 700;
+        border: none;
+    }
+
+    .layui-tab-title .layui-this:after {
+        content: "";
+        border: none;
+    }
+
+    .content {
+        overflow: hidden;
+        width: 100%;
+        height: 48%;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 5px;
+        padding-top: 5px;
+        margin-top: 5px;
+    }
+
+    .visible {
+        overflow: hidden;
+        height: 85%;
+    }
+
+    .visible ul {
+        margin-top: 0;
+        padding-left: 0;
+        text-align: left;
+        list-style: none;
+        -webkit-animation: 12s linear 0s normal none infinite change;
+        animation: 12s linear 0s normal none infinite change;
+    }
+
+    .visible ul li {
+        margin: 0;
+        height: 30px;
+    }
+
+    .visible ul li span {
+        display: inline-block;
+        width: 25%;
+        color: #fff;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    .titleC {
+        height: 30px;
+        line-height: 30px;
+        margin: 0 !important;
+    }
+
+    .content p span {
+        display: inline-block;
+        width: 25%;
+        color: #6F7CB8;
+        text-align: center;
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    .danger {
+        color: #CC5231 !important;
+    }
+
+    #equipmentStatus {
+        height: 190px !important;
+        padding-top: 15px;
+        margin-left: 15%;
+        position: absolute;
+        width: 100%;
+    }
+
+    .highcharts-point {
+        stroke-width: 0px;
+    }
+
+    .topRight .titleAnother {
+        margin-bottom: 0;
+        margin-top: 10px;
+    }
+
+    .smallTitle {
+        color: #fff;
+        margin-left: 10px;
+        font-weight: 700;
+    }
+
+    .data-lists {
+        height: 35%;
+    }
+
+    .data-list-item {
+        width: 25%;
+        float: left;
+        margin-top: 10px;
+        padding: 0 !important;
+    }
+
+    .data-item-icon {
+        width: 36px;
+        height: 36px;
+        background-color: #383838;
+        border-radius: 50%;
+        float: left;
+        text-align: center;
+        line-height: 36px;
+    }
+
+    .environment-icons {
+        font-family: iconfont !important;
+        color: #E8D7AC;
+        font-size: 18px;
+    }
+
+    .data-item-show {
+        margin-left: 5px;
+        float: left;
+        width: 70px;
+    }
+
+    .item-number {
+        font-size: 16px;
+        color: #fff;
+        margin-bottom: 0px !important;
+    }
+
+    .item-unit {
+        font-size: 12px;
+        color: #7684c1;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    .titleOne {
+        color: #70A6E9;
+        font-size: 16px;
+        font-weight: 700;
+        margin-left: 15px;
+        margin-top: 20px;
+    }
+
+    .projectDetail {
+        height: 30%;
+    }
+
+    .projectDetail .col-sm-6 p {
+        color: #fff;
+        font-size: 14px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        cursor: pointer;
+    }
+
+    .projectPro {
+        height: 50%;
+    }
+
+    .workTimes {
+        width: 100%;
+        height: 40%;
+    }
+
+    .projectPro .col-sm-6 {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .hasTime,
+    .remainTime {
+        font-size: 30px;
+        color: #fff;
+        width: 90px;
+        height: 50px;
+        line-height: 50px;
+        border-radius: 5px;
+        background: rgba(255, 255, 255, 0.1);
+        display: inline-block;
+        font-weight: 700;
+    }
+
+    .hasText,
+    .remainText {
+        color: #5C6498;
+        font-weight: 700;
+    }
+    /* 进度条 */
+
+    .timeline_card {
+        position: relative;
+        width: 100%;
+        height: 50%;
+    }
+
+    .timeline_label {
+        cursor: pointer;
+        position: relative;
+        width: 20%;
+        float: left;
+        text-align: center;
+        color: #B1B1B1;
+        font-weight: 700;
+        text-transform: uppercase;
+        padding-right: 5.33333%;
+        letter-spacing: 1px;
+        margin-top: 60px;
+    }
+
+    .timeline_label:before {
+        content: "";
+        position: absolute;
+        z-index: 1;
+        right: 0;
+        top: -27px;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: #fff;
+        border: 2px #fff solid;
+    }
+
+    .timeline_info {
+        position: absolute;
+        right: 0;
+        left: 0;
+        top: 45px;
+        bottom: 0;
+        text-align: center;
+        font-size: 40px;
+        color: #eee;
+        opacity: 0;
+        font-weight: 100;
+        letter-spacing: 1px;
+        -moz-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        -webkit-transition: all 0.3s;
+        transition: all 0.3s;
+        -moz-transform: translateY(100%);
+        -ms-transform: translateY(100%);
+        -webkit-transform: translateY(100%);
+        transform: translateY(100%);
+    }
+
+    .timeline_line {
+        position: absolute;
+        right: 0;
+        left: 0;
+        top: 45px;
+        border-bottom: 10px #2A2C3B solid;
+        border-radius: 5px;
+    }
+
+    .timeline_line:before {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 10px;
+        background-color: #798DEE;
+        -moz-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        -webkit-transition: all 0.3s;
+        transition: all 0.3s;
+        border-radius: 5px;
+    }
+
+    .timeline_input[type=radio] {
+        display: none;
+    }
+
+    .timeline_input[type=radio]:checked+.timeline_label {
+        color: #B1B1B1;
+    }
+
+    .timeline_input[type=radio]:checked+.timeline_label:before {
+        background-color: #fff;
+        -moz-animation: part 1.6s infinite ease-in-out;
+        -webkit-animation: part 1.6s infinite ease-in-out;
+        animation: part 1.6s infinite ease-in-out;
+    }
+
+    .timeline_input[type=radio]:checked+.timeline_label+.timeline_info {
+        -moz-transform: translateY(30%);
+        -ms-transform: translateY(30%);
+        -webkit-transform: translateY(30%);
+        transform: translateY(30%);
+        opacity: 1;
+    }
+
+    .timeline_input[type=radio]:checked:nth-of-type(1)+.timeline_label+.timeline_info+.timeline_input+.timeline_label+.timeline_info+.timeline_input+.timeline_label+.timeline_info+.timeline_input+.timeline_label+.timeline_info+.timeline_input+.timeline_label+.timeline_info+.timeline_line:before {
+        width: 20%;
+    }
+
+    .timeline_input[type=radio]:checked:nth-of-type(2)+.timeline_label+.timeline_info+.timeline_input+.timeline_label+.timeline_info+.timeline_input+.timeline_label+.timeline_info+.timeline_input+.timeline_label+.timeline_info+.timeline_line:before {
+        width: 40%;
+    }
+
+    .timeline_input[type=radio]:checked:nth-of-type(3)+.timeline_label+.timeline_info+.timeline_input+.timeline_label+.timeline_info+.timeline_input+.timeline_label+.timeline_info+.timeline_line:before {
+        width: 60%;
+    }
+
+    .timeline_input[type=radio]:checked:nth-of-type(4)+.timeline_label+.timeline_info+.timeline_input+.timeline_label+.timeline_info+.timeline_line:before {
+        width: 80%;
+    }
+
+    .timeline_input[type=radio]:checked:nth-of-type(5)+.timeline_label+.timeline_info+.timeline_line:before {
+        width: 100%;
+    }
+
+    .rabbit {
+        width: 50px;
+        height: 50px;
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        z-index: 3;
+        fill: #fff;
+    }
+
+    .timeline_info {
+        display: none;
+    }
+
+    #hFcontainer .highcharts-legend-item {
+        display: none !important;
+    }
+
+    .educationNum {
+        font-size: 30px;
+        color: #fff;
+        width: 100%;
+        height: 50px;
+        line-height: 50px;
+        display: inline-block;
+        font-weight: 700;
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 0;
+    }
+
+    .educationText,
+    .answerRate {
+        color: #5C6498;
+        font-weight: 700;
+        text-align: center;
+    }
+
+    .educationDiv {
+        height: 25%;
+    }
+
+    .icon-wendu {
+        font-size: 32px;
+    }
+
+    #videoBox {
+        padding: 0 5px !important;
+    }
+
+    .video-js {
+        width: 100%;
+        height: 50%;
+    }
+
+    .ondutyStatus {
+        height: 55%;
+        padding-left: 20px;
+        overflow: hidden;
+        /* overflow-y: auto; */
+    }
+
+    .imgBox {
+        height: 50%;
+        padding: 0 !important;
+    }
+
+    .imgBox img {
+        width: 100%;
+        height: 50%;
+        border-radius: 50%;
+    }
+
+    .attend {
+        color: #7084DB;
+    }
+
+    .keyContent,
+    .keyPerson {
+        padding-right: 0 !important;
+        padding-left: 5px !important;
+    }
+
+    .keyContent p {
+        color: #fff;
+        margin-bottom: 2px !important;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    .job,
+    .telephone {
+        font-size: 12px;
+    }
+
+    .principal {
+        font-weight: 600;
+    }
+</style>
+
+<body>
+    <div class="layui-layout layui-layout-admin">
+        <!-- 导航开始 -->
+        <div class="layui-header header header-demo">
+            <div class="titleName">{{ projectinfo.FPrjname }} 项目可视化看板</div>
+        </div>
+        <div class="layui-main">
+            <div class="layui-tab-content col-lg-12">
+                <!-- 上层框 -->
+                <div class="topContent">
+                    <!-- 上左框 -->
+                    <div class="topLeft col-sm-3">
+                        <p class="headTitle"><i class="fa fa-building-o" aria-hidden="true"></i> 项目概况</p>
+                        <div class="projectDetail">
+                            <p class="titleOne projectTitle">{{ projectinfo.FPrjname }}</p>
+                            <div class="detailLeft col-sm-6">
+                                <p class="projectType">项目类型：{{ projecttype }}</p>
+                                <p class="projectArea">占地面积：{{ projectinfo.FArea }}㎡</p>
+                                <p class="projectAddrenss">项目地址：{{ projectinfo.FAddress }}</p>
+                                <p class="buildDepartment">建设单位：{{ projectinfo.FBuildOrgID }}</p>
+                            </div>
+                            <div class="detailRight col-sm-6">
+                                <p class="workTime">工期：{% if projectinfo.FSigbeginDate != None %} {{ projectinfo.FSigbeginDate }} {% endif %} </p>
+                                <p class="checkDepartment">监理单位：杭州信达奥体置业有限公司</p>
+                                <p class="designDepartment">设计单位：杭州信达奥体置业有限公司</p>
+                                <p class="jobDepartment">施工单位：杭州信达奥体置业有限公司</p>
+                            </div>
+                        </div>
+                        <div class="projectPro">
+                            <p class="titleOne">项目进度</p>
+                            <div class="workTimes">
+                                <div class="haswork col-sm-6">
+                                    <p class="hasTime">215</p>
+                                    <p class="hasText">已施工天数</p>
+                                </div>
+                                <div class="remainwork col-sm-6">
+                                    <p class="remainTime">375</p>
+                                    <p class="remainText">剩余施工天数</p>
+                                </div>
+                            </div>
+                            <div class="timeline_card">
+                                <input checked="" class="timeline_input" id="btn1" name="timeline" type="radio" />
+                                <label class="timeline_label" for="btn1">
+                                    <p>开工</p>
+                                    <p>2019.2.12</p>
+                                </label>
+                                <div class="timeline_info">
+                                    Step 1
+                                </div>
+                                <input class="timeline_input" id="btn2" name="timeline" type="radio" />
+                                <label class="timeline_label" for="btn2">
+                                    <p>基础</p>
+                                    <p>2019.5.12</p>
+                                </label>
+                                <div class="timeline_info">
+                                    Step 2
+                                </div>
+                                <input class="timeline_input" id="btn3" name="timeline" type="radio" />
+                                <label class="timeline_label" for="btn3">
+                                    <p>主体</p>
+                                    <p>2019.6.15</p>
+                                </label>
+                                <div class="timeline_info">
+                                    Step 3
+                                </div>
+                                <input class="timeline_input" id="btn4" name="timeline" type="radio" />
+                                <label class="timeline_label" for="btn4">
+                                    <p>结构</p>
+                                    <p>2019.7.29</p>
+                                </label>
+                                <div class="timeline_info">
+                                    Step 4
+                                </div>
+                                <input class="timeline_input" id="btn5" name="timeline" type="radio" />
+                                <label class="timeline_label" for="btn5">
+                                    <p>装饰</p>
+                                    <p>2019.10.15</p>
+                                </label>
+                                <div class="timeline_info">
+                                    Step 5
+                                </div>
+                                <div class="timeline_line"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 上中框 -->
+                    <div class="topMiddle col-sm-6">
+                        <!-- 公告 -->
+                        <div class="notice">
+                            <i class="iconfont icon-gonggao"></i>
+                            <p class="textContent">
+                                今日浙江省领导来我市进行指导工作，指出：1.我市的工程项目要严格按照国家标准进行。2.执法办和相关部门要时时刻刻督促各施工单位标准化进行施工，严重杜绝违规行为。
+                            </p>
+                        </div>
+                        <!-- 按钮切换 -->
+                        <div class="layui-tab layui-tab-card">
+                            <ul class="layui-tab-title">
+                                <li class="switchList layui-this">效果图</li>
+                                <li class="switchList">监控</li>
+                            </ul>
+                            <div class="layui-tab-content">
+                                <div class="layui-tab-item layui-show"><img src="/static/images/img/background.png" alt=""></div>
+                                <div class="layui-tab-item">
+                                    <div id="videoBox" class="col-sm-6">
+                                        <div class="videoImg">
+                                            <video id="myVideo1" class="video-js vjs-default-skin vjs-big-play-centered">
+                                            </video>
+                                        </div>
+                                    </div>
+                                    <div id="videoBox" class="col-sm-6">
+                                        <div class="videoImg">
+                                            <video id="myVideo2" class="video-js vjs-default-skin vjs-big-play-centered">
+                                            </video>
+                                        </div>
+                                    </div>
+                                    <div id="videoBox" class="col-sm-6">
+                                        <div class="videoImg">
+                                            <video id="myVideo3" class="video-js vjs-default-skin vjs-big-play-centered">
+                                            </video>
+                                        </div>
+                                    </div>
+                                    <div id="videoBox" class="col-sm-6">
+                                        <div class="videoImg">
+                                            <video id="myVideo4" class="video-js vjs-default-skin vjs-big-play-centered">
+                                            </video>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 上右框 -->
+                    <div class="topRight col-sm-3">
+                        <p class="headTitle"><i class="iconfont icon-square"></i>监控预警</p>
+                        <div class='content'>
+                            <p class="titleC"><span>时间</span><span>位置</span><span>事件</span><span>人员</span></p>
+                            <div class='visible'>
+                                <ul id="RunTopic">
+                                    <li><span>08:00</span><span>6#塔吊</span><span class="danger">未佩戴安全帽</span><span>张凯</span></li>
+                                    <li><span>10:20</span><span>7#塔吊</span><span class="danger">回旋报警</span><span>李慧渊</span></li>
+                                    <li><span>12:10</span><span>8#塔吊</span><span class="danger">未佩戴安全帽</span><span>杨峰杰</span></li>
+                                    <li><span>14:25</span><span>1#塔吊</span><span class="danger">未佩戴安全帽</span><span>王挺</span></li>
+                                    <li><span>17:10</span><span>2#塔吊</span><span class="danger">回旋报警</span><span>罗英超</span></li>
+                                    <li><span>19:25</span><span>3#塔吊</span><span class="danger">未佩戴安全帽</span><span>张凯</span></li>
+                                    <li><span>20:00</span><span>4#塔吊</span><span class="danger">未佩戴安全帽</span><span>胡志鹏</span></li>
+                                    <li><span>21:19</span><span>5#塔吊</span><span class="danger">回旋报警</span><span>孙振林</span></li>
+                                    <li><span>22:09</span><span>4#塔吊</span><span class="danger">未佩戴安全帽</span><span>刘彦斌</span></li>
+                                    <li><span>23:29</span><span>6#塔吊</span><span class="danger">回旋报警</span><span>刘杰</span></li>
+                                    <li><span>23:52</span><span>2#塔吊</span><span class="danger">未佩戴安全帽</span><span>熊义国</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- <p class="smallTitle">问题类型统计</p> -->
+                        <!-- <div id="equipmentStatus" style="height: 45%"></div> -->
+                        <p class="smallTitle titleAnother">近7天异常统计</p>
+                        <div id="memberChart" style="height: 40%"></div>
+                    </div>
+                </div>
+                <!-- 下层框 -->
+                <div class="bottomContent">
+                    <!-- 下左框 -->
+                    <div class="bottomOne col-sm-3">
+                        <p class="headTitle"><i class="iconfont icon-square"></i>人员概况</p>
+                        <!-- 人员信息 -->
+                        <div class="bottomNav">
+                            <ul class="navContent">
+                                <li class="layui-nav-item">
+                                    <span>10/</span><span>18</span><br>
+                                    <span>今日进场关键人员</span></a>
+                                </li>
+                                <li class="layui-nav-item">
+                                    <span>216/</span><span>436</span><br>
+                                    <span>今日进场劳务人员</span></a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="ondutyStatus">
+                            <!-- <div class="keyPerson col-sm-6">
+                                <div class="imgBox col-sm-3"><img src="./img/person1.png" alt=""></div>
+                                <div class="keyContent col-sm-8">
+                                    <p><span class="principal">叶关华</span><span class="attend">（在场）</span></p>
+                                    <p class="job">职位：监理单位负责人</p>
+                                    <p class="telephone">电话：15236325486</p>
+                                </div>
+                            </div>
+                            <div class="keyPerson col-sm-6">
+                                <div class="imgBox col-sm-3"><img src="./img/person2.png" alt=""></div>
+                                <div class="keyContent col-sm-8">
+                                    <p><span class="principal">王杰</span><span class="attend">（在场）</span></p>
+                                    <p class="job">职位：南建项目经理</p>
+                                    <p class="telephone">电话：16584572564</p>
+                                </div>
+                            </div>
+                            <div class="keyPerson col-sm-6">
+                                <div class="imgBox col-sm-3"><img src="./img/person3.png" alt=""></div>
+                                <div class="keyContent col-sm-8">
+                                    <p><span class="principal">杨峰杰</span><span class="attend">（在场）</span></p>
+                                    <p class="job">职位：勘察负责人</p>
+                                    <p class="telephone">电话：16458752365</p>
+                                </div>
+                            </div>
+                            <div class="keyPerson col-sm-6">
+                                <div class="imgBox col-sm-3"><img src="./img/person4.png" alt=""></div>
+                                <div class="keyContent col-sm-8">
+                                    <p><span class="principal">孙震林</span><span class="attend">（在场）</span></p>
+                                    <p class="job">职位：南建项目经理</p>
+                                    <p class="telephone">电话：15854752365</p>
+                                </div>
+                            </div>
+                            <div class="keyPerson col-sm-6">
+                                <div class="imgBox col-sm-3"><img src="./img/person1.png" alt=""></div>
+                                <div class="keyContent col-sm-8">
+                                    <p><span class="principal">叶关华</span><span class="attend">（在场）</span></p>
+                                    <p class="job">职位：监理单位负责人</p>
+                                    <p class="telephone">电话：15236325486</p>
+                                </div>
+                            </div>
+                            <div class="keyPerson col-sm-6">
+                                <div class="imgBox col-sm-3"><img src="./img/person2.png" alt=""></div>
+                                <div class="keyContent col-sm-8">
+                                    <p><span class="principal">王杰</span><span class="attend">（在场）</span></p>
+                                    <p class="job">职位：南建项目经理</p>
+                                    <p class="telephone">电话：16584572564</p>
+                                </div>
+                            </div>
+                            <div class="keyPerson col-sm-6">
+                                <div class="imgBox col-sm-3"><img src="./img/person3.png" alt=""></div>
+                                <div class="keyContent col-sm-8">
+                                    <p><span class="principal">杨峰杰</span><span class="attend">（在场）</span></p>
+                                    <p class="job">职位：勘察负责人</p>
+                                    <p class="telephone">电话：16458752365</p>
+                                </div>
+                            </div>
+                            <div class="keyPerson col-sm-6">
+                                <div class="imgBox col-sm-3"><img src="./img/person4.png" alt=""></div>
+                                <div class="keyContent col-sm-8">
+                                    <p><span class="principal">孙震林</span><span class="attend">（在场）</span></p>
+                                    <p class="job">职位：南建项目经理</p>
+                                    <p class="telephone">电话：15854752365</p>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                    <!-- 下中左框 -->
+                    <div class="bottomTwo col-sm-3">
+                        <p class="headTitle"><i class="iconfont icon-square"></i>环境监测</p>
+                        <div class="data-lists">
+                            <ul class="data-list clear">
+                                <li class="data-list-item clear col-sm-4">
+                                    <div class="data-item-icon">
+                                        <i class="environment-icons iconfont icon-pm-"></i>
+                                    </div>
+                                    <div class="data-item-show">
+                                        <p class="item-number PMdata">42.00</p>
+                                        <p class="item-unit PMtext">PM2.5(ug/m³)</p>
+                                    </div>
+                                </li>
+                                <li class="data-list-item clear col-sm-4">
+                                    <div class="data-item-icon">
+                                        <i class="environment-icons iconfont icon-zhinanzhen"></i>
+                                    </div>
+                                    <div class="data-item-show">
+                                        <p class="item-number winddata">0.00</p>
+                                        <p class="item-unit windtext">风向(度数)(°)</p>
+                                    </div>
+                                </li>
+                                <li class="data-list-item clear col-sm-4">
+                                    <div class="data-item-icon">
+                                        <i class="environment-icons iconfont icon-fengxiang1"></i>
+                                    </div>
+                                    <div class="data-item-show">
+                                        <p class="item-number windPdata">1.00</p>
+                                        <p class="item-unit windPtext">风力(无)</p>
+                                    </div>
+                                </li>
+                                <li class="data-list-item clear col-sm-4">
+                                    <div class="data-item-icon">
+                                        <i class="environment-icons iconfont icon-wendu"></i>
+                                    </div>
+                                    <div class="data-item-show">
+                                        <p class="item-number temperaturedata">7.90</p>
+                                        <p class="item-unit temperaturetext">温度(℃)</p>
+                                    </div>
+                                </li>
+                                <li class="data-list-item clear col-sm-4">
+                                    <div class="data-item-icon">
+                                        <i class="environment-icons iconfont icon-zaosheng"></i>
+                                    </div>
+                                    <div class="data-item-show">
+                                        <p class="item-number noisedata">55.10</p>
+                                        <p class="item-unit noisetext">噪声(dB)</p>
+                                    </div>
+                                </li>
+                                <li class="data-list-item clear col-sm-4">
+                                    <div class="data-item-icon">
+                                        <i class="environment-icons iconfont icon-fengxiang"></i>
+                                    </div>
+                                    <div class="data-item-show">
+                                        <p class="item-number windDdata">北风</p>
+                                        <p class="item-unit windDtext">风向(方位)</p>
+                                    </div>
+                                </li>
+
+                                <li class="data-list-item clear col-sm-4">
+                                    <div class="data-item-icon">
+                                        <i class="environment-icons iconfont icon-fengsu"></i>
+                                    </div>
+                                    <div class="data-item-show">
+                                        <p class="item-number windSdata">0.70</p>
+                                        <p class="item-unit windStext">风速(m/s)</p>
+                                    </div>
+                                </li>
+                                <li class="data-list-item clear col-sm-4">
+                                    <div class="data-item-icon">
+                                        <i class="environment-icons iconfont icon-shidu"></i>
+                                    </div>
+                                    <div class="data-item-show">
+                                        <p class="item-number humiditydata">80.10</p>
+                                        <p class="item-unit humiditytext">湿度(%RH)</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="hFcontainer" style="height: 60%; width: 100%"></div>
+                    </div>
+                    <!-- 下中右框 -->
+                    <div class="bottomThree col-sm-2">
+                        <p class="headTitle"><i class="iconfont icon-square"></i>塔机监测</p>
+                        <div id="monitor" style="height:90%"></div>
+                    </div>
+                    <!-- 下右框 -->
+                    <div class="bottomFour col-sm-2">
+                        <p class="headTitle"><i class="iconfont icon-square"></i>安全文明管理</p>
+                        <div class="educationDiv">
+                            <p class="educationNum">300</p>
+                            <p class="educationText">累计教育人数</p>
+                        </div>
+                        <div id="civilization" style="height: 60%"></div>
+                        <p class="answerRate">答题正确率</p>
+                    </div>
+                    <!-- 下右框 -->
+                    <div class="bottomFive col-sm-2">
+                        <p class="headTitle"><i class="iconfont icon-square"></i>质量安全整改</p>
+                        <div id="quality" style="height: 50%"></div>
+                        <div id="security" style="height: 50%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="/static/js/jquery-1.12.2.js"></script>
+<script src="/static/layui/layui.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/video-js-7/video.min.js"></script>
+<script src="/static/js/highcharts/highcharts.js"></script>
+<script src="/static/js/highcharts/highcharts-zh_CN.js"></script>
+<script src="/static/js/bootstrap-table/bootstrap-table.js"></script>
+<script src="/static/js/bootstrap-table-fixed-columns/bootstrap-table-zh-CN.min.js"></script>
+<script src="/static/js/echarts.min.js"></script>
+<script src="/static/js/echartsDetail.js"></script>
+
+<script type="text/javascript">
+    layui.use(['element','layer','form'], function() {
+        var element = layui.element
+        , layer = layui.layer
+        , form = layui.form; //导航的hover效果、二级菜单等功能，需要依赖element模块
+        //监听导航点击
+        element.on('nav(demo)', function(elem) {
+            layer.msg(elem.text());
+        });
+    });
+
+    $("#btnC").click(function () {
+        var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
+        parent.layer.close(index);
+    });
+
+    var position = $(".textContent").scrollLeft();
+    var t;
+    var flag = true;
+    $(document).ready(function() {
+        if (flag) {
+            position = 0;
+            fun();
+        } else {
+            clearTimeout(t);
+            $(".textContent").scrollLeft(0);
+        }
+        flag = !flag;
+    });
+
+    function fun() {
+        if (position > 400) {
+            position = 0;
+        }
+        $(".textContent").scrollLeft(position++);
+        t = setTimeout("fun()", 30);
+    }
+
+    // 最新数据颜色
+    function colorSwitch() {
+        let datas = document.getElementsByClassName("data-item-icon");
+        let icons = document.getElementsByClassName("environment-icons");
+        for (let i = 0; i < datas.length; i++) {
+            if (i >= datas.length / 2) {
+                datas[i].style.backgroundColor = "rgba(82,125,255,0.2)";
+                icons[i].style.color = "#527dff";
+            }
+        }
+    }
+    colorSwitch();
+
+    // 添加title属性
+    $(".projectDetail p").mouseover(function() {
+        var projectDetail = $(this).text()
+        $(this).attr('title', projectDetail);
+    });
+    $(".ondutyStatus p").mouseover(function() {
+        var ondutyStatus = $(this).text()
+        $(this).attr('title', ondutyStatus);
+    });
+</script>
+
+<script>
+    // 获取数据
+    $(document).ready(function() {
+        var url = "http://39.106.148.205";
+        var token;
+        // 获取token
+        function fetchToken() {
+            $.ajax({
+                type: "POST",
+                url: url + "/ismsapi/get_token/",
+                contentType: "application/x-www-form-urlencoded",
+                data: {
+                    appkey: "JDNkYn4pUa",
+                    md5: "c24605879b0d5e89cbdd1ec08bed8098"
+                },
+                dataType: 'json',
+                async: false,
+                complete: function(e) {},
+                success: function(e) {
+                    token = e.token;
+                },
+                error: function() {
+                    console.log("token接口调用失败");
+                }
+            });
+        }
+        fetchToken();
+
+        // 项目管理
+        var content = {
+            "FID": "09dc5718-a079-11e9-b707-7831c1d24216"
+        }
+        data = JSON.stringify(content)
+
+        var content1 = {
+            "FID": "5cb536b4a3d811e9b984708bcdb9b39a"
+        }
+        data1 = JSON.stringify(content1)
+
+        var content2 = {
+            "CREATED_PRJ": "6b1976962ae411eaac3500163e12e179",
+            "FType": 0
+        }
+        data2 = JSON.stringify(content2)
+
+        // 获取项目列表
+        function fetchProjectList() {
+            $.ajax({
+                type: "POST",
+                url: url + "/ismsapi/get_project/",
+                contentType: "application/x-www-form-urlencoded",
+                data: {
+                    appkey: "JDNkYn4pUa",
+                    token: token,
+                    conditions: data
+                },
+                dataType: 'json',
+                async: false,
+                complete: function(e) {},
+                success: function(e) {
+                    programList = e.data[0];
+                },
+                error: function() {
+                    console.log("project接口调用失败");
+                }
+            });
+        }
+        fetchProjectList();
+
+        // 获取项目类型
+        function fetchProjectType() {
+            $.ajax({
+                type: "POST",
+                url: url + "/ismsapi/get_basedate/ ",
+                contentType: "application/x-www-form-urlencoded",
+                data: {
+                    appkey: "JDNkYn4pUa",
+                    token: token,
+                    conditions: data1
+                },
+                dataType: 'json',
+                async: false,
+                complete: function(e) {},
+                success: function(e) {
+                    programtype = e.data[0];
+                },
+                error: function() {
+                    console.log("project接口调用失败");
+                }
+            });
+        }
+        fetchProjectType();
+
+        // $(".projectTitle").text(programList.FPrjname);
+        // $(".projectType").text("项目类型：" + programtype.FBase);
+        // $(".projectArea").text("占地面积：" + programList.FArea);
+        // $(".projectAddrenss").text("项目地址：" + programList.FAddress);
+        // $(".buildDepartment").text("建设单位：" + programList.FBuildOrgID);
+        // $(".checkDepartment").text("监理单位：" + programList.FSuperviseOrgID);
+        // $(".designDepartment").text("设计单位：" + programList.FDesignOrgID);
+        // $(".jobDepartment").text("施工单位：" + programList.FDesignOrgID);
+
+        // 获取项目关键人员
+        var worktypes = [];
+
+        function fetchProjectKeypsn() {
+            $.ajax({
+                type: "POST",
+                url: url + "/ismsapi/get_personnel/",
+                contentType: "application/x-www-form-urlencoded",
+                data: {
+                    appkey: "JDNkYn4pUa",
+                    token: token,
+                    conditions: data2
+                },
+                dataType: 'json',
+                async: false,
+                complete: function(e) {},
+                success: function(e) {
+                    // console.log(e)
+                    programKeypsn = e.data;
+                    for (i = 0; i < programKeypsn.length; i++) {
+                        worktypes.push(programKeypsn[i].FWorktypeID);
+                    }
+                },
+                error: function() {
+                    console.log("project接口调用失败");
+                }
+            });
+        }
+        fetchProjectKeypsn();
+        // console.log(programKeypsn);
+
+
+        function addHtml() {
+            var jobtype = [];
+
+            for (i = 0; i < programKeypsn.length; i++) {
+                var data33 = {
+                    FID: worktypes[i]
+                }
+                var data3 = JSON.stringify(data33);
+                $.ajax({
+                    type: "POST",
+                    url: url + "/ismsapi/get_basedate/",
+                    contentType: "application/x-www-form-urlencoded",
+                    data: {
+                        appkey: "JDNkYn4pUa",
+                        token: token,
+                        conditions: data3
+                    },
+                    dataType: 'json',
+                    async: false,
+                    complete: function(e) {},
+                    success: function(e) {
+                        // console.log(e)
+                        jobtype.push(e.data[0].FBase);
+                        // console.log(jobtype);
+                    },
+                    error: function() {
+                        console.log("project接口调用失败");
+                    }
+                });
+                if (programKeypsn[i].FStatus == 0) {
+                    var status = programKeypsn[i].FStatus = '登记'
+                } else if (programKeypsn[i].FStatus == 1) {
+                    var status = programKeypsn[i].FStatus = '退场'
+                } else if (programKeypsn[i].FStatus == 2) {
+                    var status = programKeypsn[i].FStatus = '禁用'
+                }
+
+                if (programKeypsn[i].FPhoto == '') {
+                    var photo = "{% static 'images/img/defaultImg.png' %}"
+                } else {
+                    var photo = 'http://47.97.73.105:8090/media/' + programKeypsn[i].FPhoto;
+                }
+                var htmladd = "";
+                htmladd += '<div class="keyPerson col-sm-6">';
+                htmladd += '<div class="imgBox col-sm-3">';
+                htmladd += '<img src="' + photo + '" alt="">';
+                htmladd += '</div>';
+                htmladd += '<div class="keyContent col-sm-8">';
+                htmladd += '<p><span class="principal">' + programKeypsn[i].FName + '</span><span class="attend">（' + status + '）</span></p>';
+                htmladd += '<p class="job">职位：' + jobtype[i] + '</p>';
+                // htmladd += '<p class="telephone">电话：' + programKeypsn[i].FTel + '</p>';
+                htmladd += '</div>';
+                htmladd += '</div>';
+                $(".ondutyStatus").prepend(htmladd);
+            }
+        }
+        addHtml()
+
+        // 获取环境数据
+        var environmentData;
+        var last = 30;
+
+        function fetchProjectData() {
+            // 获取当前时间
+            function getNow(s) {
+                return s < 10 ? '0' + s : s;
+            }
+            var time1;
+            var time2;
+
+            function NowTime() {
+                var myDate = new Date();
+                var year = myDate.getFullYear(); //获取当前年
+                var month = myDate.getMonth() + 1; //获取当前月
+                var date = myDate.getDate(); //获取当前日
+                var h = myDate.getHours(); //获取当前小时数(0-23)
+                var m = myDate.getMinutes(); //获取当前分钟数(0-59)
+                var s = myDate.getSeconds();
+                time1 = year + '-' + getNow(month) + "-" + getNow(date) + "T" + getNow(h) + ':' + getNow(m) + ":" + getNow(s);
+                time2 = year + '-' + getNow(month) + "-" + getNow(date) + "T" + getNow(h) + ':' + getNow(m - 5) + ":" + getNow(s);
+            }
+            NowTime()
+                // 获取环境数据
+            var data = {
+                "CREATED_PRJ": "09dc5718a07911e9b7077831c1d24216",
+                "FTimestamp__gte": time2,
+                "FTimestamp__lte": time1
+            }
+            content = JSON.stringify(data);
+
+            $.ajax({
+                type: "POST",
+                url: "http://39.106.148.205/ismsapi/get_env_hisdata/",
+                contentType: "application/x-www-form-urlencoded",
+                data: {
+                    appkey: "JDNkYn4pUa",
+                    token: token,
+                    conditions: content
+                },
+                dataType: 'json',
+                async: false,
+                success: function(data) {
+                    environmentData = data.data[0]
+                    var dataInfo = environmentData.FPM25;
+                    last = Number(dataInfo)
+                        // console.log(last)
+                        // console.log(environmentData)
+                        // 判断风向是否为null
+                    if (environmentData.FWIND_DIRECT_STR == null) {
+                        environmentData.FWIND_DIRECT_STR = "无"
+                    }
+                    // 根据风速判断风力
+                    if (environmentData.FWIND_SPEED <= 0.2) {
+                        windPower = "无风"
+                    } else if (environmentData.FWIND_SPEED > 0.2 && environmentData.FWIND_SPEED <= 1.5) {
+                        windPower = "一级"
+                    } else if (environmentData.FWIND_SPEED > 1.5 && environmentData.FWIND_SPEED <= 3.3) {
+                        windPower = "二级"
+                    } else if (environmentData.FWIND_SPEED > 3.3 && environmentData.FWIND_SPEED <= 5.4) {
+                        windPower = "三级"
+                    } else if (environmentData.FWIND_SPEED > 5.4 && environmentData.FWIND_SPEED <= 7.9) {
+                        windPower = "四级"
+                    } else if (environmentData.FWIND_SPEED > 7.9 && environmentData.FWIND_SPEED <= 10.7) {
+                        windPower = "五级"
+                    } else if (environmentData.FWIND_SPEED > 10.7 && environmentData.FWIND_SPEED <= 13.8) {
+                        windPower = "六级"
+                    } else if (environmentData.FWIND_SPEED > 13.8 && environmentData.FWIND_SPEED <= 17.1) {
+                        windPower = "七级"
+                    } else if (environmentData.FWIND_SPEED > 17.1 && environmentData.FWIND_SPEED <= 20.7) {
+                        windPower = "八级"
+                    }
+                    // 给html赋值
+                   $(".PMdata").text(environmentData.FPM25)
+                   $(".winddata").text(environmentData.FWIND_DIRECT)
+                   $(".windPdata").text(windPower)
+                   $(".temperaturedata").text(environmentData.FTemperature)
+                   $(".noisedata").text(environmentData.FNoise)
+                   $(".windDdata").text(environmentData.FWIND_DIRECT_STR)
+                   $(".windSdata").text(environmentData.FWIND_SPEED)
+                   $(".humiditydata").text(environmentData.FHumidity)
+                },
+                error: function() {
+                    console.log("project接口调用失败");
+                }
+            });
+        }
+        fetchProjectData();
+        setInterval(function() {
+                fetchProjectData()
+            }, 2000)
+            // 实时更新折线面积图
+        Highcharts.setOptions({
+            global: {
+                useUTC: false
+            }
+        });
+
+        $("#hFcontainer").highcharts({
+            chart: {
+                type: 'areaspline',
+                style: {
+                    fontSize: '14px',
+                    fontWeight: 'normal',
+                    color: '#fff'
+                },
+                backgroundColor: "transparent",
+                marginRight: 10,
+                events: {
+                    load: function() {
+                        var series = this.series[0],
+                            chart = this;
+                        setInterval(function() {
+                            var x = (new Date()).getTime(), // 当前时间
+                                y = last; // 随机值
+                            series.addPoint([x, y], true, true);
+                            // activeLastPointToolip(chart);
+                        }, 1000);
+                    }
+                }
+            },
+            title: {
+                text: null,
+            },
+            xAxis: {
+                labels: {
+                    style: {
+                        color: "rgba(255,255,255,0.7)"
+                    }
+                },
+                lineColor: "#808080", // 轴线颜色
+                type: 'datetime',
+                tickPixelInterval: 80
+            },
+            yAxis: {
+                title: {
+                    text: null
+                },
+                labels: {
+                    style: {
+                        color: "rgba(255,255,255,0.7)"
+                    },
+                    steps: 2
+                },
+                gridLineColor: '#808080', //网格线颜色
+                gridLineWidth: 0, //刻度线宽度
+            },
+            legend: {
+                enabled: false
+            },
+            credits: {
+                enabled: false
+            },
+            series: [{
+                name: 'PM2.5',
+                data: (function() {
+                    // 生成随机值
+                    var data = [],
+                        time = (new Date()).getTime(),
+                        i;
+                    for (i = -19; i <= 0; i += 1) {
+                        data.push({
+                            x: time + i * 1000,
+                            y: Math.random()
+                        });
+                    }
+                    return data;
+                }())
+            }],
+            tooltip: {
+                formatter: function() {
+                    return '<b>' + this.series.name + '</b><br/>' +
+                        Highcharts.dateFormat('%m-%d %H:%M:%S', this.x) + '<br/>' +
+                        Highcharts.numberFormat(this.y, 2);
+                }
+            },
+            plotOptions: {
+                areaspline: {
+                    fillColor: {
+                        linearGradient: {
+                            x1: 0,
+                            y1: 0,
+                            x2: 0,
+                            y2: 1
+                        },
+                        stops: [
+                            [0, "#374d90"],
+                            [1, "rgba(82,125,255,0)"]
+                        ]
+                    },
+                    marker: { // 点
+                        radius: 2,
+                        fillColor: "#fff",
+                    },
+                    lineWidth: 2,
+                    states: {
+                        hover: {
+                            lineWidth: 3
+                        }
+                    },
+                    threshold: null, //阀值
+                    color: "#a8baff", //数据列线条颜色
+                }
+            }
+        })
+    });
+
+    var videoOptions = {
+        autoplay: true,
+        controls: true,
+        muted: true,
+        language: "zh-CN",
+        sources: []
+    };
+
+    let videoPlayer1 = videojs('myVideo1', videoOptions, function onPlayerReady() {
+        videoPlayer1.src({
+            src: "http://47.104.92.203:10810/nvc/HM-NVR-110/hls/stream_1/stream_1_live.m3u8",
+            type: "application/x-mpegURL"
+        });
+    });
+
+    let videoPlayer2 = videojs('myVideo2', videoOptions, function onPlayerReady() {
+        videoPlayer2.src({
+            src: "http://47.104.92.203:10810/nvc/HM-NVR-110/hls/stream_2/stream_2_live.m3u8",
+            type: "application/x-mpegURL"
+        });
+    });
+    let videoPlayer3 = videojs('myVideo3', videoOptions, function onPlayerReady() {
+        videoPlayer3.src({
+            src: "http://47.104.92.203:10810/nvc/HM-NVR-110/hls/stream_3/stream_3_live.m3u8",
+            type: "application/x-mpegURL"
+        });
+    });
+    let videoPlayer4 = videojs('myVideo4', videoOptions, function onPlayerReady() {
+        videoPlayer4.src({
+            src: "http://47.104.92.203:10810/nvc/HM-NVR-110/hls/stream_4/stream_4_live.m3u8",
+            type: "application/x-mpegURL"
+        });
+    });
+    videoPlayer1.load();
+    videoPlayer2.load();
+    videoPlayer3.load();
+    videoPlayer4.load();
+</script>
+
+<script>
+    (function($) {
+        $.fn.extend({
+            RollTitle: function(opt, callback) {
+                if (!opt) var opt = {};
+                var _this = this;
+                _this.timer = null;
+                _this.lineH = _this.find("li:first").height();
+                _this.line = opt.line ? parseInt(opt.line, 15) : parseInt(_this.height() / _this.lineH, 10);
+                _this.speed = opt.speed ? parseInt(opt.speed, 10) : 3000, //卷动速度，数值越大，速度越慢（毫秒
+                    _this.timespan = opt.timespan ? parseInt(opt.timespan, 13) : 1000; //滚动的时间间隔（毫秒
+                if (_this.line == 0) this.line = 1;
+                _this.upHeight = 0 - _this.line * _this.lineH;
+                _this.scrollUp = function() {
+                    _this.animate({
+                        marginTop: _this.upHeight
+                    }, _this.speed, function() {
+                        for (i = 1; i <= _this.line; i++) {
+                            _this.find("li:first").appendTo(_this);
+                        }
+                        _this.css({
+                            marginTop: 0
+                        });
+                    });
+                };
+
+                _this.hover(function() {
+                    clearInterval(_this.timer);
+                }, function() {
+                    _this.timer = setInterval(function() {
+                        _this.scrollUp();
+                    }, _this.timespan);
+                }).mouseout();
+            }
+        })
+    })(jQuery);
+
+    $(document.body).ready(function() {
+        $("#RunTopic").RollTitle({
+            line: 1,
+            speed: 200,
+            timespan: 1500
+        });
+    });
+</script>
+<script>
+    (function($) {
+        $.fn.extend({
+            RollTitle2: function(opt, callback) {
+                if (!opt) var opt = {};
+                var _this = this;
+                _this.timer = null;
+                _this.lineH = _this.find("div:first").height();
+                _this.line = opt.line ? parseInt(opt.line, 15) : parseInt(_this.height() / _this.lineH, 10);
+                _this.speed = opt.speed ? parseInt(opt.speed, 10) : 5000, //卷动速度，数值越大，速度越慢（毫秒
+                    _this.timespan = opt.timespan ? parseInt(opt.timespan, 13) : 2000; //滚动的时间间隔（毫秒
+                if (_this.line == 0) this.line = 1;
+                _this.upHeight = 0 - _this.line * _this.lineH;
+                _this.scrollUp = function() {
+                    _this.animate({
+                        marginTop: _this.upHeight
+                    }, _this.speed, function() {
+                        for (i = 1; i <= _this.line; i++) {
+                            _this.find("div:first").appendTo(_this);
+                        }
+                        _this.css({
+                            marginTop: 0
+                        });
+                    });
+                }
+                _this.hover(function() {
+                    clearInterval(_this.timer);
+                }, function() {
+                    _this.timer = setInterval(function() {
+                        _this.scrollUp();
+                    }, _this.timespan);
+                }).mouseout();
+            }
+        })
+    })(jQuery);
+
+    $(document.body).ready(function() {
+        $(".ondutyStatus").RollTitle2({
+            line: 1,
+            speed: 200,
+            timespan: 1500
+        });
+    });
+</script>
+
+</html>

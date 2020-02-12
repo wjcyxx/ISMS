@@ -10,6 +10,7 @@
 
 <style type="text/css">
 	body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin: auto;font-family:"微软雅黑";}
+
 </style>
 
 <body>
@@ -67,13 +68,22 @@
              marker.setLabel(label);
 
             function mapOnClick(e) {
-                window.parent.document.getElementById('Mapview').contentWindow.location.href="{% url 'envdetection:entrance' %}";
+                var p = e.target;
+
+                parent.layer.open({
+                    type:   2,
+                    title: false,
+                    area: ['100%','100%'],
+                    content: "{% url 'mapview:show_projectdetail' %}?long="+p.getPosition().lng+"&lat="+p.getPosition().lat,
+                    resize: false,
+                    move: false
+                });
             }
 
         {% endfor %}
 
 
-        map.centerAndZoom(new BMap.Point(point), 17);
+        map.centerAndZoom(new BMap.Point(point), 14);
         map.panTo(point);
 
         form.on('select(optprj)', function(data){

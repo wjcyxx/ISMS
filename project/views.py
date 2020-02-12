@@ -70,10 +70,11 @@ def ref_dropdowndata(obj, request):
 
 #链接增加模板
 def add(request):
+    type = request.GET.get('type')
     obj = ProjectModelForm()
 
     ref_dropdowndata(obj, request)
-    return render(request, "content/project/projectadd.html" , {'obj': obj, 'action': 'insert'})
+    return render(request, "content/project/projectadd.html" , {'obj': obj, 'action': 'insert', 'type': type})
 
 #链接编辑模板
 def edit(request):
