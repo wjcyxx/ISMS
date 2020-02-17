@@ -95,7 +95,8 @@ INSTALLED_APPS = [
     'devinterfacesrv',
     'datacockpit',
     'devicecockpit',
-    'videocockpit'
+    'videocockpit',
+    'prjprocess'
 ]
 
 MIDDLEWARE = [

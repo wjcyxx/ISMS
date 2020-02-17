@@ -489,7 +489,7 @@
         position: absolute;
         z-index: 1;
         right: 0;
-        top: -27px;
+        top: -36px;
         width: 12px;
         height: 12px;
         border-radius: 50%;
@@ -704,24 +704,24 @@
                                 <p class="projectType">项目类型：{{ projecttype }}</p>
                                 <p class="projectArea">占地面积：{{ projectinfo.FArea }}㎡</p>
                                 <p class="projectAddrenss">项目地址：{{ projectinfo.FAddress }}</p>
-                                <p class="buildDepartment">建设单位：{{ projectinfo.FBuildOrgID }}</p>
+                                <p class="buildDepartment">建设单位：{% if projectinfo.FBuildOrgID != None %} {{ projectinfo.FBuildOrgID }} {% endif %}</p>
                             </div>
                             <div class="detailRight col-sm-6">
                                 <p class="workTime">工期：{% if projectinfo.FSigbeginDate != None %} {{ projectinfo.FSigbeginDate }} {% endif %} </p>
-                                <p class="checkDepartment">监理单位：杭州信达奥体置业有限公司</p>
-                                <p class="designDepartment">设计单位：杭州信达奥体置业有限公司</p>
-                                <p class="jobDepartment">施工单位：杭州信达奥体置业有限公司</p>
+                                <p class="checkDepartment">监理单位：{% if projectinfo.FSuperviseOrgID != None %} {{ projectinfo.FSuperviseOrgID }} {% endif %}</p>
+                                <p class="designDepartment">设计单位：{% if projectinfo.FDesignOrgID != None %} {{ projectinfo.FDesignOrgID }} {% endif %}</p>
+                                <p class="jobDepartment">施工单位：{% if projectinfo.FBuildOrgID != None %} {{ projectinfo.FBuildOrgID }} {% endif %}</p>
                             </div>
                         </div>
                         <div class="projectPro">
                             <p class="titleOne">项目进度</p>
                             <div class="workTimes">
                                 <div class="haswork col-sm-6">
-                                    <p class="hasTime">215</p>
+                                    <p class="hasTime">{{ workday }}</p>
                                     <p class="hasText">已施工天数</p>
                                 </div>
                                 <div class="remainwork col-sm-6">
-                                    <p class="remainTime">375</p>
+                                    <p class="remainTime">{{ remainday }}</p>
                                     <p class="remainText">剩余施工天数</p>
                                 </div>
                             </div>
@@ -734,7 +734,7 @@
                                 <div class="timeline_info">
                                     Step 1
                                 </div>
-                                <input class="timeline_input" id="btn2" name="timeline" type="radio" />
+                                <input class="timeline_input" id="btn2" name="timeline" type="radio" checked="checked" />
                                 <label class="timeline_label" for="btn2">
                                     <p>基础</p>
                                     <p>2019.5.12</p>
@@ -786,7 +786,22 @@
                                 <li class="switchList">监控</li>
                             </ul>
                             <div class="layui-tab-content">
-                                <div class="layui-tab-item layui-show"><img src="/static/images/img/background.png" alt=""></div>
+                                <div class="layui-tab-item layui-show">
+                                    <div class="layui-carousel" id="prjmap">
+                                        <div carousel-item>
+                                            {% if prjmapinfo.count > 0 %}
+                                                {% for prj_map in prjmapinfo %}
+                                                    <div>
+                                                        <img src="/media/{{ prj_map.FFilepath }}" alt="">
+                                                    </div>
+                                                {% endfor %}
+                                            {% else %}
+                                                <img src="/static/images/img/background.png" alt="">
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="layui-tab-item">
                                     <div id="videoBox" class="col-sm-6">
                                         <div class="videoImg">
@@ -1049,19 +1064,24 @@
 <script src="/static/js/echartsDetail.js"></script>
 
 <script type="text/javascript">
-    layui.use(['element','layer','form'], function() {
+    layui.use(['element','layer','form', 'carousel'], function() {
         var element = layui.element
         , layer = layui.layer
-        , form = layui.form; //导航的hover效果、二级菜单等功能，需要依赖element模块
+        , form = layui.form
+        , carousel = layui.carousel; //导航的hover效果、二级菜单等功能，需要依赖element模块
         //监听导航点击
         element.on('nav(demo)', function(elem) {
             layer.msg(elem.text());
         });
-    });
 
-    $("#btnC").click(function () {
-        var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
-        parent.layer.close(index);
+        carousel.render({
+            elem: '#prjmap'
+            ,width: '100%' //设置容器宽度
+            ,height: '100%'
+            ,arrow: 'always' //始终显示箭头
+            ,interval: 6000
+            //,anim: 'updown' //切换动画方式
+        });
     });
 
     var position = $(".textContent").scrollLeft();

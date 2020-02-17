@@ -81,7 +81,8 @@ urlpatterns = [
     path('devinterfacesrv/', include('devinterfacesrv.urls'), name='devinterfacesrv'),
     path('datacockpit/', include('datacockpit.urls'), name='datacockpit'),
     path('devicecockpit/', include('devicecockpit.urls'), name='devicecockpit'),
-    path('videocockpit/', include('videocockpit.urls'), name='videocockpit')
+    path('videocockpit/', include('videocockpit.urls'), name='videocockpit'),
+    path('prjprocess/', include('prjprocess.urls'), name='prjprocess')
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

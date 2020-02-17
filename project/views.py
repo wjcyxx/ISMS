@@ -78,13 +78,14 @@ def add(request):
 
 #链接编辑模板
 def edit(request):
+    type = request.GET.get('type')
     fid = request.GET.get('fid')
 
     Project_info = T_Project.objects.get(Q(FID=fid))
     obj = ProjectModelForm(instance=Project_info)
 
     ref_dropdowndata(obj, request)
-    return render(request, "content/project/projectadd.html", {'obj': obj,  'Project_info': Project_info,  'action': 'update'})
+    return render(request, "content/project/projectadd.html", {'obj': obj,  'Project_info': Project_info,  'action': 'update', 'type': type})
 
 #处理新增及保存
 def insert(request):

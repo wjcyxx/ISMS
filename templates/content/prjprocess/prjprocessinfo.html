@@ -5,7 +5,7 @@
 </head>
 <body style="overflow: hidden;">
 
-  <!--UKEY设备信息列表  -->
+  <!--安全帽规则信息列表  -->
 
     <!-- 工具条 -->
       <!-- 查询框 -->
@@ -15,7 +15,7 @@
               <div class="layui-colla-content">
                   <form class="layui-form" method="post">
                       <div class="layui-inline">
-                          <input type="text" name="serinput" placeholder="输入项目名称" autocomplete="off" class="layui-input" value="" style="width: 120%">
+                          <input type="text" name="serinput" placeholder="输入阶段名称" autocomplete="off" class="layui-input" value="" style="width: 120%">
                       </div>
 
                       <div class="layui-inline" style="margin-left: 35px">
@@ -27,7 +27,7 @@
       </div>
 
       <div style="padding-top: 10px" >
-        <a href="javascript:;" class="layui-btn layui-btn-normal" id="btnAdd">新增</a>
+        <a href="javascript:;" class="layui-btn layui-btn-normal" id="btnAdd">增加</a>
         <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
       </div>
 
@@ -38,12 +38,6 @@
 {% include "common/jsfiles.html" %}
 
 <script>
-  var Prjtype = {{ prjtype|safe }};
-  var Prjuse = {{ prjuse|safe }};
-  var Prjstate = {{ prjstate|safe }};
-  var Prjstruc = {{ prjstruc|safe }};
-  var Prjmanorg = {{ prjmanorg|safe }};
-
   layui.use(['element', 'layer', 'table'], function(){
       var $ = layui.jquery
           ,element = layui.element
@@ -51,46 +45,35 @@
           ,layer = layui.layer;
 
       $("#btnClose").click(function () {
-          window.parent.layui.element.tabDelete('tabMain','Project');
+          window.parent.layui.element.tabDelete('tabMain','Prjprocess');
       });
 
       //新增按钮事件
       $("#btnAdd").click(function () {
           parent.layer.open({
               type:   2,
-              title:  '新增项目信息',
-              area: ['1100px','680px'],
+              title:  '新增项目阶段',
+              area: ['920px','380px'],
               fixed: false,
-              content: "{% url 'project:add' %}?type=0",
+              content: "{% url 'prjprocess:add' %}",
               resize: false,
               move: false
           });
       });
 
       table.render({
-          method: 'post',
           page: true,
           limit: 20,
-          height: 'full-120',
           elem: '#datasource',
-          url: "{% url 'project:get_datasource' %}",
+          url: "{% url 'prjprocess:get_datasource' %}",
           cols: [[
-              {field:'FPrjID', width: '15%', title: '项目编码', sort: true},
-              {field:'FPrjname', width: '25%', title: '项目名称', sort: true},
-              {field:'FShortname', width: '15%', title: '项目简称', sort: true},
-              {field:'FPrjtypeID', width: '15%', title: '工程类别', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPrjtypeID, Prjtype)}}{% endverbatim %}</div>'},
-              {field:'FPrjuseID', width: '15%', title: '工程用途', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPrjuseID, Prjuse)}}{% endverbatim %}</div>'},
-              {field:'FPrjstate', width: '15%', title: '工程状态', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPrjstate, Prjstate)}}{% endverbatim %}</div>'},
-              {field:'FStructypeID', width: '15%', title: '结构类型', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FStructypeID, Prjstruc)}}{% endverbatim %}</div>'},
-              {field:'FArea', width: '15%', title: '建筑面积', sort: true},
-              {field:'FPrjcost', width: '15%', title: '工程造价', sort: true},
-              {field:'FPrjcost', width: '15%', title: '工程造价', sort: true},
-              {field:'FPrjmanager', width: '15%', title: '项目经理', sort: true},
-              {field:'FPrjmanagertel', width: '15%', title: '项目经理电话', sort: true},
-              {field:'FAddress', width: '15%', title: '项目地址', sort: true},
-              {field:'FManageORG', width: '15%', title: '管理组织', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FManageORG, Prjmanorg)}}{% endverbatim %}</div>'},
+              {field:'FProcessName', width: '15%', title: '阶段名称', sort: true},
+              {field:'FScheduleTime', width: '15%', title: '计划日期', sort: true},
+              {field:'FPlanStatus', width: '15%', title: '阶段状态', sort: true, templet: '#tpPlanStatus'},
+              {field:'FCompleteTime', width: '15%', title: '完成日期', sort: true},
+              {field:'FDesc', width: '20%', title: '备注', sort: true},
               {field:'FStatus', width: '15%', title: '状态', sort: true, templet: '#tpStatus'},
-              {field:'', title: '操作', width: '25%', toolbar: '#tlbar', fixed: 'right'}
+              {field:'', title: '操作', width: '20%', toolbar: '#tlbar', fixed: 'right'}
           ]],
           id: 'runreload'
       });
@@ -99,7 +82,7 @@
         form.on('submit(formsubmit)', function (data) {
             var serinput = $("input[name='serinput']").val();
             //alert(serinput);
-            table.reload('runreload', {where: {resultdict:{FPrjname: serinput}}});
+            table.reload('runreload', {where: {resultdict:{FProcessName: serinput}}});
 
             return false;
         });
@@ -116,10 +99,10 @@
               case 'edit' :              //编辑按钮事件
                   parent.layer.open({
                       type:   2,
-                      title:  '编辑项目信息',
-                      area: ['1100px','680px'],
+                      title:  '编辑项目阶段',
+                      area: ['920px','380px'],
                       fixed: false,
-                      content: "{% url 'project:edit' %}?fid="+data.FID+"&type=0",
+                      content: "{% url 'prjprocess:edit' %}?fid="+data.FID,
                       resize: false,
                       move: false
                   });
@@ -128,16 +111,16 @@
 
               case 'disabled' :               //禁用按钮事件
                   parent.layer.open({
-                      content: '是否确定禁用该项目',
+                      content: '是否确定禁用该项目阶段',
                       btn: ['确定','取消'],
                       yes: function (index) {
-                          $.post("{% url 'project:disabled' %}?type=lock", fid, function (data) {
+                          $.post("{% url 'prjprocess:disabled' %}?type=lock", fid, function (data) {
                               if (data.result=='0') {
                                   //window.parent.document.getElementById('Project').contentWindow.location.reload();
-                                  table.reload('runreload', {where: {resultdict:{FPrjname: ''}}});
+                                  table.reload('runreload', {where: {resultdict:{FProcessName: ''}}});
                               } else if (data.result=='2') {
-                                  parent.layer.alert('组织禁用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
-                              }
+                                  parent.layer.alert('项目阶段禁用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                              }s
 
                           },"json");
 
@@ -151,15 +134,15 @@
 
               case 'enabled' :
                   parent.layer.open({
-                      content: '是否确定启用该项目',
+                      content: '是否确定启用该项目阶段',
                       btn: ['确定','取消'],
                       yes: function (index) {
-                          $.post("{% url 'project:disabled' %}?type=unlock", fid, function (data) {
+                          $.post("{% url 'prjprocess:disabled' %}?type=unlock", fid, function (data) {
                               if (data.result=='0') {
                                   //window.parent.document.getElementById('Organize').contentWindow.location.reload();
-                                  table.reload('runreload', {where: {resultdict:{FPrjname: ''}}});
+                                  table.reload('runreload', {where: {resultdict:{FProcessName: ''}}});
                               } else if (data.result=='2') {
-                                  parent.layer.alert('组织启用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                                  parent.layer.alert('项目规则启用失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
                               }
 
                           },"json");
@@ -170,11 +153,7 @@
                       }
                   });
 
-
                   break;
-
-
-
           }
       });
   });
@@ -183,15 +162,25 @@
 
 <!--显示启用状态模板-->
 <script type="text/html" id="tpStatus">
-    {% verbatim %}
+     {% verbatim %}
         {{#  if(d.FStatus == false){ }}
             <span style="color: red">禁用</span>
         {{#  } else if(d.FStatus == true) { }}
             <span style="color: green">启用</span>
         {{#  } }}
-    {% endverbatim %}
+     {% endverbatim %}
 </script>
 
+<!--显示监测条件模板-->
+<script type="text/html" id="tpPlanStatus">
+    {% verbatim %}
+        {{#  if(d.FPlanStatus == 0){ }}
+            <span>计划中</span>
+        {{#  } else if(d.FStatus == 1) { }}
+            <span style="color: green">已完成</span>
+        {{#  } }}
+    {% endverbatim %}
+</script>
 
 <!--生成操作工具栏-->
 <script type="text/html" id="tlbar">
@@ -200,13 +189,12 @@
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="iconfont icon-bianji"></i>编辑</a>
 
             {{# if(d.FStatus == true){ }}
-                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>
             {{# } else if(d.FStatus == false){ }}
-                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="enabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>启用</a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="enabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>启用</a>
             {{# } else { }}
-                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>
             {{# } }}
-
         </div>
     {% endverbatim %}
 </script>
