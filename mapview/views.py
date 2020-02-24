@@ -2,11 +2,14 @@ from django.shortcuts import render
 from django.shortcuts import HttpResponse
 from django.http import HttpRequest
 from django.shortcuts import redirect
-from django.db.models import Q
+from django.db.models import Q, Count
 from common.views import *
 from project.models import project
 from projectmap.models import projectmap
+from prjprocess.models import prjprocess
 from basedata.models import base
+from personnel.models import personnel
+from pedpassage.models import passagerecord
 from django.http import JsonResponse
 import json
 from django.utils import timezone
@@ -73,14 +76,36 @@ class show_projectdetail(EntranceView_base):
                 work_day = '-'
 
             prjmap_info = projectmap.objects.filter(Q(CREATED_PRJ=fid))
+            prj_schedule = prjprocess.objects.filter(Q(CREATED_PRJ=fid), Q(FStatus=True)).order_by('FScheduleTime')
+            manager_info = personnel.objects.filter(Q(CREATED_PRJ=fid), Q(FType=0), Q(FStatus=0))
+            person_info = personnel.objects.filter(Q(CREATED_PRJ=fid), ~Q(FType=0), Q(FStatus=0))
 
+            manager_record = passagerecord.objects.filter(Q(CREATED_PRJ=fid), Q(FPersonID__FType=0)).values('FPersonID').annotate(total=Count('FPersonID'))
+
+            personel_record = passagerecord.objects.filter(Q(CREATED_PRJ=fid), ~Q(FPersonID__FType=0)).values('FPersonID').annotate(total=Count('FPersonID'))
 
             self.template_name = 'content/datacockpit/projectdetail.html'
+            #已施工天数
             self.context['workday'] = work_day
+            #剩余施工天数
             self.context['remainday'] = remain_date
+            #项目信息数据集
             self.context['projectinfo'] = project_info
+            #项目类型
             self.context['projecttype'] = project_type
+            #项目平面图数据集
             self.context['prjmapinfo'] = prjmap_info
+            #项目施工进度数据集
+            self.context['prjschedule'] = prj_schedule
+            #项目管理人员数据集
+            self.context['manager'] = manager_info
+            #现场管理人员总数
+            self.context['sitemanager'] = len(manager_record)
+            #项目劳工数据集
+            self.context['personnel'] = person_info
+            #现场劳工人员总数
+            self.context['sitepersonel'] = len(personel_record)
+
         except ObjectDoesNotExist:
             self.template_name = ''
 

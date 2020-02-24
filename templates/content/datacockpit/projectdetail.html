@@ -1,5 +1,6 @@
 <html lang="en">
 {% load static %}
+{% load getworktype %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -380,7 +381,8 @@
         border-radius: 50%;
         float: left;
         text-align: center;
-        line-height: 36px;
+        line-height: 30px;
+        padding: 2px;
     }
 
     .environment-icons {
@@ -396,7 +398,8 @@
     }
 
     .item-number {
-        font-size: 16px;
+        font-size: 18px;
+        align-content: center;
         color: #fff;
         margin-bottom: 0px !important;
     }
@@ -697,7 +700,7 @@
                 <div class="topContent">
                     <!-- 上左框 -->
                     <div class="topLeft col-sm-3">
-                        <p class="headTitle"><i class="fa fa-building-o" aria-hidden="true"></i> 项目概况</p>
+                        <p class="headTitle" style="color: wheat"><i class="fa fa-building-o" aria-hidden="true"></i> 项目概况</p>
                         <div class="projectDetail">
                             <p class="titleOne projectTitle">{{ projectinfo.FPrjname }}</p>
                             <div class="detailLeft col-sm-6">
@@ -726,46 +729,16 @@
                                 </div>
                             </div>
                             <div class="timeline_card">
-                                <input checked="" class="timeline_input" id="btn1" name="timeline" type="radio" />
-                                <label class="timeline_label" for="btn1">
-                                    <p>开工</p>
-                                    <p>2019.2.12</p>
-                                </label>
-                                <div class="timeline_info">
-                                    Step 1
-                                </div>
-                                <input class="timeline_input" id="btn2" name="timeline" type="radio" checked="checked" />
-                                <label class="timeline_label" for="btn2">
-                                    <p>基础</p>
-                                    <p>2019.5.12</p>
-                                </label>
-                                <div class="timeline_info">
-                                    Step 2
-                                </div>
-                                <input class="timeline_input" id="btn3" name="timeline" type="radio" />
-                                <label class="timeline_label" for="btn3">
-                                    <p>主体</p>
-                                    <p>2019.6.15</p>
-                                </label>
-                                <div class="timeline_info">
-                                    Step 3
-                                </div>
-                                <input class="timeline_input" id="btn4" name="timeline" type="radio" />
-                                <label class="timeline_label" for="btn4">
-                                    <p>结构</p>
-                                    <p>2019.7.29</p>
-                                </label>
-                                <div class="timeline_info">
-                                    Step 4
-                                </div>
-                                <input class="timeline_input" id="btn5" name="timeline" type="radio" />
-                                <label class="timeline_label" for="btn5">
-                                    <p>装饰</p>
-                                    <p>2019.10.15</p>
-                                </label>
-                                <div class="timeline_info">
-                                    Step 5
-                                </div>
+                                {% for sch in prjschedule %}
+                                    <input {% if sch.FPlanStatus == 1 %} checked="" {% endif %} disabled="disabled" class="timeline_input" id="{{ sch.FID }}" name="timeline" type="radio" />
+                                    <label class="timeline_label" for="{{ sch.FID }}">
+                                        <p>{{ sch.FProcessName }}</p>
+                                        <p>{{ sch.FScheduleTime | date:'y.m.d' }}</p>
+                                    </label>
+                                    <div class="timeline_info">
+                                        Step 1
+                                    </div>
+                                {% endfor %}
                                 <div class="timeline_line"></div>
                             </div>
                         </div>
@@ -862,153 +835,106 @@
                 <div class="bottomContent">
                     <!-- 下左框 -->
                     <div class="bottomOne col-sm-3">
-                        <p class="headTitle"><i class="iconfont icon-square"></i>人员概况</p>
+                        <p class="headTitle" style="color: wheat"><i class="fa fa-users" aria-hidden="true"></i> 人员概况</p>
                         <!-- 人员信息 -->
                         <div class="bottomNav">
                             <ul class="navContent">
                                 <li class="layui-nav-item">
-                                    <span>10/</span><span>18</span><br>
+                                    <span>{{ sitemanager }}/</span><span>{{ manager.count }}</span><br>
                                     <span>今日进场关键人员</span></a>
                                 </li>
                                 <li class="layui-nav-item">
-                                    <span>216/</span><span>436</span><br>
+                                    <span>{{ sitepersonel }}/</span><span>{{ personnel.count }}</span><br>
                                     <span>今日进场劳务人员</span></a>
                                 </li>
                             </ul>
                         </div>
+                        <!-- 项目人员列表 -->
                         <div class="ondutyStatus">
-                            <!-- <div class="keyPerson col-sm-6">
-                                <div class="imgBox col-sm-3"><img src="./img/person1.png" alt=""></div>
-                                <div class="keyContent col-sm-8">
-                                    <p><span class="principal">叶关华</span><span class="attend">（在场）</span></p>
-                                    <p class="job">职位：监理单位负责人</p>
-                                    <p class="telephone">电话：15236325486</p>
+                            {% for mgr in manager %}
+                                <div class="keyPerson col-sm-6">
+                                    <div class="imgBox col-sm-3">
+                                        {% if mgr.FPhoto == '' %}
+                                            <img src="{% static 'images/img/defaultImg.png' %}" alt="">
+                                        {% else %}
+                                            <img src="/media/{{ mgr.FPhoto }}" alt="">
+                                        {% endif %}
+                                    </div>
+                                    <div class="keyContent col-sm-8">
+                                        <p><span class="principal">{{ mgr.FName }}</span><span class="attend"></span></p>
+                                        <p class="job">职位：{{ mgr.FWorktypeID|get_worktype }}</p>
+                                        <p class="telephone">电话：{{ mgr.FTel|default_if_none:''}} </p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="keyPerson col-sm-6">
-                                <div class="imgBox col-sm-3"><img src="./img/person2.png" alt=""></div>
-                                <div class="keyContent col-sm-8">
-                                    <p><span class="principal">王杰</span><span class="attend">（在场）</span></p>
-                                    <p class="job">职位：南建项目经理</p>
-                                    <p class="telephone">电话：16584572564</p>
-                                </div>
-                            </div>
-                            <div class="keyPerson col-sm-6">
-                                <div class="imgBox col-sm-3"><img src="./img/person3.png" alt=""></div>
-                                <div class="keyContent col-sm-8">
-                                    <p><span class="principal">杨峰杰</span><span class="attend">（在场）</span></p>
-                                    <p class="job">职位：勘察负责人</p>
-                                    <p class="telephone">电话：16458752365</p>
-                                </div>
-                            </div>
-                            <div class="keyPerson col-sm-6">
-                                <div class="imgBox col-sm-3"><img src="./img/person4.png" alt=""></div>
-                                <div class="keyContent col-sm-8">
-                                    <p><span class="principal">孙震林</span><span class="attend">（在场）</span></p>
-                                    <p class="job">职位：南建项目经理</p>
-                                    <p class="telephone">电话：15854752365</p>
-                                </div>
-                            </div>
-                            <div class="keyPerson col-sm-6">
-                                <div class="imgBox col-sm-3"><img src="./img/person1.png" alt=""></div>
-                                <div class="keyContent col-sm-8">
-                                    <p><span class="principal">叶关华</span><span class="attend">（在场）</span></p>
-                                    <p class="job">职位：监理单位负责人</p>
-                                    <p class="telephone">电话：15236325486</p>
-                                </div>
-                            </div>
-                            <div class="keyPerson col-sm-6">
-                                <div class="imgBox col-sm-3"><img src="./img/person2.png" alt=""></div>
-                                <div class="keyContent col-sm-8">
-                                    <p><span class="principal">王杰</span><span class="attend">（在场）</span></p>
-                                    <p class="job">职位：南建项目经理</p>
-                                    <p class="telephone">电话：16584572564</p>
-                                </div>
-                            </div>
-                            <div class="keyPerson col-sm-6">
-                                <div class="imgBox col-sm-3"><img src="./img/person3.png" alt=""></div>
-                                <div class="keyContent col-sm-8">
-                                    <p><span class="principal">杨峰杰</span><span class="attend">（在场）</span></p>
-                                    <p class="job">职位：勘察负责人</p>
-                                    <p class="telephone">电话：16458752365</p>
-                                </div>
-                            </div>
-                            <div class="keyPerson col-sm-6">
-                                <div class="imgBox col-sm-3"><img src="./img/person4.png" alt=""></div>
-                                <div class="keyContent col-sm-8">
-                                    <p><span class="principal">孙震林</span><span class="attend">（在场）</span></p>
-                                    <p class="job">职位：南建项目经理</p>
-                                    <p class="telephone">电话：15854752365</p>
-                                </div>
-                            </div> -->
+                            {% endfor %}
                         </div>
                     </div>
                     <!-- 下中左框 -->
                     <div class="bottomTwo col-sm-3">
-                        <p class="headTitle"><i class="iconfont icon-square"></i>环境监测</p>
+                        <p class="headTitle" style="color: wheat"><i class="fa fa-envira" aria-hidden="true"></i> 环境监测</p>
                         <div class="data-lists">
                             <ul class="data-list clear">
                                 <li class="data-list-item clear col-sm-4">
                                     <div class="data-item-icon">
-                                        <i class="environment-icons iconfont icon-pm-"></i>
+                                        <img src="/static/datacockpit/images/pm-2.png" style="height: 28px; width: 28px" />
                                     </div>
                                     <div class="data-item-show">
-                                        <p class="item-number PMdata">42.00</p>
-                                        <p class="item-unit PMtext">PM2.5(ug/m³)</p>
+                                        <p class="item-number" id="pm25">--</p>
+                                        <p class="item-unit PMtext">PM2.5</p>
                                     </div>
                                 </li>
                                 <li class="data-list-item clear col-sm-4">
                                     <div class="data-item-icon">
-                                        <i class="environment-icons iconfont icon-zhinanzhen"></i>
+                                        <img src="/static/datacockpit/images/pm10_2.png" style="height: 28px; width: 28px" />
                                     </div>
                                     <div class="data-item-show">
-                                        <p class="item-number winddata">0.00</p>
-                                        <p class="item-unit windtext">风向(度数)(°)</p>
+                                        <p class="item-number" id="pm10">--</p>
+                                        <p class="item-unit windtext">PM10</p>
                                     </div>
                                 </li>
                                 <li class="data-list-item clear col-sm-4">
                                     <div class="data-item-icon">
-                                        <i class="environment-icons iconfont icon-fengxiang1"></i>
+                                        <img src="/static/datacockpit/images/fengli.png" style="height: 28px; width: 28px" />
                                     </div>
                                     <div class="data-item-show">
-                                        <p class="item-number windPdata">1.00</p>
-                                        <p class="item-unit windPtext">风力(无)</p>
+                                        <p class="item-number" id="wdforce">--</p>
+                                        <p class="item-unit windPtext">风力</p>
                                     </div>
                                 </li>
                                 <li class="data-list-item clear col-sm-4">
                                     <div class="data-item-icon">
-                                        <i class="environment-icons iconfont icon-wendu"></i>
+                                        <img src="/static/datacockpit/images/wendu.png" style="height: 28px; width: 28px" />
                                     </div>
                                     <div class="data-item-show">
-                                        <p class="item-number temperaturedata">7.90</p>
-                                        <p class="item-unit temperaturetext">温度(℃)</p>
+                                        <p class="item-number" id="temper">--</p>
+                                        <p class="item-unit temperaturetext">温度</p>
                                     </div>
                                 </li>
                                 <li class="data-list-item clear col-sm-4">
                                     <div class="data-item-icon">
-                                        <i class="environment-icons iconfont icon-zaosheng"></i>
+                                       <img src="/static/datacockpit/images/zaosheng.png" style="height: 30px; width: 30px" />
                                     </div>
                                     <div class="data-item-show">
-                                        <p class="item-number noisedata">55.10</p>
+                                        <p class="item-number" id="noise">--</p>
                                         <p class="item-unit noisetext">噪声(dB)</p>
                                     </div>
                                 </li>
                                 <li class="data-list-item clear col-sm-4">
                                     <div class="data-item-icon">
-                                        <i class="environment-icons iconfont icon-fengxiang"></i>
+                                        <img src="/static/datacockpit/images/fengxiang.png" style="height: 28px; width: 28px" />
                                     </div>
                                     <div class="data-item-show">
-                                        <p class="item-number windDdata">北风</p>
+                                        <p class="item-number" id="direct">--</p>
                                         <p class="item-unit windDtext">风向(方位)</p>
                                     </div>
                                 </li>
 
                                 <li class="data-list-item clear col-sm-4">
                                     <div class="data-item-icon">
-                                        <i class="environment-icons iconfont icon-fengsu"></i>
+                                        <img src="/static/datacockpit/images/windspeed.png" style="height: 28px; width: 28px" />
                                     </div>
                                     <div class="data-item-show">
-                                        <p class="item-number windSdata">0.70</p>
+                                        <p class="item-number" id="wdspeed">--</p>
                                         <p class="item-unit windStext">风速(m/s)</p>
                                     </div>
                                 </li>
@@ -1017,13 +943,13 @@
                                         <i class="environment-icons iconfont icon-shidu"></i>
                                     </div>
                                     <div class="data-item-show">
-                                        <p class="item-number humiditydata">80.10</p>
+                                        <p class="item-number" id="humidity">--</p>
                                         <p class="item-unit humiditytext">湿度(%RH)</p>
                                     </div>
                                 </li>
                             </ul>
                         </div>
-                        <div id="hFcontainer" style="height: 60%; width: 100%"></div>
+                        <div id="prj_hisdata" style="height: 60%; width: 100%"></div>
                     </div>
                     <!-- 下中右框 -->
                     <div class="bottomThree col-sm-2">
@@ -1061,6 +987,7 @@
 <script src="/static/js/bootstrap-table/bootstrap-table.js"></script>
 <script src="/static/js/bootstrap-table-fixed-columns/bootstrap-table-zh-CN.min.js"></script>
 <script src="/static/js/echarts.min.js"></script>
+<script type="text/javascript" src="/static/datacockpit/js/dark.js"></script>
 <script src="/static/js/echartsDetail.js"></script>
 
 <script type="text/javascript">
@@ -1078,10 +1005,187 @@
             elem: '#prjmap'
             ,width: '100%' //设置容器宽度
             ,height: '100%'
-            ,arrow: 'always' //始终显示箭头
             ,interval: 6000
-            //,anim: 'updown' //切换动画方式
         });
+
+        var getEnvData = function () {
+            $.post("{% url 'devicecockpit:get_envrealtimedata' %}", {"prjid": "{{ projectinfo.FID }}"}, function (data) {
+                //alert(data[0].value)
+                $("#pm25").html(data[0].value);
+                $("#pm10").html(data[1].value);
+
+                if (data[3].value <= 0.2){
+                    $("#wdforce").html("无风");
+                } else if (data[3].value > 0.2 && data[3].value <= 1.5) {
+                    $("#wdforce").html("一级");
+                } else if (data[3].value > 1.5 && data[3].value <= 3.3) {
+                    $("#wdforce").html("二级");
+                } else if (data[3].value > 3.3 && data[3].value <= 5.4) {
+                    $("#wdforce").html("三级");
+                } else if (data[3].value > 5.4 && data[3].value <= 7.9) {
+                    $("#wdforce").html("四级");
+                } else if (data[3].value > 7.9 && data[3].value <= 10.7) {
+                    $("#wdforce").html("五级");
+                } else if (data[3].value > 10.7 && data[3].value <= 13.8) {
+                    $("#wdforce").html("六级");
+                } else if (data[3].value > 13.8 && data[3].value <= 17.1) {
+                    $("#wdforce").html("七级");
+                } else if (data[3].value > 17.1 && data[3].value <= 20.7) {
+                    $("#wdforce").html("八级");
+                }
+
+                $("#temper").html(data[4].value);
+                $("#noise").html(data[6].value);
+                if (data[3].value == '') {
+                    $("#direct").html("--");
+                } else {
+                    $("#direct").html(data[8].value);
+                }
+
+                $("#wdspeed").html(data[3].value);
+                $("#humidity").html(data[5].value);
+
+            }, "json");
+
+            $.post("{% url 'devicecockpit:get_envhisdata' %}", {"prjid": "{{ projectinfo.FID }}"}, function (data) {
+                var dom = document.getElementById("prj_hisdata");
+                var myChart = echarts.init(dom);
+
+                var days = data.FDay;
+                var pm25 = data.FPM25;
+                var pm10 = data.FPM10;
+
+                option = {
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            animation: false
+                        }
+                    },
+                    textStyle:{
+                        color:'white',
+                        fontStyle: "bold"
+                    },
+                    legend: {
+                        x: 'left',
+                        y: 'top',
+                        color: ["#66cc00", "#d94d02"],
+                        data:[{name: "PM2.5", textStyle:{color: "#66cc00"}}, {name: "PM10", textStyle:{color: "#d94d02"}}],
+                    },
+                    toolbox: {
+                        feature: {
+                            dataZoom: {
+                                yAxisIndex: 'none'
+                            },
+                            restore: {},
+                            saveAsImage: {}
+                        }
+                    },
+                    axisPointer: {
+                        link: {xAxisIndex: 'all'}
+                    },
+                    dataZoom: [
+                        {
+                            show: true,
+                            realtime: true,
+                            start: 30,
+                            end: 70,
+                            xAxisIndex: [0, 1]
+                        },
+                        {
+                            type: 'inside',
+                            realtime: true,
+                            start: 30,
+                            end: 70,
+                            xAxisIndex: [0, 1]
+                        }
+                    ],
+                    grid: [{
+                        left: 50,
+                        right: 50,
+                        height: '35%'
+                    }, {
+                        left: 50,
+                        right: 50,
+                        top: '55%',
+                        height: '35%'
+                    }],
+                    xAxis : [
+                        {
+                            type : 'category',
+                            boundaryGap : false,
+                            splitLine: {
+                                show: false
+                            },
+                            axisLine: {onZero: true},
+                            data: days
+                        },
+                        {
+                            gridIndex: 1,
+                            type : 'category',
+                            boundaryGap : false,
+                            splitLine: {
+                                show: false
+                            },
+                            axisLine: {onZero: true},
+                            data: days,
+                            position: 'top'
+                        }
+                    ],
+                    yAxis : [
+                        {
+                            name : 'PM2.5',
+                            type : 'value',
+                            minInterval: 1
+                            //max : 500
+                        },
+                        {
+                            gridIndex: 1,
+                            name : 'PM10',
+                            type : 'value',
+                            minInterval: 1,
+                            inverse: true
+                        }
+                    ],
+                    series : [
+                        {
+                            name:'PM2.5',
+                            type:'line',
+                            itemStyle : {
+                                normal : {
+                                    color:'#e01f54',   // 设置最高气温线的颜色
+                                }
+                            },
+                            symbolSize: 10,
+                            hoverAnimation: false,
+                            data: pm25
+                        },
+                        {
+                            name:'PM10',
+                            type:'line',
+                            itemStyle : {
+                                normal : {
+                                    color:'#82b6e9',   // 设置最高气温线的颜色
+                                }
+                            },
+                            xAxisIndex: 1,
+                            yAxisIndex: 1,
+                            symbolSize: 10,
+                            hoverAnimation: false,
+                            data: pm10
+                        }
+                    ]
+                };
+
+                myChart.setOption(option, true);
+
+            }, "json");
+
+        };
+
+        getEnvData();
+
+
     });
 
     var position = $(".textContent").scrollLeft();
@@ -1106,19 +1210,6 @@
         t = setTimeout("fun()", 30);
     }
 
-    // 最新数据颜色
-    function colorSwitch() {
-        let datas = document.getElementsByClassName("data-item-icon");
-        let icons = document.getElementsByClassName("environment-icons");
-        for (let i = 0; i < datas.length; i++) {
-            if (i >= datas.length / 2) {
-                datas[i].style.backgroundColor = "rgba(82,125,255,0.2)";
-                icons[i].style.color = "#527dff";
-            }
-        }
-    }
-    colorSwitch();
-
     // 添加title属性
     $(".projectDetail p").mouseover(function() {
         var projectDetail = $(this).text()
@@ -1132,403 +1223,7 @@
 
 <script>
     // 获取数据
-    $(document).ready(function() {
-        var url = "http://39.106.148.205";
-        var token;
-        // 获取token
-        function fetchToken() {
-            $.ajax({
-                type: "POST",
-                url: url + "/ismsapi/get_token/",
-                contentType: "application/x-www-form-urlencoded",
-                data: {
-                    appkey: "JDNkYn4pUa",
-                    md5: "c24605879b0d5e89cbdd1ec08bed8098"
-                },
-                dataType: 'json',
-                async: false,
-                complete: function(e) {},
-                success: function(e) {
-                    token = e.token;
-                },
-                error: function() {
-                    console.log("token接口调用失败");
-                }
-            });
-        }
-        fetchToken();
 
-        // 项目管理
-        var content = {
-            "FID": "09dc5718-a079-11e9-b707-7831c1d24216"
-        }
-        data = JSON.stringify(content)
-
-        var content1 = {
-            "FID": "5cb536b4a3d811e9b984708bcdb9b39a"
-        }
-        data1 = JSON.stringify(content1)
-
-        var content2 = {
-            "CREATED_PRJ": "6b1976962ae411eaac3500163e12e179",
-            "FType": 0
-        }
-        data2 = JSON.stringify(content2)
-
-        // 获取项目列表
-        function fetchProjectList() {
-            $.ajax({
-                type: "POST",
-                url: url + "/ismsapi/get_project/",
-                contentType: "application/x-www-form-urlencoded",
-                data: {
-                    appkey: "JDNkYn4pUa",
-                    token: token,
-                    conditions: data
-                },
-                dataType: 'json',
-                async: false,
-                complete: function(e) {},
-                success: function(e) {
-                    programList = e.data[0];
-                },
-                error: function() {
-                    console.log("project接口调用失败");
-                }
-            });
-        }
-        fetchProjectList();
-
-        // 获取项目类型
-        function fetchProjectType() {
-            $.ajax({
-                type: "POST",
-                url: url + "/ismsapi/get_basedate/ ",
-                contentType: "application/x-www-form-urlencoded",
-                data: {
-                    appkey: "JDNkYn4pUa",
-                    token: token,
-                    conditions: data1
-                },
-                dataType: 'json',
-                async: false,
-                complete: function(e) {},
-                success: function(e) {
-                    programtype = e.data[0];
-                },
-                error: function() {
-                    console.log("project接口调用失败");
-                }
-            });
-        }
-        fetchProjectType();
-
-        // $(".projectTitle").text(programList.FPrjname);
-        // $(".projectType").text("项目类型：" + programtype.FBase);
-        // $(".projectArea").text("占地面积：" + programList.FArea);
-        // $(".projectAddrenss").text("项目地址：" + programList.FAddress);
-        // $(".buildDepartment").text("建设单位：" + programList.FBuildOrgID);
-        // $(".checkDepartment").text("监理单位：" + programList.FSuperviseOrgID);
-        // $(".designDepartment").text("设计单位：" + programList.FDesignOrgID);
-        // $(".jobDepartment").text("施工单位：" + programList.FDesignOrgID);
-
-        // 获取项目关键人员
-        var worktypes = [];
-
-        function fetchProjectKeypsn() {
-            $.ajax({
-                type: "POST",
-                url: url + "/ismsapi/get_personnel/",
-                contentType: "application/x-www-form-urlencoded",
-                data: {
-                    appkey: "JDNkYn4pUa",
-                    token: token,
-                    conditions: data2
-                },
-                dataType: 'json',
-                async: false,
-                complete: function(e) {},
-                success: function(e) {
-                    // console.log(e)
-                    programKeypsn = e.data;
-                    for (i = 0; i < programKeypsn.length; i++) {
-                        worktypes.push(programKeypsn[i].FWorktypeID);
-                    }
-                },
-                error: function() {
-                    console.log("project接口调用失败");
-                }
-            });
-        }
-        fetchProjectKeypsn();
-        // console.log(programKeypsn);
-
-
-        function addHtml() {
-            var jobtype = [];
-
-            for (i = 0; i < programKeypsn.length; i++) {
-                var data33 = {
-                    FID: worktypes[i]
-                }
-                var data3 = JSON.stringify(data33);
-                $.ajax({
-                    type: "POST",
-                    url: url + "/ismsapi/get_basedate/",
-                    contentType: "application/x-www-form-urlencoded",
-                    data: {
-                        appkey: "JDNkYn4pUa",
-                        token: token,
-                        conditions: data3
-                    },
-                    dataType: 'json',
-                    async: false,
-                    complete: function(e) {},
-                    success: function(e) {
-                        // console.log(e)
-                        jobtype.push(e.data[0].FBase);
-                        // console.log(jobtype);
-                    },
-                    error: function() {
-                        console.log("project接口调用失败");
-                    }
-                });
-                if (programKeypsn[i].FStatus == 0) {
-                    var status = programKeypsn[i].FStatus = '登记'
-                } else if (programKeypsn[i].FStatus == 1) {
-                    var status = programKeypsn[i].FStatus = '退场'
-                } else if (programKeypsn[i].FStatus == 2) {
-                    var status = programKeypsn[i].FStatus = '禁用'
-                }
-
-                if (programKeypsn[i].FPhoto == '') {
-                    var photo = "{% static 'images/img/defaultImg.png' %}"
-                } else {
-                    var photo = 'http://47.97.73.105:8090/media/' + programKeypsn[i].FPhoto;
-                }
-                var htmladd = "";
-                htmladd += '<div class="keyPerson col-sm-6">';
-                htmladd += '<div class="imgBox col-sm-3">';
-                htmladd += '<img src="' + photo + '" alt="">';
-                htmladd += '</div>';
-                htmladd += '<div class="keyContent col-sm-8">';
-                htmladd += '<p><span class="principal">' + programKeypsn[i].FName + '</span><span class="attend">（' + status + '）</span></p>';
-                htmladd += '<p class="job">职位：' + jobtype[i] + '</p>';
-                // htmladd += '<p class="telephone">电话：' + programKeypsn[i].FTel + '</p>';
-                htmladd += '</div>';
-                htmladd += '</div>';
-                $(".ondutyStatus").prepend(htmladd);
-            }
-        }
-        addHtml()
-
-        // 获取环境数据
-        var environmentData;
-        var last = 30;
-
-        function fetchProjectData() {
-            // 获取当前时间
-            function getNow(s) {
-                return s < 10 ? '0' + s : s;
-            }
-            var time1;
-            var time2;
-
-            function NowTime() {
-                var myDate = new Date();
-                var year = myDate.getFullYear(); //获取当前年
-                var month = myDate.getMonth() + 1; //获取当前月
-                var date = myDate.getDate(); //获取当前日
-                var h = myDate.getHours(); //获取当前小时数(0-23)
-                var m = myDate.getMinutes(); //获取当前分钟数(0-59)
-                var s = myDate.getSeconds();
-                time1 = year + '-' + getNow(month) + "-" + getNow(date) + "T" + getNow(h) + ':' + getNow(m) + ":" + getNow(s);
-                time2 = year + '-' + getNow(month) + "-" + getNow(date) + "T" + getNow(h) + ':' + getNow(m - 5) + ":" + getNow(s);
-            }
-            NowTime()
-                // 获取环境数据
-            var data = {
-                "CREATED_PRJ": "09dc5718a07911e9b7077831c1d24216",
-                "FTimestamp__gte": time2,
-                "FTimestamp__lte": time1
-            }
-            content = JSON.stringify(data);
-
-            $.ajax({
-                type: "POST",
-                url: "http://39.106.148.205/ismsapi/get_env_hisdata/",
-                contentType: "application/x-www-form-urlencoded",
-                data: {
-                    appkey: "JDNkYn4pUa",
-                    token: token,
-                    conditions: content
-                },
-                dataType: 'json',
-                async: false,
-                success: function(data) {
-                    environmentData = data.data[0]
-                    var dataInfo = environmentData.FPM25;
-                    last = Number(dataInfo)
-                        // console.log(last)
-                        // console.log(environmentData)
-                        // 判断风向是否为null
-                    if (environmentData.FWIND_DIRECT_STR == null) {
-                        environmentData.FWIND_DIRECT_STR = "无"
-                    }
-                    // 根据风速判断风力
-                    if (environmentData.FWIND_SPEED <= 0.2) {
-                        windPower = "无风"
-                    } else if (environmentData.FWIND_SPEED > 0.2 && environmentData.FWIND_SPEED <= 1.5) {
-                        windPower = "一级"
-                    } else if (environmentData.FWIND_SPEED > 1.5 && environmentData.FWIND_SPEED <= 3.3) {
-                        windPower = "二级"
-                    } else if (environmentData.FWIND_SPEED > 3.3 && environmentData.FWIND_SPEED <= 5.4) {
-                        windPower = "三级"
-                    } else if (environmentData.FWIND_SPEED > 5.4 && environmentData.FWIND_SPEED <= 7.9) {
-                        windPower = "四级"
-                    } else if (environmentData.FWIND_SPEED > 7.9 && environmentData.FWIND_SPEED <= 10.7) {
-                        windPower = "五级"
-                    } else if (environmentData.FWIND_SPEED > 10.7 && environmentData.FWIND_SPEED <= 13.8) {
-                        windPower = "六级"
-                    } else if (environmentData.FWIND_SPEED > 13.8 && environmentData.FWIND_SPEED <= 17.1) {
-                        windPower = "七级"
-                    } else if (environmentData.FWIND_SPEED > 17.1 && environmentData.FWIND_SPEED <= 20.7) {
-                        windPower = "八级"
-                    }
-                    // 给html赋值
-                   $(".PMdata").text(environmentData.FPM25)
-                   $(".winddata").text(environmentData.FWIND_DIRECT)
-                   $(".windPdata").text(windPower)
-                   $(".temperaturedata").text(environmentData.FTemperature)
-                   $(".noisedata").text(environmentData.FNoise)
-                   $(".windDdata").text(environmentData.FWIND_DIRECT_STR)
-                   $(".windSdata").text(environmentData.FWIND_SPEED)
-                   $(".humiditydata").text(environmentData.FHumidity)
-                },
-                error: function() {
-                    console.log("project接口调用失败");
-                }
-            });
-        }
-        fetchProjectData();
-        setInterval(function() {
-                fetchProjectData()
-            }, 2000)
-            // 实时更新折线面积图
-        Highcharts.setOptions({
-            global: {
-                useUTC: false
-            }
-        });
-
-        $("#hFcontainer").highcharts({
-            chart: {
-                type: 'areaspline',
-                style: {
-                    fontSize: '14px',
-                    fontWeight: 'normal',
-                    color: '#fff'
-                },
-                backgroundColor: "transparent",
-                marginRight: 10,
-                events: {
-                    load: function() {
-                        var series = this.series[0],
-                            chart = this;
-                        setInterval(function() {
-                            var x = (new Date()).getTime(), // 当前时间
-                                y = last; // 随机值
-                            series.addPoint([x, y], true, true);
-                            // activeLastPointToolip(chart);
-                        }, 1000);
-                    }
-                }
-            },
-            title: {
-                text: null,
-            },
-            xAxis: {
-                labels: {
-                    style: {
-                        color: "rgba(255,255,255,0.7)"
-                    }
-                },
-                lineColor: "#808080", // 轴线颜色
-                type: 'datetime',
-                tickPixelInterval: 80
-            },
-            yAxis: {
-                title: {
-                    text: null
-                },
-                labels: {
-                    style: {
-                        color: "rgba(255,255,255,0.7)"
-                    },
-                    steps: 2
-                },
-                gridLineColor: '#808080', //网格线颜色
-                gridLineWidth: 0, //刻度线宽度
-            },
-            legend: {
-                enabled: false
-            },
-            credits: {
-                enabled: false
-            },
-            series: [{
-                name: 'PM2.5',
-                data: (function() {
-                    // 生成随机值
-                    var data = [],
-                        time = (new Date()).getTime(),
-                        i;
-                    for (i = -19; i <= 0; i += 1) {
-                        data.push({
-                            x: time + i * 1000,
-                            y: Math.random()
-                        });
-                    }
-                    return data;
-                }())
-            }],
-            tooltip: {
-                formatter: function() {
-                    return '<b>' + this.series.name + '</b><br/>' +
-                        Highcharts.dateFormat('%m-%d %H:%M:%S', this.x) + '<br/>' +
-                        Highcharts.numberFormat(this.y, 2);
-                }
-            },
-            plotOptions: {
-                areaspline: {
-                    fillColor: {
-                        linearGradient: {
-                            x1: 0,
-                            y1: 0,
-                            x2: 0,
-                            y2: 1
-                        },
-                        stops: [
-                            [0, "#374d90"],
-                            [1, "rgba(82,125,255,0)"]
-                        ]
-                    },
-                    marker: { // 点
-                        radius: 2,
-                        fillColor: "#fff",
-                    },
-                    lineWidth: 2,
-                    states: {
-                        hover: {
-                            lineWidth: 3
-                        }
-                    },
-                    threshold: null, //阀值
-                    color: "#a8baff", //数据列线条颜色
-                }
-            }
-        })
-    });
 
     var videoOptions = {
         autoplay: true,
@@ -1653,7 +1348,7 @@
     $(document.body).ready(function() {
         $(".ondutyStatus").RollTitle2({
             line: 1,
-            speed: 200,
+            speed: 400,
             timespan: 1500
         });
     });

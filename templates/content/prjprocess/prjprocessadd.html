@@ -84,16 +84,32 @@
 {% include "common/jsfiles.html" %}
 
 <script>
-layui.use(['element','layer','form', 'table'], function () {
+layui.use(['element','layer','form', 'laydate'], function () {
     var element = layui.element
         , layer = layui.layer
         , form = layui.form
-        , table = layui.table;
+        , laydate = layui.laydate;
 
     //关闭按钮
     $("#btnC").click(function () {
         var index = parent.layer.getFrameIndex(window.name); //得到弹层页面的index
         parent.layer.close(index);
+    });
+
+    laydate.render({
+        elem: '#id_FScheduleTime',
+        trigger: 'click'
+    });
+
+    laydate.render({
+        elem: '#id_FCompleteTime',
+        trigger: 'click'
+    });
+
+    lay('.takeDate').each(function() {
+        laydate.render({
+            elem: this
+        });
     });
 
     //监听窗口提交

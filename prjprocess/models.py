@@ -29,3 +29,4 @@ class prjprocess(models.Model):
 
     class Meta:
         db_table = "T_PrjProcess"
+        ordering = ['FScheduleTime']

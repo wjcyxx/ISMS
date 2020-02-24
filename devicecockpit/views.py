@@ -36,7 +36,7 @@ class envcockpit_entrance(EntranceView_base):
 
 class get_envrealtimedata(View):
     def post(self, request):
-        prjID = request.POST.get('prjid')
+        prjID = ''.join(str(request.POST.get('prjid')).split('-'))
 
         end_time = (datetime.datetime.now() + datetime.timedelta(days=1)).strftime("%Y-%m-%d")
         begin_time = (datetime.datetime.now() + datetime.timedelta(days=-3)).strftime("%Y-%m-%d")
@@ -58,6 +58,7 @@ class get_envrealtimedata(View):
             data_FHumidity = rows[0]['FHumidity']
             data_FNoise = rows[0]['FNoise']
             data_FNoiseMax = rows[0]['FNoiseMax']
+            data_FWIND_DIRECT_STR = ''
         else:
             device_info = device.objects.filter(Q(FDevtypeID='dc511ffcaaf211e99741708bcdb9b39a'), Q(CREATED_PRJ=prjID)).first()
             realtime_data = envinterfacesrv.objects.filter(Q(FDeviceId=device_info.FDevID)).order_by('-FTimestamp').first()
@@ -70,6 +71,7 @@ class get_envrealtimedata(View):
             data_FHumidity = realtime_data.FHumidity
             data_FNoise = realtime_data.FNoise
             data_FNoiseMax = realtime_data.FNoiseMax
+            data_FWIND_DIRECT_STR = realtime_data.FWIND_DIRECT_STR
 
         response_data = []
 
@@ -122,6 +124,12 @@ class get_envrealtimedata(View):
         dict['label'] = {'fontSize': 30, 'color': '#A7FFFD'}
         response_data.append(dict)
 
+        dict = {}
+        dict['value'] = data_FWIND_DIRECT_STR
+        dict['name'] = '风向文字'
+        dict['label'] = {'fontSize': 30, 'color': '#A7FFFD'}
+        response_data.append(dict)
+
         return HttpResponse(json.dumps(response_data))
         #return JsonResponse(response_data, safe=False)
 
@@ -131,7 +139,7 @@ class get_envhisdata(View):
         end_time = (datetime.datetime.now() + datetime.timedelta(days=1)).strftime("%Y-%m-%d")
         begin_time = (datetime.datetime.now() + datetime.timedelta(days=-3)).strftime("%Y-%m-%d")
 
-        prjID = request.POST.get('prjid')
+        prjID = ''.join(str(request.POST.get('prjid')).split('-'))
 
         cur = connection.cursor()
         sqlstr = "SELECT FROM_UNIXTIME(FSRCTimestamp-FSRCTimestamp % (60*60), '%m-%d %H:%i'), format(avg(FPM25), 1) from T_EnvdetectionHisData where CREATED_PRJ like '%"+ prjID +"%' and FTimestamp BETWEEN '"+ begin_time +"' and '"+ end_time +"' group by FROM_UNIXTIME(FSRCTimestamp-FSRCTimestamp % (60*60), '%m-%d %H:%i')"
