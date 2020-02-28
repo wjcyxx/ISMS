@@ -1012,8 +1012,6 @@
             ,interval: 6000
         });
 
-        this.myvar.var_1 = '111';
-
         var getEnvData = function () {
             $.post("{% url 'devicecockpit:get_envrealtimedata' %}", {"prjid": "{{ projectinfo.FID }}"}, function (data) {
                 //alert(data[0].value)
