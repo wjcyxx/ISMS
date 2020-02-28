@@ -953,7 +953,7 @@
                     </div>
                     <!-- 下中右框 -->
                     <div class="bottomThree col-sm-2">
-                        <p class="headTitle"><i class="iconfont icon-square"></i>塔机监测</p>
+                        <p class="headTitle" style="color: wheat"><i class="fa fa-newspaper-o" aria-hidden="true"></i> 特种设备</p>
                         <div id="monitor" style="height:90%"></div>
                     </div>
                     <!-- 下右框 -->
@@ -988,9 +988,13 @@
 <script src="/static/js/bootstrap-table-fixed-columns/bootstrap-table-zh-CN.min.js"></script>
 <script src="/static/js/echarts.min.js"></script>
 <script type="text/javascript" src="/static/datacockpit/js/dark.js"></script>
-<script src="/static/js/echartsDetail.js"></script>
+
 
 <script type="text/javascript">
+    var myvar = {
+        var_1: "{{ elevator.count }}"
+    };
+
     layui.use(['element','layer','form', 'carousel'], function() {
         var element = layui.element
         , layer = layui.layer
@@ -1007,6 +1011,8 @@
             ,height: '100%'
             ,interval: 6000
         });
+
+        this.myvar.var_1 = '111';
 
         var getEnvData = function () {
             $.post("{% url 'devicecockpit:get_envrealtimedata' %}", {"prjid": "{{ projectinfo.FID }}"}, function (data) {
@@ -1153,7 +1159,7 @@
                             type:'line',
                             itemStyle : {
                                 normal : {
-                                    color:'#e01f54',   // 设置最高气温线的颜色
+                                    color:'#e01f54',   // PM2.5线条颜色
                                 }
                             },
                             symbolSize: 10,
@@ -1165,7 +1171,7 @@
                             type:'line',
                             itemStyle : {
                                 normal : {
-                                    color:'#82b6e9',   // 设置最高气温线的颜色
+                                    color:'#82b6e9',   // PM10线条颜色
                                 }
                             },
                             xAxisIndex: 1,
@@ -1309,6 +1315,7 @@
         });
     });
 </script>
+
 <script>
     (function($) {
         $.fn.extend({
@@ -1353,5 +1360,7 @@
         });
     });
 </script>
+
+<script src="/static/js/echartsDetail.js"></script>
 
 </html>

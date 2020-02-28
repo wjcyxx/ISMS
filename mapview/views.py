@@ -10,6 +10,7 @@ from prjprocess.models import prjprocess
 from basedata.models import base
 from personnel.models import personnel
 from pedpassage.models import passagerecord
+from device.models import device
 from django.http import JsonResponse
 import json
 from django.utils import timezone
@@ -84,6 +85,8 @@ class show_projectdetail(EntranceView_base):
 
             personel_record = passagerecord.objects.filter(Q(CREATED_PRJ=fid), ~Q(FPersonID__FType=0)).values('FPersonID').annotate(total=Count('FPersonID'))
 
+            elevator_info = device.objects.filter(Q(CREATED_PRJ=fid), Q(FDevtypeID='af2cecf8bd6811e987267831c1d24216'))
+
             self.template_name = 'content/datacockpit/projectdetail.html'
             #已施工天数
             self.context['workday'] = work_day
@@ -105,6 +108,8 @@ class show_projectdetail(EntranceView_base):
             self.context['personnel'] = person_info
             #现场劳工人员总数
             self.context['sitepersonel'] = len(personel_record)
+            #升降机信息
+            self.context['elevator'] = elevator_info
 
         except ObjectDoesNotExist:
             self.template_name = ''
