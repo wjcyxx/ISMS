@@ -1232,36 +1232,99 @@
     var videoOptions = {
         autoplay: true,
         controls: true,
+        loop: true,
         muted: true,
         language: "zh-CN",
         sources: []
     };
 
+    let prj_id = {
+        yifang: "6b1976962ae411eaac3500163e12e179",
+        taohua: "47b61ef425f611ea95a200163e12e179"
+    };
+
     let videoPlayer1 = videojs('myVideo1', videoOptions, function onPlayerReady() {
-        videoPlayer1.src({
-            src: "http://47.104.92.203:10810/nvc/HM-NVR-110/hls/stream_1/stream_1_live.m3u8",
-            type: "application/x-mpegURL"
-        });
+        fid = "{{ projectinfo.FID }}".replace(/-/g, "");
+        if (fid == prj_id.yifang) {
+            videoPlayer1.src({
+                src: "{% static "video/1.mp4" %}",
+                type: "video/mp4",
+            });
+        } else if(fid == prj_id.taohua) {
+            videoPlayer1.src({
+                src: "{% static "video/1_1.mp4" %}",
+                type: "video/mp4",
+            });
+        } else {
+            videoPlayer1.src({
+                src: "http://47.104.92.203:10810/nvc/HM-NVR-110/hls/stream_1/stream_1_live.m3u8",
+                type: "application/x-mpegURL"
+            });
+        }
     });
 
     let videoPlayer2 = videojs('myVideo2', videoOptions, function onPlayerReady() {
-        videoPlayer2.src({
-            src: "http://47.104.92.203:10810/nvc/HM-NVR-110/hls/stream_2/stream_2_live.m3u8",
-            type: "application/x-mpegURL"
-        });
+        fid = "{{ projectinfo.FID }}".replace(/-/g, "");
+        if (fid == prj_id.yifang) {
+            videoPlayer2.src({
+                src: "{% static "video/2.mp4" %}",
+                type: "video/mp4",
+            });
+        } else if(fid == prj_id.taohua) {
+            videoPlayer2.src({
+                src: "{% static "video/2_1.mp4" %}",
+                type: "video/mp4",
+            });
+        } else {
+            videoPlayer2.src({
+                src: "http://47.104.92.203:10810/nvc/HM-NVR-110/hls/stream_2/stream_2_live.m3u8",
+                type: "application/x-mpegURL"
+            });
+        }
     });
+
+
     let videoPlayer3 = videojs('myVideo3', videoOptions, function onPlayerReady() {
-        videoPlayer3.src({
-            src: "http://47.104.92.203:10810/nvc/HM-NVR-110/hls/stream_3/stream_3_live.m3u8",
-            type: "application/x-mpegURL"
-        });
+        fid = "{{ projectinfo.FID }}".replace(/-/g, "");
+        if (fid == prj_id.yifang) {
+            videoPlayer3.src({
+                src: "{% static "video/3.mp4" %}",
+                type: "video/mp4",
+            });
+        } else if (fid == prj_id.taohua) {
+            videoPlayer3.src({
+                src: "{% static "video/3_1.mp4" %}",
+                type: "video/mp4",
+            });
+        } else {
+            videoPlayer3.src({
+                src: "http://47.104.92.203:10810/nvc/HM-NVR-110/hls/stream_3/stream_3_live.m3u8",
+                type: "application/x-mpegURL"
+            });
+        }
     });
+
+
     let videoPlayer4 = videojs('myVideo4', videoOptions, function onPlayerReady() {
-        videoPlayer4.src({
-            src: "http://47.104.92.203:10810/nvc/HM-NVR-110/hls/stream_4/stream_4_live.m3u8",
-            type: "application/x-mpegURL"
-        });
+        fid = "{{ projectinfo.FID }}".replace(/-/g, "");
+        if (fid == prj_id.yifang) {
+            videoPlayer4.src({
+                src: "{% static "video/4.mp4" %}",
+                type: "video/mp4",
+            });
+        } else if (fid == prj_id.taohua) {
+            videoPlayer4.src({
+                src: "{% static "video/4_1.mp4" %}",
+                type: "video/mp4",
+            });
+        } else {
+            videoPlayer4.src({
+                src: "http://47.104.92.203:10810/nvc/HM-NVR-110/hls/stream_4/stream_4_live.m3u8",
+                type: "application/x-mpegURL"
+            });
+        }
     });
+
     videoPlayer1.load();
     videoPlayer2.load();
     videoPlayer3.load();
