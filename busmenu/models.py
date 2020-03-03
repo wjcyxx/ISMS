@@ -23,7 +23,8 @@ class busmenu(models.Model):
     NEWFORM_CHOICES = (
         (None, '请选择数据'),
         (0, '嵌入式'),
-        (1, '新窗口')
+        (1, '新窗口'),
+        (2, '原窗口全屏')
     )
 
     FID = models.UUIDField(primary_key=True, default=uuid.uuid1)

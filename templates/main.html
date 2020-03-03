@@ -413,6 +413,8 @@
 
             if (data.target == 'nw') {
                 window.open(data.url, '_blank');
+            } else if (data.target == 'sw' ) {
+                window.location.href =  data.url;
             } else {
                 tabAdd(data.title, data.id, 'show?url='+data.url);
             }

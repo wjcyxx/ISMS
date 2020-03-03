@@ -578,7 +578,7 @@ option = {
         left: '49%',
         top: '30%',
         textAlign: 'center',
-        text: '6',
+        text: '0',
         textStyle: {
             fontSize: 16,
             fontWeight: 700,
@@ -642,9 +642,9 @@ option = {
             center: ['50%', '80%'],
             radius: [50, 70],
             data: [
-                { value: 3, name: '正常' },
-                { value: 2, name: '异常' },
-                { value: 1, name: '掉线' }
+                { value: 0, name: '正常' },
+                { value: 0, name: '异常' },
+                { value: 0, name: '掉线' }
             ],
             itemStyle: { //系列级个性化
                 normal: {

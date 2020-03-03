@@ -23,6 +23,7 @@ from django.db import connection
 
 # Create your views here.
 
+#万物互联环境监测
 class envcockpit_entrance(EntranceView_base):
     def set_view(self, request):
         self.template_name = 'content/datacockpit/devcockpit.html'
@@ -234,3 +235,11 @@ class get_datasource(get_datasource_base):
 
 
 
+#万物互联升降机监测
+class elevatorcockpit_entrance(EntranceView_base):
+    def set_view(self, request):
+        self.template_name = 'content/datacockpit/elevatorcockpit.html'
+
+        elevator_info = device.objects.filter(Q(FDevtypeID='af2cecf8bd6811e987267831c1d24216'))
+
+        self.context['elevator_count'] = elevator_info.count()

@@ -17,16 +17,23 @@
     <div style="position: relative"></div>
     <div id="allmap" style="position: absolute; bottom: 0px "></div>
     <form class="layui-form" action="">
-        <div style="position: absolute; padding-top: 30px; padding-left: 80px;">
-            <div class="layui-input-inline" style="width: 120%">
-                <select name="FPrj_id" lay-filter="optprj">
-                    <option value="">请选择项目</option>
-                    {% for prj in projectinfo %}
-                        <option value="{{ prj.FID }}">{{ prj.FPrjname }}</option>
-                    {% endfor %}
-                </select>
+        <div style="position: absolute; padding-top: 30px; padding-left: 80px; width: 100%">
+            <div class="layui-row layui-col-space10">
+                <div class="layui-col-xs2">
+                    <select name="FPrj_id" lay-filter="optprj">
+                        <option value="">请选择项目</option>
+                        {% for prj in projectinfo %}
+                            <option value="{{ prj.FID }}">{{ prj.FPrjname }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="layui-col-xs2">
+                    <a href="javascript:;" class="layui-btn layui-btn-danger" id="btnClose">关闭</a>
+                </div>
             </div>
         </div>
+
     </form>
 </body>
 </html>
@@ -39,6 +46,12 @@
             , table = layui.table
             , layer = layui.layer
             , form = layui.form;
+
+
+        $("#btnClose").click(function () {
+            window.location.href="{% url 'login:login_ok' %}"
+        });
+
 
         // 百度地图API功能
         var map = new BMap.Map("allmap", {enableMapClick:false});    // 创建Map实例

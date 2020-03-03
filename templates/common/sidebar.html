@@ -8,13 +8,13 @@
                     {% for sub_node in smenu.FID|get_submenu %}
                         <dl class="layui-nav-child">
                             {% if sub_node.FID|get_submenu == 0 %}
-                                 <dd><a href="javascript:;" data-url="{% if sub_node.FUrl == None %}'' {% else %}{% url sub_node.FUrl %}{% endif %}" data-id="{{ sub_node.FMenuID }}" {% if sub_node.FFormState == 1 %} data-target="nw" {% endif %}><span>{{ sub_node.FMenuName }}</span></a></dd>
+                                 <dd><a href="javascript:;" data-url="{% if sub_node.FUrl == None %}'' {% else %}{% url sub_node.FUrl %}{% endif %}" data-id="{{ sub_node.FMenuID }}" {% if sub_node.FFormState == 1 %} data-target="nw" {% elif sub_node.FFormState == 2 %} data-target="sw" {% endif %}><span>{{ sub_node.FMenuName }}</span></a></dd>
                             {% else %}
                                 <dd class="layui-nav-item">
                                     <a href="javascript:;">{{ sub_node.FMenuName }}</a>
                                     <dl class="layui-nav-child">
                                     {% for leaf_node in sub_node.FID|get_submenu %}
-                                        <dd><a href="javascript:;" data-id="{{ leaf_node.FMenuID }}" data-url="{% if leaf_node.FUrl == None %}'' {% else %}{% url leaf_node.FUrl %}{% endif %}" {% if leaf_node.FFormState == 1 %} data-target="nw" {% endif %}><span>{{ leaf_node.FMenuName }}</span></a></dd>
+                                        <dd><a href="javascript:;" data-id="{{ leaf_node.FMenuID }}" data-url="{% if leaf_node.FUrl == None %}'' {% else %}{% url leaf_node.FUrl %}{% endif %}" {% if leaf_node.FFormState == 1 %} data-target="nw" {% elif leaf_node.FFormState == 2 %} data-target="sw" {% endif %}><span>{{ leaf_node.FMenuName }}</span></a></dd>
                                     {% endfor %}
                                     </dl>
                                 </dd>

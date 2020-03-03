@@ -18,26 +18,14 @@
 	<body>
 		<div class="main_content">
 			<div class="main_left">
-				<div class="cc on c1"><img src="/static/datacockpit/images/page_03.png" class="ic1"/><img src="/static/datacockpit/images/tp_06.png" class="ics1"/></div>
-				<div class="cc c2"><img src="/static/datacockpit/images/tp_17.png" class="ic1"/><img src="/static/datacockpit/images/page_11.png" class="ics1"/></div>
+				<div class="cc c1"><img src="/static/datacockpit/images/page_03.png" class="ic1"/><img src="/static/datacockpit/images/tp_06.png" class="ics1"/></div>
+				<div class="cc on c2"><img src="/static/datacockpit/images/tp_17.png" class="ic1"/><img src="/static/datacockpit/images/page_11.png" class="ics1"/></div>
 				<div class="cc c3"><img src="/static/datacockpit/images/page_32.png" class="ic1"/><img src="/static/datacockpit/images/tp_08.png" class="ics1"/></div>
 				<div class="cc c4"><img src="/static/datacockpit/images/page_58.png" class="ic1"/><img src="/static/datacockpit/images/tp_10.png" class="ics1"/></div>
 				<div class="cc c5"><img src="/static/datacockpit/images/page_65.png" class="ic1"/><img src="/static/datacockpit/images/tp_12.png" class="ics1"/></div>
 				<div class="cc c6"><img src="/static/datacockpit/images/page_74.png" class="ic1"/><img src="/static/datacockpit/images/tp_14.png" class="ics1"/></div>
 				<div id = 'caption' class="ics">
-					 <span style="font-size: 30px; color: white;"><p>环境监测</p></span> <br/>
-                     <div>
-                         <img src="/static/datacockpit/images/pmzc.png" height="20" width="20"><span style="font-size: 15px; color: white;"><p>PM 2.5 正常</p></span> <br/>
-                     </div>
-                    <div>
-                        <img src="/static/datacockpit/images/pmhs.png" height="20" width="20"><span style="font-size: 15px; color: white;"><p>PM 2.5 黄色预警</p></span> <br/>
-                    </div>
-                    <div>
-                        <img src="/static/datacockpit/images/pmcs.png" height="20" width="20"><span style="font-size: 15px; color: white;"><p>PM 2.5 橙色预警</p></span> <br/>
-                    </div>
-                    <div>
-                        <img src="/static/datacockpit/images/pmred.png" height="20" width="20"><span style="font-size: 15px; color: white;"><p>PM 2.5 红色预警</p></span> <br/>
-                    </div>
+					 <span style="font-size: 30px; color: white;"><p>升降机监测</p></span> <br/>
 				</div>
 			</div>
 			<div class="main_mid">
@@ -52,8 +40,8 @@
                                     <p>{{ envdev_count }}</p>
                                 </div>
                                 <div class="fr">
-                                    <p>ENVDETECTION TOTAL</p>
-                                    <span>环境传感器总数</span>
+                                    <p>ELEVATOR TOTAL</p>
+                                    <span>接入升降机总数</span>
                                 </div>
                             </div>
                             <div class="num">
@@ -212,7 +200,7 @@
                 id: 'runreload'
             });
 
-            //左侧导航栏
+            //左侧导航栏事件响应
             $('.main_content .main_left .cc').click(function(){
                 var n = $(this).index();
 
