@@ -713,7 +713,7 @@
                                 <p class="workTime">工期：{% if projectinfo.FSigbeginDate != None %} {{ projectinfo.FSigbeginDate }} {% endif %} </p>
                                 <p class="checkDepartment">监理单位：{% if projectinfo.FSuperviseOrgID != None %} {{ projectinfo.FSuperviseOrgID }} {% endif %}</p>
                                 <p class="designDepartment">设计单位：{% if projectinfo.FDesignOrgID != None %} {{ projectinfo.FDesignOrgID }} {% endif %}</p>
-                                <p class="jobDepartment">施工单位：{% if projectinfo.FBuildOrgID != None %} {{ projectinfo.FBuildOrgID }} {% endif %}</p>
+                                <p class="jobDepartment">施工单位：{% if projectinfo.FConstrOrgID != None %} {{ projectinfo.FConstrOrgID }} {% endif %}</p>
                             </div>
                         </div>
                         <div class="projectPro">
@@ -1267,7 +1267,7 @@
         fid = "{{ projectinfo.FID }}".replace(/-/g, "");
         if (fid == prj_id.yifang) {
             videoPlayer2.src({
-                src: "{% static "video/2.mp4" %}",
+                src: "{% static "video/yifang_2.mp4" %}",
                 type: "video/mp4",
             });
         } else if(fid == prj_id.taohua) {
@@ -1288,7 +1288,7 @@
         fid = "{{ projectinfo.FID }}".replace(/-/g, "");
         if (fid == prj_id.yifang) {
             videoPlayer3.src({
-                src: "{% static "video/3.mp4" %}",
+                src: "{% static "video/yifang_3.mp4" %}",
                 type: "video/mp4",
             });
         } else if (fid == prj_id.taohua) {
