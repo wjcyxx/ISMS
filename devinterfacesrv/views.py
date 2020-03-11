@@ -16,44 +16,8 @@ import ctypes
 import socket
 from devinterface.models import devinterface
 from device.models import device, devcallinterface
-from menchanical.models import menchanical
 from baseframe.baseframe import *
 import datetime
-
-
-def runservice(request):
-    SERVICE_NAME = 'EnvdetectionMetroHisData'
-
-    devinterface_info = devinterface.objects.filter(Q(FSrvFile=SERVICE_NAME)).first()
-    interID = ''.join(str(devinterface_info.FID).split('-'))
-
-    devinterface_info.FSrvPID = os.getpid()
-    devinterface_info.save()
-
-    TIME_INTERVAL = devinterface_info.FInterval
-    IPADDRESS = devinterface_info.FAddress
-    PORT = devinterface_info.FPort
-
-    try:
-        Server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-        Server.bind(('127.0.0.1', 9000))
-        Server.listen(100)
-        print('Waiting connect......')
-
-        while True:
-            serverThisClient, ClientInfo = Server.accept()
-            print('Waiting connect......')
-
-            recvData = serverThisClient.recv(1024)
-
-            x = ClientInfo[0]
-            aa = recvData.hex()
-
-            print(aa)
-
-    except Exception as e:
-        return False
 
 
 def devservice(request):

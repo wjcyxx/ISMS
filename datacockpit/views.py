@@ -13,6 +13,7 @@ from personnel.models import personnel
 from pedpassage.models import passagerecord
 from personauth.models import personauth
 from devinterfacesrv.models import envinterfacesrv
+from device.models import device
 from common.views import *
 from django.http import JsonResponse
 import json
@@ -302,7 +303,15 @@ class get_mapdata(View):
 
             type = request.POST.get('type')
 
-            if type == '1':
+            if type == '2':     #万物互联，电梯页面地图点颜色
+                elevator_count = device.objects.filter(Q(CREATED_PRJ=fid), Q(FDevtypeID='af2cecf8bd6811e987267831c1d24216')).count()
+
+                if elevator_count > 0:
+                    dict['color'] = '#66cc00'
+                else:
+                    dict['color'] = '#ff0033'
+
+            elif type == '1':   #万物互联，环境页面地图点颜色
                 env_info = envinterfacesrv.objects.filter(Q(CREATED_PRJ=fid)).order_by('FTemperature').first()
                 if env_info != None:
                     if env_info.FPM25 <= 115:
@@ -316,7 +325,7 @@ class get_mapdata(View):
                 else:
                     dict['color'] = '#66cc00'
 
-            elif type == '0':
+            elif type == '0':   #数据驾驶舱首页，地图点默认颜色
                 dict['color'] = '#d94d02'
 
             response_data.append(dict)

@@ -35,7 +35,8 @@ class entrance(EntranceView_base):
 
 class get_datasource(View):
     def post(self, request):
-        prj_id = request.session['PrjID']
+        #prj_id = request.session['PrjID']
+        prj_id = request.POST.get('prj_id')
 
         elevator_info = menchanical.objects.filter(Q(FStatus=True), Q(CREATED_PRJ=prj_id), Q(FMectypeID='fa606fec009311eaab497831c1d24216'))
 

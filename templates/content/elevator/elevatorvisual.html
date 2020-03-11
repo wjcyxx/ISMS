@@ -113,7 +113,7 @@ layui.use(['element', 'layer', 'table'], function(){
         $.ajax({
             type: 'POST',
             url: "{% url 'elevator:get_datasource' %}",
-            data: {},
+            data: {"prj_id": "{{ request.session.PrjID }}"},
             datatype: "json",
             success: function (data) {
                 resultj = JSON.parse(data);

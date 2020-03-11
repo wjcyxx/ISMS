@@ -3,6 +3,7 @@ import os
 import django
 from django.shortcuts import HttpResponse
 import time
+import logging
 import datetime
 
 BASE_DIR = os.path.dirname(os.path.dirname((os.path.abspath(__file__))))
@@ -33,8 +34,16 @@ if __name__ == "__main__":
 
     TIME_INTERVAL = devinterface_info.FInterval
 
+    logging.basicConfig(level=logging.DEBUG,  # 控制台打印的日志级别
+                        filename=SERVICE_NAME+'.log',
+                        filemode='w',  ##模式，有w和a，w就是写模式，每次都会重新写日志，覆盖之前的日志
+                        # a是追加模式，默认如果不写的话，就是追加模式
+                        format='%(asctime)s - %(pathname)s[line:%(lineno)d] - %(levelname)s: %(message)s'  # 日志格式
+                        )
+
     def runservice():
         try:
+            logging.info('数据传输开始')
             PRJ_ID = devinterface_info.CREATED_PRJ
             ORG_ID = devinterface_info.CREATED_ORG
 
@@ -114,8 +123,13 @@ if __name__ == "__main__":
 
                 ElevatorHisData.save()
 
+
+            # logging.info('本次数据传输完毕')
+            print('本次数据传输完毕')
+
             return True
         except Exception as e:
+            logging.warning('接口调用失败:'+ str(e))
             return False
 
         # cnt = str(len(result_run))
@@ -156,10 +170,13 @@ if __name__ == "__main__":
         devinterface_info.save()
 
         while True:
-            if runservice():
-                time.sleep(TIME_INTERVAL)
+            if runservice() == True:
+                print("yes")
+                time.sleep(10)
+            #     time.sleep(60)
             else:
-                break
+                print("no")
+            #     break
 
     #    time.sleep(5)
     #    #print(os.getpid())

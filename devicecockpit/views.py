@@ -243,3 +243,5 @@ class elevatorcockpit_entrance(EntranceView_base):
         elevator_info = device.objects.filter(Q(FDevtypeID='af2cecf8bd6811e987267831c1d24216'))
 
         self.context['elevator_count'] = elevator_info.count()
+        self.context['enable_count'] = elevator_info.filter(Q(FStatus=True))
+        self.context['disable_count'] = elevator_info.filter(Q(FStatus=False))
