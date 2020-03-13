@@ -18,6 +18,7 @@ class DeviceInterfaceModelForm(ModelForm):
             'FName': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
             'FTransmode': Fwidgets.Select(),
             'FRequestType': Fwidgets.Select(),
+            'FInterfaceAttribID': Fwidgets.Select(),
             'FInterval': Fwidgets.Input(attrs={'class': 'layui-input', 'autocomplete': 'off'}),
             'FAddress': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
             'FPort': Fwidgets.Input(attrs={'class': 'layui-input', 'autocomplete': 'off'}),
@@ -47,4 +48,19 @@ class InterfaceParamModelForm(ModelForm):
             'FValue': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
             'FDesc': Fwidgets.Textarea(attrs={'class': 'layui-textarea', 'autocomplete': 'off', 'rows': '1'}),
 
+        }
+
+
+class SubInterfaceModelForm(ModelForm):
+    FInterfaceID = forms.ChoiceField(widget=forms.Select(attrs={'lay-verify': 'required'}), required=False)
+
+    class Meta:
+        model = subinterface
+        fields = '__all__'
+
+        widgets = {
+            'FID': Fwidgets.Input(attrs={'type': 'hidden'}),
+            'FPID': Fwidgets.Input(attrs={'type': 'hidden'}),
+
+            'FDesc': Fwidgets.Textarea(attrs={'class': 'layui-textarea', 'autocomplete': 'off', 'rows': '1'}),
         }

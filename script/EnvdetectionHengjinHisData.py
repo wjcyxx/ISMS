@@ -26,6 +26,7 @@ from project.models import project
 from baseframe.baseframe import *
 from devinterfacesrv.models import elevatorinterfacesrv
 from django.core.exceptions import ObjectDoesNotExist
+from devinterfacesrv.views import devservice
 
 if __name__ == "__main__":
     SERVICE_NAME = 'EnvdetectionHengjinHisData'

@@ -160,7 +160,7 @@
                 $.ajax({
                     type: 'POST',
                     url: "{% url 'videocockpit:get_videourl' %}",
-                    data: {"devid": data.FDevID},
+                    data: {"devid": data.FDevID, "orgid": data.CREATED_ORG},
                     datatype: "JSON",
                     success: function (data) {
                         var getData = JSON.parse(data);

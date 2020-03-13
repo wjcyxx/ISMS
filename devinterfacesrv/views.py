@@ -19,7 +19,6 @@ from device.models import device, devcallinterface
 from baseframe.baseframe import *
 import datetime
 
-
 def devservice(request):
     if request.method == "POST":
         fid = request.POST.get('fid')

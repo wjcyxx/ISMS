@@ -15,113 +15,15 @@
         <div class="layui-row layui-col-space10" style="padding-top: 1%">
             <div class="layui-col-md12">
                 <div class="layui-card">
-                    <div class="layui-card-header">接口信息</div>
+                    <div class="layui-card-header">并入子接口</div>
                     <div class="layui-card-body">
                         <div class="layui-row layui-col-space15">
                             <div class="layui-col-xs4">
                                 <label class="layui-form-label" style="color: red">接口名称</label>
                                 <div class="layui-input-block">
                                     {{ obj.FID }}
-                                    {{ obj.FName }}
-                                </div>
-                            </div>
-
-                            <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">接口方式</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FInterfaceTypeID }}
-                                </div>
-                            </div>
-
-                            <div class="layui-col-xs4">
-                                <label class="layui-form-label" style="color: red">接口属性</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FInterfaceAttribID }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="layui-row layui-col-space10">
-                            <div class="layui-col-xs8">
-                                <label class="layui-form-label" style="color: red">访问地址</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FAddress }}
-                                </div>
-                            </div>
-
-                            <div class="layui-col-xs4">
-                                <label class="layui-form-label">服务名称</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FSrvFile }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="layui-row layui-col-space10">
-                            <div class="layui-col-xs4">
-                                <label class="layui-form-label">接口类型</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FRequestType }}
-                                </div>
-                            </div>
-
-                            <div class="layui-col-xs4">
-                                <label class="layui-form-label">传输方式</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FTransmode }}
-                                </div>
-                            </div>
-
-                            <div class="layui-col-xs4">
-                                <label class="layui-form-label">间隔时间</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FInterval }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="layui-row layui-col-space10">
-                            <div class="layui-col-xs4">
-                                <label class="layui-form-label">关联APP</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FAppFID }}
-                                </div>
-                            </div>
-
-                            <div class="layui-col-xs4">
-                                <label class="layui-form-label">适配范围</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FScope }}
-                                </div>
-                            </div>
-
-                            <div class="layui-col-xs4">
-                                <label class="layui-form-label">调用特征码</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FCallSigCode }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="layui-row layui-col-space10">
-                            <div class="layui-col-xs4">
-                                <label class="layui-form-label">设备端口</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FPort }}
-                                </div>
-                            </div>
-
-                            <div class="layui-col-xs4">
-                                <label class="layui-form-label">接口状态</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FStatus }}
-                                </div>
-                            </div>
-
-                            <div class="layui-col-xs4">
-                                <label class="layui-form-label">服务状态</label>
-                                <div class="layui-input-block">
-                                    {{ obj.FSrvStatus }}
+                                    <input type="hidden" name="FPID" id="FPID" value="{{ fid }}">
+                                    {{ obj.FInterfaceID }}
                                 </div>
                             </div>
                         </div>

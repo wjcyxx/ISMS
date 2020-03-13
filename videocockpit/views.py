@@ -110,7 +110,9 @@ class get_videourl(View):
         response_data = {}
 
         try:
-            devinterface_info = devinterface.objects.get(Q(FScope=1), Q(FCallSigCode='GETVIDEOURL'))
+            ORG_ID = request.POST.get('orgid')
+
+            devinterface_info = devinterface.objects.get(Q(FScope=1), Q(FCallSigCode='GETVIDEOURL'), Q(CREATED_ORG=ORG_ID))
 
             initID = ''.join(str(devinterface_info.FID).split('-'))
             APPFID = devinterface_info.FAppFID

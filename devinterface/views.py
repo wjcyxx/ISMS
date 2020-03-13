@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import HttpResponse
 from django.shortcuts import redirect
 from django.db.models import Q
-from .models import devinterface as T_DevInterface
+from .models import devinterface as T_DevInterface, subinterface
 from .models import interfaceparam as T_InterfaceParam
 from device.models import device
 from appkey.models import appkey
@@ -14,6 +14,7 @@ import json
 from django.utils import timezone
 from django.forms import widgets as Fwidge
 from django.core.exceptions import ObjectDoesNotExist
+from baseframe.baseframe import *
 from django.conf import settings
 import os
 from threading import Thread
@@ -253,6 +254,31 @@ def param_delete(request):
             response_data['result'] = '1'
 
         return HttpResponse(json.dumps(response_data))
+
+
+
+class subinterface_add(add_base):
+    def set_view(self, request):
+        self.template_name = 'content/devinterface/subinterfaceadd.html'
+
+        self.objForm = SubInterfaceModelForm
+        self.query_sets = [
+            T_DevInterface.objects.filter(Q(FStatus=True), Q(FInterfaceAttribID=0))
+        ]
+
+        self.query_set_idfields = ['FInterfaceID']
+        self.query_set_valuefields = ['FName']
+        self.context['fid'] = self.request.GET.get('fid')
+
+
+class subinterface_insert(insert_base):
+    def set_view(self, request):
+        self.model = subinterface
+        self.objForm = SubInterfaceModelForm
+        self.type =1
+
+
+
 
 
 

@@ -112,6 +112,7 @@
           cols: [[
               {field:'FName', width: '20%', title: '接口名称', sort: true},
               {field:'FScope', width: '10%', title: '适配范围', sort: true, templet: '#tpScope'},
+              {field:'FInterfaceAttribID', width: '10%', title: '接口属性', sort: true, templet: '#tpAttrib'},
               {field:'FInterfaceTypeID', width: '15%', title: '接口方式', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FInterfaceTypeID, InterfaceType)}}{% endverbatim %}</div>'},
               {field:'FAddress', width: '30%', title: '接口地址', sort: true},
               {field:'FPort', width: '10%', title: '使用端口', sort: true},
@@ -170,7 +171,7 @@
                   break;
 
               case 'startsrv':               //启动服务按钮事件
-                  if (data.FInterfaceTypeID != '787aacd20f5b11eab439acde48001122') {
+                  if (data.FInterfaceAttribID == 0) {
                       parent.layer.alert('此接口不是服务类接口,无法启动',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
                   } else {
                       if (data.FSrvFile == '' || data.FSrvFile == null) {
@@ -218,6 +219,25 @@
                           }
                       }
                   });
+
+                  break;
+
+              case 'srvgroup':
+                  if (data.FInterfaceAttribID != 2 ) {
+                      parent.layer.alert('此接口不是服务组,不能并入子接口',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                  } else {
+                      parent.layer.open({
+                          type:   2,
+                          title:  '并入子接口',
+                          area: ['920px','400px'],
+                          fixed: false,
+                          content: "{% url 'devinterface:subinterface_add' %}?fid="+data.FID,
+                          resize: false,
+                          move: false
+                      });
+
+                      break;
+                  }
 
                   break;
 
@@ -307,6 +327,18 @@
       {% endverbatim %}
   </script>
 
+  <!--显示接口属性模板-->
+  <script type="text/html" id="tpAttrib">
+      {% verbatim %}
+      {{#  if(d.FInterfaceAttribID == 0){ }}
+      <span>接口</span>
+      {{#  } else if(d.FInterfaceAttribID == 1) { }}
+      <span style="color: purple">服务</span>
+      {{#  } else if(d.FInterfaceAttribID == 2) { }}
+      <span style="color: crimson">服务组</span>
+      {{#  } }}
+      {% endverbatim %}
+  </script>
 
 <!--生成操作工具栏-->
 <script type="text/html" id="tlbar">
@@ -322,6 +354,8 @@
             {{# } else { }}
             <a class="layui-btn layui-btn-xs" id="id_startsrv" lay-event="startsrv"><i class="fa fa-play-circle-o" aria-hidden="true"></i>启动服务</a>
             {{# } }}
+
+            <a class="layui-btn layui-btn-xs" lay-event="srvgroup"><i class="fa fa-file-archive-o" aria-hidden="true"></i>并入接口</a>
 
             {{# if(d.FStatus == true){ }}
             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="disabled"><i class="iconfont icon-ccgl-yuliuyusuoding-6"></i>禁用</a>

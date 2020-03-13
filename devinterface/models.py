@@ -29,9 +29,17 @@ class devinterface(models.Model):
         (2, '全局')
     )
 
+    ATTRIB_CHOICES = (
+        (None, '请选择数据'),
+        (0, '接口'),
+        (1, '服务'),
+        (2, '服务组')
+    )
+
     FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
     FName = models.CharField(max_length=32, verbose_name='接口名称', blank=True, null=True)
     FInterfaceTypeID = models.CharField(max_length=32, verbose_name='接口方式', blank=True, null=True)
+    FInterfaceAttribID = models.IntegerField(choices=ATTRIB_CHOICES, verbose_name='接口属性', blank=True, null=True)
     FRequestType = models.IntegerField(choices=REQUEST_CHOICES, verbose_name='接口类型', blank=True, null=True)
     FTransmode = models.IntegerField(choices=TRANSMODE_CHOICES, verbose_name='传输方式', blank=True, null=True)
     FPort = models.IntegerField(verbose_name='设备端口号', blank=True, null=True)
@@ -85,3 +93,20 @@ class interfaceparam(models.Model):
 
     class Meta:
         db_table = 'T_InterfaceParam'
+
+
+class subinterface(models.Model):
+
+    FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
+    FPID = models.CharField(max_length=32, blank=True, null=True)
+    FInterfaceID = models.CharField(max_length=32, blank=True, null=True)
+    FDesc = models.CharField(max_length=1024, verbose_name='备注', blank=True, null=True)
+    CREATED_PRJ = models.CharField(max_length=32, verbose_name='所属项目', blank=True, null=True)
+    CREATED_ORG = models.CharField(max_length=32, verbose_name='创建组织', blank=True, null=True)
+    CREATED_BY = models.CharField(max_length=32, verbose_name='创建人', blank=True, null=True)
+    CREATED_TIME = models.DateTimeField(blank=True, null=True, verbose_name='创建时间')
+    UPDATED_BY = models.CharField(max_length=32, verbose_name='更新人', blank=True, null=True)
+    UPDATED_TIME = models.DateTimeField(auto_now=True, verbose_name='更新时间')
+
+    class Meta:
+        db_table = 'T_SubInterface'
