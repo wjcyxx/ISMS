@@ -128,24 +128,21 @@ class get_prjstatus(View):
 
 class get_prjcost(View):
     def post(self, request):
-        prj_type = base.objects.filter(Q(FPID='4a94b19ea3d811e9b984708bcdb9b39a'))
 
         response_data = []
 
-        for obj in prj_type:
+        prj_cost = project.objects.filter(Q(FStatus=True)).values('FPrjtypeID').annotate(cost=Sum('FPrjcost'))
+
+        for prjcost in prj_cost:
             dict = {}
 
-            fid = ''.join(str(obj.FID).split('-'))
-            name = obj.FBase
-
-            prj_cost = project.objects.filter(Q(FStatus=True), Q(FPrjtypeID=fid)).annotate(cost=Sum('FPrjcost')).values('cost')
-
-            if len(prj_cost) == 0:
+            if prjcost['cost'] == 0:
                 dict['value'] = None
             else:
-                dict['value'] = prj_cost[0]['cost']
+                dict['value'] = prjcost['cost']
 
-            dict['name'] = name
+            prjtype = base.objects.get(Q(FID=prjcost['FPrjtypeID'])).FBase
+            dict['name'] = prjtype
             dict['itemStyle'] = {'color': '#FFB24E'}
             #dict['label'] = {'fontSize': 30, 'color': '#A7FFFD'}
 

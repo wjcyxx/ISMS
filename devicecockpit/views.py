@@ -40,7 +40,7 @@ class get_envrealtimedata(View):
         prjID = ''.join(str(request.POST.get('prjid')).split('-'))
 
         end_time = (datetime.datetime.now() + datetime.timedelta(days=1)).strftime("%Y-%m-%d")
-        begin_time = (datetime.datetime.now() + datetime.timedelta(days=-2)).strftime("%Y-%m-%d")
+        begin_time = (datetime.datetime.now() + datetime.timedelta(days=-1)).strftime("%Y-%m-%d")
 
         if prjID == '':
             #device_info = device.objects.filter(Q(FDevtypeID='dc511ffcaaf211e99741708bcdb9b39a')).first()
