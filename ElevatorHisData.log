@@ -1,0 +1,41 @@
+2020-03-14 09:34:36,870 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/ElevatorHisData.py[line:46] - INFO: 数据传输开始
+2020-03-14 09:34:37,035 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/urllib3/connectionpool.py[line:959] - DEBUG: Starting new HTTPS connection (1): 101.37.149.55:443
+2020-03-14 09:34:37,117 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/urllib3/connectionpool.py[line:437] - DEBUG: https://101.37.149.55:443 "POST /SmartSite/v2/getToken.action HTTP/1.1" 200 130
+2020-03-14 09:34:37,119 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/eucjpprober.py[line:62] - DEBUG: EUC-JP Japanese prober hit error at byte 13
+2020-03-14 09:34:37,120 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/mbcharsetprober.py[line:66] - DEBUG: EUC-KR Korean prober hit error at byte 13
+2020-03-14 09:34:37,120 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/mbcharsetprober.py[line:66] - DEBUG: CP949 Korean prober hit error at byte 13
+2020-03-14 09:34:37,120 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/mbcharsetprober.py[line:66] - DEBUG: Big5 Chinese prober hit error at byte 14
+2020-03-14 09:34:37,120 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/mbcharsetprober.py[line:66] - DEBUG: EUC-TW Taiwan prober hit error at byte 13
+2020-03-14 09:34:37,121 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/charsetgroupprober.py[line:100] - DEBUG: utf-8  confidence = 0.7525
+2020-03-14 09:34:37,121 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/charsetgroupprober.py[line:100] - DEBUG: SHIFT_JIS Japanese confidence = 0.01
+2020-03-14 09:34:37,121 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/charsetgroupprober.py[line:97] - DEBUG: EUC-JP not active
+2020-03-14 09:34:37,122 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/charsetgroupprober.py[line:100] - DEBUG: GB2312 Chinese confidence = 0.01
+2020-03-14 09:34:37,122 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/charsetgroupprober.py[line:97] - DEBUG: EUC-KR not active
+2020-03-14 09:34:37,122 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/charsetgroupprober.py[line:97] - DEBUG: CP949 not active
+2020-03-14 09:34:37,122 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/charsetgroupprober.py[line:97] - DEBUG: Big5 not active
+2020-03-14 09:34:37,122 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/charsetgroupprober.py[line:97] - DEBUG: EUC-TW not active
+2020-03-14 09:34:37,122 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/charsetgroupprober.py[line:100] - DEBUG: windows-1251 Russian confidence = 0.01
+2020-03-14 09:34:37,122 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/charsetgroupprober.py[line:100] - DEBUG: KOI8-R Russian confidence = 0.01
+2020-03-14 09:34:37,122 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/charsetgroupprober.py[line:100] - DEBUG: ISO-8859-5 Russian confidence = 0.01
+2020-03-14 09:34:37,122 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/charsetgroupprober.py[line:100] - DEBUG: MacCyrillic Russian confidence = 0.0
+2020-03-14 09:34:37,122 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/charsetgroupprober.py[line:100] - DEBUG: IBM866 Russian confidence = 0.0
+2020-03-14 09:34:37,122 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/charsetgroupprober.py[line:100] - DEBUG: IBM855 Russian confidence = 0.01
+2020-03-14 09:34:37,122 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/charsetgroupprober.py[line:100] - DEBUG: ISO-8859-7 Greek confidence = 0.01
+2020-03-14 09:34:37,122 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/charsetgroupprober.py[line:100] - DEBUG: windows-1253 Greek confidence = 0.01
+2020-03-14 09:34:37,122 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/charsetgroupprober.py[line:100] - DEBUG: ISO-8859-5 Bulgairan confidence = 0.01
+2020-03-14 09:34:37,122 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/charsetgroupprober.py[line:100] - DEBUG: windows-1251 Bulgarian confidence = 0.01
+2020-03-14 09:34:37,123 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/charsetgroupprober.py[line:100] - DEBUG: TIS-620 Thai confidence = 0.01
+2020-03-14 09:34:37,123 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/charsetgroupprober.py[line:100] - DEBUG: ISO-8859-9 Turkish confidence = 0.6822525491525752
+2020-03-14 09:34:37,123 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/charsetgroupprober.py[line:100] - DEBUG: windows-1255 Hebrew confidence = 0.0
+2020-03-14 09:34:37,123 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/charsetgroupprober.py[line:100] - DEBUG: windows-1255 Hebrew confidence = 0.01
+2020-03-14 09:34:37,123 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/charsetgroupprober.py[line:100] - DEBUG: windows-1255 Hebrew confidence = 0.01
+2020-03-14 09:34:37,123 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/charsetgroupprober.py[line:100] - DEBUG: utf-8  confidence = 0.7525
+2020-03-14 09:34:37,123 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/charsetgroupprober.py[line:100] - DEBUG: SHIFT_JIS Japanese confidence = 0.01
+2020-03-14 09:34:37,123 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/charsetgroupprober.py[line:97] - DEBUG: EUC-JP not active
+2020-03-14 09:34:37,123 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/charsetgroupprober.py[line:100] - DEBUG: GB2312 Chinese confidence = 0.01
+2020-03-14 09:34:37,123 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/charsetgroupprober.py[line:97] - DEBUG: EUC-KR not active
+2020-03-14 09:34:37,123 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/charsetgroupprober.py[line:97] - DEBUG: CP949 not active
+2020-03-14 09:34:37,123 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/charsetgroupprober.py[line:97] - DEBUG: Big5 not active
+2020-03-14 09:34:37,123 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/chardet/charsetgroupprober.py[line:97] - DEBUG: EUC-TW not active
+2020-03-14 09:34:37,222 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/urllib3/connectionpool.py[line:225] - DEBUG: Starting new HTTP connection (1): 127.0.0.1:58180
+2020-03-14 09:34:39,020 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/urllib3/connectionpool.py[line:437] - DEBUG: http://127.0.0.1:58180 "POST http://118.31.23.115:8080/Hoist/v2/listDeviceDataScheduleCurrent.action HTTP/1.1" 200 None

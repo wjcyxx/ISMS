@@ -144,15 +144,19 @@
 
           switch (layEvent){
               case 'edit' :              //编辑按钮事件
-                  parent.layer.open({
-                      type:   2,
-                      title:  '编辑接口',
-                      area: ['920px','530px'],
-                      fixed: false,
-                      content: "{% url 'devinterface:edit' %}?fid="+data.FID,
-                      resize: false,
-                      move: false
-                  });
+                  if (data.FSrvStatus == true) {
+                      parent.layer.alert('此服务处于运行状态，请停止后再进行编辑',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                  } else {
+                      parent.layer.open({
+                          type:   2,
+                          title:  '编辑接口',
+                          area: ['920px','530px'],
+                          fixed: false,
+                          content: "{% url 'devinterface:edit' %}?fid="+data.FID,
+                          resize: false,
+                          move: false
+                      });
+                  }
 
                   break;
 

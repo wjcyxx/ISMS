@@ -16,4 +16,7 @@ urlpatterns = [
     path('get_paramdatasource/', views.get_paramdatasource, name='get_paramdatasource'),
     path('param_delete/', views.param_delete, name='param_delete'),
     path('subinterface_add/', views.subinterface_add.as_view(), name='subinterface_add'),
+    path('subinterface_insert/', views.subinterface_insert.as_view(), name='subinterface_insert'),
+    path('get_subinterface_datasource/', views.get_subinterface_datasource.as_view(), name='get_subinterface_datasource'),
+    path('del_subint/', views.del_subint.as_view(), name='del_subint')
 ]

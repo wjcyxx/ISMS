@@ -154,6 +154,20 @@
             </div>
         {% endif %}
 
+        {% if devintrerface.FInterfaceAttribID == 2 %}
+            <div class="layui-row layui-col-space10" style="padding-top: 1%">
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header">子接口列表</div>
+                        <!-- 表单内容 -->
+                        <div class="layui-card-body">
+                            <table class="layui-table" id="subintfacelist" lay-filter="toolbar_sub"></table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
     </div>
 
 </form>
@@ -168,6 +182,7 @@
 
 <script>
 var Paramtype = {{ paramtypeinfo|safe }}
+var SubinterfaceName = {{ subinterfaceinfo|safe }}
 
 layui.use(['element','layer','form', 'table'], function () {
     var element = layui.element
@@ -274,6 +289,55 @@ layui.use(['element','layer','form', 'table'], function () {
         }
     });
 
+    //子接口列表
+    table.render({
+        method: 'get',
+        page: true,
+        limit: 20,
+        elem: '#subintfacelist',
+        url: "{% url 'devinterface:get_subinterface_datasource' %}?fpid="+fid,
+        cols: [[
+            {field:'FInterfaceID', width: '25%', title: '子接口名称', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FInterfaceID, SubinterfaceName)}}{% endverbatim %}</div>'},
+            {field:'FDesc', width: '55%', title: '备注', sort: true},
+            {field:'', title: '操作', width: '20%', toolbar: '#tlsubbar', fixed: 'right'}
+        ]],
+
+        id: 'runref'
+    });
+
+    //监听子接口列表工具栏按钮事件
+    table.on('tool(toolbar_sub)', function (obj) {
+        var data = obj.data;           //获取当前行数据
+        var layEvent = obj.event;      //获取当前行事件
+        var tr = obj.tr;               //获取当前行tr的DOM数据
+        var fid = {"fid":data.FID};
+
+        switch (layEvent){
+            case 'delsubint' :              //删除按钮事件
+                parent.layer.open({
+                    content: '是否确定移除该子接口',
+                    btn: ['确定','取消'],
+                    yes: function (index) {
+                        $.post("{% url 'devinterface:del_subint' %}", fid, function (data) {
+                            if (data.result == '0'){
+                                table.reload('runref', {where: {resultdict:{FInterfaceID: ''}}});
+                                //window.parent.document.getElementById('Basedata').contentWindow.location.reload();
+                            } else if (data.result == '1')  {
+                                parent.layer.alert('移除接口失败',{skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                            }
+                        },"json");
+
+                        parent.layer.close(index);
+                    },
+                    btn2: function (index) {
+
+                    }
+                });
+
+                break;
+        }
+    });
+
 
 })
 </script>
@@ -302,6 +366,14 @@ layui.use(['element','layer','form', 'table'], function () {
 </script>
 
 
+<!--生成子接口列表操作工具栏-->
+<script type="text/html" id="tlsubbar">
+    {% verbatim %}
+    <div class="layui-btn-group">
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="delsubint"><i class="iconfont icon-shanchu"></i>移除</a>
+    </div>
+    {% endverbatim %}
+</script>
 
 </body>
 </html>

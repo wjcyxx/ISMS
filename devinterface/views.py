@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.shortcuts import HttpResponse
 from django.shortcuts import redirect
 from django.db.models import Q
-from .models import devinterface as T_DevInterface, subinterface
+from .models import devinterface as T_DevInterface
+from .models import subinterface as T_SubInterface
 from .models import interfaceparam as T_InterfaceParam
 from device.models import device
 from appkey.models import appkey
@@ -47,6 +48,16 @@ def get_datasource(request):
 
     return  JsonResponse(resultdict, safe=False)
 
+#返回子接口数据
+class get_subinterface_datasource(get_datasource_base):
+    def get_queryset(self, reqeust):
+        fid  = ''.join(str(self.request.GET.get('fpid')).split('-'))
+        serinput = self.request.POST.get("resultdict[FInterfaceID]", '')
+
+        subinterface_info = T_SubInterface.objects.filter(Q(FPID=fid), FInterfaceID__contains=serinput)
+        return subinterface_info
+
+
 #刷新下拉列表框数据
 def ref_dropdowndata(obj, request):
     device_info = device.objects.filter(Q(FStatus=True))
@@ -77,8 +88,10 @@ def edit(request):
     paramtype_info = base.objects.filter(Q(FPID='8ad84c1aabb811e996a1708bcdb9b39a'))
     paramtypeinfo = get_dict_table(paramtype_info, 'FID', 'FBase')
 
+    subinterface_info = T_DevInterface.objects.filter(Q(FInterfaceAttribID=0))
+    subinterfaceinfo = get_dict_table(subinterface_info, 'FID', 'FName')
 
-    return render(request, "content/devinterface/devinterfaceadd.html", {'obj': obj, 'paramtypeinfo': paramtypeinfo, 'action': 'update'})
+    return render(request, "content/devinterface/devinterfaceadd.html", {'obj': obj, 'devintrerface': Devinterface_info, 'paramtypeinfo': paramtypeinfo, 'subinterfaceinfo': subinterfaceinfo, 'action': 'update'})
 
 #处理新增及保存
 def insert(request):
@@ -147,6 +160,14 @@ def disabled(request):
     else:
         response_data['result'] = '2'
         return HttpResponse(json.dumps(response_data))
+
+
+#处理删除服务组内子接口
+class del_subint(delete_base):
+    def set_view(self,request):
+        self.response_data['result'] = '0'
+        self.model = T_SubInterface
+
 
 #处理刷新下拉列表数据源
 def ref_paramdropdown(obj, request):
@@ -265,18 +286,22 @@ class subinterface_add(add_base):
         self.query_sets = [
             T_DevInterface.objects.filter(Q(FStatus=True), Q(FInterfaceAttribID=0))
         ]
-
         self.query_set_idfields = ['FInterfaceID']
         self.query_set_valuefields = ['FName']
-        self.context['fid'] = self.request.GET.get('fid')
+        self.context['fid'] = ''.join(str(self.request.GET.get('fid')).split('-'))
 
 
 class subinterface_insert(insert_base):
     def set_view(self, request):
-        self.model = subinterface
+        self.model = T_SubInterface
+        self.type = 1
         self.objForm = SubInterfaceModelForm
-        self.type =1
 
+        self.query_sets = [
+            T_DevInterface.objects.filter(Q(FStatus=True), Q(FInterfaceAttribID=0))
+        ]
+        self.query_set_idfields = ['FInterfaceID']
+        self.query_set_valuefields = ['FName']
 
 
 

@@ -40,7 +40,7 @@ class get_envrealtimedata(View):
         prjID = ''.join(str(request.POST.get('prjid')).split('-'))
 
         end_time = (datetime.datetime.now() + datetime.timedelta(days=1)).strftime("%Y-%m-%d")
-        begin_time = (datetime.datetime.now() + datetime.timedelta(days=-3)).strftime("%Y-%m-%d")
+        begin_time = (datetime.datetime.now() + datetime.timedelta(days=-2)).strftime("%Y-%m-%d")
 
         if prjID == '':
             #device_info = device.objects.filter(Q(FDevtypeID='dc511ffcaaf211e99741708bcdb9b39a')).first()
@@ -143,7 +143,7 @@ class get_envhisdata(View):
         prjID = ''.join(str(request.POST.get('prjid')).split('-'))
 
         cur = connection.cursor()
-        sqlstr = "SELECT FROM_UNIXTIME(FSRCTimestamp-FSRCTimestamp % (60*60), '%m-%d %H:%i'), format(avg(FPM25), 1) from T_EnvdetectionHisData where CREATED_PRJ like '%"+ prjID +"%' and FTimestamp BETWEEN '"+ begin_time +"' and '"+ end_time +"' group by FROM_UNIXTIME(FSRCTimestamp-FSRCTimestamp % (60*60), '%m-%d %H:%i')"
+        sqlstr = "SELECT FROM_UNIXTIME(FSRCTimestamp-FSRCTimestamp % (60*60), '%m-%d %H:%i'), format(avg(FPM25), 1) from T_EnvdetectionHisData where CREATED_PRJ like '"+ prjID +"%' and FTimestamp BETWEEN '"+ begin_time +"' and '"+ end_time +"' group by FROM_UNIXTIME(FSRCTimestamp-FSRCTimestamp % (60*60), '%m-%d %H:%i')"
 
         cur.execute(sqlstr)
 
@@ -160,7 +160,7 @@ class get_envhisdata(View):
 
 
         cur1 = connection.cursor()
-        sqlstr = "SELECT FROM_UNIXTIME(FSRCTimestamp-FSRCTimestamp % (60*60), '%m-%d %H:%i'), format(avg(FPM10), 1) from T_EnvdetectionHisData where CREATED_PRJ like '%"+ prjID +"%' and FTimestamp BETWEEN '"+ begin_time +"' and '"+ end_time +"' group by FROM_UNIXTIME(FSRCTimestamp-FSRCTimestamp % (60*60), '%m-%d %H:%i')"
+        sqlstr = "SELECT FROM_UNIXTIME(FSRCTimestamp-FSRCTimestamp % (60*60), '%m-%d %H:%i'), format(avg(FPM10), 1) from T_EnvdetectionHisData where CREATED_PRJ like '"+ prjID +"%' and FTimestamp BETWEEN '"+ begin_time +"' and '"+ end_time +"' group by FROM_UNIXTIME(FSRCTimestamp-FSRCTimestamp % (60*60), '%m-%d %H:%i')"
 
         cur1.execute(sqlstr)
         rows1 = cur1.fetchall()

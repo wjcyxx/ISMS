@@ -1,36 +1,3 @@
-2019-12-24 15:24:33,348 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:99] - INFO: 获取南昌市西湖区桃花安置房项目扬尘数据服务启动
-2019-12-24 15:24:34,277 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:87] - INFO: 本次数据传输完毕, PM2.5:5.30; PM10:8.10
-2019-12-24 15:26:34,324 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:99] - INFO: 获取南昌市西湖区桃花安置房项目扬尘数据服务启动
-2019-12-24 15:26:35,453 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:87] - INFO: 本次数据传输完毕, PM2.5:5.30; PM10:8.50
-2019-12-24 15:28:35,494 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:99] - INFO: 获取南昌市西湖区桃花安置房项目扬尘数据服务启动
-2019-12-24 15:28:36,357 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:87] - INFO: 本次数据传输完毕, PM2.5:5.00; PM10:7.80
-2019-12-24 15:30:36,422 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:99] - INFO: 获取南昌市西湖区桃花安置房项目扬尘数据服务启动
-2019-12-24 15:30:37,782 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:87] - INFO: 本次数据传输完毕, PM2.5:5.20; PM10:8.20
-2019-12-24 15:32:37,828 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:99] - INFO: 获取南昌市西湖区桃花安置房项目扬尘数据服务启动
-2019-12-24 15:32:39,000 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:87] - INFO: 本次数据传输完毕, PM2.5:4.70; PM10:7.80
-2019-12-24 15:34:39,094 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:99] - INFO: 获取南昌市西湖区桃花安置房项目扬尘数据服务启动
-2019-12-24 15:34:40,282 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:87] - INFO: 本次数据传输完毕, PM2.5:5.00; PM10:7.60
-2019-12-24 15:36:40,336 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:99] - INFO: 获取南昌市西湖区桃花安置房项目扬尘数据服务启动
-2019-12-24 15:36:41,793 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:87] - INFO: 本次数据传输完毕, PM2.5:4.50; PM10:7.50
-2019-12-24 15:38:41,847 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:99] - INFO: 获取南昌市西湖区桃花安置房项目扬尘数据服务启动
-2019-12-24 15:38:43,135 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:87] - INFO: 本次数据传输完毕, PM2.5:5.00; PM10:7.80
-2019-12-24 15:40:43,174 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:99] - INFO: 获取南昌市西湖区桃花安置房项目扬尘数据服务启动
-2019-12-24 15:40:44,238 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:87] - INFO: 本次数据传输完毕, PM2.5:4.50; PM10:6.80
-2019-12-24 15:42:44,295 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:99] - INFO: 获取南昌市西湖区桃花安置房项目扬尘数据服务启动
-2019-12-24 15:42:45,235 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:87] - INFO: 本次数据传输完毕, PM2.5:5.10; PM10:8.10
-2019-12-24 15:44:45,321 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:99] - INFO: 获取南昌市西湖区桃花安置房项目扬尘数据服务启动
-2019-12-24 15:44:46,463 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:87] - INFO: 本次数据传输完毕, PM2.5:4.80; PM10:7.60
-2019-12-24 15:46:46,508 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:99] - INFO: 获取南昌市西湖区桃花安置房项目扬尘数据服务启动
-2019-12-24 15:46:47,728 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:87] - INFO: 本次数据传输完毕, PM2.5:4.90; PM10:7.40
-2019-12-24 15:48:47,775 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:99] - INFO: 获取南昌市西湖区桃花安置房项目扬尘数据服务启动
-2019-12-24 15:48:48,935 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:87] - INFO: 本次数据传输完毕, PM2.5:5.20; PM10:7.80
-2019-12-24 15:50:48,981 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:99] - INFO: 获取南昌市西湖区桃花安置房项目扬尘数据服务启动
-2019-12-24 15:50:49,996 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:87] - INFO: 本次数据传输完毕, PM2.5:5.20; PM10:7.50
-2019-12-24 15:52:50,063 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:99] - INFO: 获取南昌市西湖区桃花安置房项目扬尘数据服务启动
-2019-12-24 15:52:50,996 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:87] - INFO: 本次数据传输完毕, PM2.5:5.20; PM10:7.90
-2019-12-24 15:54:51,049 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:99] - INFO: 获取南昌市西湖区桃花安置房项目扬尘数据服务启动
-2019-12-24 15:54:52,131 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:87] - INFO: 本次数据传输完毕, PM2.5:5.30; PM10:8.10
-2019-12-24 15:56:52,228 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:99] - INFO: 获取南昌市西湖区桃花安置房项目扬尘数据服务启动
-2019-12-24 15:56:53,517 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:87] - INFO: 本次数据传输完毕, PM2.5:5.60; PM10:9.10
-2019-12-24 15:58:53,677 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:99] - INFO: 获取南昌市西湖区桃花安置房项目扬尘数据服务启动
-2019-12-24 15:58:57,824 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:87] - INFO: 本次数据传输完毕, PM2.5:5.60; PM10:8.50
+2020-03-14 11:24:41,938 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:107] - INFO: 建大仁科扬尘设备接入服务:项目扬尘数据服务启动
+2020-03-14 11:24:43,553 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:95] - INFO: 本次数据传输完毕, 传输接口为:桃花安置房环境监测数据接口, 传输内容: PM2.5:41.00; PM10:56.00
+2020-03-14 11:24:43,930 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:95] - INFO: 本次数据传输完毕, 传输接口为:恒锦九龙湖环境监测数据接口, 传输内容: PM2.5:34.00; PM10:48.00
