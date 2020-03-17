@@ -141,8 +141,10 @@
         <span>企业用户</span>
         {{#  } else if(d.FType == 1) { }}
         <span>合作伙伴</span>
-        {{#  } else { }}
+        {{#  } else if(d.FType == 2){ }}
         <span>管理员</span>
+        {{#  } else if(d.FType == 3){ }}
+        <span>政务平台</span>
         {{#  } }}
     {% endverbatim %}
 </script>

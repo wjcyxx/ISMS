@@ -39,6 +39,11 @@ def login_chk(request):
             if user_info.FStatus == False:
                 response_data['result'] = '3'  # 返回用户被禁用
                 return HttpResponse(json.dumps(response_data))
+
+            if user_info.FType == 3:
+                response_data['result'] = '4'  # 返回用户是政务端用户
+                return HttpResponse(json.dumps(response_data))
+
         except ObjectDoesNotExist:
             response_data['result'] = '2'  # 返回用户没有找到
             return HttpResponse(json.dumps(response_data))
@@ -118,10 +123,10 @@ def login_ok(request):
             context['envdevice'] = result
             context['devkey'] = devkey
 
-            busmenu_info = busmenu.objects.filter(Q(FPID__isnull=True), Q(FStatus=True), Q(FMenuPosition=0)).order_by('FSequence')
+            busmenu_info = busmenu.objects.filter(Q(FPID__isnull=True), Q(FStatus=True), Q(FMenuPosition=0), Q(FGroupID=0)).order_by('FSequence')
             context['busmenu_info'] = busmenu_info
 
-            side_busmenu_info = busmenu.objects.filter(Q(FPID__isnull=True) | Q(FPID=''), Q(FStatus=True), Q(FMenuPosition=1)).order_by('FSequence')
+            side_busmenu_info = busmenu.objects.filter(Q(FPID__isnull=True) | Q(FPID=''), Q(FStatus=True), Q(FMenuPosition=1), Q(FGroupID=0)).order_by('FSequence')
             context['side_busmenu_info'] = side_busmenu_info
 
             return render(request, "main.html", context)

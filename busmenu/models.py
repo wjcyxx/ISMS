@@ -30,6 +30,7 @@ class busmenu(models.Model):
     FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
     FPID = models.CharField(max_length=32, blank=True, null=True)
     FSequence = models.IntegerField(verbose_name='顺序号', blank=True, null=True)
+    FGroupID = models.IntegerField(verbose_name='菜单组', blank=True, null=True)
     FMenuID = models.CharField(max_length=32, verbose_name='菜单ID', blank=True, null=True)
     FMenuName = models.CharField(max_length=32, verbose_name='菜单名称', blank=True, null=True)
     FUrl = models.CharField(max_length=100, verbose_name='菜单地址', blank=True, null=True)

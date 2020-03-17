@@ -11,9 +11,9 @@ class User(models.Model):
     TYPE_CHOICES = (
         (0, '企业账户'),
         (1, '合作伙伴'),
-        (2, '管理员')
+        (2, '管理员'),
+        (3, '政务平台')
     )
-
 
     FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
     FUserID = models.CharField(max_length=32, verbose_name='用户账户')

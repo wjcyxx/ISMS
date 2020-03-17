@@ -7,7 +7,7 @@ from django.utils.encoding import python_2_unicode_compatible
 @python_2_unicode_compatible
 
 class project(models.Model):
-
+    # 平台版,工地版用字段
     FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
     FPrjID = models.CharField(max_length=32, verbose_name='项目编码')
     FPrjname = models.CharField(max_length=128, verbose_name='项目名称')
@@ -52,6 +52,12 @@ class project(models.Model):
     FPrjdesc = models.CharField(max_length=1024, verbose_name='工程概况', blank=True, null=True)
     FStatus = models.BooleanField(default=True, verbose_name='状态')
     FManageORG = models.CharField(max_length=32, verbose_name='管理组织', blank=True, null=True)
+
+    # 政务版用字段
+    FAffDept = models.CharField(max_length=1000, verbose_name='所属科室', blank=True, null=True)
+    FIsFullRenov = models.BooleanField(default=False, verbose_name='是否全装修交付')
+
+    # 基础字段
     CREATED_ORG = models.CharField(max_length=32, verbose_name='创建组织', blank=True, null=True)
     CREATED_BY = models.CharField(max_length=32, verbose_name='创建人', blank=True, null=True)
     CREATED_TIME = models.DateTimeField(blank=True, null=True, verbose_name='创建时间')

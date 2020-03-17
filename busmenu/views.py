@@ -25,7 +25,7 @@ class get_treedatasource(View):
     def post(self, request):
 
         obj_arr = []
-        menu_info = T_Menu.objects.all().order_by('FSequence')
+        menu_info = T_Menu.objects.filter(Q(FGroupID=0)).order_by('FSequence')
         #menu_info = org_split(menu_info, request).order_by('FSequence')
 
         for obj in menu_info:
@@ -49,7 +49,7 @@ class get_treedatasource(View):
 class get_datasource(get_datasource_base):
     def get_queryset(self, reqeust):
         serinput = self.request.GET.get("resultdict[FMenuName]", '')
-        menu_info =  T_Menu.objects.filter(Q(FMenuName__contains=serinput)).order_by('FMenuPosition', 'FSequence')
+        menu_info =  T_Menu.objects.filter(Q(FMenuName__contains=serinput), Q(FGroupID=0)).order_by('FMenuPosition', 'FSequence')
         self.orgsplit_type = 1
 
         return menu_info
@@ -110,6 +110,9 @@ class insert(insert_base):
         ]
         self.query_set_idfields = ['FPID']
         self.query_set_valuefields = ['FMenuName']
+
+        self.set_fields = ['FGroupID']
+        self.set_value = [0]
 
 
 #处理禁用/启用
