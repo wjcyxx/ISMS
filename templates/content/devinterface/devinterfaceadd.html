@@ -181,8 +181,10 @@
 {% include "common/jsfiles.html" %}
 
 <script>
-var Paramtype = {{ paramtypeinfo|safe }}
-var SubinterfaceName = {{ subinterfaceinfo|safe }}
+{% if action == 'update' %}
+    var Paramtype = {{ paramtypeinfo|safe }}
+    var SubinterfaceName = {{ subinterfaceinfo|safe }}
+{% endif %}
 
 layui.use(['element','layer','form', 'table'], function () {
     var element = layui.element
