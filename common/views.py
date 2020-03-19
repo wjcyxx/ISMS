@@ -538,6 +538,18 @@ def prj_2_manageorg(prjID):
     except ObjectDoesNotExist:
         return ''
 
+
+#根据接口号返回设备ID
+def intID_2_devID(initID):
+    try:
+        devcall_fpid = devcallinterface.objects.filter(Q(FInterfaceID=initID)).first().FPID
+        dev_id = device.objects.get(Q(FID=devcall_fpid)).FDevID
+
+        return dev_id
+    except Exception as e:
+        return str(e)
+
+
 #根据设备号返回项目值
 def deviceID_2_prjID(deviceID):
     deviceID = str(deviceID)

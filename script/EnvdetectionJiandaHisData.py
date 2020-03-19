@@ -57,6 +57,8 @@ if __name__ == "__main__":
             for subint in subinterface_info:
                 interID = ''.join(str(subint.FInterfaceID).split('-'))
 
+                devID = intID_2_devID(interID)
+
                 logging.info('传输接口ID:' + interID)
                 print("接口ID:"+interID)
 
@@ -64,7 +66,7 @@ if __name__ == "__main__":
 
                 EnvHisData = envinterfacesrv()
                 EnvHisData.FCommandType = 2
-                EnvHisData.FDeviceId = result[0]['DevAddr']
+                EnvHisData.FDeviceId = devID
                 EnvHisData.FSRCTimestamp = time.time()
                 EnvHisData.FTimestamp = timezone.now()
                 EnvHisData.FSPM = None
@@ -79,7 +81,7 @@ if __name__ == "__main__":
                 EnvHisData.FNoise = result[1]['DevHumiValue']
                 EnvHisData.FNoiseMax = None
 
-                prjID = deviceID_2_prjID(result[0]['DevAddr'])
+                prjID = deviceID_2_prjID(devID)
                 prj_info = project.objects.get(Q(FID=prjID))
 
                 EnvHisData.FLongitude = prj_info.FLong
