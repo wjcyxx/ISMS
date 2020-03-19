@@ -57,6 +57,7 @@ if __name__ == "__main__":
             for subint in subinterface_info:
                 interID = ''.join(str(subint.FInterfaceID).split('-'))
 
+                logging.info('传输接口ID:' + interID)
                 print("接口ID:"+interID)
 
                 result = get_interface_result(interID, [], [], [])
