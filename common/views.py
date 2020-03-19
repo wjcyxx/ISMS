@@ -542,7 +542,9 @@ def prj_2_manageorg(prjID):
 #根据接口号返回设备ID
 def intID_2_devID(initID):
     try:
-        devcall_fpid = devcallinterface.objects.filter(Q(FInterfaceID=initID)).first().FPID
+        devcall_info = devcallinterface.objects.filter(Q(FInterfaceID=initID)).first()
+        devcall_fpid = devcall_info.FPID
+
         dev_id = device.objects.get(Q(FID=devcall_fpid)).FDevID
 
         return dev_id

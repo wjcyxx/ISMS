@@ -1,3 +1,7 @@
-2020-03-14 11:24:41,938 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:107] - INFO: 建大仁科扬尘设备接入服务:项目扬尘数据服务启动
-2020-03-14 11:24:43,553 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:95] - INFO: 本次数据传输完毕, 传输接口为:桃花安置房环境监测数据接口, 传输内容: PM2.5:41.00; PM10:56.00
-2020-03-14 11:24:43,930 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:95] - INFO: 本次数据传输完毕, 传输接口为:恒锦九龙湖环境监测数据接口, 传输内容: PM2.5:34.00; PM10:48.00
+2020-03-19 20:22:42,250 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:111] - INFO: 建大仁科扬尘设备接入服务:项目扬尘数据服务启动
+2020-03-19 20:22:42,460 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:62] - INFO: 传输接口ID:1afa0596261011ea8334acde48001122
+2020-03-19 20:22:42,842 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:99] - INFO: 本次数据传输完毕, 传输接口为:桃花安置房环境监测数据接口, 传输内容: 设备编号：40055328; PM2.5:78.00; PM10:98.00
+2020-03-19 20:22:42,879 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:62] - INFO: 传输接口ID:97f7cd46286b11eaa4c300163e12e179
+2020-03-19 20:22:43,234 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:99] - INFO: 本次数据传输完毕, 传输接口为:恒锦九龙湖环境监测数据接口, 传输内容: 设备编号：40040148; PM2.5:58.00; PM10:84.00
+2020-03-19 20:22:43,272 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:62] - INFO: 传输接口ID:48845d6469b211ea880dacde48001122
+2020-03-19 20:22:43,702 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/script/EnvdetectionJiandaHisData.py[line:99] - INFO: 本次数据传输完毕, 传输接口为:义坊项目环境监测数据接口, 传输内容: 设备编号：40058498; PM2.5:78.00; PM10:98.00

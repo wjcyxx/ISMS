@@ -61,12 +61,13 @@ if __name__ == "__main__":
 
                 logging.info('传输接口ID:' + interID)
                 print("接口ID:"+interID)
+                print("设备ID:"+devID)
 
                 result = get_interface_result(interID, [], [], [])
 
                 EnvHisData = envinterfacesrv()
                 EnvHisData.FCommandType = 2
-                EnvHisData.FDeviceId = devID
+                #EnvHisData.FDeviceId = devID
                 EnvHisData.FSRCTimestamp = time.time()
                 EnvHisData.FTimestamp = timezone.now()
                 EnvHisData.FSPM = None
