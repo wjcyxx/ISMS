@@ -95,7 +95,7 @@ if __name__ == "__main__":
 
                 EnvHisData.save()
 
-                logging.info('本次数据传输完毕, 传输接口为:'+subint.FDesc+', 传输内容: 设备编号：'+ result[0]['DevAddr'] +'; PM2.5:'+result[0]['DevHumiValue']+'; PM10:'+result[0]['DevTempValue'])
+                logging.info('本次数据传输完毕, 传输接口为:'+subint.FDesc+', 传输内容: 设备编号：'+ devID +'; PM2.5:'+result[0]['DevHumiValue']+'; PM10:'+result[0]['DevTempValue'])
                 print('本次数据传输完毕')
 
         except Exception as e:
