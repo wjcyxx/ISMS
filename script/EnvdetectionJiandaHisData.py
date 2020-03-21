@@ -51,7 +51,7 @@ if __name__ == "__main__":
             print("start...")
             fid = ''.join(str(devinterface_info.FID).split('-'))
 
-            print("主ID:"+fid)
+            print("主ID:" + fid)
             subinterface_info = subinterface.objects.filter(Q(FPID=fid))
 
             for subint in subinterface_info:
@@ -59,28 +59,19 @@ if __name__ == "__main__":
 
                 devID = intID_2_devID(interID)
 
-                logging.info('传输接口ID:' + interID)
-                print("接口ID:"+interID)
-                print("设备ID:"+devID)
+                print("接口ID:" + interID)
+                print("设备ID:" + devID)
 
                 result = get_interface_result(interID, [], [], [])
 
                 EnvHisData = envinterfacesrv()
                 EnvHisData.FCommandType = 2
-                #EnvHisData.FDeviceId = devID
+                EnvHisData.FDeviceId = devID
                 EnvHisData.FSRCTimestamp = time.time()
                 EnvHisData.FTimestamp = timezone.now()
                 EnvHisData.FSPM = None
-                EnvHisData.FPM25 = result[0]['DevHumiValue']
-                EnvHisData.FPM10 = result[0]['DevTempValue']
-                EnvHisData.FTYPE = 2
-                EnvHisData.FWIND_SPEED = result[3]['DevHumiValue']
-                EnvHisData.FWIND_DIRECT = result[5]['DevHumiValue']
-                EnvHisData.FWIND_DIRECT_STR = result[4]['DevTempValue']
-                EnvHisData.FTemperature = result[2]['DevTempValue']
-                EnvHisData.FHumidity = result[2]['DevHumiValue']
-                EnvHisData.FNoise = result[1]['DevHumiValue']
                 EnvHisData.FNoiseMax = None
+                EnvHisData.FTYPE = 2
 
                 prjID = deviceID_2_prjID(devID)
                 prj_info = project.objects.get(Q(FID=prjID))
@@ -94,9 +85,34 @@ if __name__ == "__main__":
                 EnvHisData.UPDATED_BY = 'www.0531yun.cn'
                 EnvHisData.CREATED_TIME = timezone.now()
 
-                EnvHisData.save()
+                for env_info in result:
+                    if env_info['DevAddr'] == devID:
 
-                logging.info('本次数据传输完毕, 传输接口为:'+subint.FDesc+', 传输内容: 设备编号：'+ devID +'; PM2.5:'+result[0]['DevHumiValue']+'; PM10:'+result[0]['DevTempValue'])
+                        if env_info['DevName'] == 'PM':
+                            EnvHisData.FPM25 = env_info['DevHumiValue']
+                            EnvHisData.FPM10 = env_info['DevTempValue']
+
+                        if env_info['DevName'] == '噪声':
+                            EnvHisData.FNoise = env_info['DevHumiValue']
+
+                        if env_info['DevName'] == '温度湿度':
+                            EnvHisData.FTemperature = env_info['DevTempValue']
+                            EnvHisData.FHumidity = env_info['DevHumiValue']
+
+                        if env_info['DevName'] == '风力风速':
+                            EnvHisData.FWIND_SPEED = env_info['DevHumiValue']
+
+                        if env_info['DevName'] == '风向(方位)':
+                            EnvHisData.FWIND_DIRECT_STR = env_info['DevTempValue']
+
+                        if env_info['DevName'] == '风向(度数)':
+                            EnvHisData.FWIND_DIRECT = env_info['DevHumiValue']
+
+                str_pm25 = EnvHisData.FPM25
+                str_pm10 = EnvHisData.FPM10
+
+                EnvHisData.save()
+                logging.info('本次数据传输完毕, 传输接口为:'+subint.FDesc+', 传输内容: 设备编号：'+ devID +'; PM2.5:'+ str_pm25 +'; PM10:'+str_pm10)
                 print('本次数据传输完毕')
 
         except Exception as e:
