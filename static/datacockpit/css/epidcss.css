@@ -1,0 +1,881 @@
+.ddt_tit {
+  overflow: hidden;
+}
+.ddt_tit p {
+  font-size: 36px;
+  line-height: 1;
+  margin-bottom: 10px;
+  color: #fff;
+  font-weight: bold;
+}
+.ddt_tit span {
+  display: block;
+  font-size: 19px;
+  color: #9b999e;
+}
+
+.content {
+  overflow: hidden;
+  width: 100%;
+  height: 100vh;
+  background-image: url(/static/datacockpit/images/bg.png);
+  background-color: rgb(30,28,44);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+.content .header {
+  width: 100%;
+  height: 7.0925925926vh;
+  border-bottom: 1px solid #3A3948;
+  display: flex;
+  align-items: center;
+  background-image: url(/static/datacockpit/images/headerbg_01.jpg);
+  background-size: 100% 100%;
+}
+.content .header .fls {
+  width: 23.9583333333vw;
+  height: 100%;
+  background-image: url(/static/datacockpit/images/HOME_logo_01.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+}
+.content .header .fls img {
+  width: 14.84375vw;
+}
+.content .header ul {
+  display: flex;
+  height: 100%;
+  align-items: center;
+}
+.content .header ul li {
+  width: 15.9895833333vw;
+  height: 6.0185185185vh;
+  background-image: url(/static/datacockpit/images/icon_03.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  margin-left: -2.2916666667vw;
+  text-align: center;
+  line-height: 6.0185185185vh;
+  font-size: 26px;
+}
+.content .header ul li a {
+  color: #7d7a93;
+}
+.content .main_box {
+  overflow: hidden;
+  width: 100%;
+  padding: 0vh 0vw 0 0vw;
+}
+.content .main_box .top {
+  overflow: hidden;
+  width: 100%;
+}
+.content .main_box .top .fl {
+  overflow: hidden;
+  width: 26.09375vw;
+}
+.content .main_box .top .fl .fl_top {
+  overflow: hidden;
+  width: 100%;
+  height: 26.5740740741vh;
+  background-image: url(/static/datacockpit/images/HOME_03.png);
+  border: 1px solid #29243F;
+  background-size: cover;
+  position: relative;
+  z-index: 999;
+}
+.content .main_box .top .fl .fl_bot {
+  overflow: hidden;
+  width: 100%;
+  margin-top: 2.037037037vh;
+  padding: 1.2037037037vh 1.71875vw 1.2037037037vh 0.5208333333vw;
+  height: 26.5740740741vh;
+  background-image: url(/static/datacockpit/images/HOME_03.png);
+  border: 1px solid #29243F;
+  background-size: cover;
+  position: relative;
+  z-index: 999;
+}
+.content .mid {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  padding: 0vh 0vw 0 0vw;
+}
+.content .main_box .top .fr {
+  overflow: hidden;
+  width: 26.09375vw;
+
+  /*
+  overflow: hidden;
+  width: 26.09375vw;
+  border: 1px solid #29243F;
+  height: 55.2777777778vh;
+  background-image: url(/static/datacockpit/images/HOME_03.png);
+  background-size: cover;
+  position: relative;
+  padding: 1.4814814815vh 0.8333333333vw 0 1.40625vw;
+   */
+}
+.content .main_box .top .fr .fr_top {
+  overflow: hidden;
+  width: 100%;
+  height: 26.5740740741vh;
+  background-image: url(/static/datacockpit/images/HOME_03.png);
+  border: 1px solid #29243F;
+  background-size: cover;
+  position: relative;
+
+  /*
+  overflow: hidden;
+  display: flex;
+  padding-left: 0.2604166667vw;
+  align-items: center;
+   */
+}
+.content .main_box .top .fr .fr_top .num {
+  display: flex;
+  align-items: center;
+}
+.content .main_box .top .fr .fr_top .num p {
+  font-size: 25px;
+  color: #c9905e;
+}
+.content .main_box .top .fr .fr_top .num img {
+  width: 22px;
+  margin-left: 1.0416666667vw;
+}
+.content .main_box .top .fr .fr_top .ec {
+  margin-left: 2.0833333333vw;
+  width: 12.9166666667vw;
+}
+.content .main_box .top .fr .fr_top .ec img {
+  width: 100%;
+}
+.content .main_box .top .fr .fr_bot {
+  overflow: hidden;
+  width: 100%;
+  margin-top: 2.037037037vh;
+  height: 26.5740740741vh;
+  background-image: url(/static/datacockpit/images/HOME_03.png);
+  border: 1px solid #29243F;
+  background-size: cover;
+  position: relative;
+
+  /*
+  overflow: hidden;
+  margin-top: 3.2407407407vh;
+   */
+}
+.content .main_box .bottom {
+  width: 100%;
+  height: 34.5740740741vh;
+  margin-top: 2.037037037vh;
+  position: relative;
+}
+.content .main_box .bottom .item {
+  width: 100%;
+  border: 1px solid #29243F;
+  height: 34.5740740741vh;
+  background-image: url(/static/datacockpit/images/HOME_03.png);
+  background-size: cover;
+  float: left;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-right: 0.8854166667vw;
+}
+
+.item::-webkit-scrollbar {/*滚动条整体样式*/
+            width: 10px;     /*高宽分别对应横竖滚动条的尺寸*/
+}
+.item::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+            border-radius: 5px;
+            -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+            /*background: rgba(0,0,0,0.2);*/
+            background: wheat;
+}
+.item::-webkit-scrollbar-track {/*滚动条里面轨道*/
+            -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+            border-radius: 0;
+            background: rgba(0,0,0,0.1);
+}
+
+
+
+
+.content .main_box .bottom .item:last-child {
+  margin-right: 0;
+}
+.content .main_box .bottom .item .item_box {
+  overflow: hidden;
+  width: 10.4166666667vw;
+  margin: 0 1.5625vw;
+}
+.content .main_box .bottom .item .item_box img {
+  width: 100%;
+}
+
+.table {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+.table tr {
+  width: 100%;
+  height: 3.7962962963vh;
+}
+.table tr:last-child td {
+  border: none;
+}
+.table tr td {
+  font-size: 14px;
+  border-bottom: 1px solid #0F286C;
+  text-align: center;
+  color: #fff;
+  height: 100%;
+  line-height: 3.7962962963vh;
+}
+
+.icon .fls {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+
+.icon .frs {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.main_content {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  background-image: url(/static/datacockpit/images/bgww.jpg);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+.main_content .ddts {
+  left: 12.1354166667vw;
+  bottom: 13.1481481481vh;
+}
+.main_content .ddts1 {
+  left: 25.1041666667vw;
+  bottom: 13.1481481481vh;
+}
+.main_content .ddts {
+  position: absolute;
+}
+.main_content .ddts img {
+  width: 6.1458333333vw;
+}
+.main_content .ddts .ddt_box {
+  width: 125px;
+  height: 34.3518518519vh;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-top: 1.8518518519vh;
+}
+.main_content .ddts .ddt_box .bb1 {
+  left: 0;
+}
+.main_content .ddts .ddt_box .bb2 {
+  left: 20px;
+}
+.main_content .ddts .ddt_box .bb3 {
+  left: 53px;
+}
+.main_content .ddts .ddt_box .bb4 {
+  left: 72px;
+}
+.main_content .ddts .ddt_box .bb5 {
+  right: 0;
+}
+.main_content .ddts .ddt_box .nun {
+  width: 20px;
+  height: 20px;
+  background: #C7C7C9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #75747B;
+  z-index: 9999999;
+  position: absolute;
+}
+.main_content .ddts .ddt_box .bb_left {
+  overflow: hidden;
+  height: 34.2592592593vh;
+  width: 17px;
+  background: rgba(86, 85, 92, 0.5);
+  position: absolute;
+  bottom: 0;
+}
+.main_content .ddts .ddt_box .bb_mid {
+  overflow: hidden;
+  height: 34.2592592593vh;
+  margin: 0 0.15625vw;
+  width: 28px;
+  background: #767577;
+  position: absolute;
+  bottom: 0;
+}
+.main_content .ddts .ddt_box .bb_center {
+  overflow: hidden;
+  height: 33.2407407407vh;
+  margin: 0 0.2604166667vw;
+  width: 8px;
+  background: rgba(86, 85, 92, 0.5);
+  position: absolute;
+  bottom: 0;
+}
+.main_content .ddts1 {
+  width: 158px;
+  position: absolute;
+}
+.main_content .ddts1 img {
+  width: 6.1458333333vw;
+}
+.main_content .ddts1 .ddt_box1 {
+  width: 100%;
+  height: 44.7222222222vh;
+  position: relative;
+  margin-top: 1.8518518519vh;
+}
+.main_content .ddts1 .ddt_box1 .bb1 {
+  left: 0;
+}
+.main_content .ddts1 .ddt_box1 .bb2 {
+  left: 26px;
+}
+.main_content .ddts1 .ddt_box1 .bb3 {
+  left: 69px;
+}
+.main_content .ddts1 .ddt_box1 .bb4 {
+  left: 92px;
+}
+.main_content .ddts1 .ddt_box1 .bb5 {
+  right: 0;
+}
+.nuns {
+  width: 27px;
+  height: 27px;
+  background: #ffb24e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #fff;
+  z-index: 9999999;
+  position: absolute;
+}
+.main_content .ddts1 .ddt_box1 .bb_left {
+  overflow: hidden;
+  height: 44.6296296296vh;
+  width: 20px;
+  background: rgba(86, 85, 92, 0.5);
+  position: absolute;
+  bottom: 0;
+}
+.main_content .ddts1 .ddt_box1 .bb_mid {
+  overflow: hidden;
+  height: 44.6296296296vh;
+  margin: 0 0.15625vw;
+  width: 34px;
+  background: #767577;
+  position: absolute;
+  bottom: 0;
+}
+.main_content .ddts1 .ddt_box1 .bb_center {
+  overflow: hidden;
+  height: 44.6296296296vh;
+  margin: 0 0.2604166667vw;
+  width: 10px;
+  background: rgba(86, 85, 92, 0.5);
+  position: absolute;
+  bottom: 0;
+}
+.main_content .ddts1 .ddt_box1 .tus {
+  width: 5px;
+  height: 6.3888888889vh;
+  position: absolute;
+  left: 90px;
+  bottom: 13.3333333333vh;
+  background: #767577;
+}
+.main_content .ddts1 .ddt_box1 .ll {
+  width: 35px;
+  height: 35px;
+  background: #F8AD4C;
+  display: flex;
+  align-items: center;
+  font-size: 17px;
+  color: #fff;
+  justify-content: center;
+  z-index: 999999;
+  position: absolute;
+  right: 1.5625vw;
+  bottom: 14.537037037vh;
+}
+.main_content .main_left {
+  overflow: hidden;
+  width: 24.3229166667vw;
+  position: relative;
+  background-image: url(/static/datacockpit/images/bbpp_03.png);
+  float: left;
+  background-position: 11.4583333333vw 12.3148148148vh;
+  background-size: 8.0729166667vw 73.8888888889vh;
+  background-repeat: no-repeat;
+  height: 100vh;
+}
+.main_content .main_left .ics {
+  width: 7.5vw;
+  position: absolute;
+  left: 16.9270833333vw;
+  top: 46.2962962963vh;
+}
+.main_content .main_left .cc {
+  width: 68px;
+  cursor: pointer;
+  position: absolute;
+}
+.main_content .main_left .cc img {
+  width: 100%;
+  height: 100%;
+}
+.main_content .main_left .cc.on img {
+  transform: scale(1.1);
+}
+.main_content .main_left .cc.on {
+  width: 92px;
+}
+.main_content .main_left .cc.on::after {
+  content: '';
+  width: 20px;
+  height: 16px;
+  background-image: url(/static/datacockpit/images/page_18.png);
+  background-size: 100% 100%;
+  position: absolute;
+}
+.main_content .main_left .cc.on::before{
+	display: none;
+}
+.c1::before{
+	content: '';
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	position: absolute;
+	left: 5.5vw;
+	top: 7.6vh;
+	background: #58555c;
+}
+.c2::before{
+	content: '';
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	position: absolute;
+	left: 6.6vw;
+	top: 8.2vh;
+	background: #58555c;
+}
+.c3::before{
+	content: '';
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	position: absolute;
+	left: 6.3vw;
+	top: 4vh;
+	background: #58555c;
+}
+.c4::before{
+	content: '';
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	position: absolute;
+	left: 6.3vw;
+	top: 3.6vh;
+	background: #58555c;
+}
+.c5::before{
+	content: '';
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	position: absolute;
+	left: 5.3vw;
+	top: 0.9vh;
+	background: #58555c;
+}
+.c6::before{
+	content: '';
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	position: absolute;
+	left: 6vw;
+	top: 0.9vh;
+	background: #58555c;
+}
+.main_content .main_left .c1.on::after {
+	right: -1.5958333333vw;
+  top: 8vh;
+}
+.main_content .main_left .c2.on::after {
+	right: -2.3958333333vw;
+  top: 7.962962963vh;
+}
+.main_content .main_left .c3.on::after {
+	right: -2.3958333333vw;
+  top: 4.262962963vh;
+}
+.main_content .main_left .c4.on::after {
+	right: -2.3958333333vw;
+  top: 4.162962963vh;
+}
+.main_content .main_left .c5.on::after {
+	right: -1.3958333333vw;
+  top: 0.8vh;
+  transform: rotate(60deg);
+}
+.main_content .main_left .c6.on::after {
+	right: -1.7958333333vw;
+	transform: rotate(60deg);
+  top: 0.462962963vh;
+}
+.main_content .main_left .cc.c1 {
+  left: 13.1770833333vw;
+  top: 5.0925925926vh;
+}
+.main_content .main_left .cc.c2 {
+  left: 7.8125vw;
+  top: 16.4814814815vh;
+}
+.main_content .main_left .cc.c3 {
+  left: 5.46875vw;
+  top: 35.0925925926vh;
+}
+.main_content .main_left .cc.c4 {
+  left: 5.46875vw;
+  top: 54.1666666667vh;
+}
+.main_content .main_left .cc.c5 {
+  left: 8.8541666667vw;
+  top: 71.0185185185vh;
+}
+.main_content .main_left .cc.c6 {
+  left: 13.1770833333vw;
+  top: 84.4444444444vh;
+}
+.ic1{
+	display: block;
+}
+.ics1{
+	display: none;
+}
+.main_content .main_left .cc.on .ic1{
+	display: none;
+}
+.main_content .main_left .cc.on .ics1{
+	display: block;
+}
+
+.main_content .main_mid {
+  overflow: hidden;
+  width: 47.6041666667vw;
+  height: 100vh;
+  float: left;
+  position: relative;
+}
+.main_content .main_mid h2 {
+  font-size: 65px;
+  color: #f7f7f6;
+  display: flex;
+}
+.main_content .main_mid h2 span {
+  font-size: 15px;
+  margin-left: 17px;
+  display: block;
+  margin-top: 45px;
+  color: #fff;
+}
+.main_content .main_mid ul {
+  overflow: hidden;
+  margin-left: 4.4270833333vw;
+  margin-top: 5.5555555556vh;
+}
+.main_content .main_mid ul li {
+  overflow: hidden;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+}
+.main_content .main_mid ul li img {
+  height: 16px;
+  width: 16px;
+}
+.main_content .main_mid ul li p {
+  font-size: 18px;
+  margin-left: 13px;
+  color: #fff;
+}
+.main_content .main_mid ul li span {
+  font-size: 8px;
+  color: #9f9ca5;
+  margin-left: 8px;
+}
+.main_content .main_right {
+  height: max-content;
+  float: left;
+  width: 28.0416666667vw;
+
+}
+.main_content .main_right .right_tit {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  margin-bottom: 4.6296296296vh;
+}
+.main_content .main_right .right_tit .fl {
+  overflow: hidden;
+}
+.main_content .main_right .right_tit .fl p {
+  float: left;
+  font-size: 65px;
+  line-height: 1.1;
+  color: #fff;
+}
+.main_content .main_right .right_tit .fl img {
+  width: 16px;
+  float: left;
+  margin-top: 33px;
+  margin-left: 5px;
+}
+.main_content .main_right .right_tit .fr {
+  position: relative;
+  margin-left: 29px;
+}
+.main_content .main_right .right_tit .fr::after {
+  content: '';
+  width: 1px;
+  height: 54px;
+  background: #9b999e;
+  position: absolute;
+  left: -15px;
+  top: 50%;
+  margin-top: -27px;
+}
+.main_content .main_right .right_tit .fr p {
+  font-size: 19px;
+  color: #9b999e;
+}
+.main_content .main_right .right_tit .fr span {
+  display: block;
+  font-size: 32px;
+  color: #fff;
+  font-weight: bold;
+  line-height: 38px;
+}
+.main_content .main_right .num {
+  overflow: hidden;
+  margin-bottom: 4.1666666667vh;
+}
+.main_content .main_right .num .t {
+  overflow: hidden;
+  display: flex;
+}
+.main_content .main_right .num .t p {
+  font-size: 40px;
+  line-height: 1.1;
+  color: #a6fbfb;
+  margin-right: 1.5625vw;
+}
+.main_content .main_right .num .t img {
+  margin-top: 22px;
+  width: 9px;
+  margin-right: 0.1041666667vw;
+  height: 15px;
+}
+.main_content .main_right .num .b {
+  overflow: hidden;
+  margin-top: 1.2037037037vh;
+  display: flex;
+  align-items: center;
+}
+.main_content .main_right .num .b p {
+  font-weight: bold;
+  font-size: 21px;
+  color: #fff;
+  margin-right: 5px;
+}
+.main_content .main_right .num .b span {
+  font-size: 8px;
+  color: #9b999e;
+  line-height: 12px;
+}
+.main_content .main_right .zt {
+  overflow: hidden;
+  padding-left: 13px;
+  margin-bottom: 3.7037037037vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.main_content .main_right .zt::after {
+  content: '';
+  width: 3px;
+  height: 19px;
+  background: #01F8F9;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  margin-top: -9.5px;
+}
+.main_content .main_right .zt p {
+  font-weight: bold;
+  font-size: 21px;
+  color: #fff;
+  margin-right: 5px;
+}
+.main_content .main_right .zt span {
+  font-size: 8px;
+  color: #9b999e;
+  line-height: 12px;
+}
+.main_content .main_right .box_ect {
+  overflow: hidden;
+  width: 17.0833333333vw;
+  position: relative;
+  height: 22.2222222222vh;
+  margin-top: 0.9259259259vh;
+}
+.main_content .main_right .box_ect span {
+  display: block;
+  text-align: center;
+  font-size: 8px;
+  color: #9b999e;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  top: 15px;
+}
+.main_content .main_right .box_ect .tt {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  top: 0;
+  justify-content: center;
+}
+.main_content .main_right .box_ect .tt img {
+  width: 15px;
+  margin-right: 5px;
+}
+.main_content .main_right .box_ect .tt p {
+  font-size: 15px;
+  color: #fff;
+}
+.main_content .main_right .box_ect .asdd {
+  position: absolute;
+  left: 47%;
+  top: 46%;
+}
+.main_content .main_right .box_ect .nus {
+  overflow: hidden;
+  width: 4.2708333333vw;
+  height: 7.5925925926vh;
+  position: absolute;
+  margin-left: -2.1354166667vw;
+  margin-top: -3.7962962963vh;
+  left: 50%;
+  z-index: 99999;
+  bottom: 33%;
+}
+.main_content .main_right .box_ect .nus p {
+  width: 50%;
+  float: left;
+  text-align: center;
+  height: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: #fff;
+}
+
+.swiper-container {
+  width: 100%;
+  height: 80%;
+  width: 78.125vw;
+  padding-left: 2.2041666667vw;
+}
+
+.swiper-wrapper {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.swiper-slide {
+  width: 15.9895833333vw;
+  height: 6.0185185185vh;
+  background-image: url(/static/datacockpit/images/icon_03.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  margin-left: -2.2916666667vw;
+  text-align: center;
+  line-height: 6.0185185185vh;
+  font-size: 18px;
+  font-family: 'Microsoft YaHei', Arial, Helvetica, sans-serif;
+}
+.swiper-slide a {
+  /*color: #7d7a93;*/
+  color: wheat;
+}
+
+.user_boxs {
+  overflow: hidden;
+  float: right;
+  width: 21.7708333333vw;
+  height: 100%;
+  background-image: url(/static/datacockpit/images/HOME_hov_02.png);
+  background-size: 100% 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 4.53125vw;
+}
+.user_boxs img {
+  width: 2.2395833333vw;
+  border-radius: 50%;
+  margin-right: 0.6770833333vw;
+}
+.user_boxs p {
+  font-size: 20px;
+  color: #7d7a93;
+}
+.user_boxs em {
+  font-style: normal;
+  font-size: 20px;
+  color: #7d7a93;
+  margin: 0 0.7291666667vw;
+}
+.user_boxs a {
+  display: block;
+  font-size: 16px;
+  color: #7D7A93;
+}
+
+/*# sourceMappingURL=css.css.map */

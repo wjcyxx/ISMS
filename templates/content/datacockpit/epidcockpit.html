@@ -1,0 +1,346 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="format-detection" content="telephone=no">
+		<title>南昌市智慧工地一体化监测监控信息平台</title>
+		<link rel="stylesheet" type="text/css" href="/static/datacockpit/css/swiper.min.css" />
+		<link rel="stylesheet" type="text/css" href="/static/datacockpit/css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="/static/datacockpit/css/epidcss.css" />
+        <link rel="stylesheet" href="/static/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/static/layui/css/layui.css">
+        <!-- <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=oRd3s4xjRXGIxWp3jlgjWDP7DT1i75jl"></script> -->
+        <script src="//api.map.baidu.com/api?v=1.0&type=webgl&ak=oRd3s4xjRXGIxWp3jlgjWDP7DT1i75jl"></script>
+        <script src="//mapv.baidu.com/build/mapv.min.js"></script>
+        <script src="https://code.bdstatic.com/npm/mapvgl@1.0.0-beta.41/dist/mapvgl.min.js"></script>
+        <script src="https://unpkg.com/mapvgl/dist/mapvgl.min.js"></script>
+        <script src="https://unpkg.com/mapvgl/dist/mapvgl.threelayers.min.js"></script>
+        <script src="/static/js/map/common.js"></script>
+	</head>
+
+    <style type="text/css">
+        body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin: auto;font-family:"微软雅黑";}
+
+    </style>
+	<body>
+		<div class="content">
+			<div class="header">
+                <!-- <div class="fls"><h1 style="color: white">南昌市智慧工地监控平台</h1></div> -->
+                <div class="fls"><img src="/static/images/nczphtlogo.png" style="padding-left: 2px; height: 90%; padding-left: 20px" />
+                </div>
+				<div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        {% for dc_menu in busmenu_info %}
+                            <div class="swiper-slide"><a href={% if dc_menu.FUrl == None %} "#" {% else %} "{% url dc_menu.FUrl %}"{% endif %} ><i class="{{ dc_menu.FMenuIcon }}" aria-hidden="true"></i>  {{ dc_menu.FMenuName }}</a></div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+			</div>
+
+			<div class="main_box">
+				<div class="top">
+					<div class="fl">
+						<div class="fl_top">
+							<div class="icon"><img src="/static/datacockpit/images/HOME_11.png" class="frs" /><img src="/static/datacockpit/images/HOME_23.png" class="fls" /></div>
+							<div style="padding-left: 2%; padding-top: 1%"><span style="color: wheat"><h3><i class="fa fa-video-camera" aria-hidden="true"></i> 防疫监控总揽:</h3></span></div>
+                            <div id="epid_prj" style="width: 100%;height: 100%;"></div>
+                        </div>
+						<div class="fl_bot">
+							<div class="icon"><img src="/static/datacockpit/images/HOME_11.png" class="frs" /><img src="/static/datacockpit/images/HOME_23.png" class="fls" /></div>
+                            <div style="padding-left: 2%; padding-top: 1%"><span style="color: wheat"><h3><i class="fa fa-bar-chart" aria-hidden="true"></i> 项目视频接入数据:</h3></span></div>
+                            <div id="prj_video" style="width: 100%;height: 100%; "></div>
+                        </div>
+					</div>
+					<div class="mid">
+                        <div style="height: 92%; width: 100%;">
+                            <div id="allmap" style="bottom: 0px; width: 100%; height: 100%;"></div>
+                        </div>
+					</div>
+					<div class="fr">
+						<div class="fr_top">
+							<div class="icon"><img src="/static/datacockpit/images/HOME_11.png" class="frs" /><img src="/static/datacockpit/images/HOME_23.png" class="fls" /></div>
+
+						</div>
+						<div class="fr_bot">
+                            <div class="icon"><img src="/static/datacockpit/images/HOME_11.png" class="frs" /><img src="/static/datacockpit/images/HOME_23.png" class="fls" /></div>
+
+						</div>
+					</div>
+
+                    <div class="bottom">
+                        <div class="layui-row layui-col-space15">
+                            <div style="padding-left: 2%; padding-top: 1%"></div>
+                            <div class="layui-col-md12">
+                                <div class="item" style="overflow-y: auto;" >
+                                    <div class="layui-row layui-col-space10" style="width: 100%; padding: 10px " >
+                                        <div class="layui-col-md12">
+                                            <span style="color: wheat;"><h3><i class="fa fa-list-ul" aria-hidden="true"></i> 接入项目视频列表:</h3></span>
+
+                                            <div class="layui-row layui-col-space15" style="padding-top: 1%">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+			</div>
+
+
+		</div>
+	</body>
+    <script type="text/javascript" src="/static/js/jquery-3.3.1.min.js"></script>
+
+	<script type="text/javascript" src="/static/datacockpit/js/swiper.min.js"></script>
+	<script type="text/javascript" src="/static/datacockpit/js/echarts.min.js"></script>
+    <script type="text/javascript" src="/static/datacockpit/js/dark.js"></script>
+    <script type="text/javascript" src="/static/layui/layui.js"></script>
+    <script type="text/javascript" src="/static/video-js-7/video.min.js"></script>
+
+	<script>
+        layui.config({
+            base: '/static/layui/ext/',   // 模块所在目录
+        }).extend({
+            soulTable: 'soulTable'  // 模块别名
+        });
+        var iwindow = 1;
+
+        layui.use(['element','layer','laydate','carousel', 'form', 'table', 'soulTable'], function(){
+            var
+                $ = layui.jquery
+                ,element = layui.element //Tab的切换功能，切换事件监听等，需要依赖element模块
+                ,layer = layui.layer
+                ,laydate = layui.laydate
+                ,carousel = layui.carousel
+                , form = layui.form
+                , table = layui.table
+                , soulTable = layui.soulTable;
+
+            var swiper = new Swiper('.swiper-container', {
+                slidesPerView: 6,
+                spaceBetween: 10,
+            });
+
+
+            var epid_prj_cockpit = function () {
+                var myChart_org = echarts.init(document.getElementById('epid_prj'));
+                var option = {
+                    title: {
+                        zlevel: 0,
+                        text: [
+                            '{value|15%}',
+                            '{name|项目报备率}',
+                        ].join('\n'),
+                        top: 'center',
+                        left: '49%',
+                        textAlign: 'center',
+                        textStyle: {
+                            rich: {
+                                value: {
+                                    color: '#A7FFFD',
+                                    fontSize: 40,
+                                    fontWeight: 'bold',
+                                    lineHeight: 40,
+                                },
+                                name: {
+                                    color: '#A7FFFD',
+                                    fontSize: 19,
+                                    lineHeight: 40
+                                },
+                            },
+                        },
+                    },
+
+
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b}: {c} ({d}%)"
+                    },
+                    series: [{
+                        name: '',
+                        type: 'pie',
+                        radius: ['50%', '70%'],
+                        avoidLabelOverlap: false,
+                        labelLine: {
+                            length: 20,
+                            length2: 40,
+                            color: {
+                                color: '#999999'
+                            }
+                        },
+                        label: {
+                            formatter: "{c}"
+                        },
+                        itemStyle: {
+                            borderColor: '#000',
+                            borderWidth: 1
+                        },
+                        markPoint: {
+                            symbol: 'images/page_61.png'
+                        },
+                        data: [{'value': 19, 'name': '监管项目', 'label': {'fontSize': 30, 'color': '#A7FFFD'}},
+                              {'value': 3, 'name': '报备项目', 'label': {'fontSize': 30, 'color': '#A7FFFD'}},
+                              {'value': 8, 'name': '复工项目', 'label': {'fontSize': 30, 'color': '#A7FFFD'}}
+                        ]
+                    }]
+                };
+                myChart_org.setOption(option);
+            };
+            epid_prj_cockpit();
+
+
+
+            // 百度地图API功能
+        });
+	</script>
+
+
+    <script>
+       /* global BMapGL */
+
+    /* global mapv */
+
+    /* global mapvgl */
+
+    /* global initMap */
+
+    /* global snowStyle */
+
+    //var bmapgl = new BMapGL.Map('allmap');
+    //bmapgl.setHeading(-45.3);
+    //bmapgl.setTilt(80);
+    //var point = new BMapGL.Point(106.542353,29.565448);
+    //bmapgl.centerAndZoom(point, 17);
+
+    var map = initMap({
+        tilt: 60,
+        heading: 0,
+        center: [106.541075,29.564519],
+        //center: [115.854435, 28.681179],
+        zoom: 17,
+    });
+
+    map.setDisplayOptions({
+        building: true
+    });
+
+    var view = new mapvgl.View({
+        map: map
+    });
+
+    //map.setTrafficOn();
+
+    //view.startAnimation();
+
+    fetch('/static/js/map/chongqing.json').then(function (rs) {
+        return rs.json();
+    }).then(function (rs) {
+        var data = rs;
+        var polygons = [];
+
+        //alert(data.features[0].geometry.coordinates[0][0].length);
+        //alert(data.features.length);
+
+        /*
+        var len = data.features.length;
+
+        for (var i=0; i<len; i++){
+            obj = data.features[i].geometry.coordinates;
+            //alert(obj.length)
+
+            var polygon = []
+            for (var j=0; j<obj.length; j++) {
+                objx = obj[j];
+                //alert(objx);
+
+                for(var k=0; k<objx.length; k++ ){
+                    objk = objx[k];
+                    //polygon.push(objk)
+                    //alert("start array");
+                    var arr_z = []
+
+                    for (var z=0; z<objk.length; z++) {
+                        objz = objk[z];
+                        arr_z.push([objz[0], objz[1]]);
+                        //alert(objz[0]);
+                    }
+                    polygon.push(arr_z);
+                }
+            }
+
+            polygons.push({
+                geometry: {
+                    type: 'Point',
+                    coordinates: [polygon]
+                },
+                properties: {
+                    count: 30 * Math.random(),
+                    height: 4
+                }
+            });
+
+        }
+
+        //alert(polygon);
+
+
+        var shaperLayer = new mapvgl.ShapeLayer({
+            color: 'wheat', // 面颜色
+            style: 'gradual',
+            opacity: 1.0 // 透明度
+        });
+
+        view.addLayer(shaperLayer);
+        shaperLayer.setData(polygons);
+
+        var point = new BMapGL.Point(115.885908410541, 28.6515908488312);
+        map.panTo(point);
+        */
+
+
+        var len = data.length;
+        for (var i = 0; i < len; i++) {
+            var line = data[i];
+            var polygon = [];
+            var pt = [line[1] * 512, line[2] * 512];
+            for (var j = 3; j < line.length; j += 2) {
+                pt[0] += line[j] / 100 / 2;
+                pt[1] += line[j + 1] / 100 / 2;
+                polygon.push([pt[0], pt[1]]);
+            }
+
+            polygons.push({
+                geometry: {
+                    type: 'Polygon',
+                    coordinates: [polygon]
+                },
+                properties: {
+                    height: line[0] / 2
+                }
+            });
+        }
+
+        var shaperLayer = new mapvgl.ShapeLayer({
+            color: 'wheat', // 面颜色
+            style: 'gradual',
+            opacity: 0.1 // 透明度
+        });
+
+        view.addLayer(shaperLayer);
+        shaperLayer.setData(polygons);
+
+
+    });
+
+
+
+    </script>
+
+</html>
