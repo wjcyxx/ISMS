@@ -52,3 +52,4 @@ class passagerecord(models.Model):
 
     class Meta:
         db_table = 'T_PassageRecord'
+        ordering = ['-CREATED_TIME']

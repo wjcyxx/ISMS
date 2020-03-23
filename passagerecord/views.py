@@ -40,12 +40,19 @@ def get_datasource(request):
     serinput = request.POST.get("resultdict[FPersonID__FName]", '')
 
     prj_id = request.session['PrjID']
+    page = request.POST.get('page')
+    rows = request.POST.get('limit')
 
-    passagerecord_info =  T_PassageRecord.objects.filter(Q(FPersonID__FName__contains=serinput), Q(CREATED_PRJ=prj_id)).values('FPersonID__FName','FPersonID__FGroupID', 'FPersonID__FWorktypeID', 'FPassageID__FAreaID', 'FPassageID__FPassage', 'FPassageID__FType', 'FAuthtypeID', 'CREATED_TIME' )
+    i = (int(page) - 1) * int(rows)
+    j = (int(page) - 1) * int(rows) + int(rows)
+
+    passagerecord_info =  T_PassageRecord.objects.filter(Q(FPersonID__FName__contains=serinput), Q(CREATED_PRJ=prj_id)).values('FPersonID__FName','FPersonID__FGroupID', 'FPersonID__FWorktypeID', 'FPassageID__FAreaID', 'FPassageID__FPassage', 'FPassageID__FType', 'FAuthtypeID', 'FTemperature', 'CREATED_TIME' )
 
     passagerecord_info = org_split(passagerecord_info, request)
+    total = passagerecord_info.count()
+    passagerecord_info = passagerecord_info[i:j]
 
     dict = list(passagerecord_info)
-    resultdict = {'code':0, 'msg':"", 'count': passagerecord_info.count(), 'data': dict}
+    resultdict = {'code':0, 'msg':"", 'count': total, 'data': dict}
 
     return  JsonResponse(resultdict, safe=False)

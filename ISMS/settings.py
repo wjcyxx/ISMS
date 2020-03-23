@@ -96,7 +96,8 @@ INSTALLED_APPS = [
     'datacockpit',
     'devicecockpit',
     'videocockpit',
-    'prjprocess'
+    'prjprocess',
+    'prjreport'
 ]
 
 MIDDLEWARE = [

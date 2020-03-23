@@ -57,16 +57,18 @@
           page: true,
           limit: 20,
           elem: '#datasource',
+          height: 'full-150',
           url: "{% url 'passagerecord:get_datasource' %}",
           cols: [[
               {field:'FPersonID__FName', width: '10%', title: '人员姓名', sort: true},
               {field:'FPersonID__FGroupID', width: '15%', title: '所属班组', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPersonID__FGroupID, Groupinfo)}}{% endverbatim %}</div>'},
+              {field:'FTemperature', width: '10%', title: '测量温度', sort: true, templet:'#tpTemp'},
+              {field:'CREATED_TIME', width: '15%', title: '测量时间', sort: true, templet: "<div>{% verbatim %}{{ layui.util.toDateString(d.ordertime, 'yyyy-MM-dd HH:mm:ss')}}{% endverbatim %}</div>"},
               {field:'FPersonID__FWorktypeID', width: '15%', title: '工种', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPersonID__FWorktypeID, Worktypeinfo)}}{% endverbatim %}</div>'},
               {field:'FPassageID__FAreaID', width: '15%', title: '考勤区域', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPassageID__FAreaID, Areainfo)}}{% endverbatim %}</div>'},
               {field:'FPassageID__FPassage', width: '10%', title: '通道', sort: true},
               {field:'FPassageID__FType', width: '10%', title: '通道类型', sort: true, templet: '#tpType'},
               {field:'FAuthtypeID', width: '15%', title: '通行授权方式', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FAuthtypeID, Authtypeinfo)}}{% endverbatim %}</div>'},
-              {field:'CREATED_TIME', width: '20%', title: '发生时间', sort: true},
           ]],
           id: 'runreload'
       });
@@ -95,6 +97,24 @@
         {{#  } }}
      {% endverbatim %}
 </script>
+
+  <!--显示启用状态模板-->
+  <script type="text/html" id="tpTemp">
+      {% verbatim %}
+      {{#  if(d.FTemperature > 37.3){ }}
+      <span style="color: red">{{ d.FTemperature }}</span>
+      {{#  } else { }}
+      <span style="color: green">{{ d.FTemperature }}</span>
+      {{#  } }}
+      {% endverbatim %}
+  </script>
+
+  <script type="text/html" id="tpDateTime">
+      {% verbatim %}
+      <div> {{ d.CREATED_TIME | date:'Y-m-d H:i:s' }} </div>
+      {% endverbatim %}
+  </script>
+
 
 
 </body>

@@ -19,6 +19,7 @@ class materials(models.Model):
     FNegativeDeviation = models.FloatField(verbose_name='负偏差', blank=True, null=True)
     FRFID = models.CharField(max_length=32, verbose_name='RFID', blank=True, null=True)
     FDesc = models.CharField(max_length=1024, verbose_name='描述', blank=True, null=True)
+    FStatus = models.BooleanField(default=True, verbose_name='状态')
     CREATED_PRJ = models.CharField(max_length=32, verbose_name='所属项目', blank=True, null=True)
     CREATED_ORG = models.CharField(max_length=32, verbose_name='创建组织', blank=True, null=True)
     CREATED_BY = models.CharField(max_length=32, verbose_name='创建人', blank=True, null=True)

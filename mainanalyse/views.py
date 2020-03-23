@@ -174,33 +174,39 @@ class vehpassageanalyse(View):
 #人行最新通行动态数据
 class get_pedpassage_news(View):
     def post(self, request):
-        prj_id = request.session['PrjID']
+        try:
+            prj_id = request.session['PrjID']
 
-        passagerecord_info = passagerecord.objects.filter(Q(CREATED_PRJ=prj_id)).values('FID','FPersonID__FName', 'FPersonID__FGroupID', 'FPersonID__FPhoto', 'FPassageID__FPassage', 'FPassageID__FType', 'FAuthtypeID', 'CREATED_TIME').order_by('-CREATED_TIME')
+            passagerecord_info = passagerecord.objects.filter(Q(CREATED_PRJ=prj_id)).values('FID','FPersonID__FName', 'FPersonID__FGroupID', 'FPersonID__FPhoto', 'FPassageID__FPassage', 'FPassageID__FType', 'FAuthtypeID', 'CREATED_TIME', 'FTemperature').order_by('-CREATED_TIME')[:20]
 
-        result_dict = []
+            result_dict = []
 
-        for dt in list(passagerecord_info):
-            dict = {}
+            for dt in list(passagerecord_info):
+                dict = {}
 
-            dict['FID'] = ''.join(str(dt['FID']).split('-'))
-            dict['FPersonName'] = dt['FPersonID__FName']
-            dict['CREATED_TIME'] = timezone.datetime.strftime(dt['CREATED_TIME'], '%Y-%m-%d %H:%M:%S')
+                dict['FID'] = ''.join(str(dt['FID']).split('-'))
+                dict['FPersonName'] = dt['FPersonID__FName']
+                dict['CREATED_TIME'] = timezone.datetime.strftime(dt['CREATED_TIME'], '%Y-%m-%d %H:%M:%S')
 
-            group_id = dt['FPersonID__FGroupID']
-            dict['FGroup'] = group.objects.get(Q(FID=group_id)).FGroup
-            dict['FPhoto'] = dt['FPersonID__FPhoto']
-            dict['FPassage'] = dt['FPassageID__FPassage']
-            authtype_id = dt['FAuthtypeID']
-            dict['FAuthtype'] = base.objects.get(Q(FID=authtype_id)).FBase
-            if dt['FPassageID__FType'] == 0:
-                dict['FPassageType'] = '入口'
-            else:
-                dict['FPassageType'] = '出口'
+                group_id = dt['FPersonID__FGroupID']
+                dict['FGroup'] = group.objects.get(Q(FID=group_id)).FGroup
+                dict['FPhoto'] = dt['FPersonID__FPhoto']
+                dict['FPassage'] = dt['FPassageID__FPassage']
+                dict['FTemperature'] = dt['FTemperature']
+                authtype_id = dt['FAuthtypeID']
+                dict['FAuthtype'] = base.objects.get(Q(FID=authtype_id)).FBase
+                if dt['FPassageID__FType'] == 0:
+                    dict['FPassageType'] = '入口'
+                else:
+                    dict['FPassageType'] = '出口'
 
-            result_dict.append(dict)
+                result_dict.append(dict)
+            return HttpResponse(json.dumps(result_dict))
 
-        return HttpResponse(json.dumps(result_dict))
+        except Exception as e:
+            xx = str(e)
+            print(xx)
+            return HttpResponse(str(e))
 
 
 #车行最新通行动态数据

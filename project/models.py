@@ -64,5 +64,12 @@ class project(models.Model):
     UPDATED_BY = models.CharField(max_length=32, verbose_name='更新人', blank=True, null=True)
     UPDATED_TIME = models.DateTimeField(auto_now=True, verbose_name='更新时间')
 
+    # 疫情防控使用字段
+    FIsReport = models.BooleanField(default=False, verbose_name='是否报备')
+    FReportTime = models.DateTimeField(verbose_name='报备时间', blank=True, null=True)
+    FIsRepeatWork = models.BooleanField(default=False, verbose_name='是否报备')
+    FRepeatWorkTime = models.DateTimeField(verbose_name='复工时间', blank=True, null=True)
+    FDutyPerson = models.CharField(max_length=50, verbose_name='留守人员', blank=True, null=True)
+
     class Meta:
         db_table = "T_Project"

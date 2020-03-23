@@ -81,8 +81,7 @@
   overflow: hidden;
   width: 100%;
   height: 26.5740740741vh;
-  background-image: url(/static/datacockpit/images/HOME_03.png);
-  border: 1px solid #29243F;
+  background-color: rgba(0,0,0,0.2);
   background-size: cover;
   position: relative;
   z-index: 999;
@@ -93,8 +92,7 @@
   margin-top: 2.037037037vh;
   padding: 1.2037037037vh 1.71875vw 1.2037037037vh 0.5208333333vw;
   height: 26.5740740741vh;
-  background-image: url(/static/datacockpit/images/HOME_03.png);
-  border: 1px solid #29243F;
+  background-color: rgba(0,0,0,0.2);
   background-size: cover;
   position: relative;
   z-index: 999;
@@ -124,10 +122,10 @@
   overflow: hidden;
   width: 100%;
   height: 26.5740740741vh;
-  background-image: url(/static/datacockpit/images/HOME_03.png);
-  border: 1px solid #29243F;
+  background-color: rgba(0,0,0,0.2);
   background-size: cover;
   position: relative;
+  z-index: 999;
 
   /*
   overflow: hidden;
@@ -160,11 +158,10 @@
   width: 100%;
   margin-top: 2.037037037vh;
   height: 26.5740740741vh;
-  background-image: url(/static/datacockpit/images/HOME_03.png);
-  border: 1px solid #29243F;
+  background-color: rgba(0,0,0,0.2);
   background-size: cover;
   position: relative;
-
+  z-index: 999;
   /*
   overflow: hidden;
   margin-top: 3.2407407407vh;
@@ -180,13 +177,14 @@
   width: 100%;
   border: 1px solid #29243F;
   height: 34.5740740741vh;
-  background-image: url(/static/datacockpit/images/HOME_03.png);
+  background-color: rgba(0,0,0,0.2);
   background-size: cover;
   float: left;
   align-items: center;
   justify-content: center;
   position: relative;
   margin-right: 0.8854166667vw;
+  z-index: 999;
 }
 
 .item::-webkit-scrollbar {/*滚动条整体样式*/
