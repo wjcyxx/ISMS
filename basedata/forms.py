@@ -12,6 +12,7 @@ class BasetypeModelForm(ModelForm):
             'FID': Fwidgets.Input(attrs={'type': 'hidden'}),
             'FBaseID': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
             'FBase': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
+            'FMappingCode': Fwidgets.Input(attrs={'class': 'layui-input', 'autocomplete': 'off'}),
             'FDesc': Fwidgets.Input(attrs={'class': 'layui-input', 'autocomplete': 'off'})
         }
 
@@ -26,6 +27,7 @@ class BasedataModelForm(ModelForm):
             'FID': Fwidgets.Input(attrs={'type': 'hidden'}),
             'FBaseID': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
             'FBase': Fwidgets.Input(attrs={'class': 'layui-input', 'lay-verify': 'required', 'autocomplete': 'off'}),
+            'FMappingCode': Fwidgets.Input(attrs={'class': 'layui-input', 'autocomplete': 'off'}),
             'FDesc': Fwidgets.Input(attrs={'class': 'layui-input', 'autocomplete': 'off'}),
         }
 

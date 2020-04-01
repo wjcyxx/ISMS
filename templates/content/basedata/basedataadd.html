@@ -39,7 +39,14 @@
       </div>
 
       <div class="layui-row layui-col-space20" style="padding-left: 2%">
-          <div class="layui-col-xs12">
+          <div class="layui-col-xs4">
+              <label class="layui-form-label">外部编码</label>
+              <div class="layui-input-block">
+                  {{ obj.FMappingCode }}
+              </div>
+          </div>
+
+          <div class="layui-col-xs8">
               <label class="layui-form-label">类型描述</label>
               <div class="layui-input-block">
                   {{ obj.FDesc }}

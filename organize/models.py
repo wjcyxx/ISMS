@@ -36,6 +36,12 @@ class organize(models.Model):
     FIssplit = models.BooleanField(default=True, verbose_name='是否数据隔离')
     FStatus = models.BooleanField(default=True, verbose_name='状态')
     FScope = models.CharField(max_length=1000, verbose_name='经营范围', blank=True, null=True)
+
+    #劳务实名制接口所需字段
+    FCorpType = models.CharField(max_length=32, verbose_name='企业性质', blank=True, null=True)  #按照建市[2014]108号全国建筑市场监管与诚信信息系统基础数据库标准（试行）规定的编码及类型。
+    FLicenseNum = models.CharField(max_length=32, verbose_name='工商营业执照注册号', blank=True, null=True)
+
+    #通用字段
     CREATED_ORG = models.CharField(max_length=32, verbose_name='创建组织', blank=True, null=True)
     CREATED_BY = models.CharField(max_length=32, verbose_name='创建人', blank=True, null=True)
     CREATED_TIME = models.DateTimeField(blank=True, null=True, verbose_name='创建时间')

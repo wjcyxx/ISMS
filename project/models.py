@@ -71,5 +71,10 @@ class project(models.Model):
     FRepeatWorkTime = models.DateTimeField(verbose_name='复工时间', blank=True, null=True)
     FDutyPerson = models.CharField(max_length=50, verbose_name='留守人员', blank=True, null=True)
 
+    #劳务实名制使用字段
+    FcontractorCorpCode = models.CharField(max_length=100, verbose_name='总承包单位统一社会信用代码', blank=True, null=True)
+    FcontractorCorpName = models.CharField(max_length=32, verbose_name='总承包单位名称', blank=True, null=True)
+    FbuilderLicenses = models.CharField(max_length=20, verbose_name='施工许可证号', blank=True, null=True)
+
     class Meta:
         db_table = "T_Project"
