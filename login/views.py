@@ -17,6 +17,7 @@ import json
 import urllib.parse
 from busmenu.models import busmenu
 import re
+import logging
 
 # Create your views here.
 
@@ -61,6 +62,21 @@ def login_chk(request):
         request.session['Username'] = user_info.FUsername
         request.session['UserOrg'] = user_info.FOrgID
         request.session['OrgIsSplit'] = Organize_info.FIssplit
+
+        logging.basicConfig(level=logging.DEBUG,  # 控制台打印的日志级别
+                            filename='Login.log',
+                            filemode='w',  ##模式，有w和a，w就是写模式，每次都会重新写日志，覆盖之前的日志
+                            # a是追加模式，默认如果不写的话，就是追加模式
+                            format='%(asctime)s - %(pathname)s[line:%(lineno)d] - %(levelname)s: %(message)s'  # 日志格式
+                            )
+
+        #ip = request.META
+        if request.META.get('HTTP_X_FORWARDED_FOR'):
+             ip = request.META.get('HTTP_X_FORWARDED_FOR')
+        else:
+             ip = request.META.get('REMOTE_ADDR')
+
+        logging.info('登录用户名:'+UserID+'; 登录IP:'+ip)
 
         return HttpResponse(json.dumps(response_data))
 
