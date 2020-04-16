@@ -1,0 +1,16 @@
+2020-04-16 21:31:21,402 - /Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/login/views.py[line:81] - INFO: 登录用户名:admin; 登录IP:127.0.0.1
+2020-04-16 21:31:24,714 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/utils/log.py[line:228] - ERROR: Internal Server Error: /datacockpit/get_citypm/
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 126, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/core/handlers/base.py", line 124, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 68, in view
+    return self.dispatch(request, *args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/views/generic/base.py", line 88, in dispatch
+    return handler(request, *args, **kwargs)
+  File "/Users/weijing/Documents/01EachLink/02分类项目/19 杭州智慧工地/02 代码实现/ISMS/datacockpit/views.py", line 273, in post
+    response_data['pm25'] = city_pm['pm25']
+KeyError: 'pm25'

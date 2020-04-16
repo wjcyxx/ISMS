@@ -52,7 +52,7 @@ class insert(insert_base):
         self.objForm = AppKeyModelForm
 
         if self.request.GET.get('actype') == 'insert':
-            if self.request.POST.get('FType') == 0:
+            if self.request.POST.get('FType') == '0':
                 appkey = get_Random_String(10)
                 self.set_fields = ['FAppkey']
                 self.set_value = [appkey]

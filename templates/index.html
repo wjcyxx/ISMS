@@ -88,6 +88,8 @@
                                         layer.alert('该用户账户已被禁用', {skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
                                     } else if (data.result==='4') {
                                         layer.alert('该用户是政务版用户,请切换政务版登录', {skin: 'layui-layer-lan', closeBtn: 0, anim: 0});
+                                    } else if (data.result==='5') {
+
                                     } else {
                                         if (data.orgtype == 1) {
                                             window.location.href="{% url 'login:login_ok' %}?orgtype=1";

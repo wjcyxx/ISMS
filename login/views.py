@@ -15,9 +15,11 @@ from device.models import device
 from common.views import *
 import json
 import urllib.parse
+import urllib.request
 from busmenu.models import busmenu
 import re
 import logging
+import requests
 
 # Create your views here.
 
@@ -63,7 +65,7 @@ def login_chk(request):
         request.session['UserOrg'] = user_info.FOrgID
         request.session['OrgIsSplit'] = Organize_info.FIssplit
 
-        logging.basicConfig(level=logging.DEBUG,  # 控制台打印的日志级别
+        logging.basicConfig(level=logging.INFO,  # 控制台打印的日志级别
                             filename='Login.log',
                             filemode='w',  ##模式，有w和a，w就是写模式，每次都会重新写日志，覆盖之前的日志
                             # a是追加模式，默认如果不写的话，就是追加模式
@@ -77,6 +79,24 @@ def login_chk(request):
              ip = request.META.get('REMOTE_ADDR')
 
         logging.info('登录用户名:'+UserID+'; 登录IP:'+ip)
+
+        #r = requests.get(url='http://ip.taobao.com/service/getIpInfo.php', data={'ip': '183.129.145.5'})
+        #print(r.json())
+
+        url = 'http://api.tianapi.com/txapi/ipquery/index'
+        param = {'key': '4088000385feab0315ca4fa01d17f2eb', 'ip': ip}
+
+        req = url + '?' + urllib.parse.urlencode(param)
+
+        response = urllib.request.urlopen(req)
+        data = response.read()
+        data = data.decode('utf-8')
+
+        result = json.loads(data)
+        city =  result['newslist'][0]['city']
+
+        if city != '南昌':
+            response_data['result'] = '5'  # 返回非南昌市登录
 
         return HttpResponse(json.dumps(response_data))
 
