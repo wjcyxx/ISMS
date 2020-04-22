@@ -84,7 +84,7 @@ def login_chk(request):
         #print(r.json())
 
         url = 'http://api.tianapi.com/txapi/ipquery/index'
-        param = {'key': '4088000385feab0315ca4fa01d17f2eb', 'ip': ip}
+        param = {'key': '4088000385feab0315ca4fa01d17f2eb', 'ip': '115.239.212.133'}
 
         req = url + '?' + urllib.parse.urlencode(param)
 
@@ -96,7 +96,8 @@ def login_chk(request):
         city =  result['newslist'][0]['city']
 
         if city != '南昌':
-            response_data['result'] = '5'  # 返回非南昌市登录
+            pass
+            #response_data['result'] = '5'  # 返回非南昌市登录
 
         return HttpResponse(json.dumps(response_data))
 

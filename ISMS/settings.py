@@ -167,9 +167,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'ISMS',
-        'USER': 'isms',
-        'PASSWORD': 'isms123456',
-        'HOST': '47.104.92.203',
+        'USER': 'root',
+        'PASSWORD': 'Hanming@123',
+        'HOST': '121.196.26.232',
         'PORT': '3306',
         'OPTIONS':{
             "init_command":"SET foreign_key_checks = 0;",
