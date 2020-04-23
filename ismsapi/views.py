@@ -20,6 +20,7 @@ from interface.models import prjcheck, prjcheckpic
 from device.models import device, devcallinterface
 from devinterfacesrv.models import elevatorinterfacesrv
 from menchanical.models import menchanical
+from receaccount.models import materialsaccount, materaccountgoods
 from django.http import JsonResponse
 import json
 from django.utils import timezone
@@ -1000,4 +1001,13 @@ class get_env_hisdata(api_base):
         self.model = envinterfacesrv
 
 
+
+class get_recepound(api_base):
+    def set_view(self, request):
+        self.model = materialsaccount
+
+
+class get_recepound_goodsDetail(api_base):
+    def set_view(self, request):
+        self.model = materaccountgoods
 

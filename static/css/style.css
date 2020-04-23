@@ -15,7 +15,7 @@ img{border:none;}
 
 .login-box{width:100%;max-width:1420px;height:700px;padding:0 10px; margin:0 auto;}
 .login-box div.left,.login-box div.right{width:50%;height:100%;margin:6% 0;}
-.login-box div.left{background:url(../images/tengwangge_1.png) top left no-repeat;padding:30px; }
+.login-box div.left{background:url(../images/hz.jpg) top left no-repeat;padding:30px; }
 .login-box div.right{background:url(../images/right-bj.jpg) top left no-repeat;padding:40px 102px;}
 .login-box div.right > img{margin:13% auto 25%;max-width:100%;}
 .login{margin:0 0 20px 0;position:relative;height:62px;}
