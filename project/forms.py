@@ -47,6 +47,9 @@ class ProjectModelForm(ModelForm):
             'FUserOrgID': Fwidgets.Input(attrs={'class': 'layui-input', 'autocomplete': 'off'}),
             'FUserAtten': Fwidgets.Input(attrs={'class': 'layui-input', 'autocomplete': 'off'}),
             'FUserAttenTel': Fwidgets.Input(attrs={'class': 'layui-input', 'autocomplete': 'off'}),
+            'FConsultOrgID': Fwidgets.Input(attrs={'class': 'layui-input', 'autocomplete': 'off'}),
+            'FConsultAtten': Fwidgets.Input(attrs={'class': 'layui-input', 'autocomplete': 'off'}),
+            'FConsultAttenTel': Fwidgets.Input(attrs={'class': 'layui-input', 'autocomplete': 'off'}),
             'FPrjdesc': Fwidgets.Textarea(attrs={'class': 'layui-textarea', 'autocomplete': 'off', 'rows': '0'}),
         }
 

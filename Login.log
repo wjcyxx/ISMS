@@ -1,4 +1,1 @@
-2020-04-23 15:07:16,865 - /Users/weijing/Documents/10HanMing/Dev/ISMS_VER_HZ/ISMS/login/views.py[line:81] - INFO: 登录用户名:admin; 登录IP:127.0.0.1
-2020-04-23 15:09:45,132 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/utils/log.py[line:228] - WARNING: Not Found: /genmd5/appkey/JDNkYn4pUa
-2020-04-23 15:11:47,505 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/utils/log.py[line:228] - WARNING: Not Found: /ismsapi/get_recepound/
-2020-04-23 15:12:09,283 - /Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/django/utils/log.py[line:228] - WARNING: Not Found: /ismsapi/get_recepound/
+2020-04-30 15:23:49,127 - /Users/weijing/Documents/10HanMing/Dev/ISMS_VER_HZ/ISMS/login/views.py[line:81] - INFO: 登录用户名:zhgadmin; 登录IP:127.0.0.1
