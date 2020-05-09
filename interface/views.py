@@ -100,17 +100,20 @@ def areaid_2_device(areaid):
 class vehicleplate_callback(View):
     def post(self, request):
         times = request.GET.get('start_time')
+        vehgateID = get_vehiclegateID(request.POST.get('cam_id'))
 
         vehiclepasslog_info = vehiclepasslog()
-        vehiclepasslog_info.FGateID = get_vehiclegateID(request.POST.get('cam_id'))
+        vehiclepasslog_info.FGateID = vehgateID
         vehiclepasslog_info.FPlate = request.POST.get('plate_num')
 
         if base64_savepic(request.POST.get('picture')):
             vehiclepasslog_info.FPicturepath = 'Plate/'+request.POST.get('plate_num')+'.jpg'
 
-        vehiclefiles_info = vehiclefiles.objects.get(Q(FPlate=request.POST.get('plate_num')))
-        vehiclepasslog_info.CREATED_PRJ = vehiclefiles_info.CREATED_PRJ
-        vehiclepasslog_info.CREATED_ORG = vehiclefiles_info.CREATED_ORG
+        #vehiclefiles_info = vehiclefiles.objects.get(Q(FPlate=request.POST.get('plate_num')))
+        vehiclegate_info = vehiclegate.objects.filter(Q(FID=vehgateID)).first()
+
+        vehiclepasslog_info.CREATED_PRJ = vehiclegate_info.CREATED_PRJ
+        vehiclepasslog_info.CREATED_ORG = vehiclegate_info.CREATED_ORG
         vehiclepasslog_info.CREATED_BY = 'DEV'
         vehiclepasslog_info.UPDATED_BY = 'DEV'
         vehiclepasslog_info.CREATED_TIME = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(int(times) / 1000))

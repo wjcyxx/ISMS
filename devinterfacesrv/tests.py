@@ -23,6 +23,7 @@ from personnel.models import personnel
 from baseframe.baseframe import *
 from devinterface.models import subinterface
 import datetime
+import threading
 
 # Create your tests here.
 
@@ -34,76 +35,46 @@ def runservice(request):
     devinterface_info.save()
 
     TIME_INTERVAL = devinterface_info.FInterval
-    IPADDRESS = devinterface_info.FAddress
-    PORT = devinterface_info.FPort
-
+    IPADDRESS = '192.168.43.204'
+    PORT = 8089
 
     try:
-        print("start...")
-        fid = ''.join(str(devinterface_info.FID).split('-'))
+        Server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-        print("主ID:"+fid)
-        subinterface_info = subinterface.objects.filter(Q(FPID=fid))
+        Server.bind((IPADDRESS, PORT))
+        Server.listen(100)
 
-        for subint in subinterface_info:
-            interID = ''.join(str(subint.FInterfaceID).split('-'))
+        print('Waiting connect......')
 
-            devID = intID_2_devID(interID)
+        while True:
+            serverThisClient, ClientInfo = Server.accept()
+            print('Waiting connect......')
 
-            print("接口ID:"+interID)
-            print("设备ID:"+devID)
-
-            result = get_interface_result(interID, [], [], [])
-
-            EnvHisData = envinterfacesrv()
-            EnvHisData.FCommandType = 2
-            EnvHisData.FDeviceId = devID
-            EnvHisData.FSRCTimestamp = time.time()
-            EnvHisData.FTimestamp = timezone.now()
-            EnvHisData.FSPM = None
-            EnvHisData.FNoiseMax = None
-            EnvHisData.FTYPE = 2
-
-            prjID = deviceID_2_prjID(devID)
-            prj_info = project.objects.get(Q(FID=prjID))
-
-            EnvHisData.FLongitude = prj_info.FLong
-            EnvHisData.FLatitude = prj_info.FLat
-            EnvHisData.FPressure = None
-            EnvHisData.CREATED_PRJ = prjID
-            EnvHisData.CREATED_ORG = prj_2_manageorg(prjID)
-            EnvHisData.CREATED_BY = 'www.0531yun.cn'
-            EnvHisData.UPDATED_BY = 'www.0531yun.cn'
-            EnvHisData.CREATED_TIME = timezone.now()
-
-            for env_info in result:
-                if env_info['DevAddr'] == devID:
-
-                    if env_info['DevName'] == 'PM':
-                        EnvHisData.FPM25 = env_info['DevHumiValue']
-                        EnvHisData.FPM10 = env_info['DevTempValue']
-
-                    if env_info['DevName'] == '噪声':
-                        EnvHisData.FNoise = env_info['DevHumiValue']
-
-                    if env_info['DevName'] == '温度湿度':
-                        EnvHisData.FTemperature = env_info['DevTempValue']
-                        EnvHisData.FHumidity = env_info['DevHumiValue']
-
-                    if env_info['DevName'] == '风力风速':
-                        EnvHisData.FWIND_SPEED = env_info['DevHumiValue']
-
-                    if env_info['DevName'] == '风向(方位)':
-                        EnvHisData.FWIND_DIRECT_STR = env_info['DevTempValue']
-
-                    if env_info['DevName'] == '风向(度数)':
-                        EnvHisData.FWIND_DIRECT = env_info['DevHumiValue']
-
-            EnvHisData.save()
-            print('本次数据传输完毕')
+            t = threading.Thread(target=getData, args=(serverThisClient, ClientInfo))
+            t.start()
+            # t.join()
 
     except Exception as e:
-        pass
+        return False
+
+
+
+def getData(serverThisClient, ClientInfo):
+    try:
+        recvData = serverThisClient.recv(1024)
+        recvData = recvData.decode()
+
+        strindex = str(recvData).find('CP')
+        lenstr = len(str(recvData))
+
+
+        data = str(recvData).split('CP')
+
+        print(recvData)
+
+    except Exception as e:
+        serverThisClient.close()
+
 
 def hosit_box_id_2_mecID(box_id):
     dict = {}
