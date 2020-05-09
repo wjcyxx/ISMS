@@ -99,7 +99,14 @@ def areaid_2_device(areaid):
 #车牌识别回调
 class vehicleplate_callback(View):
     def post(self, request):
-        times = request.GET.get('start_time')
+
+        type = request.POST.get('type')
+
+        if type == 'heartbeat':
+            response_data = {'error_num': 0, 'error_str': 'success'}
+            return HttpResponse(json.dumps(response_data))
+
+        times = request.POST.get('start_time')
         vehgateID = get_vehiclegateID(request.POST.get('cam_id'))
 
         vehiclepasslog_info = vehiclepasslog()
