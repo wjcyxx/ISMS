@@ -35,7 +35,7 @@ def runservice(request):
     devinterface_info.save()
 
     TIME_INTERVAL = devinterface_info.FInterval
-    IPADDRESS = '192.168.43.204'
+    IPADDRESS = '192.168.3.18'
     PORT = 8089
 
     try:
@@ -64,11 +64,22 @@ def getData(serverThisClient, ClientInfo):
         recvData = serverThisClient.recv(1024)
         recvData = recvData.decode()
 
+
         strindex = str(recvData).find('CP')
         lenstr = len(str(recvData))
 
+        #取头部区域
+        headerArea = str(recvData)[0:strindex-1]
+        #取数据区域
+        dataArea = str(recvData)[strindex:lenstr]
 
-        data = str(recvData).split('CP')
+        headSerialize = headerArea.split(';')
+        dataSerialize = dataArea.split(';')
+
+        MN = headSerialize[4]
+        len_MN = len(MN)
+
+        devID = str(MN)[3:len_MN]
 
         print(recvData)
 

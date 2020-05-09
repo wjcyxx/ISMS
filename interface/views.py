@@ -120,7 +120,7 @@ class vehicleplate_callback(View):
 
         vehiclepasslog_info.save()
 
-        response_data = {'result': 1, 'success': True}
+        response_data = {'error_num': 0, 'error_str': 'success'}
         return HttpResponse(json.dumps(response_data))
 
 
