@@ -25,5 +25,7 @@ urlpatterns = [
     path('get_elevator_hisdata/', views.get_elevator_hisdata.as_view(), name='get_elevator_hisdata'),
     path('get_menchanical/', views.get_menchanical.as_view(), name='get_menchanical'),
     path('get_recepound/', views.get_recepound.as_view(), name='get_recepound'),
-    path('get_recepound_goodsDetail/', views.get_recepound_goodsDetail.as_view(), name='get_recepound_goodsDetail')
+    path('get_recepound_goodsDetail/', views.get_recepound_goodsDetail.as_view(), name='get_recepound_goodsDetail'),
+    path('get_vehiclepasslog/', views.get_vehiclepasslog.as_view(), name='get_vehiclepasslog'),
+    path('get_vehiclegate/', views.get_vehiclegate.as_view(), name='get_vehiclegate')
 ]

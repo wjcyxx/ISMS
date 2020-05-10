@@ -12,7 +12,8 @@ class vehiclepasslog(models.Model):
 
     FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
     FGateID = models.ForeignKey(vehiclegate, to_field='FID', on_delete=models.CASCADE, verbose_name='通道ID', blank=True, null=True)
-    FPlate = models.ForeignKey(vehiclefiles, to_field='FPlate', on_delete=models.CASCADE, verbose_name='车牌号码', blank=True, null=True)
+    #FPlate = models.ForeignKey(vehiclefiles, to_field='FPlate', on_delete=models.CASCADE, verbose_name='车牌号码', blank=True, null=True)
+    FPlate = models.CharField(max_length=10, verbose_name='车牌号码', blank=True, null=True)
     FPicturepath = models.ImageField(upload_to='Plate/', default='', verbose_name='抓拍图片', blank=True, null=True)
     CREATED_PRJ = models.CharField(max_length=32, verbose_name='所属项目', blank=True, null=True)
     CREATED_ORG = models.CharField(max_length=32, verbose_name='创建组织', blank=True, null=True)

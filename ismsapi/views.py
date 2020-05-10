@@ -21,6 +21,8 @@ from device.models import device, devcallinterface
 from devinterfacesrv.models import elevatorinterfacesrv
 from menchanical.models import menchanical
 from receaccount.models import materialsaccount, materaccountgoods
+from vehiclepasslog.models import vehiclepasslog
+from vehiclegate.models import vehiclegate
 from django.http import JsonResponse
 import json
 from django.utils import timezone
@@ -1011,3 +1013,11 @@ class get_recepound_goodsDetail(api_base):
     def set_view(self, request):
         self.model = materaccountgoods
 
+
+class get_vehiclepasslog(api_base):
+    def set_view(self, request):
+        self.model = vehiclepasslog
+
+class get_vehiclegate(api_base):
+    def set_view(self, request):
+        self.model = vehiclegate

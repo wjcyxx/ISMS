@@ -35,7 +35,7 @@ def runservice(request):
     devinterface_info.save()
 
     TIME_INTERVAL = devinterface_info.FInterval
-    IPADDRESS = '192.168.3.18'
+    IPADDRESS = '192.168.50.162'
     PORT = 8089
 
     try:
@@ -73,18 +73,62 @@ def getData(serverThisClient, ClientInfo):
         #取数据区域
         dataArea = str(recvData)[strindex:lenstr]
 
+        #序列化头部区域
         headSerialize = headerArea.split(';')
+
+        lstPrex = indexstr(dataArea, '&&')
+        dataArea = dataArea[lstPrex[0]+2:lstPrex[1]]
+
+        #序列化数据区域
         dataSerialize = dataArea.split(';')
 
         MN = headSerialize[4]
         len_MN = len(MN)
 
+        #设备ID
         devID = str(MN)[3:len_MN]
+
+        arr_dts = []
+        for dts in dataSerialize:
+            arr = []
+            _dts = dts.split(',')
+
+            for jdata in _dts:
+                dict = {}
+
+                _jdata = jdata.split('=')
+                dict['key'] = _jdata[0]
+                dict['value'] = _jdata[1]
+
+                arr.append(dict)
+
+            arr_dts.append(arr)
+
+        #数据传入时间
+        str_dataTime = dataSerialize[0]
+        lst_dataTime = str_dataTime.split('=')
+        #dataTime =
+
+
+
 
         print(recvData)
 
     except Exception as e:
         serverThisClient.close()
+
+
+#查找指定字符串str1包含指定子字符串str2的全部位置，以列表形式返回
+def indexstr(str1,str2):
+    lenth2=len(str2)
+    lenth1=len(str1)
+    indexstr2=[]
+    i=0
+    while str2 in str1[i:]:
+        indextmp = str1.index(str2, i, lenth1)
+        indexstr2.append(indextmp)
+        i = (indextmp + lenth2)
+    return indexstr2
 
 
 def hosit_box_id_2_mecID(box_id):
