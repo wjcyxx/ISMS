@@ -51,51 +51,79 @@ if __name__ == "__main__":
         try:
             recvData = serverThisClient.recv(1024)
             recvData = recvData.decode()
-
-
-
-
             logging.info('info 接收到数据'+str(recvData)+', 来自:'+ClientInfo[0])
 
-            DeviceID = int(recvData[24:32], 16)
-            TimeStamp = int(recvData[32:40], 16)
-            SPM = int(recvData[40:48], 16)/10000
-            PM25 = int(recvData[48:56], 16)/100
-            PM10 = int(recvData[56:64], 16)/100
-            TYPE = int(recvData[64:68], 16)
-            WIND_SPEED = int(recvData[68:76], 16)/100
-            WIND_DIRECT = int(recvData[76:84], 16)/10
-            Temperature = int(recvData[84:92], 16)/100
-            Humidity = int(recvData[92:100], 16)/10
-            Noise = int(recvData[100:108], 16)/10
-            NoiseMax = int(recvData[108:116], 16)/10
-            Longitude = int(recvData[116:124], 16)/1000000
-            Latitude = int(recvData[124:132], 16)/1000000
-            Pressure = int(recvData[132:140], 16)
+            strindex = str(recvData).find('CP')
+            lenstr = len(str(recvData))
+
+            # 取头部区域
+            headerArea = str(recvData)[0:strindex - 1]
+            # 取数据区域
+            dataArea = str(recvData)[strindex:lenstr]
+
+            # 序列化头部区域
+            headSerialize = headerArea.split(';')
+
+            lstPrex = indexstr(dataArea, '&&')
+            dataArea = dataArea[lstPrex[0] + 2:lstPrex[1]]
+
+            # 序列化数据区域
+            dataSerialize = dataArea.split(';')
+
+            MN = headSerialize[4]
+            len_MN = len(MN)
+
+            # 设备ID
+            devID = str(MN)[3:len_MN]
+
+            arr_dts = []
+            for dts in dataSerialize:
+                arr = []
+                _dts = dts.split(',')
+
+                for jdata in _dts:
+                    dict = {}
+
+                    _jdata = jdata.split('=')
+                    dict['key'] = _jdata[0]
+                    dict['value'] = _jdata[1]
+
+                    arr.append(dict)
+
+                arr_dts.append(arr)
+
+            # 数据传入时间
+
+            for i in range(len(arr_dts)):
+                keys = arr_dts[i][0]
+
+                if keys['key'] == 'DataTime':  # 数据传入时间
+                    src_dataTime = keys['value']
+                elif keys['key'] == 'a01001-Cou':  # 温度
+                    Temperature = keys['value']
+                elif keys['key'] == 'a01002-Cou':  # 湿度
+                    Humidity = keys['value']
+                elif keys['key'] == 'a01006-Cou':  # 气压
+                    Pressure = keys['value']
+                elif keys['key'] == 'a01007-Cou':  # 风速
+                    Wind_Speed = keys['value']
+                elif keys['key'] == 'a01008-Cou':  # 风向
+                    Wind_Direct = keys['value']
+                elif keys['key'] == 'a34001-Cou':  # TSP
+                    TSP = keys['value']
 
             EnvHisData = envinterfacesrv()
 
-            EnvHisData.FDeviceId = str(DeviceID)
-            EnvHisData.FSRCTimestamp = TimeStamp
-
-            timeArray = time.localtime(TimeStamp)
-            realTime = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
-            EnvHisData.FTimestamp = realTime
-
-            EnvHisData.FSPM = SPM
-            EnvHisData.FPM25 = PM25
-            EnvHisData.FPM10 = PM10
-            EnvHisData.FTYPE = TYPE
-            EnvHisData.FWIND_SPEED = WIND_SPEED
-            EnvHisData.FWIND_DIRECT = WIND_DIRECT
+            EnvHisData.FDeviceId = devID
+            EnvHisData.FTSP = TSP
+            EnvHisData.FCommandType = 2
             EnvHisData.FTemperature = Temperature
             EnvHisData.FHumidity = Humidity
-            EnvHisData.FNoise = Noise
-            EnvHisData.FNoiseMax = NoiseMax
-            EnvHisData.FLongitude = Longitude
-            EnvHisData.FLatitude = Latitude
             EnvHisData.FPressure = Pressure
-            prjID = deviceID_2_prjID(DeviceID)
+            EnvHisData.FWIND_SPEED = Wind_Speed
+            EnvHisData.FWIND_DIRECT = Wind_Direct
+
+            prjID = deviceID_2_prjID(devID)
             EnvHisData.CREATED_PRJ = prjID
             EnvHisData.CREATED_ORG = prjID_2_manorgID(prjID)
             EnvHisData.CREATED_BY = ClientInfo[0]
@@ -103,10 +131,6 @@ if __name__ == "__main__":
             EnvHisData.UPDATED_BY = ClientInfo[0]
 
             EnvHisData.save()
-
-            sendData1 = '0000000c8002000000000000'
-            s_b = bytes.fromhex(sendData1)
-            serverThisClient.send(s_b)
 
             logging.info('info 本次连接关闭...')
             serverThisClient.close()
@@ -137,6 +161,19 @@ if __name__ == "__main__":
 
         except Exception as e:
             return False
+
+
+    # 查找指定字符串str1包含指定子字符串str2的全部位置，以列表形式返回
+    def indexstr(str1, str2):
+        lenth2 = len(str2)
+        lenth1 = len(str1)
+        indexstr2 = []
+        i = 0
+        while str2 in str1[i:]:
+            indextmp = str1.index(str2, i, lenth1)
+            indexstr2.append(indextmp)
+            i = (indextmp + lenth2)
+        return indexstr2
 
 
     def prjID_2_manorgID(prjID):

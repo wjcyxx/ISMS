@@ -35,7 +35,7 @@ def runservice(request):
     devinterface_info.save()
 
     TIME_INTERVAL = devinterface_info.FInterval
-    IPADDRESS = '192.168.50.162'
+    IPADDRESS = '192.168.3.27'
     PORT = 8089
 
     try:
@@ -105,14 +105,46 @@ def getData(serverThisClient, ClientInfo):
             arr_dts.append(arr)
 
         #数据传入时间
-        str_dataTime = dataSerialize[0]
-        lst_dataTime = str_dataTime.split('=')
-        #dataTime =
 
+        for i in range(len(arr_dts)):
+            keys = arr_dts[i][0]
 
+            if keys['key'] == 'DataTime':        #数据传入时间
+                src_dataTime = keys['value']
+            elif keys['key'] == 'a01001-Cou':    #温度
+                Temperature = keys['value']
+            elif keys['key'] == 'a01002-Cou':    #湿度
+                Humidity = keys['value']
+            elif keys['key'] == 'a01006-Cou':    #气压
+                Pressure = keys['value']
+            elif keys['key'] == 'a01007-Cou':    #风速
+                Wind_Speed = keys['value']
+            elif keys['key'] == 'a01008-Cou':    #风向
+                Wind_Direct = keys['value']
+            elif keys['key'] == 'a34001-Cou':    #TSP
+                TSP = keys['value']
 
+        EnvHisData = envinterfacesrv()
 
-        print(recvData)
+        EnvHisData.FDeviceId = devID
+        EnvHisData.FTSP =  TSP
+        EnvHisData.FCommandType = 2
+        EnvHisData.FTemperature = Temperature
+        EnvHisData.FHumidity = Humidity
+        EnvHisData.FPressure = Pressure
+        EnvHisData.FWIND_SPEED = Wind_Speed
+        EnvHisData.FWIND_DIRECT = Wind_Direct
+
+        prjID = deviceID_2_prjID(devID)
+        EnvHisData.CREATED_PRJ = prjID
+        EnvHisData.CREATED_ORG = prjID_2_manorgID(prjID)
+        EnvHisData.CREATED_BY = ClientInfo[0]
+        EnvHisData.CREATED_TIME = timezone.now()
+        EnvHisData.UPDATED_BY = ClientInfo[0]
+
+        EnvHisData.save()
+
+        #print(recvData)
 
     except Exception as e:
         serverThisClient.close()
@@ -131,24 +163,14 @@ def indexstr(str1,str2):
     return indexstr2
 
 
-def hosit_box_id_2_mecID(box_id):
-    dict = {}
+def prjID_2_manorgID(prjID):
     try:
-        device_info = device.objects.get(Q(FDevID=box_id))
-        dev_fid = ''.join(str(device_info.FID).split('-'))
-
-        mench_info = menchanical.objects.get(Q(FMonitordevID=dev_fid))
-        mench_fid = ''.join(str(mench_info.FID).split('-'))
-        mench_oper = mecoperauth.objects.filter(Q(FPID=mench_fid)).first()
-        personel_info = personnel.objects.get(Q(FID=mench_oper.FAuthpersonID))
-
-
-        dict['mench_fid'] = mench_fid
-        dict['elevator_manager'] = mench_info.FMecmanager
-        dict['elevator_mgrtel'] = mench_info.FMecmanagertel
-        dict['elevator_oper'] = personel_info.FName
-        dict['elevator_opertel'] = personel_info.FTel
-
-        return dict
+        if prjID == '':
+            return ''
+        else:
+            prj_info = project.objects.get(Q(FID=prjID))
+        return prj_info.FManageORG
     except ObjectDoesNotExist:
-        return dict
+        return ''
+
+
