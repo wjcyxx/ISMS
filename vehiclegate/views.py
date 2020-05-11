@@ -47,7 +47,7 @@ class add(add_base):
         self.template_name = 'content/vehiclegate/vehiclegateadd.html'
         self.objForm = VehicleGateModelForm
         self.query_sets = [
-            device.objects.filter(Q(FStatus=True)),
+            device.objects.filter(Q(FStatus=True), Q(CREATED_PRJ=self.request.session['PrjID'])),
             area.objects.filter(Q(CREATED_PRJ=self.request.session['PrjID']), Q(FStatus=True))
         ]
         self.query_set_idfields = ['FDevID', 'FAreaID']
@@ -61,7 +61,7 @@ class edit(edit_base):
         self.model = T_VehicleGate
         self.objForm = VehicleGateModelForm
         self.query_sets = [
-            device.objects.filter(Q(FStatus=True)),
+            device.objects.filter(Q(FStatus=True), Q(CREATED_PRJ=self.request.session['PrjID'])),
             area.objects.filter(Q(CREATED_PRJ=self.request.session['PrjID']), Q(FStatus=True))
         ]
         self.query_set_idfields = ['FDevID', 'FAreaID']

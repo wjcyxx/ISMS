@@ -107,13 +107,17 @@ class vehicleplate_callback(View):
             return HttpResponse(json.dumps(response_data))
 
         times = request.POST.get('start_time')
-        vehgateID = get_vehiclegateID(request.POST.get('cam_id'))
+        devID = request.POST.get('cam_id')
+
+        vehgateID = get_vehiclegateID(devID)
 
         vehiclepasslog_info = vehiclepasslog()
-        vehiclepasslog_info.FGateID = vehgateID
+        vehiclepasslog_info.FGateID_id = vehgateID
         vehiclepasslog_info.FPlate = request.POST.get('plate_num')
 
-        if base64_savepic(request.POST.get('picture')):
+        vehicle_pic = request.POST.get('picture')
+
+        if base64_savepic(vehicle_pic, vehiclepasslog_info.FPlate):
             vehiclepasslog_info.FPicturepath = 'Plate/'+request.POST.get('plate_num')+'.jpg'
 
         #vehiclefiles_info = vehiclefiles.objects.get(Q(FPlate=request.POST.get('plate_num')))
@@ -123,7 +127,7 @@ class vehicleplate_callback(View):
         vehiclepasslog_info.CREATED_ORG = vehiclegate_info.CREATED_ORG
         vehiclepasslog_info.CREATED_BY = 'DEV'
         vehiclepasslog_info.UPDATED_BY = 'DEV'
-        vehiclepasslog_info.CREATED_TIME = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(int(times) / 1000))
+        vehiclepasslog_info.CREATED_TIME = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(int(times)))
 
         vehiclepasslog_info.save()
 
@@ -149,9 +153,10 @@ def base64_savepic(strBase64, filename):
     # cfilename = request.POST.get('filename')
 
     strBase64 =  str(strBase64).replace('-', '+').replace('_', '/').replace('.', '=')
+    timestrip = millis = int(round(time.time()))
 
     try:
-        with open(save_path+'/'+filename+'.jpg', 'wb') as f:
+        with open(save_path+'/Plate/'+filename+'_'+str(timestrip)+'.jpg', 'wb') as f:
              f.write(base64.b64decode(strBase64))
 
         return True
