@@ -117,8 +117,11 @@ class vehicleplate_callback(View):
 
         vehicle_pic = request.POST.get('picture')
 
-        if base64_savepic(vehicle_pic, vehiclepasslog_info.FPlate):
-            vehiclepasslog_info.FPicturepath = 'Plate/'+request.POST.get('plate_num')+'.jpg'
+        timestrip = millis = int(round(time.time()))
+        filenames = vehiclepasslog_info.FPlate+'_'+str(timestrip)
+
+        if base64_savepic(vehicle_pic, filenames):
+            vehiclepasslog_info.FPicturepath = 'Plate/'+filenames+'.jpg'
 
         #vehiclefiles_info = vehiclefiles.objects.get(Q(FPlate=request.POST.get('plate_num')))
         vehiclegate_info = vehiclegate.objects.filter(Q(FID=vehgateID)).first()
@@ -153,10 +156,9 @@ def base64_savepic(strBase64, filename):
     # cfilename = request.POST.get('filename')
 
     strBase64 =  str(strBase64).replace('-', '+').replace('_', '/').replace('.', '=')
-    timestrip = millis = int(round(time.time()))
 
     try:
-        with open(save_path+'/Plate/'+filename+'_'+str(timestrip)+'.jpg', 'wb') as f:
+        with open(save_path+'/Plate/'+filename+'.jpg', 'wb') as f:
              f.write(base64.b64decode(strBase64))
 
         return True
