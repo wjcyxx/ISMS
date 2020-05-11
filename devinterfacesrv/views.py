@@ -26,7 +26,7 @@ def devservice(request):
 
         srvfile = interface_info.FSrvFile
 
-        pyfiles = settings.BASE_DIR + os.sep + 'script' + os.sep + srvfile + '.pyc'
+        pyfiles = settings.BASE_DIR + os.sep + 'script' + os.sep + srvfile + '.py'
         pyfiles = str(pyfiles).replace(' ', '\ ')
 
         p_id = interface_info.FSrvPID
