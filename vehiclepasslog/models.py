@@ -24,3 +24,4 @@ class vehiclepasslog(models.Model):
 
     class Meta:
         db_table = 'T_VehiclePassLog'
+        ordering = ['-CREATED_TIME']

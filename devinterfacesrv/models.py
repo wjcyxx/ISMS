@@ -77,6 +77,7 @@ class envinterfacesrv(models.Model):
 
     class Meta:
         db_table = 'T_EnvdetectionHisData'
+        ordering = ['-CREATED_TIME']
 
 
 class interfacesrvdata(models.Model):
