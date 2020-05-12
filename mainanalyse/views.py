@@ -214,7 +214,7 @@ class get_vehpassage_news(View):
     def post(self, request):
         prj_id = request.session['PrjID']
 
-        vehpasslog_info = vehiclepasslog.objects.filter(Q(CREATED_PRJ=prj_id)).values('FID', 'FPlate', 'FGateID__FGate', 'CREATED_TIME', 'FGateID__FGatetype', 'FGateID__FGateattr', 'FPlate__FVehicletypeID')
+        vehpasslog_info = vehiclepasslog.objects.filter(Q(CREATED_PRJ=prj_id)).values('FID', 'FPlate', 'FPicturepath', 'FGateID__FGate', 'CREATED_TIME', 'FGateID__FGatetype', 'FGateID__FGateattr')
 
         result_dict = []
 
@@ -237,9 +237,9 @@ class get_vehpassage_news(View):
             else:
                 dict['FPassageType'] = '货运通道'
 
-            vehicletype_id = dt['FPlate__FVehicletypeID']
-            dict['FVehicletype'] = base.objects.get(Q(FID=vehicletype_id)).FBase
-            dict['FPhoto'] = base.objects.get(Q(FID=vehicletype_id)).FDesc
+            #vehicletype_id = dt['FPlate__FVehicletypeID']
+            #dict['FVehicletype'] = base.objects.get(Q(FID=vehicletype_id)).FBase
+            dict['FPhoto'] = dt['FPicturepath']
 
             result_dict.append(dict)
 

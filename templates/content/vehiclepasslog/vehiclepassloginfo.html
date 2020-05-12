@@ -45,7 +45,6 @@
 <script>
   var Areainfo = {{ area|safe }};
   var Orginfo = {{ organize|safe }};
-  var vehtypeinfo = {{ base|safe }};
 
   layui.use(['element', 'layer', 'table'], function(){
       var $ = layui.jquery
@@ -62,6 +61,7 @@
           page: true,
           limit: 20,
           elem: '#datasource',
+          height: 'full-120',
           url: "{% url 'vehiclepasslog:get_datasource' %}",
           cols: [[
               {field:'FPlate', width: '15%', title: '车牌号码', sort: true},
@@ -69,9 +69,6 @@
               {field:'FGateID__FAreaID', width: '15%', title: '通过区域', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FGateID__FAreaID, Areainfo)}}{% endverbatim %}</div>'},
               {field:'FGateID__FGatetype', width: '15%', title: '通道类型', sort: true, templet: '#tpGateType'},
               {field:'FGateID__FGateattr', width: '15%', title: '通道属性', sort: true, templet: '#tpGateAttr'},
-              {field:'FPlate__FVehicletypeID', width: '15%', title: '车辆类型', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPlate__FVehicletypeID, vehtypeinfo)}}{% endverbatim %}</div>'},
-              {field:'FPlate__FDrivers', width: '15%', title: '驾驶人', sort: true},
-              {field:'FPlate__FOrgID', width: '15%', title: '所属组织', sort: true, templet: '<div>{% verbatim %}{{sotitle(d.FPlate__FOrgID, Orginfo)}}{% endverbatim %}</div>'},
               {field:'CREATED_TIME', width: '20%', title: '通过时间', sort: true},
               {field:'FPicturepath', width: '30%', title: '抓拍图片', sort: true, templet: '#tpImg'},
 

@@ -25,9 +25,8 @@ class entrance(EntranceView_base):
         self.query_sets = [
             area.objects.filter(Q(FStatus=True), Q(CREATED_PRJ=prj_id)),
             organize.objects.filter(Q(FStatus=True)),
-            base.objects.filter(Q(FPID='571076ccb39311e98ed5708bcdb9b39a'))
         ]
-        self.quer_set_fieldnames = ['FName', 'FOrgname', 'FBase']
+        self.quer_set_fieldnames = ['FName', 'FOrgname']
 
 
 class get_datasource(get_datasource_base):
@@ -36,7 +35,7 @@ class get_datasource(get_datasource_base):
 
         self.type =1
         serinput = self.request.GET.get("resultdict[FPlate]", '')
-        vehiclepasslog_info = T_VehiclePassLog.objects.filter(Q(CREATED_PRJ=prj_id), Q(FPlate__FPlate__contains=serinput)).values('FPlate', 'FGateID__FGate', 'FGateID__FAreaID', 'FGateID__FGatetype', 'FGateID__FGateattr', 'FPlate__FVehicletypeID', 'FPlate__FDrivers', 'FPlate__FOrgID', 'CREATED_TIME', 'FPicturepath')
+        vehiclepasslog_info = T_VehiclePassLog.objects.filter(Q(CREATED_PRJ=prj_id), Q(FPlate__contains=serinput)).values('FPlate', 'FGateID__FGate', 'FGateID__FAreaID', 'FGateID__FGatetype', 'FGateID__FGateattr', 'CREATED_TIME', 'FPicturepath')
 
         return vehiclepasslog_info
 
