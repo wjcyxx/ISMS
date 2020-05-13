@@ -43,6 +43,7 @@ class passagedev_callback(View):
         passagerecord_info.FType = rectype
         passagerecord_info.FPictureUrl = picturepath
         passagerecord_info.FTemperature = temperature
+        passagerecord_info.FPersonGUID = personId
         
         if recmode == '1':   #刷脸
             passagerecord_info.FAuthtypeID = '7f183e98acf411e991437831c1d24216'

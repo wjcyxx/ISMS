@@ -41,6 +41,7 @@ class passagerecord(models.Model):
     #FPersonID = models.CharField(max_length=32, verbose_name='人员ID', blank=True, null=True)
     #FPassageID = models.CharField(max_length=32, verbose_name='人行通道ID', blank=True, null=True)
     FPassageID = models.ForeignKey(pedpassage, to_field='FID', on_delete=models.CASCADE, blank=True, null=True, verbose_name='人行通道ID')
+    FPersonGUID = models.CharField(max_length=40, verbose_name='人员原始GUID', blank=True, null=True)
     FDeviceID = models.CharField(max_length=32, verbose_name='设备ID', blank=True, null=True)
     FAuthtypeID = models.CharField(max_length=32, verbose_name='通行授权方式', blank=True, null=True)
     FType = models.IntegerField(verbose_name='识别结果分类', blank=True, null=True)  #0,时间段内 1,时间段外 2,陌生人
