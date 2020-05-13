@@ -41,7 +41,10 @@ class passagerecord(models.Model):
     #FPersonID = models.CharField(max_length=32, verbose_name='人员ID', blank=True, null=True)
     #FPassageID = models.CharField(max_length=32, verbose_name='人行通道ID', blank=True, null=True)
     FPassageID = models.ForeignKey(pedpassage, to_field='FID', on_delete=models.CASCADE, blank=True, null=True, verbose_name='人行通道ID')
+    FDeviceID = models.CharField(max_length=32, verbose_name='设备ID', blank=True, null=True)
     FAuthtypeID = models.CharField(max_length=32, verbose_name='通行授权方式', blank=True, null=True)
+    FType = models.IntegerField(verbose_name='识别结果分类', blank=True, null=True)  #0,时间段内 1,时间段外 2,陌生人
+    FPictureUrl = models.CharField(max_length=500, verbose_name='现场照URL', blank=True, null=True)
     FTemperature = models.FloatField(verbose_name='体温', blank=True, null=True)
     CREATED_PRJ = models.CharField(max_length=32, verbose_name='所属项目', blank=True, null=True)
     CREATED_ORG = models.CharField(max_length=32, verbose_name='创建组织', blank=True, null=True)

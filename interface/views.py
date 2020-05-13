@@ -26,35 +26,43 @@ import os, base64
 #人脸一体机识别回调
 class passagedev_callback(View):
     def post(self, request):
-        deviceKey = request.GET.get('deviceKey')
-        ip = request.GET.get('ip')
-        personId = request.GET.get('personId')
-        times = request.GET.get('time')
-        type = request.GET.get('type')
-        
+        personId = request.POST.get('personGuid')
+        deviceKey = request.POST.get('deviceKey')
+        picturepath = request.POST.get('photoUrl')
+        datatime = request.POST.get('showTime')
+        rectype = request.POST.get('type')
+        recmode = request.POST.get('recMode')
+        temperature = request.POST.get('temperature')
+
         passageid = get_passageid(deviceKey)
         
         passagerecord_info = passagerecord()
-        passagerecord_info.FPersonID_id = personId
+        passagerecord_info.FPersonID_id = get_personid(personId)
         passagerecord_info.FPassageID_id = passageid
+        passagerecord_info.FDeviceID = deviceKey
+        passagerecord_info.FType = rectype
+        passagerecord_info.FPictureUrl = picturepath
+        passagerecord_info.FTemperature = temperature
         
-        if type == 'face_0':
+        if recmode == '1':   #刷脸
             passagerecord_info.FAuthtypeID = '7f183e98acf411e991437831c1d24216'
-        elif type == 'card_0':
+        elif recmode == '2':    #ic卡
             passagerecord_info.FAuthtypeID = '65c7cfb2acf411e991437831c1d24216'
-        elif type == 'idcard_0':
+        elif recmode == '3':    #身份证
             passagerecord_info.FAuthtypeID = '9015ad48acf411e991437831c1d24216'    
-            
-        personnel_info = personnel.objects.get(Q(FID=personId))
-        passagerecord_info.CREATED_PRJ = personnel_info.CREATED_PRJ
-        passagerecord_info.CREATED_ORG = personnel_info.CREATED_ORG
+
+        if get_personid(personId) !=  None:
+            personnel_info = personnel.objects.get(Q(FID=personId))
+            passagerecord_info.CREATED_PRJ = personnel_info.CREATED_PRJ
+            passagerecord_info.CREATED_ORG = personnel_info.CREATED_ORG
+
         passagerecord_info.CREATED_BY = 'DEV'
         passagerecord_info.UPDATED_BY = 'DEV'
-        passagerecord_info.CREATED_TIME = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(int(times)/1000))
+        passagerecord_info.CREATED_TIME = datatime
             
         passagerecord_info.save()
         
-        response_data = {'result': 1, 'success': True}
+        response_data = {'result': 200, 'msg': 'success'}
         
         return HttpResponse(json.dumps(response_data))
 
@@ -70,6 +78,15 @@ def get_passageid(devid):
         
     except ObjectDoesNotExist:
         return None
+
+#根据人员ID查询人员表并返回结果
+def get_personid(personId):
+    try:
+        personnel.objects.get(Q(FID=personId))
+        return personId
+    except ObjectDoesNotExist:
+        return None
+
 
 #根据区域取通道设备及设备接口数据集
 def areaid_2_device(areaid):
