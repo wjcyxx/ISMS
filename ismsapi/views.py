@@ -23,6 +23,7 @@ from menchanical.models import menchanical
 from receaccount.models import materialsaccount, materaccountgoods
 from vehiclepasslog.models import vehiclepasslog
 from vehiclegate.models import vehiclegate
+from login.models import User
 from django.http import JsonResponse
 import json
 from django.utils import timezone
@@ -1003,21 +1004,59 @@ class get_env_hisdata(api_base):
         self.model = envinterfacesrv
 
 
-
+#获取物料台账接口
 class get_recepound(api_base):
     def set_view(self, request):
         self.model = materialsaccount
 
-
+#获取物料台账明细接口
 class get_recepound_goodsDetail(api_base):
     def set_view(self, request):
         self.model = materaccountgoods
 
-
+#获取车辆通行记录接口
 class get_vehiclepasslog(api_base):
     def set_view(self, request):
         self.model = vehiclepasslog
 
+#获取车辆通道接口
 class get_vehiclegate(api_base):
     def set_view(self, request):
         self.model = vehiclegate
+
+#修改登录密码接口
+class modify_user_loginpwd(api_common):
+    def set_view(self, request):
+        userID = self.request.POST.get('UserID')
+        old_pwd = self.request.POST.get('OldPwd')
+        new_pwd = self.request.POST.get('NewPwd')
+        cfm_pwd = self.request.POST.get('CfmPwd')
+
+        try:
+            user_info = User.objects.get(Q(FUserID=userID))
+
+            if old_pwd == user_info.FUserpwd:
+                if new_pwd != cfm_pwd:
+                    self.response_data['result'] = '8'
+                    self.response_data['msg'] = '两次新密码输入不一致'
+                else:
+                    user_info.FUserpwd = new_pwd
+                    user_info.save()
+
+                    self.response_data['result'] = '0'
+                    self.response_data['msg'] = '密码修改成功'
+            else:
+                self.response_data['result'] = '7'
+                self.response_data['msg'] = '原始密码错误'
+
+        except ObjectDoesNotExist:
+            self.response_data['result'] = '6'
+            self.response_data['msg'] = '未找到用户账号'
+
+
+
+
+
+
+
+

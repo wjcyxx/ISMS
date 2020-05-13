@@ -376,3 +376,53 @@ class api_base(View):
 
     def set_view(self, request):
         pass
+
+
+class api_common(View):
+    response_data = {}
+    model = None
+    request = None
+    data = []
+
+    def get(self, request):
+        self.response_data['result'] = '5'
+        self.response_data['msg'] = 'API interface must be submitted by post method.'
+
+        return HttpResponse(json.dumps(self.response_data))
+
+
+    def post(self, request):
+        appkey = request.POST.get('appkey')
+        token = request.POST.get('token')
+        conditions = request.POST.get('conditions')
+
+        self.request = request
+
+        if (appkey == None and token == None):
+            reqbody = request.body
+            request_json = json.loads(reqbody.decode("utf-8"))
+            appkey = request_json['appkey']
+            token = request_json['token']
+
+        try:
+            appkey_info = T_AppKey.objects.get(Q(FAppkey=appkey), Q(FStatus=True))
+
+            self.response_data = certify_token(appkey, token)
+            if self.response_data['result'] != '0':
+                return HttpResponse(json.dumps(self.response_data))
+            else:
+                self.set_view(self)
+
+                # self.response_data['result'] = '0'
+                # self.response_data['msg'] = 'data returned successfully'
+                # self.response_data['data'] = self.data
+
+                return JsonResponse(self.response_data, safe=False)
+        except ObjectDoesNotExist:
+            self.response_data['result'] = '4'
+            self.response_data['msg'] = 'APIKEY serial is UNREGISTERED'
+
+            return HttpResponse(json.dumps(self.response_data))
+
+    def set_view(self, request):
+        pass
