@@ -310,17 +310,17 @@ class get_mapdata(View):
 
             elif type == '1':   #万物互联，环境页面地图点颜色
                 env_info = envinterfacesrv.objects.filter(Q(CREATED_PRJ=fid)).order_by('FTemperature').first()
-                if env_info != None:
-                    if env_info.FPM25 <= 115:
-                        dict['color'] = '#66cc00'
-                    elif env_info.FPM25 > 115 and env_info.FPM25 <= 150:
-                        dict['color'] = '#ffff00'
-                    elif env_info.FPM25 > 150 and env_info.FPM25 <= 250:
-                        dict['color'] = '#d94d02'
-                    elif env_info.FPM25 > 250 and env_info.FPM25 <= 500:
-                        dict['color'] = '#ff0033'
-                else:
-                    dict['color'] = '#66cc00'
+                # if env_info != None:
+                #     if env_info.FPM25 <= 115:
+                #         dict['color'] = '#66cc00'
+                #     elif env_info.FPM25 > 115 and env_info.FPM25 <= 150:
+                #         dict['color'] = '#ffff00'
+                #     elif env_info.FPM25 > 150 and env_info.FPM25 <= 250:
+                #         dict['color'] = '#d94d02'
+                #     elif env_info.FPM25 > 250 and env_info.FPM25 <= 500:
+                #         dict['color'] = '#ff0033'
+                # else:
+                dict['color'] = '#66cc00'
 
             elif type == '0':   #数据驾驶舱首页，地图点默认颜色
                 dict['color'] = '#d94d02'

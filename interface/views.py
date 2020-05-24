@@ -23,6 +23,54 @@ import time
 import datetime
 import os, base64
 
+#人脸档案回调
+class personcreate_callback(View):
+    def post(self, request):
+        try:
+            personGuid = request.POST.get('personGuid')
+            deviceKey = request.POST.get('deviceKey')
+            name = request.POST.get('name')
+            personFace = request.POST.get('personFace')
+            idCard = request.POST.get('idCard')
+            sex = request.POST.get('sex')
+            birthday = request.POST.get('birthday')
+            address = request.POST.get('address')
+            nation = request.POST.get('nation')
+
+            devInfo = get_passageid(deviceKey)
+            prj_ID = devInfo.CREATED_PRJ
+
+            personnel_info = personnel()
+            personnel_info.FPhoto = personGuid
+            personnel_info.CREATED_PRJ = prj_ID
+            personnel_info.FName = name
+            personnel_info.FWoTuFaceGUID = personFace
+            personnel_info.FIDcard = idCard
+            personnel_info.FHomeaddress = address
+            personnel_info.FNation = nation
+            if sex == '男':
+                personnel_info.FSex = 0
+            elif sex == '女':
+                personnel_info.FSex = 1
+
+            personnel_info.FBirthday = birthday
+            personnel_info.CREATED_ORG = devInfo.CREATED_ORG
+            personnel_info.CREATED_BY = 'DEV'
+            personnel_info.UPDATED_BY = 'DEV'
+            personnel_info.CREATED_TIME = timezone.now()
+
+            personnel_info.save()
+
+            response_data = {'result': 200, 'msg': 'success'}
+
+            return HttpResponse(json.dumps(response_data))
+
+        except Exception as e:
+            response_data = {'result': 100, 'msg': 'error:'+str(e)}
+
+            return HttpResponse(json.dumps(response_data))
+
+
 #人脸一体机识别回调
 class passagedev_callback(View):
     def post(self, request):
@@ -35,7 +83,8 @@ class passagedev_callback(View):
             recmode = request.POST.get('recMode')
             temperature = request.POST.get('temperature')
 
-            passageid = get_passageid(deviceKey)
+            passageid = get_passageid(deviceKey).FID
+            passageid = ''.join(str(passageid).split('-'))
 
             passagerecord_info = passagerecord()
             passagerecord_info.FPersonID_id = get_personid(personId)
@@ -73,15 +122,14 @@ class passagedev_callback(View):
             return HttpResponse(json.dumps(response_data))
 
 
-#根据设备ID取通道FID
+#根据设备ID取通道
 def get_passageid(devid):
     try:
         device_fid = device.objects.get(Q(FDevID=devid)).FID
         device_fid = ''.join(str(device_fid).split('-'))
         
-        pedpassage_fid = pedpassage.objects.filter(Q(FDevID=device_fid)).first().FID
-        pedpassage_fid = ''.join(str(pedpassage_fid).split('-'))
-        return pedpassage_fid
+        pedpassage_info = pedpassage.objects.filter(Q(FDevID=device_fid)).first()
+        return pedpassage_info
         
     except ObjectDoesNotExist:
         return None

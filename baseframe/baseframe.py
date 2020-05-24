@@ -24,7 +24,7 @@ class EntranceView_base(View):
     context = {}
     request = None
 
-    @login_decorator
+    # @login_decorator
     def get(self, request, *args):
         self.request = request
         self.set_view(self)

@@ -90,24 +90,28 @@ def edit(request):
     fgroupid = Person_info.FGroupID
     obj = PersonModelForm(instance=Person_info)
 
-    group_info = group.objects.get(Q(FID=fgroupid))
-    GroupForm = GroupModelForm(instance=group_info)
+    try:
+        group_info = group.objects.get(Q(FID=fgroupid))
+        GroupForm = GroupModelForm(instance=group_info)
 
 
-    team_info = team.objects.filter(Q(FStatus=True), Q(CREATED_PRJ=request.session['PrjID']))
-    GroupForm.fields['FTeamID'].choices = get_dict_object(request, team_info, 'FID', 'FName')
+        team_info = team.objects.filter(Q(FStatus=True), Q(CREATED_PRJ=request.session['PrjID']))
+        GroupForm.fields['FTeamID'].choices = get_dict_object(request, team_info, 'FID', 'FName')
 
-    worktype_info = base.objects.filter(Q(FPID='2137f046a6a711e9b7367831c1d24216'))
-    GroupForm.fields['FWorktypeID'].choices = get_dict_object(request, worktype_info, 'FID', 'FBase')
+        worktype_info = base.objects.filter(Q(FPID='2137f046a6a711e9b7367831c1d24216'))
+        GroupForm.fields['FWorktypeID'].choices = get_dict_object(request, worktype_info, 'FID', 'FBase')
 
-    certif_info = base.objects.filter(Q(FPID='691fd5e2a90711e9866b7831c1d24216'))
-    certifinfo = get_dict_table(certif_info, 'FID', 'FBase')
+        certif_info = base.objects.filter(Q(FPID='691fd5e2a90711e9866b7831c1d24216'))
+        certifinfo = get_dict_table(certif_info, 'FID', 'FBase')
 
-    photo_path = Person_info.FPhoto
+        photo_path = Person_info.FPhoto
 
-    ref_dropdowndata(obj, request)
+        ref_dropdowndata(obj, request)
 
-    return render(request, "content/personnel/personneladd.html", {'obj': obj, 'fgroupid': fgroupid, 'GroupForm': GroupForm, 'certifinfo': certifinfo, 'photopath': photo_path, 'action': 'update'})
+        return render(request, "content/personnel/personneladd.html", {'obj': obj, 'fgroupid': fgroupid, 'GroupForm': GroupForm, 'certifinfo': certifinfo, 'photopath': photo_path, 'action': 'update'})
+
+    except ObjectDoesNotExist:
+        return render(request, "content/personnel/personneladd.html", {'obj': obj, 'fgroupid': fgroupid, 'action': 'update'})
 
 
 #处理新增及保存

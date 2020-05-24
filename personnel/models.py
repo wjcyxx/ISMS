@@ -71,7 +71,7 @@ class personnel(models.Model):
     FDesc = models.CharField(max_length=1024, verbose_name='备注', blank=True, null=True)
     FStatus = models.IntegerField(choices=STATUS_CHOICES, default=0, verbose_name='状态')
     FWoTuGUID = models.CharField(max_length=32, verbose_name='沃土平台GUID', blank=True, null=True)
-    FWoTuFaceGUID = models.CharField(max_length=32, verbose_name='沃土平台人脸GUID', blank=True, null=True)
+    FWoTuFaceGUID = models.CharField(max_length=1000, verbose_name='沃土平台人脸GUID', blank=True, null=True)
     CREATED_PRJ = models.CharField(max_length=32, verbose_name='所属项目', blank=True, null=True)
     CREATED_ORG = models.CharField(max_length=32, verbose_name='创建组织', blank=True, null=True)
     CREATED_BY = models.CharField(max_length=32, verbose_name='创建人', blank=True, null=True)
