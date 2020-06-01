@@ -572,3 +572,5 @@ def deviceID_2_areaID(deviceID):
         return rs.FAreaID
     except ObjectDoesNotExist:
         return  ''
+
+

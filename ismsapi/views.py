@@ -24,6 +24,7 @@ from receaccount.models import materialsaccount, materaccountgoods
 from vehiclepasslog.models import vehiclepasslog
 from vehiclegate.models import vehiclegate
 from login.models import User
+from filefolder.models import filefolder, uploadfiles
 from django.http import JsonResponse
 import json
 from django.utils import timezone
@@ -33,7 +34,9 @@ from baseframe.baseframe import *
 import time
 import datetime
 import hashlib
+import os
 import re
+from django.conf import settings
 
 
 #获取token
@@ -1056,6 +1059,368 @@ class modify_user_loginpwd(api_common):
 
 
 
+#创建文件夹、子文件夹
+class create_filefolder(api_common):
+    def set_view(self, request):
+        fpid = self.request.POST.get('FPID')
+        folderno = self.request.POST.get('FFolderNo')
+        foldername = self.request.POST.get('FFolderName')
+        desc = self.request.POST.get('FDesc')
+        prj_id = self.request.POST.get('FPRJID')
+
+        filefolder_info = filefolder()
+
+        if fpid != None:
+            filefolder_info.FPID = fpid
+
+        filefolder_info.FFolderNo = folderno
+        filefolder_info.FFolderName = foldername
+        filefolder_info.FDesc = desc
+        filefolder_info.CREATED_PRJ = prj_id
+
+        org_id = prj_2_manageorg(prj_id)
+
+        filefolder_info.CREATED_ORG = org_id
+        filefolder_info.CREATED_BY = 'API'
+        filefolder_info.CREATED_TIME = timezone.now()
+        filefolder_info.UPDATED_BY = 'API'
+
+        filefolder_info.save()
+
+        data = []
+        dict = {}
+        dict['FID'] = filefolder_info.FID
+        dict['FID_Split'] = ''.join(str(filefolder_info.FID).split('-'))
+        dict['FPID'] = filefolder_info.FPID
+        dict['FFolderNo'] = filefolder_info.FFolderNo
+        dict['FFolderName'] = filefolder_info.FFolderName
+        dict['CREATED_PRJ'] = prj_id
+        dict['CREATED_ORG'] = org_id
+
+        data.append(dict)
+
+        self.response_data['result'] = '0'
+        self.response_data['msg'] = '文件夹创建成功'
+        self.response_data['data'] = data
+
+
+#修改文件夹、子文件夹
+class modify_filefolder(api_common):
+    def set_view(self, request):
+        fid = self.request.POST.get('FID')
+
+        try:
+            filefolder_info = filefolder.objects.get(Q(FID=fid))
+
+            fpid = self.request.POST.get('FPID')
+            folderno = self.request.POST.get('FFolderNo')
+            foldername = self.request.POST.get('FFolderName')
+            desc = self.request.POST.get('FDesc')
+            prj_id = self.request.POST.get('FPRJID')
+
+            if fpid != None:
+                filefolder_info.FPID = fpid
+
+            if folderno != None:
+                filefolder_info.FFolderNo = folderno
+
+            if foldername != None:
+                filefolder_info.FFolderName = foldername
+
+            if desc != None:
+                filefolder_info.FDesc = desc
+
+            if prj_id != None:
+                filefolder_info.CREATED_PRJ = prj_id
+                org_id = prj_2_manageorg(prj_id)
+                filefolder_info.CREATED_ORG = org_id
+
+            filefolder_info.UPDATED_BY = 'API'
+
+            filefolder_info.save()
+
+            data = []
+            dict = {}
+            dict['FID'] = filefolder_info.FID
+            dict['FID_Split'] = ''.join(str(filefolder_info.FID).split('-'))
+            dict['FPID'] = filefolder_info.FPID
+            dict['FFolderNo'] = filefolder_info.FFolderNo
+            dict['FFolderName'] = filefolder_info.FFolderName
+            dict['CREATED_PRJ'] = filefolder_info.CREATED_PRJ
+            dict['CREATED_ORG'] = filefolder_info.CREATED_ORG
+
+            data.append(dict)
+
+            self.response_data['result'] = '0'
+            self.response_data['msg'] = '文件夹更新成功'
+            self.response_data['data'] = data
+
+        except ObjectDoesNotExist:
+            self.response_data['result'] = '6'
+            self.response_data['msg'] = '文件夹不存在'
+            self.response_data['data'] = []
+
+#删除文件夹
+class delete_filefolder(api_common):
+    def set_view(self, request):
+        fid = self.request.POST.get('FID')
+        type = self.request.POST.get('TYPE')  #0:删除当前文件夹1:删除当前文件夹的子文件夹2:删除当前文件夹及其子文件夹
+
+        if fid != None:
+            filefolder_info = filefolder.objects.get(Q(FID=fid))
+
+            if type == '0':
+                filefolder_info.delete()
+            elif type == '1':
+                filefolder_sub_info =  filefolder.objects.filter(Q(FPID=fid))
+
+                for ff_sub in filefolder_sub_info:
+                    ff_sub.delete()
+            elif type == '2':
+                filefolder_sub_info =  filefolder.objects.filter(Q(FPID=fid))
+
+                for ff_sub in filefolder_sub_info:
+                    ff_sub.delete()
+
+                filefolder_info.delete()
+
+
+            self.response_data['result'] = '0'
+            self.response_data['msg'] = '文件夹删除成功'
+            self.response_data['data'] = []
+
+        else:
+            self.response_data['result'] = '6'
+            self.response_data['msg'] = '文件夹不存在'
+            self.response_data['data'] = []
+
+
+#查询文件夹、子文件夹
+class get_filefolder(api_base):
+    def set_view(self, request):
+        self.model = filefolder
+
+
+#上传文件至指定的文件夹
+class upload_file(api_common):
+    def set_view(self, request):
+        prj_id = self.request.POST.get('FPRJID')
+        folder_id = self.request.POST.get('FFolderID')
+        sfile = self.request.FILES.get('FFile')
+        filetype = self.request.POST.get('FFileType')
+        filedesc = self.request.POST.get('FFileDesc')
+
+        if prj_id != None:
+            prj_info = project.objects.filter(Q(FID=prj_id))
+
+            if prj_info.count() == 0:
+                self.response_data['result'] = '11'
+                self.response_data['msg'] = '项目不存在'
+
+                return False
+        else:
+            self.response_data['result'] = '10'
+            self.response_data['msg'] = '项目ID不能为空'
+
+            return False
+
+
+        if folder_id != None:
+            ffolder_info = filefolder.objects.filter(Q(FID=folder_id))
+
+            if ffolder_info.count() == 0:
+                self.response_data['result'] = '21'
+                self.response_data['msg'] = '文件夹不存在'
+
+                return False
+        else:
+            self.response_data['result'] = '20'
+            self.response_data['msg'] = '文件夹ID不能为空'
+
+            return False
+
+
+
+        if sfile != None:
+            ufiles = uploadfiles()
+            ufiles.FFolderID = folder_id
+            ufiles.FFile = sfile
+            ufiles.FFileType = filetype
+            ufiles.FFileDesc = filedesc
+
+            ufiles.CREATED_PRJ = prj_id
+
+            org_id = prj_2_manageorg(prj_id)
+            ufiles.CREATED_ORG = org_id
+            ufiles.CREATED_BY = 'API'
+            ufiles.CREATED_TIME = timezone.now()
+            ufiles.UPDATED_BY = 'API'
+            ufiles.save()
+
+            data = []
+            dict = {}
+            dict['FID'] = ufiles.FID
+            dict['FID_Split'] = ''.join(str(ufiles.FID).split('-'))
+            dict['FilePath'] = str(ufiles.FFile)
+            dict['FFolderID'] = ufiles.FFolderID
+            dict['CREATED_PRJ'] = prj_id
+            dict['CREATED_ORG'] = org_id
+
+            data.append(dict)
+
+            self.response_data['result'] = 0
+            self.response_data['msg'] = '数据添加成功'
+            self.response_data['data'] = data
+        else:
+            self.response_data['result'] = '30'
+            self.response_data['msg'] = '上传文件不能为空'
+
+            return False
+
+        return True
+
+
+#获取文件夹内文件列表
+class get_folder_infiles(api_common):
+    def set_view(self, request):
+        prj_id = self.request.POST.get('FPRJID')
+        folder_id = self.request.POST.get('FFolderID')
+
+        if prj_id != None:
+            prj_info = project.objects.filter(Q(FID=prj_id))
+
+            if prj_info.count() == 0:
+                self.response_data['result'] = '11'
+                self.response_data['msg'] = '项目不存在'
+
+                return False
+        else:
+            self.response_data['result'] = '10'
+            self.response_data['msg'] = '项目ID不能为空'
+
+            return False
+
+
+        if folder_id != None:
+            ffolder_info = filefolder.objects.filter(Q(FID=folder_id))
+
+            if ffolder_info.count() == 0:
+                self.response_data['result'] = '21'
+                self.response_data['msg'] = '文件夹不存在'
+
+                return False
+        else:
+            self.response_data['result'] = '20'
+            self.response_data['msg'] = '文件夹ID不能为空'
+
+            return False
+
+        ufiles_info = uploadfiles.objects.filter(Q(FFolderID=folder_id))
+
+        data = []
+        for ufiles in ufiles_info:
+            dict = {}
+
+            dict['FILES_ID'] = ufiles.FID
+            dict['FILES_ID_Splite'] = ''.join(str(ufiles.FID).split('-'))
+            dict['FILES_FOLDERID'] = ufiles.FFolderID
+            dict['FILES_PATH'] = str(ufiles.FFile)
+            dict['FILES_DESC'] = ufiles.FFileDesc
+            dict['FILES_TYPEID'] = ufiles.FFileType
+
+            data.append(dict)
+
+        self.response_data['result'] = 0
+        self.response_data['msg'] = '数据查询成功'
+        self.response_data['data'] = data
+
+
+#删除指定文件
+class delete_files(api_common):
+    def set_view(self, request):
+        file_id = self.request.POST.get('FFilesID')
+        folder_id = self.request.POST.get('FFolderID')
+        prj_id = self.request.POST.get('FPRJID')
+        mode = self.request.POST.get('MODE')   #0:删除指定文件 1:删除指定文件夹内所有文件 2：删除指定项目内的所有文件
+
+        if mode == 0:
+            if file_id != None:
+                file_info = uploadfiles.objects.filter(Q(FID=file_id))
+
+                if file_info.count() == 0:
+                    self.response_data['result'] = '11'
+                    self.response_data['msg'] = '文件不存在'
+
+                    return False
+                else:
+                    file_info.first()
+
+                    file_path = settings.MEDIA_ROOT+"/"+str(file_info.FFile)
+                    if os.path.exists(file_path):
+                        os.remove(file_path)
+
+                    file_info.delete()
+
+                    self.response_data['result'] = 0
+                    self.response_data['msg'] = '数据删除成功'
+                    self.response_data['data'] = []
+
+                    return True
+            else:
+                self.response_data['result'] = '10'
+                self.response_data['msg'] = '文件ID不能为空'
+
+                return False
+
+        elif mode == 1:
+            if folder_id != None:
+                ffolder_info = filefolder.objects.filter(Q(FID=folder_id))
+
+                if ffolder_info.count() == 0:
+                    self.response_data['result'] = '21'
+                    self.response_data['msg'] = '文件夹不存在'
+
+                    return False
+                else:
+                    files_info = uploadfiles.objects.filter(Q(FFolderID=folder_id))
+
+                    for files in files_info:
+                        file_path = settings.MEDIA_ROOT + "/" + str(files.FFile)
+                        if os.path.exists(file_path):
+                            os.remove(file_path)
+
+                        files.delete()
+
+                    self.response_data['result'] = 0
+                    self.response_data['msg'] = '数据删除成功'
+                    self.response_data['data'] = []
+
+                    return True
+            else:
+                self.response_data['result'] = '20'
+                self.response_data['msg'] = '文件夹ID不能为空'
+
+                return False
+
+        elif mode == 2:
+            if prj_id != None:
+                prj_info = project.objects.filter(Q(FID=prj_id))
+
+                if prj_info.count() == 0:
+                    self.response_data['result'] = '11'
+                    self.response_data['msg'] = '项目不存在'
+
+                    return False
+                else:
+                    pass
+
+            else:
+                self.response_data['result'] = '10'
+                self.response_data['msg'] = '项目ID不能为空'
+
+                return False
+
+            pass
 
 
 

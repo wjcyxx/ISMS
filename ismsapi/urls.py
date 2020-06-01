@@ -28,5 +28,11 @@ urlpatterns = [
     path('get_recepound_goodsDetail/', views.get_recepound_goodsDetail.as_view(), name='get_recepound_goodsDetail'),
     path('get_vehiclepasslog/', views.get_vehiclepasslog.as_view(), name='get_vehiclepasslog'),
     path('get_vehiclegate/', views.get_vehiclegate.as_view(), name='get_vehiclegate'),
-    path('modify_user_loginpwd/', views.modify_user_loginpwd.as_view(), name='modify_user_loginpwd')
+    path('modify_user_loginpwd/', views.modify_user_loginpwd.as_view(), name='modify_user_loginpwd'),
+    path('create_filefolder/', views.create_filefolder.as_view(), name='create_filefolder'),
+    path('modify_filefolder/', views.modify_filefolder.as_view(), name='modify_filefolder'),
+    path('get_filefolder/', views.get_filefolder.as_view(), name='get_filefolder'),
+    path('delete_filefolder/', views.delete_filefolder.as_view(), name='delete_filefolder'),
+    path('upload_file/', views.upload_file.as_view(), name='upload_file'),
+    path('get_folder_infiles/', views.get_folder_infiles.as_view(), name='get_folder_infiles')
 ]

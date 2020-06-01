@@ -97,7 +97,8 @@ INSTALLED_APPS = [
     'devicecockpit',
     'videocockpit',
     'prjprocess',
-    'prjreport'
+    'prjreport',
+    'filefolder'
 ]
 
 MIDDLEWARE = [
