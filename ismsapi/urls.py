@@ -34,5 +34,6 @@ urlpatterns = [
     path('get_filefolder/', views.get_filefolder.as_view(), name='get_filefolder'),
     path('delete_filefolder/', views.delete_filefolder.as_view(), name='delete_filefolder'),
     path('upload_file/', views.upload_file.as_view(), name='upload_file'),
-    path('get_folder_infiles/', views.get_folder_infiles.as_view(), name='get_folder_infiles')
+    path('get_folder_infiles/', views.get_folder_infiles.as_view(), name='get_folder_infiles'),
+    path('delete_files/', views.delete_files.as_view(), name='delete_files')
 ]

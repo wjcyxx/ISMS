@@ -1060,6 +1060,42 @@ class modify_user_loginpwd(api_common):
 
 
 #创建文件夹、子文件夹
+"""
+@api {POST} /ismsapi/create_filefolder/ 创建文件夹、子文件夹
+@apiGroup FILE
+@apiDescription 调用地址:http://121.196.23.69:8090/ismsapi/create_filefolder/ API接口必须用POST:方法提交,请求类型为：x-www-form-urlencoded
+@apiParam {string} appkey 在后台管理系统中注册的APPKEY[必填]
+@apiParam {string} token 对应该appkey的有效token, token的有效期为一小时[必填]
+@apiParam {string} FPRJID 文件夹所属的项目[必填]
+@apiParam {string} FPID 创建子文件夹时对应父文件夹的FID[非必填]
+@apiParam {string} FFolderNo 文件夹编号[非必填]
+@apiParam {string} FFolderName 文件夹名称[必填]
+@apiParam {string} FDesc 文件夹描述[非必填]
+@apiSampleRequest http://121.196.23.69:8090/ismsapi/create_filefolder/
+@apiSuccess (返回消息) {string} result 返回码
+@apiSuccess (返回消息) {string} msg 返回消息
+@apiSuccess (返回消息) {string} data 安全规则结构体
+@apiSuccess (消息内容) {string} 0 数据获取成功
+@apiSuccess (消息内容) {string} 1 token过期
+@apiSuccess (消息内容) {string} 2 token校验失败
+@apiSuccess (消息内容) {string} 3 token校验传递参数错误
+@apiSuccess (消息内容) {string} 4 APPKEY未注册,或被禁用
+@apiSuccess (消息内容) {string} 5 API接口必须用POST方法提交
+@apiSuccess (结构体) {string} FID 记录UUID，唯一标识
+@apiSuccess (结构体) {string} FID_Split 去分割符后的UUID
+@apiSuccess (结构体) {string} FPID 文件夹为子文件时此字段值为父文件夹UUID,如果为空则表示此文件夹为根文件夹
+@apiSuccess (结构体) {string} FFolderNo 文件夹编号
+@apiSuccess (结构体) {string} FFolderName 文件加名称
+@apiSuccess (结构体) {string} CREATED_PRJ 所属项目
+@apiSuccess (结构体) {string} CREATED_ORG 创建组织
+@apiErrorExample {json} 错误返回样例：
+{"result": "1", "msg": "token has expired"}
+{"result": "2", "msg": "token validation failed"}
+{"result": "3", "msg": "args illegal"}
+{"result": "4", "msg": "APPKEY serial is UNREGISTERED"}
+{"result": "5", "msg": "API interface must be submitted by post method."}
+
+"""
 class create_filefolder(api_common):
     def set_view(self, request):
         fpid = self.request.POST.get('FPID')
@@ -1105,6 +1141,42 @@ class create_filefolder(api_common):
 
 
 #修改文件夹、子文件夹
+"""
+@api {POST} /ismsapi/modify_filefolder/ 修改文件夹、子文件夹
+@apiGroup FILE
+@apiDescription 调用地址:http://121.196.23.69:8090/ismsapi/modify_filefolder/ API接口必须用POST:方法提交,请求类型为：x-www-form-urlencoded
+@apiParam {string} appkey 在后台管理系统中注册的APPKEY[必填]
+@apiParam {string} token 对应该appkey的有效token, token的有效期为一小时[必填]
+@apiParam {string} FID 需要修改的文件夹UUID[必填]
+@apiParam {string} FPRJID 文件夹所属的项目[必填]
+@apiParam {string} FPID 创建子文件夹时对应父文件夹的FID[非必填]
+@apiParam {string} FFolderNo 文件夹编号[非必填]
+@apiParam {string} FFolderName 文件夹名称[必填]
+@apiParam {string} FDesc 文件夹描述[非必填]
+@apiSampleRequest http://121.196.23.69:8090/ismsapi/modify_filefolder/
+@apiSuccess (返回消息) {string} result 返回码
+@apiSuccess (返回消息) {string} msg 返回消息
+@apiSuccess (返回消息) {string} data 安全规则结构体
+@apiSuccess (消息内容) {string} 0 数据获取成功
+@apiSuccess (消息内容) {string} 1 token过期
+@apiSuccess (消息内容) {string} 2 token校验失败
+@apiSuccess (消息内容) {string} 3 token校验传递参数错误
+@apiSuccess (消息内容) {string} 4 APPKEY未注册,或被禁用
+@apiSuccess (消息内容) {string} 5 API接口必须用POST方法提交
+@apiSuccess (结构体) {string} FID 记录UUID，唯一标识
+@apiSuccess (结构体) {string} FID_Split 去分割符后的UUID
+@apiSuccess (结构体) {string} FPID 文件夹为子文件时此字段值为父文件夹UUID,如果为空则表示此文件夹为根文件夹
+@apiSuccess (结构体) {string} FFolderNo 文件夹编号
+@apiSuccess (结构体) {string} FFolderName 文件加名称
+@apiSuccess (结构体) {string} CREATED_PRJ 所属项目
+@apiSuccess (结构体) {string} CREATED_ORG 创建组织
+@apiErrorExample {json} 错误返回样例：
+{"result": "1", "msg": "token has expired"}
+{"result": "2", "msg": "token validation failed"}
+{"result": "3", "msg": "args illegal"}
+{"result": "4", "msg": "APPKEY serial is UNREGISTERED"}
+{"result": "5", "msg": "API interface must be submitted by post method."}
+"""
 class modify_filefolder(api_common):
     def set_view(self, request):
         fid = self.request.POST.get('FID')
@@ -1161,6 +1233,31 @@ class modify_filefolder(api_common):
             self.response_data['data'] = []
 
 #删除文件夹
+"""
+@api {POST} /ismsapi/delete_filefolder/ 删除文件夹
+@apiGroup FILE
+@apiDescription 调用地址:http://121.196.23.69:8090/ismsapi/delete_filefolder/ API接口必须用POST:方法提交,请求类型为：x-www-form-urlencoded
+@apiParam {string} appkey 在后台管理系统中注册的APPKEY[必填]
+@apiParam {string} token 对应该appkey的有效token, token的有效期为一小时[必填]
+@apiParam {string} FID 需要删除的文件夹UUID[必填]
+@apiParam {string} TYPE 0:删除当前文件夹1:删除当前文件夹的子文件夹2:删除当前文件夹及其子文件夹
+@apiSampleRequest http://121.196.23.69:8090/ismsapi/delete_filefolder/
+@apiSuccess (返回消息) {string} result 返回码
+@apiSuccess (返回消息) {string} msg 返回消息
+@apiSuccess (返回消息) {string} data 安全规则结构体
+@apiSuccess (消息内容) {string} 0 数据获取成功
+@apiSuccess (消息内容) {string} 1 token过期
+@apiSuccess (消息内容) {string} 2 token校验失败
+@apiSuccess (消息内容) {string} 3 token校验传递参数错误
+@apiSuccess (消息内容) {string} 4 APPKEY未注册,或被禁用
+@apiSuccess (消息内容) {string} 5 API接口必须用POST方法提交
+@apiErrorExample {json} 错误返回样例：
+{"result": "1", "msg": "token has expired"}
+{"result": "2", "msg": "token validation failed"}
+{"result": "3", "msg": "args illegal"}
+{"result": "4", "msg": "APPKEY serial is UNREGISTERED"}
+{"result": "5", "msg": "API interface must be submitted by post method."}
+"""
 class delete_filefolder(api_common):
     def set_view(self, request):
         fid = self.request.POST.get('FID')
@@ -1196,12 +1293,77 @@ class delete_filefolder(api_common):
 
 
 #查询文件夹、子文件夹
+"""
+@api {POST} /ismsapi/get_filefolder/ 查询文件夹、子文件夹
+@apiGroup FILE
+@apiDescription 调用地址:http://121.196.23.69:8090/ismsapi/get_filefolder/ API接口必须用POST:方法提交,请求类型为：x-www-form-urlencoded
+@apiParam {string} appkey 在后台管理系统中注册的APPKEY[必填]
+@apiParam {string} token 对应该appkey的有效token, token的有效期为一小时[必填]
+@apiParam {string} conditions 过滤条件,必须为JSON格式字符串,例如{"条件":"值", "条件","值"},不传递此参数则不进行过滤获取全部数据[选填],支持时间段查询,例如{"FTimestamp__gte": "2020-01-07 15:00:00", "FTimestamp__lte": "2020-01-07 15:20:00"}, 字段后加上__gte标示大于等于,__lte标示小于等于
+@apiSampleRequest http://121.196.23.69:8090/ismsapi/get_filefolder/
+@apiSuccess (返回消息) {string} result 返回码
+@apiSuccess (返回消息) {string} msg 返回消息
+@apiSuccess (返回消息) {string} data 安全规则结构体
+@apiSuccess (消息内容) {string} 0 数据获取成功
+@apiSuccess (消息内容) {string} 1 token过期
+@apiSuccess (消息内容) {string} 2 token校验失败
+@apiSuccess (消息内容) {string} 3 token校验传递参数错误
+@apiSuccess (消息内容) {string} 4 APPKEY未注册,或被禁用
+@apiSuccess (消息内容) {string} 5 API接口必须用POST方法提交
+@apiSuccess (结构体) {string} FID 记录UUID，唯一标识
+@apiSuccess (结构体) {string} FID_Split 去分割符后的UUID
+@apiSuccess (结构体) {string} FPID 文件夹为子文件时此字段值为父文件夹UUID,如果为空则表示此文件夹为根文件夹
+@apiSuccess (结构体) {string} FFolderNo 文件夹编号
+@apiSuccess (结构体) {string} FFolderName 文件加名称
+@apiSuccess (结构体) {string} CREATED_PRJ 所属项目
+@apiSuccess (结构体) {string} CREATED_ORG 创建组织
+@apiErrorExample {json} 错误返回样例：
+{"result": "1", "msg": "token has expired"}
+{"result": "2", "msg": "token validation failed"}
+{"result": "3", "msg": "args illegal"}
+{"result": "4", "msg": "APPKEY serial is UNREGISTERED"}
+{"result": "5", "msg": "API interface must be submitted by post method."}
+"""
 class get_filefolder(api_base):
     def set_view(self, request):
         self.model = filefolder
 
 
 #上传文件至指定的文件夹
+"""
+@api {POST} /ismsapi/upload_file/ 上传文件至指定的文件夹
+@apiGroup FILE
+@apiDescription 调用地址:http://121.196.23.69:8090/ismsapi/upload_file/ API接口必须用POST:方法提交,请求类型为：form-data
+@apiParam {string} appkey 在后台管理系统中注册的APPKEY[必填]
+@apiParam {string} token 对应该appkey的有效token, token的有效期为一小时[必填]
+@apiParam {string} FFolderID 目的地文件夹UUID[必填]
+@apiParam {string} FPRJID 文件夹所属的项目[必填]
+@apiParam {file} FFile 上传的文件内容[必填]
+@apiParam {string} FFileType 文件类型[非必填]
+@apiParam {string} FFileDesc 文件描述[非必填]
+@apiSampleRequest http://121.196.23.69:8090/ismsapi/upload_file/
+@apiSuccess (返回消息) {string} result 返回码
+@apiSuccess (返回消息) {string} msg 返回消息
+@apiSuccess (返回消息) {string} data 安全规则结构体
+@apiSuccess (消息内容) {string} 0 数据获取成功
+@apiSuccess (消息内容) {string} 1 token过期
+@apiSuccess (消息内容) {string} 2 token校验失败
+@apiSuccess (消息内容) {string} 3 token校验传递参数错误
+@apiSuccess (消息内容) {string} 4 APPKEY未注册,或被禁用
+@apiSuccess (消息内容) {string} 5 API接口必须用POST方法提交
+@apiSuccess (结构体) {string} FID 记录UUID，唯一标识
+@apiSuccess (结构体) {string} FID_Split 去分割符后的UUID
+@apiSuccess (结构体) {string} FilePath 文件存放物理路径,前面需要拼接http://121.196.23.69:8090/media/
+@apiSuccess (结构体) {string} FFolderID 存放的文件夹UUID
+@apiSuccess (结构体) {string} CREATED_PRJ 所属项目
+@apiSuccess (结构体) {string} CREATED_ORG 创建组织
+@apiErrorExample {json} 错误返回样例：
+{"result": "1", "msg": "token has expired"}
+{"result": "2", "msg": "token validation failed"}
+{"result": "3", "msg": "args illegal"}
+{"result": "4", "msg": "APPKEY serial is UNREGISTERED"}
+{"result": "5", "msg": "API interface must be submitted by post method."}
+"""
 class upload_file(api_common):
     def set_view(self, request):
         prj_id = self.request.POST.get('FPRJID')
@@ -1281,6 +1443,37 @@ class upload_file(api_common):
 
 
 #获取文件夹内文件列表
+"""
+@api {POST} /ismsapi/get_folder_infiles/ 获取文件夹内文件列表
+@apiGroup FILE
+@apiDescription 调用地址:http://121.196.23.69:8090/ismsapi/get_folder_infiles/ API接口必须用POST:方法提交,请求类型为：x-www-form-urlencoded
+@apiParam {string} appkey 在后台管理系统中注册的APPKEY[必填]
+@apiParam {string} token 对应该appkey的有效token, token的有效期为一小时[必填]
+@apiParam {string} FFolderID 文件夹UUID[必填]
+@apiParam {string} FPRJID 项目UUID[必填]
+@apiSampleRequest http://121.196.23.69:8090/ismsapi/get_folder_infiles/
+@apiSuccess (返回消息) {string} result 返回码
+@apiSuccess (返回消息) {string} msg 返回消息
+@apiSuccess (返回消息) {string} data 安全规则结构体
+@apiSuccess (消息内容) {string} 0 数据获取成功
+@apiSuccess (消息内容) {string} 1 token过期
+@apiSuccess (消息内容) {string} 2 token校验失败
+@apiSuccess (消息内容) {string} 3 token校验传递参数错误
+@apiSuccess (消息内容) {string} 4 APPKEY未注册,或被禁用
+@apiSuccess (消息内容) {string} 5 API接口必须用POST方法提交
+@apiSuccess (结构体) {string} FILES_ID 文件UUID，唯一标识
+@apiSuccess (结构体) {string} FILES_ID_Splite 去分割符后的UUID
+@apiSuccess (结构体) {string} FILES_PATH 文件存放物理路径,前面需要拼接http://121.196.23.69:8090/media/
+@apiSuccess (结构体) {string} FILES_FOLDERID 存放的文件夹UUID
+@apiSuccess (结构体) {string} FILES_TYPEID 文件类型
+@apiSuccess (结构体) {string} FILES_DESC 文件描述
+@apiErrorExample {json} 错误返回样例：
+{"result": "1", "msg": "token has expired"}
+{"result": "2", "msg": "token validation failed"}
+{"result": "3", "msg": "args illegal"}
+{"result": "4", "msg": "APPKEY serial is UNREGISTERED"}
+{"result": "5", "msg": "API interface must be submitted by post method."}
+"""
 class get_folder_infiles(api_common):
     def set_view(self, request):
         prj_id = self.request.POST.get('FPRJID')
@@ -1336,6 +1529,33 @@ class get_folder_infiles(api_common):
 
 
 #删除指定文件
+"""
+@api {POST} /ismsapi/delete_files/ 删除指定文件
+@apiGroup FILE
+@apiDescription 调用地址:http://121.196.23.69:8090/ismsapi/delete_files/ API接口必须用POST:方法提交,请求类型为：x-www-form-urlencoded
+@apiParam {string} appkey 在后台管理系统中注册的APPKEY[必填]
+@apiParam {string} token 对应该appkey的有效token, token的有效期为一小时[必填]
+@apiParam {string} FFilesID 文件UUID[选填]
+@apiParam {string} FFolderID 文件夹UUID[选填]
+@apiParam {string} FPRJID 项目UUID[选填]
+@apiParam {string} MODE [必填]0:删除指定文件 1:删除指定文件夹内所有文件 2：删除指定项目内的所有文件
+@apiSampleRequest http://121.196.23.69:8090/ismsapi/delete_files/
+@apiSuccess (返回消息) {string} result 返回码
+@apiSuccess (返回消息) {string} msg 返回消息
+@apiSuccess (返回消息) {string} data 安全规则结构体
+@apiSuccess (消息内容) {string} 0 数据获取成功
+@apiSuccess (消息内容) {string} 1 token过期
+@apiSuccess (消息内容) {string} 2 token校验失败
+@apiSuccess (消息内容) {string} 3 token校验传递参数错误
+@apiSuccess (消息内容) {string} 4 APPKEY未注册,或被禁用
+@apiSuccess (消息内容) {string} 5 API接口必须用POST方法提交
+@apiErrorExample {json} 错误返回样例：
+{"result": "1", "msg": "token has expired"}
+{"result": "2", "msg": "token validation failed"}
+{"result": "3", "msg": "args illegal"}
+{"result": "4", "msg": "APPKEY serial is UNREGISTERED"}
+{"result": "5", "msg": "API interface must be submitted by post method."}
+"""
 class delete_files(api_common):
     def set_view(self, request):
         file_id = self.request.POST.get('FFilesID')
@@ -1343,7 +1563,14 @@ class delete_files(api_common):
         prj_id = self.request.POST.get('FPRJID')
         mode = self.request.POST.get('MODE')   #0:删除指定文件 1:删除指定文件夹内所有文件 2：删除指定项目内的所有文件
 
-        if mode == 0:
+        if mode == None:
+            self.response_data['result'] = '30'
+            self.response_data['msg'] = 'MODE参数必须传值'
+            self.response_data['data'] = []
+
+            return False
+
+        if mode == '0':
             if file_id != None:
                 file_info = uploadfiles.objects.filter(Q(FID=file_id))
 
@@ -1353,9 +1580,9 @@ class delete_files(api_common):
 
                     return False
                 else:
-                    file_info.first()
+                    __file_info =  file_info.first()
 
-                    file_path = settings.MEDIA_ROOT+"/"+str(file_info.FFile)
+                    file_path = settings.MEDIA_ROOT+"/"+str(__file_info.FFile)
                     if os.path.exists(file_path):
                         os.remove(file_path)
 
@@ -1372,7 +1599,7 @@ class delete_files(api_common):
 
                 return False
 
-        elif mode == 1:
+        elif mode == '1':
             if folder_id != None:
                 ffolder_info = filefolder.objects.filter(Q(FID=folder_id))
 
@@ -1402,7 +1629,7 @@ class delete_files(api_common):
 
                 return False
 
-        elif mode == 2:
+        elif mode == '2':
             if prj_id != None:
                 prj_info = project.objects.filter(Q(FID=prj_id))
 
@@ -1420,7 +1647,6 @@ class delete_files(api_common):
 
                 return False
 
-            pass
 
 
 

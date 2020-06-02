@@ -214,7 +214,10 @@ class get_vehpassage_news(View):
     def post(self, request):
         prj_id = request.session['PrjID']
 
-        vehpasslog_info = vehiclepasslog.objects.filter(Q(CREATED_PRJ=prj_id)).values('FID', 'FPlate', 'FPicturepath', 'FGateID__FGate', 'CREATED_TIME', 'FGateID__FGatetype', 'FGateID__FGateattr')
+        end_time = datetime.datetime.now()
+        begin_time = (end_time - datetime.timedelta(days=1))
+
+        vehpasslog_info = vehiclepasslog.objects.filter(Q(CREATED_PRJ=prj_id), Q(CREATED_TIME__gte=begin_time), Q(CREATED_TIME__lte=end_time)).values('FID', 'FPlate', 'FPicturepath', 'FGateID__FGate', 'CREATED_TIME', 'FGateID__FGatetype', 'FGateID__FGateattr')
 
         result_dict = []
 
