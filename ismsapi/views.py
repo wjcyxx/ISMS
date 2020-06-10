@@ -1341,6 +1341,8 @@ class get_filefolder(api_base):
 @apiParam {file} FFile 上传的文件内容[必填]
 @apiParam {string} FFileType 文件类型[非必填]
 @apiParam {string} FFileDesc 文件描述[非必填]
+@apiParam {string} FUploader 文件上传人[非必填]
+@apiParam {string} FUnionModel 关联模型[非必填]
 @apiSampleRequest http://121.196.23.69:8090/ismsapi/upload_file/
 @apiSuccess (返回消息) {string} result 返回码
 @apiSuccess (返回消息) {string} msg 返回消息
@@ -1371,6 +1373,8 @@ class upload_file(api_common):
         sfile = self.request.FILES.get('FFile')
         filetype = self.request.POST.get('FFileType')
         filedesc = self.request.POST.get('FFileDesc')
+        fileuploader = self.request.POST.get('FUploader')
+        unionmodel = self.request.POST.get('FUnionModel')
 
         if prj_id != None:
             prj_info = project.objects.filter(Q(FID=prj_id))
@@ -1409,6 +1413,8 @@ class upload_file(api_common):
             ufiles.FFile = sfile
             ufiles.FFileType = filetype
             ufiles.FFileDesc = filedesc
+            ufiles.FUploader = fileuploader
+            ufiles.FUnionBimModel = unionmodel
 
             ufiles.CREATED_PRJ = prj_id
 
@@ -1425,8 +1431,12 @@ class upload_file(api_common):
             dict['FID_Split'] = ''.join(str(ufiles.FID).split('-'))
             dict['FilePath'] = str(ufiles.FFile)
             dict['FFolderID'] = ufiles.FFolderID
+            dict['FFileDesc'] = ufiles.FFileDesc
+            dict['FUploader'] = ufiles.FUploader
+            dict['FUnionModel'] = ufiles.FUnionBimModel
             dict['CREATED_PRJ'] = prj_id
             dict['CREATED_ORG'] = org_id
+            dict['CREATED_TIME'] = ufiles.CREATED_TIME
 
             data.append(dict)
 
@@ -1467,6 +1477,9 @@ class upload_file(api_common):
 @apiSuccess (结构体) {string} FILES_FOLDERID 存放的文件夹UUID
 @apiSuccess (结构体) {string} FILES_TYPEID 文件类型
 @apiSuccess (结构体) {string} FILES_DESC 文件描述
+@apiSuccess (结构体) {string} FILES_UPLOADER 文件上传人
+@apiSuccess (结构体) {string} FILES_UNIONMODEL 关联模型
+@apiSuccess (结构体) {string} CREATED_TIME 上传时间
 @apiErrorExample {json} 错误返回样例：
 {"result": "1", "msg": "token has expired"}
 {"result": "2", "msg": "token validation failed"}
@@ -1520,6 +1533,9 @@ class get_folder_infiles(api_common):
             dict['FILES_PATH'] = str(ufiles.FFile)
             dict['FILES_DESC'] = ufiles.FFileDesc
             dict['FILES_TYPEID'] = ufiles.FFileType
+            dict['FILES_UPLOADER'] = ufiles.FUploader
+            dict['FILES_UNIONMODEL'] = ufiles.FUnionBimModel
+            dict['CREATED_TIME'] = ufiles.CREATED_TIME
 
             data.append(dict)
 

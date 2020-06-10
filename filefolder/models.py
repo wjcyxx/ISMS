@@ -5,7 +5,7 @@ from django.utils.encoding import python_2_unicode_compatible
 # Create your models here.
 
 @python_2_unicode_compatible
-
+#文件夹模型
 class filefolder(models.Model):
 
     FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
@@ -23,7 +23,7 @@ class filefolder(models.Model):
     class Meta:
         db_table = 'T_FileFolder'
 
-
+#上传文件模型
 class uploadfiles(models.Model):
 
     FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
@@ -31,6 +31,8 @@ class uploadfiles(models.Model):
     FFile = models.ImageField(upload_to='prjfile/', default='', verbose_name='项目文件', blank=True, null=True)
     FFileType = models.CharField(max_length=32, verbose_name='文件类型', blank=True, null=True)
     FFileDesc = models.CharField(max_length=32, verbose_name='文件描述', blank=True, null=True)
+    FUploader = models.CharField(max_length=50, verbose_name='上传人员', blank=True, null=True)
+    FUnionBimModel = models.CharField(max_length=200, verbose_name='关联模型', blank=True, null=True)
     FDesc = models.CharField(max_length=1024, verbose_name='备注', blank=True, null=True)
     CREATED_PRJ = models.CharField(max_length=32, verbose_name='所属项目', blank=True, null=True)
     CREATED_ORG = models.CharField(max_length=32, verbose_name='创建组织', blank=True, null=True)
