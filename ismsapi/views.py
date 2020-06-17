@@ -31,6 +31,7 @@ from django.utils import timezone
 from django.forms import widgets as Fwidge
 from django.core.exceptions import ObjectDoesNotExist
 from baseframe.baseframe import *
+from .models import tasklist
 import time
 import datetime
 import hashlib
@@ -1662,6 +1663,106 @@ class delete_files(api_common):
                 self.response_data['msg'] = '项目ID不能为空'
 
                 return False
+
+
+# 获取手动抓图路径【正邦业务】
+class get_CapturePicURL(api_common):
+    def set_view(self, request):
+        try:
+            host_ip = self.request.get_host()
+            dev_id = self.request.POST.get('DEVID')
+            channel_no = self.request.POST.get('CHANNELNO')
+
+            if dev_id == None:
+                self.response_data['result'] = '10'
+                self.response_data['msg'] = 'DEVID参数必须传值'
+                self.response_data['data'] = []
+
+                return False
+
+            if channel_no == None:
+                self.response_data['result'] = '10'
+                self.response_data['msg'] = 'CHANNELNO参数必须传值'
+                self.response_data['data'] = []
+
+                return False
+
+            tasklist_info = tasklist()
+
+            tasklist_info.FDevID = dev_id
+            tasklist_info.FChannelNo = channel_no
+
+            if self.request.META.get('HTTP_X_FORWARDED_FOR'):
+                ip = self.request.META.get('HTTP_X_FORWARDED_FOR')
+            else:
+                ip = self.request.META.get('REMOTE_ADDR')
+
+            tasklist_info.CREATED_BY = ip
+            tasklist_info.UPDATED_BY = ip
+            tasklist_info.CREATED_TIME = timezone.now()
+
+            tasklist_info.save()
+
+            pic_id = ''.join(str(tasklist_info.FID).split('-'))
+
+            self.response_data['result'] = '0'
+            self.response_data['msg'] = 'success'
+
+            dict = {}
+            dict['URL'] =  'http://'+host_ip+'/media/itemcheckpic/'+pic_id+'.jpg'
+            data = []
+            data.append(dict)
+
+            self.response_data['data'] = data
+
+            return True
+
+        except Exception as e:
+            self.response_data['result'] = '20'
+            self.response_data['msg'] = str(e)
+
+            return False
+
+
+# 工控设备心跳包
+class get_heartbeat(api_common):
+    def set_view(self, request):
+        dev_id = self.request.POST.get('DEVID')
+
+        if dev_id == None:
+            self.response_data['result'] = '10'
+            self.response_data['msg'] = 'DEVID参数必须传值'
+            self.response_data['data'] = []
+
+            return False
+
+        try:
+            tasklist_info = tasklist.objects.filter(Q(FDevID=dev_id))
+
+            data = []
+            for _list in tasklist_info:
+                dict = {}
+
+                dict['DEVID'] = dev_id
+                dict['CHANNELNO'] = _list.FChannelNo
+                dict['PICID'] = ''.join(str(_list.FID).split('-'))
+
+                data.append(dict)
+
+            tasklist_info.delete()
+
+            self.response_data['result'] = '0'
+            self.response_data['msg'] = 'success'
+            self.response_data['data'] = data
+
+            return True
+
+        except Exception as e:
+            pass
+
+
+
+
 
 
 
