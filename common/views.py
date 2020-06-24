@@ -318,6 +318,13 @@ def login_decorator(func):
 
 #自动单据流水号生成
 def gensequence(appname, prefix, zfill, type):
+    """
+    :param appname: 应用名称
+    :param prefix:  前缀
+    :param zfill:   顺序号前补0位数
+    :param type:    类型:0 一直流水 1: 每日清零
+    :return:  单据流水号
+    """
 
     try:
         sequence_info = sequence.objects.get(Q(FPrefix=appname))

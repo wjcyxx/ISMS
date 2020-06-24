@@ -98,7 +98,8 @@ INSTALLED_APPS = [
     'videocockpit',
     'prjprocess',
     'prjreport',
-    'filefolder'
+    'filefolder',
+    'teamworker'
 ]
 
 MIDDLEWARE = [

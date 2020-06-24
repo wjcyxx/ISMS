@@ -38,5 +38,13 @@ urlpatterns = [
     path('delete_files/', views.delete_files.as_view(), name='delete_files'),
 
     path('get_CapturePicURL/', views.get_CapturePicURL.as_view(), name='get_CapturePicURL'),
-    path('get_heartbeat/', views.get_heartbeat.as_view(), name='get_heartbeat')
+    path('get_heartbeat/', views.get_heartbeat.as_view(), name='get_heartbeat'),
+
+    path('add_teamworker/', views.add_teamworker.as_view(), name='add_teamworker'),
+    path('get_teamworker/', views.get_teamworker.as_view(), name='get_teamworker'),
+    path('delete_teamworker/', views.delete_teamworker.as_view(), name='delete_teamworker'),
+    path('add_teamworkerType/', views.add_teamworkerType.as_view(), name='add_teamworkerType'),
+    path('get_teamworkerType/', views.get_teamworkerType.as_view(), name='get_teamworkerType'),
+    path('delete_teamworkerType/', views.delete_teamworkerType.as_view(), name='delete_teamworkerType')
+
 ]

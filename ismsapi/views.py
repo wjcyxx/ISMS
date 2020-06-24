@@ -32,6 +32,7 @@ from django.forms import widgets as Fwidge
 from django.core.exceptions import ObjectDoesNotExist
 from baseframe.baseframe import *
 from .models import tasklist
+from teamworker.models import teamworker
 import time
 import datetime
 import hashlib
@@ -1656,8 +1657,14 @@ class delete_files(api_common):
 
                     return False
                 else:
-                    pass
+                    files_info = uploadfiles.objects.filter(Q(CREATED_PRJ=prj_id))
+                    files_info.delete()
 
+                    self.response_data['result'] = 0
+                    self.response_data['msg'] = '数据删除成功'
+                    self.response_data['data'] = []
+
+                    return True
             else:
                 self.response_data['result'] = '10'
                 self.response_data['msg'] = '项目ID不能为空'
@@ -1760,7 +1767,511 @@ class get_heartbeat(api_common):
         except Exception as e:
             pass
 
+# 新增/修改协同
+"""
+@api {POST} /ismsapi/add_teamworker/ 新增/修改协同
+@apiGroup TEAMWORKER
+@apiDescription 调用地址:http://121.196.23.69:8090/ismsapi/add_teamworker/ API接口必须用POST:方法提交,请求类型为：form-data
+@apiParam {string} appkey 在后台管理系统中注册的APPKEY[必填]
+@apiParam {string} token 对应该appkey的有效token, token的有效期为一小时[必填]
+@apiParam {string} FPRJID 项目UUID[必填]
+@apiParam {string} FTeamWorkerTypeID 协作类型[必填]
+@apiParam {string} ACTION 操作类型[必填]0:新增,1:修改
+@apiParam {string} FTEAMWORKER_ID 需要修改的协同UUID[必填],当ACTION为1时必填
+@apiParam {string} FTitle 协同主题[必填]
+@apiParam {string} FDeadLine 限期[选填]
+@apiParam {string} FLevel 优先级[选填]
+@apiParam {string} FTag 标识[选填]
+@apiParam {string} FBimModel 关联BIM[选填]
+@apiParam {string} FPic 关联图片或文件[选填],form-data,File类型
+@apiParam {string} FRecord 录音文件[选填],form-data,File类型
+@apiParam {string} FStakeholder 关联干系人[选填]
+@apiParam {string} FDesc 描述[选填]
+@apiSampleRequest http://121.196.23.69:8090/ismsapi/add_teamworker/
+@apiSuccess (返回消息) {string} result 返回码
+@apiSuccess (返回消息) {string} msg 返回消息
+@apiSuccess (返回消息) {string} data 安全规则结构体
+@apiSuccess (消息内容) {string} 0 数据获取成功
+@apiSuccess (消息内容) {string} 1 token过期
+@apiSuccess (消息内容) {string} 2 token校验失败
+@apiSuccess (消息内容) {string} 3 token校验传递参数错误
+@apiSuccess (消息内容) {string} 4 APPKEY未注册,或被禁用
+@apiSuccess (消息内容) {string} 5 API接口必须用POST方法提交
+@apiSuccess (结构体) {string} FID 协同UUID，唯一标识
+@apiSuccess (结构体) {string} FID_Split 去分割符后的UUID
+@apiSuccess (结构体) {string} FTeamWorkerTypeID 协作类型UUID
+@apiSuccess (结构体) {string} FTeamWorkerType 协作类型
+@apiSuccess (结构体) {string} FTitle 协同主题
+@apiSuccess (结构体) {string} FDeadLine 限期
+@apiSuccess (结构体) {string} FLevel 优先级
+@apiSuccess (结构体) {string} FTag 标识
+@apiSuccess (结构体) {string} FBimModel 关联BIM[选填]
+@apiSuccess (结构体) {string} FPic 关联图片或文件[选填],form-data,File类型
+@apiSuccess (结构体) {string} FRecord 录音文件[选填],form-data,File类型
+@apiSuccess (结构体) {string} FStakeholder 关联干系人[选填]
+@apiSuccess (结构体) {string} FDesc 描述[选填]
+@apiSuccess (结构体) {string} CREATED_PRJ 所属项目
+@apiSuccess (结构体) {string} CREATED_ORG 创建组织
+@apiSuccess (结构体) {string} CREATED_TIME 创建时间
+@apiErrorExample {json} 错误返回样例：
+{"result": "1", "msg": "token has expired"}
+{"result": "2", "msg": "token validation failed"}
+{"result": "3", "msg": "args illegal"}
+{"result": "4", "msg": "APPKEY serial is UNREGISTERED"}
+{"result": "5", "msg": "API interface must be submitted by post method."}
+"""
+class add_teamworker(api_common):
+    def set_view(self, request):
+        prj_id = self.request.POST.get('FPRJID')
+        typeID = self.request.POST.get('FTeamWorkerTypeID')
+        title = self.request.POST.get('FTitle')
+        deadline = self.request.POST.get('FDeadLine')
+        level = self.request.POST.get('FLevel')
+        tag = self.request.POST.get('FTag')
+        bimmodel = self.request.POST.get('FBimModel')
+        picfile = self.request.FILES.get('FPic')
+        recordfile = self.request.FILES.get('FRecord')
+        stakeholder = self.request.POST.get('FStakeholder')
+        desc = self.request.POST.get('FDesc')
+        action = self.request.POST.get('ACTION')
+        teamworkerID = self.request.POST.get('FTEAMWORKER_ID')
 
+        if action == None:
+            self.response_data['result'] = '12'
+            self.response_data['msg'] = 'ACTION不能为空'
+
+            return False
+
+        if prj_id != None:
+            prj_info = project.objects.filter(Q(FID=prj_id))
+
+            if prj_info.count() == 0:
+                self.response_data['result'] = '11'
+                self.response_data['msg'] = '项目不存在'
+
+                return False
+        else:
+            self.response_data['result'] = '10'
+            self.response_data['msg'] = '项目ID不能为空'
+
+            return False
+
+
+        if typeID != None:
+            type_info = base.objects.filter(Q(FID=typeID))
+
+            if type_info.count() == 0:
+                self.response_data['result'] = '21'
+                self.response_data['msg'] = '协作类型不存在'
+
+                return False
+        else:
+            self.response_data['result'] = '20'
+            self.response_data['msg'] = '协作类型不能为空'
+
+            return False
+
+
+        if title == None:
+            self.response_data['result'] = '31'
+            self.response_data['msg'] = '协作主题不能为空'
+
+            return False
+
+
+        if action == '0':    # 新增
+            teamworker_info =teamworker()
+        elif action == '1':  # 修改
+            try:
+                teamworker_info = teamworker.objects.get(Q(FID=teamworkerID))
+
+            except ObjectDoesNotExist:
+                self.response_data['result'] = '22'
+                self.response_data['msg'] = '要修改的协同ID不存在'
+
+                return False
+        else:
+            teamworker_info = teamworker()
+
+        teamworker_info.FTeamWorkerTypeID = typeID
+        teamworker_info.FTitle = title
+        teamworker_info.FDeadLine = deadline
+        teamworker_info.FLevel = level
+        teamworker_info.FTag = tag
+        teamworker_info.FBimModel = bimmodel
+        teamworker_info.FPic = picfile
+        teamworker_info.FRecord = recordfile
+        teamworker_info.FStakeholder = stakeholder
+        teamworker_info.FDesc = desc
+        teamworker_info.FStatus = 1
+        teamworker_info.CREATED_PRJ = prj_id
+
+        org_id = prj_2_manageorg(prj_id)
+
+        teamworker_info.CREATED_ORG = org_id
+        teamworker_info.CREATED_BY = 'API'
+        teamworker_info.UPDATED_BY = 'API'
+        teamworker_info.CREATED_TIME = timezone.now()
+
+        teamworker_info.save()
+
+        data = []
+        dict = {}
+        dict['FID'] = teamworker_info.FID
+        dict['FID_Split'] = ''.join(str(teamworker_info.FID).split('-'))
+        dict['FTeamWorkerTypeID'] = teamworker_info.FTeamWorkerTypeID
+        dict['FTeamWorkerType'] = type_info.first().FBase
+        dict['FTitle'] = title
+        dict['FDeadLine'] = deadline
+        dict['FLevel'] = level
+        dict['FTag'] = tag
+        dict['FBimModel'] = bimmodel
+        dict['FPic'] = str(picfile)
+        dict['FRecord'] = str(recordfile)
+        dict['FStakeholder'] = stakeholder
+        dict['FDesc'] = desc
+        dict['CREATED_PRJ'] = prj_id
+        dict['CREATED_ORG'] = org_id
+        dict['CREATED_BY'] = 'API'
+        dict['UPDATED_BY'] = 'API'
+        dict['CREATED_TIME'] = timezone.now()
+
+        data.append(dict)
+
+        self.response_data['result'] = 0
+
+        if action == '0':
+            self.response_data['msg'] = '数据添加成功'
+        elif action == '1':
+            self.response_data['msg'] = '数据更新成功'
+
+        self.response_data['data'] = data
+
+        return
+
+
+# 查询返回指定协同
+"""
+@api {POST} /ismsapi/get_teamworker/ 查询协同
+@apiGroup TEAMWORKER
+@apiDescription 调用地址:http://121.196.23.69:8090/ismsapi/get_teamworker/ API接口必须用POST:方法提交,请求类型为：x-www-form-urlencoded
+@apiParam {string} appkey 在后台管理系统中注册的APPKEY[必填]
+@apiParam {string} token 对应该appkey的有效token, token的有效期为一小时[必填]
+@apiParam {string} conditions 过滤条件,必须为JSON格式字符串,例如{"条件":"值", "条件","值"},不传递此参数则不进行过滤获取全部数据[选填],支持时间段查询,例如{"FTimestamp__gte": "2020-01-07 15:00:00", "FTimestamp__lte": "2020-01-07 15:20:00"}, 字段后加上__gte标示大于等于,__lte标示小于等于
+@apiSampleRequest http://121.196.23.69:8090/ismsapi/get_teamworker/
+@apiSuccess (返回消息) {string} result 返回码
+@apiSuccess (返回消息) {string} msg 返回消息
+@apiSuccess (返回消息) {string} data 安全规则结构体
+@apiSuccess (消息内容) {string} 0 数据获取成功
+@apiSuccess (消息内容) {string} 1 token过期
+@apiSuccess (消息内容) {string} 2 token校验失败
+@apiSuccess (消息内容) {string} 3 token校验传递参数错误
+@apiSuccess (消息内容) {string} 4 APPKEY未注册,或被禁用
+@apiSuccess (消息内容) {string} 5 API接口必须用POST方法提交
+@apiSuccess (结构体) {string} FID 协同UUID，唯一标识
+@apiSuccess (结构体) {string} FID_Split 去分割符后的UUID
+@apiSuccess (结构体) {string} FTeamWorkerTypeID 协作类型UUID
+@apiSuccess (结构体) {string} FTeamWorkerType 协作类型
+@apiSuccess (结构体) {string} FTitle 协同主题
+@apiSuccess (结构体) {string} FDeadLine 限期
+@apiSuccess (结构体) {string} FLevel 优先级
+@apiSuccess (结构体) {string} FTag 标识
+@apiSuccess (结构体) {string} FBimModel 关联BIM[选填]
+@apiSuccess (结构体) {string} FPic 关联图片或文件[选填],form-data,File类型
+@apiSuccess (结构体) {string} FRecord 录音文件[选填],form-data,File类型
+@apiSuccess (结构体) {string} FStakeholder 关联干系人[选填]
+@apiSuccess (结构体) {string} FDesc 描述[选填]
+@apiSuccess (结构体) {string} CREATED_PRJ 所属项目
+@apiSuccess (结构体) {string} CREATED_ORG 创建组织
+@apiSuccess (结构体) {string} CREATED_TIME 创建时间
+@apiSuccess (结构体) {string} UPDATE_TIME 修改时间
+@apiErrorExample {json} 错误返回样例：
+{"result": "1", "msg": "token has expired"}
+{"result": "2", "msg": "token validation failed"}
+{"result": "3", "msg": "args illegal"}
+{"result": "4", "msg": "APPKEY serial is UNREGISTERED"}
+{"result": "5", "msg": "API interface must be submitted by post method."}
+"""
+class get_teamworker(api_base):
+    def set_view(self, request):
+        self.model = teamworker
+
+
+# 删除指定协同
+"""
+@api {POST} /ismsapi/delete_teamworker/ 删除指定协同
+@apiGroup TEAMWORKER
+@apiDescription 调用地址:http://121.196.23.69:8090/ismsapi/delete_teamworker/ API接口必须用POST:方法提交,请求类型为：x-www-form-urlencoded
+@apiParam {string} appkey 在后台管理系统中注册的APPKEY[必填]
+@apiParam {string} token 对应该appkey的有效token, token的有效期为一小时[必填]
+@apiParam {string} FTEAMWORKER_ID 协同UUID[选填]
+@apiParam {string} FPRJID 项目UUID[选填]
+@apiParam {string} MODE [必填]0:删除指定协同2：删除指定项目内的所有协同
+@apiSampleRequest http://121.196.23.69:8090/ismsapi/delete_teamworker/
+@apiSuccess (返回消息) {string} result 返回码
+@apiSuccess (返回消息) {string} msg 返回消息
+@apiSuccess (返回消息) {string} data 安全规则结构体
+@apiSuccess (消息内容) {string} 0 数据获取成功
+@apiSuccess (消息内容) {string} 1 token过期
+@apiSuccess (消息内容) {string} 2 token校验失败
+@apiSuccess (消息内容) {string} 3 token校验传递参数错误
+@apiSuccess (消息内容) {string} 4 APPKEY未注册,或被禁用
+@apiSuccess (消息内容) {string} 5 API接口必须用POST方法提交
+@apiErrorExample {json} 错误返回样例：
+{"result": "1", "msg": "token has expired"}
+{"result": "2", "msg": "token validation failed"}
+{"result": "3", "msg": "args illegal"}
+{"result": "4", "msg": "APPKEY serial is UNREGISTERED"}
+{"result": "5", "msg": "API interface must be submitted by post method."}
+"""
+class delete_teamworker(api_common):
+    def set_view(self, request):
+        teamworker_id = self.request.POST.get('FTEAMWORKER_ID')
+        prj_id = self.request.POST.get('FPRJID')
+        mode = self.request.POST.get('MODE')   #0:删除指定协同 1：删除指定项目内的所有协同
+
+        if mode == None:
+            self.response_data['result'] = '30'
+            self.response_data['msg'] = 'MODE参数必须传值'
+            self.response_data['data'] = []
+
+            return False
+
+
+        if mode == '0':
+            if teamworker_id != None:
+                teamworker_info = teamworker.objects.filter(Q(FID=teamworker_id))
+
+                if teamworker_info.count() == 0:
+                    self.response_data['result'] = '11'
+                    self.response_data['msg'] = '协同不存在'
+
+                    return False
+                else:
+                    teamworker_info.delete()
+
+                    self.response_data['result'] = 0
+                    self.response_data['msg'] = '数据删除成功'
+                    self.response_data['data'] = []
+
+                    return True
+            else:
+                self.response_data['result'] = '10'
+                self.response_data['msg'] = '协同ID不能为空'
+
+                return False
+
+        elif mode == '1':
+            if prj_id != None:
+                prj_info = project.objects.filter(Q(FID=prj_id))
+
+                if prj_info.count() == 0:
+                    self.response_data['result'] = '11'
+                    self.response_data['msg'] = '项目不存在'
+
+                    return False
+                else:
+                    teamwoer_info = teamworker.objects.filter(Q(CREATED_PRJ=prj_id))
+                    teamwoer_info.delete()
+
+                    self.response_data['result'] = 0
+                    self.response_data['msg'] = '数据删除成功'
+                    self.response_data['data'] = []
+
+                    return True
+            else:
+                self.response_data['result'] = '10'
+                self.response_data['msg'] = '项目ID不能为空'
+
+                return False
+
+
+# 新增/修改协同类型
+"""
+@api {POST} /ismsapi/add_teamworkerType/ 新增/修改协同类型
+@apiGroup TEAMWORKER
+@apiDescription 调用地址:http://121.196.23.69:8090/ismsapi/add_teamworkerType/ API接口必须用POST:方法提交,请求类型为：x-www-form-urlencoded
+@apiParam {string} appkey 在后台管理系统中注册的APPKEY[必填]
+@apiParam {string} token 对应该appkey的有效token, token的有效期为一小时[必填]
+@apiParam {string} FTeamWorkerType 协作类型[必填]
+@apiParam {string} ACTION 操作类型[必填]0:新增,1:修改
+@apiParam {string} FTeamWorkerTypeID 需要修改的协作类型UUID[必填],当ACTION为1时必填
+@apiSampleRequest http://121.196.23.69:8090/ismsapi/add_teamworkerType/
+@apiSuccess (返回消息) {string} result 返回码
+@apiSuccess (返回消息) {string} msg 返回消息
+@apiSuccess (返回消息) {string} data 安全规则结构体
+@apiSuccess (消息内容) {string} 0 数据获取成功
+@apiSuccess (消息内容) {string} 1 token过期
+@apiSuccess (消息内容) {string} 2 token校验失败
+@apiSuccess (消息内容) {string} 3 token校验传递参数错误
+@apiSuccess (消息内容) {string} 4 APPKEY未注册,或被禁用
+@apiSuccess (消息内容) {string} 5 API接口必须用POST方法提交
+@apiSuccess (结构体) {string} FID 协作类型UUID，唯一标识
+@apiSuccess (结构体) {string} FID_Split 去分割符后的UUID
+@apiSuccess (结构体) {string} FBaseID 协作类型编码
+@apiSuccess (结构体) {string} FBase 协作类型
+@apiSuccess (结构体) {string} CREATED_TIME 创建时间
+@apiErrorExample {json} 错误返回样例：
+{"result": "1", "msg": "token has expired"}
+{"result": "2", "msg": "token validation failed"}
+{"result": "3", "msg": "args illegal"}
+{"result": "4", "msg": "APPKEY serial is UNREGISTERED"}
+{"result": "5", "msg": "API interface must be submitted by post method."}
+"""
+class add_teamworkerType(api_common):
+    def set_view(self, request):
+        tw_type = self.request.POST.get('FTeamWorkerType')
+        action = self.request.POST.get('ACTION')
+        typeID = self.request.POST.get('FTeamWorkerTypeID')
+
+        if action == None:
+            self.response_data['result'] = '12'
+            self.response_data['msg'] = 'ACTION不能为空'
+
+            return False
+
+        if tw_type != None:
+            if action == '0':     # 新增协同类型
+                base_info = base()
+            elif action == '1':   # 修改协同类型
+                try:
+                    base_info = base.objects.get(Q(FID=typeID))
+                except ObjectDoesNotExist:
+                    self.response_data['result'] = '13'
+                    self.response_data['msg'] = 'FTeamWorkerTypeID不能为空'
+
+                    return False
+            else:
+                base_info = base()
+
+
+            base_info.FPID = 'b584392ab52a11eaa21300163e0b36b4'
+
+            if action == '0':
+                baseID = gensequence('api_add_teamworkerType', '8000.', 3, 0)
+                base_info.FBaseID = baseID
+            else:
+                baseID = ''
+
+            base_info.FBase = tw_type
+            base_info.CREATED_BY = 'API'
+            base_info.UPDATED_BY = 'API'
+            base_info.CREATED_TIME = timezone.now()
+
+            base_info.save()
+
+            data = []
+            dict = {}
+            dict['FID'] = base_info.FID
+            dict['FID_Split'] = ''.join(str(base_info.FID).split('-'))
+            dict['FBaseID'] = baseID
+            dict['FBase'] = tw_type
+            dict['CREATED_BY'] = 'API'
+            dict['UPDATED_BY'] = 'API'
+            dict['CREATED_TIME'] = timezone.now()
+
+            data.append(dict)
+
+            self.response_data['result'] = 0
+
+            if action == '0':
+                self.response_data['msg'] = '数据添加成功'
+            elif action == '1':
+                self.response_data['msg'] = '数据更新成功'
+
+            self.response_data['data'] = data
+
+            return
+
+        else:
+            self.response_data['result'] = '20'
+            self.response_data['msg'] = '协作类型不能为空'
+
+            return False
+
+# 查询协同类型
+"""
+@api {POST} /ismsapi/get_teamworkerType/ 查询协同类型
+@apiGroup TEAMWORKER
+@apiDescription 调用地址:http://121.196.23.69:8090/ismsapi/get_teamworkerType/ API接口必须用POST:方法提交,请求类型为：x-www-form-urlencoded
+@apiParam {string} appkey 在后台管理系统中注册的APPKEY[必填]
+@apiParam {string} token 对应该appkey的有效token, token的有效期为一小时[必填]
+@apiSampleRequest http://121.196.23.69:8090/ismsapi/get_teamworkerType/
+@apiSuccess (返回消息) {string} result 返回码
+@apiSuccess (返回消息) {string} msg 返回消息
+@apiSuccess (返回消息) {string} data 安全规则结构体
+@apiSuccess (消息内容) {string} 0 数据获取成功
+@apiSuccess (消息内容) {string} 1 token过期
+@apiSuccess (消息内容) {string} 2 token校验失败
+@apiSuccess (消息内容) {string} 3 token校验传递参数错误
+@apiSuccess (消息内容) {string} 4 APPKEY未注册,或被禁用
+@apiSuccess (消息内容) {string} 5 API接口必须用POST方法提交
+@apiSuccess (结构体) {string} FID 协同UUID，唯一标识
+@apiSuccess (结构体) {string} FID_Split 去分割符后的UUID
+@apiSuccess (结构体) {string} FBaseID 协作类型编码
+@apiSuccess (结构体) {string} FBase 协作类型
+@apiSuccess (结构体) {string} CREATED_TIME 创建时间
+@apiSuccess (结构体) {string} UPDATE_TIME 修改时间
+@apiErrorExample {json} 错误返回样例：
+{"result": "1", "msg": "token has expired"}
+{"result": "2", "msg": "token validation failed"}
+{"result": "3", "msg": "args illegal"}
+{"result": "4", "msg": "APPKEY serial is UNREGISTERED"}
+{"result": "5", "msg": "API interface must be submitted by post method."}
+"""
+class get_teamworkerType(api_common):
+    def set_view(self, request):
+
+        base_info = base.objects.filter(Q(FPID='b584392ab52a11eaa21300163e0b36b4'))
+
+        self.response_data['result'] = '0'
+        self.response_data['msg'] = 'success'
+        self.response_data['data'] = convert_to_dicts(base_info)
+
+
+# 删除协同类型
+"""
+@api {POST} /ismsapi/delete_teamworkerType/ 删除指定协同类型
+@apiGroup TEAMWORKER 
+@apiDescription 调用地址:http://121.196.23.69:8090/ismsapi/delete_teamworkerType/ API接口必须用POST:方法提交,请求类型为：x-www-form-urlencoded
+@apiParam {string} appkey 在后台管理系统中注册的APPKEY[必填]
+@apiParam {string} token 对应该appkey的有效token, token的有效期为一小时[必填]
+@apiParam {string} FTeamWorkerTypeID 协同类型UUID[必填]
+@apiSampleRequest http://121.196.23.69:8090/ismsapi/delete_teamworkerType/
+@apiSuccess (返回消息) {string} result 返回码
+@apiSuccess (返回消息) {string} msg 返回消息
+@apiSuccess (返回消息) {string} data 安全规则结构体
+@apiSuccess (消息内容) {string} 0 数据获取成功
+@apiSuccess (消息内容) {string} 1 token过期
+@apiSuccess (消息内容) {string} 2 token校验失败
+@apiSuccess (消息内容) {string} 3 token校验传递参数错误
+@apiSuccess (消息内容) {string} 4 APPKEY未注册,或被禁用
+@apiSuccess (消息内容) {string} 5 API接口必须用POST方法提交
+@apiErrorExample {json} 错误返回样例：
+{"result": "1", "msg": "token has expired"}
+{"result": "2", "msg": "token validation failed"}
+{"result": "3", "msg": "args illegal"}
+{"result": "4", "msg": "APPKEY serial is UNREGISTERED"}
+{"result": "5", "msg": "API interface must be submitted by post method."}
+"""
+class delete_teamworkerType(api_common):
+    def set_view(self, request):
+
+        typeID = self.request.POST.get('FTeamWorkerTypeID')
+
+        try:
+            base_info = base.objects.get(Q(FID=typeID))
+            base_info.delete()
+
+            self.response_data['result'] = '0'
+            self.response_data['msg'] = '删除数据成功'
+            self.response_data['data'] = []
+
+        except ObjectDoesNotExist:
+            self.response_data['result'] = '10'
+            self.response_data['msg'] = 'FTeamWorkerTypeID不存在'
+
+            return
 
 
 
