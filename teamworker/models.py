@@ -7,6 +7,14 @@ from django.utils.encoding import python_2_unicode_compatible
 @python_2_unicode_compatible
 
 class teamworker(models.Model):
+    CLASSIFY_TAG_CHOICES = (
+        (None, '请选择数据'),
+        (0, '待整改'),
+        (1, '进行中'),
+        (2, '已完成'),
+        (3, '已过期')
+    )
+
 
     FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
     FTeamWorkerTypeID = models.CharField(max_length=32, verbose_name='协作类型', blank=True, null=True)
@@ -19,6 +27,7 @@ class teamworker(models.Model):
     FRecord = models.ImageField(upload_to='twrecord/', default='', verbose_name='录音', blank=True, null=True)
     FStakeholder = models.CharField(max_length=1000, verbose_name='干系人', blank=True, null=True)
     FDesc = models.CharField(max_length=1024, verbose_name='备注', blank=True, null=True)
+    FClassifyTag = models.IntegerField(default=0, choices=CLASSIFY_TAG_CHOICES, verbose_name='分类标记', blank=True, null=True)
     FStatus = models.BooleanField(default=True, verbose_name='状态')
     CREATED_PRJ = models.CharField(max_length=32, verbose_name='所属项目', blank=True, null=True)
     CREATED_ORG = models.CharField(max_length=32, verbose_name='创建组织', blank=True, null=True)

@@ -1716,7 +1716,7 @@ class get_CapturePicURL(api_common):
             self.response_data['msg'] = 'success'
 
             dict = {}
-            dict['URL'] =  'http://'+host_ip+'/media/itemcheckpic/'+pic_id+'.jpg'
+            dict['URL'] = '/media/itemcheckpic/'+pic_id+'.jpg'
             data = []
             data.append(dict)
 
@@ -1835,6 +1835,7 @@ class add_teamworker(api_common):
         desc = self.request.POST.get('FDesc')
         action = self.request.POST.get('ACTION')
         teamworkerID = self.request.POST.get('FTEAMWORKER_ID')
+        classifytag = self.request.POST.get('FClassifyTag')
 
         if action == None:
             self.response_data['result'] = '12'
@@ -1905,6 +1906,7 @@ class add_teamworker(api_common):
         teamworker_info.FDesc = desc
         teamworker_info.FStatus = 1
         teamworker_info.CREATED_PRJ = prj_id
+        teamworker_info.FClassifyTag = classifytag
 
         org_id = prj_2_manageorg(prj_id)
 
