@@ -1752,6 +1752,7 @@ class get_heartbeat(api_common):
 
                 dict['DEVID'] = dev_id
                 dict['TaskType'] = _list.FTaskType
+                dict['Scope'] = _list.FScope
                 dict['CHANNELNO'] = _list.FChannelNo
                 dict['PICID'] = ''.join(str(_list.FID).split('-'))
 
@@ -2405,4 +2406,57 @@ class add_teamworker_reply(api_common):
 # 查询协同回复内容
 class get_teamworker_reply(api_common):
     def set_view(self, request):
-        pass
+
+        teamworkerID = self.request.POST.get('FTEAMWORKERID')
+
+        if teamworkerID != None:
+            try:
+                teamworker_info = teamworker.objects.get(Q(FID=teamworkerID))
+            except ObjectDoesNotExist:
+                self.response_data['result'] = '11'
+                self.response_data['msg'] = '协同不存在'
+
+                return
+
+        else:
+            self.response_data['result'] = '10'
+            self.response_data['msg'] = '协同ID不能为空'
+
+            return False
+
+
+        reply_info = teamworkreply.objects.filter(Q(FTeamWorkerID=teamworkerID))
+
+        self.response_data['result'] = '0'
+        self.response_data['msg'] = 'success'
+        self.response_data['data'] = convert_to_dicts(reply_info)
+
+
+# 返回@人员消息
+class get_temworker_atReply(api_common):
+    def set_view(self, request):
+
+        stakeholder = self.request.POST.get('FStakeholder')
+        conditions = self.request.POST.get('conditions')
+
+        if stakeholder != None:
+            reply_info = teamworkreply.objects.filter(Q(FStakeholder__contains=stakeholder))
+
+            if conditions != None:
+                reply_info = reply_info.filter(**conditions)
+
+            self.response_data['result'] = '0'
+            self.response_data['msg'] = 'success'
+            self.response_data['data'] = convert_to_dicts(reply_info)
+
+            return
+
+        else:
+            self.response_data['result'] = '10'
+            self.response_data['msg'] = '@人员不能为空'
+
+            return False
+
+
+
+
