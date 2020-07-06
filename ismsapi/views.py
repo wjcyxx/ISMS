@@ -2443,6 +2443,7 @@ class get_temworker_atReply(api_common):
             reply_info = teamworkreply.objects.filter(Q(FStakeholder__contains=stakeholder))
 
             if conditions != None:
+                conditions = json.loads(conditions)
                 reply_info = reply_info.filter(**conditions)
 
             self.response_data['result'] = '0'
@@ -2456,6 +2457,16 @@ class get_temworker_atReply(api_common):
             self.response_data['msg'] = '@人员不能为空'
 
             return False
+
+
+# 审核协同
+class approve_teamworker(api_common):
+    def set_view(self, request):
+
+        teamworkerID = self.request.POST.get('FTEAMWORKERID')
+        approveMemo = self.request.POST.get('FApproveMemo')
+
+        pass
 
 
 
