@@ -10,6 +10,7 @@ from django.utils.encoding import python_2_unicode_compatible
 class tasklist(models.Model):
 
     FID = models.UUIDField(primary_key=True, default=uuid.uuid1)
+    FTaskType = models.IntegerField(default=0, verbose_name='任务类型', blank=True, null=True)
     FDevID = models.CharField(max_length=32, verbose_name='设备ID', blank=True, null=True)
     FChannelNo = models.IntegerField(verbose_name='摄像头通道号', blank=True, null=True)
     CREATED_BY = models.CharField(max_length=32, verbose_name='创建人', blank=True, null=True)

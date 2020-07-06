@@ -32,7 +32,7 @@ from django.forms import widgets as Fwidge
 from django.core.exceptions import ObjectDoesNotExist
 from baseframe.baseframe import *
 from .models import tasklist
-from teamworker.models import teamworker
+from teamworker.models import teamworker, teamworkreply
 import time
 import datetime
 import hashlib
@@ -1751,6 +1751,7 @@ class get_heartbeat(api_common):
                 dict = {}
 
                 dict['DEVID'] = dev_id
+                dict['TaskType'] = _list.FTaskType
                 dict['CHANNELNO'] = _list.FChannelNo
                 dict['PICID'] = ''.join(str(_list.FID).split('-'))
 
@@ -2277,7 +2278,131 @@ class delete_teamworkerType(api_common):
 
 
 
+# 新增/编辑协同回复内容
+class add_teamworker_reply(api_common):
+    def set_view(self, request):
+
+        teamworkerID = self.request.POST.get('FTEAMWORKERID')
+        twreplyID = self.request.POST.get('FTWREPLYID')
+        replyMan = self.request.POST.get('FReplyPerson')
+        replyMemo = self.request.POST.get('FReply')
+        stakeholder = self.request.POST.get('FStakeholder')
+        picfile = self.request.FILES.get('FPic')
+        recordfile = self.request.FILES.get('FRecord')
+        action = self.request.POST.get('ACTION')
+
+        if action == None:
+            self.response_data['result'] = '12'
+            self.response_data['msg'] = 'ACTION不能为空'
+
+            return False
+
+        if teamworkerID != None:
+            try:
+                teamworker_info = teamworker.objects.get(Q(FID=teamworkerID))
+            except ObjectDoesNotExist:
+                self.response_data['result'] = '11'
+                self.response_data['msg'] = '协同不存在'
+
+                return
+
+        else:
+            self.response_data['result'] = '10'
+            self.response_data['msg'] = '协同ID不能为空'
+
+            return False
+
+
+        if replyMan == None:
+            self.response_data['result'] = '13'
+            self.response_data['msg'] = '回复人不能为空'
+
+            return False
+
+        if replyMemo == None:
+            self.response_data['result'] = '14'
+            self.response_data['msg'] = '回复人不能为空'
+
+            return False
+
+
+        if action == '0':    # 新增
+            reply_info = teamworkreply()
+        elif action == '1':  # 修改
+            try:
+                reply_info = teamworkreply.objects.get(Q(FID=twreplyID))
+
+            except ObjectDoesNotExist:
+                self.response_data['result'] = '22'
+                self.response_data['msg'] = '要编辑的回复ID不存在'
+
+                return False
+        else:
+            reply_info = teamworkreply()
+
+
+        if action == '0':
+            reply_info.FTeamWorkerID = teamworkerID
+            reply_info.FReply = replyMemo
+            reply_info.FPic = picfile
+            reply_info.FRecord = recordfile
+            reply_info.FStakeholder = stakeholder
+            reply_info.FReadTag = 0
+            reply_info.FReplyPerson = replyMan
+
+            reply_info.CREATED_PRJ = teamworker_info.CREATED_PRJ
+            reply_info.CREATED_ORG = teamworker_info.CREATED_ORG
+            reply_info.CREATED_BY = 'API'
+            reply_info.UPDATED_BY = 'API'
+            reply_info.CREATED_TIME = timezone.now()
+
+        else:
+            reply_info.FReply = replyMemo
+            reply_info.FPic = picfile
+            reply_info.FRecord = recordfile
+            reply_info.FReadTag = 0
+
+            reply_info.CREATED_TIME = timezone.now()
+
+        reply_info.save()
+
+        teamworker_info.FClassifyTag = 1
+        teamworker_info.save()
+
+        data = []
+        dict = {}
+        dict['FID'] = reply_info.FID
+        dict['FID_Split'] = ''.join(str(reply_info.FID).split('-'))
+        dict['FTeamWorkerID'] = reply_info.FTeamWorkerID
+        dict['FReply'] = reply_info.FReply
+        dict['FPic'] = str(picfile)
+        dict['FRecord'] = str(recordfile)
+        dict['FStakeholder'] = reply_info.FStakeholder
+        dict['FReadTag'] = reply_info.FReadTag
+        dict['FReplyPerson'] = reply_info.FReplyPerson
+        dict['FStakeholder'] = stakeholder
+        dict['CREATED_PRJ'] = reply_info.CREATED_PRJ
+        dict['CREATED_ORG'] = reply_info.CREATED_ORG
+        dict['CREATED_BY'] = 'API'
+        dict['UPDATED_BY'] = 'API'
+        dict['CREATED_TIME'] = reply_info.CREATED_TIME
+
+        data.append(dict)
+
+        self.response_data['result'] = 0
+
+        if action == '0':
+            self.response_data['msg'] = '数据添加成功'
+        elif action == '1':
+            self.response_data['msg'] = '数据更新成功'
+
+        self.response_data['data'] = data
+
+        return
 
 
 
-
+# 查询协同回复内容
+class get_teamworker_reply(api_common):
+    def set_view(self, request):
+        pass

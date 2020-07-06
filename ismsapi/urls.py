@@ -45,6 +45,7 @@ urlpatterns = [
     path('delete_teamworker/', views.delete_teamworker.as_view(), name='delete_teamworker'),
     path('add_teamworkerType/', views.add_teamworkerType.as_view(), name='add_teamworkerType'),
     path('get_teamworkerType/', views.get_teamworkerType.as_view(), name='get_teamworkerType'),
-    path('delete_teamworkerType/', views.delete_teamworkerType.as_view(), name='delete_teamworkerType')
+    path('delete_teamworkerType/', views.delete_teamworkerType.as_view(), name='delete_teamworkerType'),
+    path('add_teamworker_reply/', views.add_teamworker_reply.as_view(), name='add_teamworker_reply')
 
 ]
