@@ -48,6 +48,8 @@ urlpatterns = [
     path('delete_teamworkerType/', views.delete_teamworkerType.as_view(), name='delete_teamworkerType'),
     path('add_teamworker_reply/', views.add_teamworker_reply.as_view(), name='add_teamworker_reply'),
     path('get_teamworker_reply/', views.get_teamworker_reply.as_view(), name='get_teamworker_reply'),
-    path('get_temworker_atReply/', views.get_temworker_atReply.as_view(), name='get_temworker_atReply')
+    path('get_temworker_atReply/', views.get_temworker_atReply.as_view(), name='get_temworker_atReply'),
+    path('approve_teamworker/', views.approve_teamworker.as_view(), name='approve_teamworker'),
+    path('marke_replyreadtag/', views.marke_replyreadtag.as_view(), name='marke_replyreadtag')
 
 ]

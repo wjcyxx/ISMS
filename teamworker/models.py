@@ -29,6 +29,7 @@ class teamworker(models.Model):
     FDesc = models.CharField(max_length=1024, verbose_name='备注', blank=True, null=True)
     FClassifyTag = models.IntegerField(default=0, choices=CLASSIFY_TAG_CHOICES, verbose_name='分类标记', blank=True, null=True)
     FApproveMemo = models.CharField(max_length=500, verbose_name='审核意见', blank=True, null=True)
+    FApproveDate = models.DateTimeField(verbose_name='审批时间', blank=True, null=True)
     FStatus = models.BooleanField(default=True, verbose_name='状态')
     CREATED_PRJ = models.CharField(max_length=32, verbose_name='所属项目', blank=True, null=True)
     CREATED_ORG = models.CharField(max_length=32, verbose_name='创建组织', blank=True, null=True)

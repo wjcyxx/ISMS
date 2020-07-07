@@ -2280,6 +2280,48 @@ class delete_teamworkerType(api_common):
 
 
 # 新增/编辑协同回复内容
+"""
+@api {POST} /ismsapi/add_teamworker_reply/ 新增/编辑协同回复内容
+@apiGroup TEAMWORKER
+@apiDescription 调用地址:http://121.196.23.69:8090/ismsapi/add_teamworker_reply/ API接口必须用POST:方法提交,请求类型为：form-data
+@apiParam {string} appkey 在后台管理系统中注册的APPKEY[必填]
+@apiParam {string} token 对应该appkey的有效token, token的有效期为一小时[必填]
+@apiParam {string} FTEAMWORKERID 协同UUID[必填]
+@apiParam {string} ACTION 操作类型[必填]0:新增回复,1:编辑回复
+@apiParam {string} FReplyPerson 回复人[必填]
+@apiParam {string} FReply 回复内容[必填]
+@apiParam {string} FStakeholder 干系人[选填]就是本条回复需要at的人,每个干系人之间用逗号隔开
+@apiParam {string} FPic 关联图片或文件[选填],form-data,File类型
+@apiParam {string} FRecord 录音文件[选填],form-data,File类型
+@apiSampleRequest http://121.196.23.69:8090/ismsapi/add_teamworker_reply/
+@apiSuccess (返回消息) {string} result 返回码
+@apiSuccess (返回消息) {string} msg 返回消息
+@apiSuccess (返回消息) {string} data 安全规则结构体
+@apiSuccess (消息内容) {string} 0 数据获取成功
+@apiSuccess (消息内容) {string} 1 token过期
+@apiSuccess (消息内容) {string} 2 token校验失败
+@apiSuccess (消息内容) {string} 3 token校验传递参数错误
+@apiSuccess (消息内容) {string} 4 APPKEY未注册,或被禁用
+@apiSuccess (消息内容) {string} 5 API接口必须用POST方法提交
+@apiSuccess (结构体) {string} FID 本条回复内容UUID，唯一标识
+@apiSuccess (结构体) {string} FID_Split 去分割符后的UUID
+@apiSuccess (结构体) {string} FTeamWorkerID 协同UUID
+@apiSuccess (结构体) {string} FReply 回复内容
+@apiSuccess (结构体) {string} FPic 回复图片
+@apiSuccess (结构体) {string} FRecord 回复录音
+@apiSuccess (结构体) {string} FStakeholder at干系人
+@apiSuccess (结构体) {string} FReadTag 阅读标记0未读，1已读
+@apiSuccess (结构体) {string} FReplyPerson 回复人
+@apiSuccess (结构体) {string} CREATED_PRJ 所属项目
+@apiSuccess (结构体) {string} CREATED_ORG 所属组织
+@apiSuccess (结构体) {string} CREATED_TIME 创建时间
+@apiErrorExample {json} 错误返回样例：
+{"result": "1", "msg": "token has expired"}
+{"result": "2", "msg": "token validation failed"}
+{"result": "3", "msg": "args illegal"}
+{"result": "4", "msg": "APPKEY serial is UNREGISTERED"}
+{"result": "5", "msg": "API interface must be submitted by post method."}
+"""
 class add_teamworker_reply(api_common):
     def set_view(self, request):
 
@@ -2322,7 +2364,7 @@ class add_teamworker_reply(api_common):
 
         if replyMemo == None:
             self.response_data['result'] = '14'
-            self.response_data['msg'] = '回复人不能为空'
+            self.response_data['msg'] = '回复内容不能为空'
 
             return False
 
@@ -2381,7 +2423,6 @@ class add_teamworker_reply(api_common):
         dict['FStakeholder'] = reply_info.FStakeholder
         dict['FReadTag'] = reply_info.FReadTag
         dict['FReplyPerson'] = reply_info.FReplyPerson
-        dict['FStakeholder'] = stakeholder
         dict['CREATED_PRJ'] = reply_info.CREATED_PRJ
         dict['CREATED_ORG'] = reply_info.CREATED_ORG
         dict['CREATED_BY'] = 'API'
@@ -2404,6 +2445,42 @@ class add_teamworker_reply(api_common):
 
 
 # 查询协同回复内容
+"""
+@api {POST} /ismsapi/get_teamworker_reply/ 查询协同回复内容
+@apiGroup TEAMWORKER
+@apiDescription 调用地址:http://121.196.23.69:8090/ismsapi/get_teamworker_reply/ API接口必须用POST:方法提交,请求类型为：x-www-form-urlencoded
+@apiParam {string} appkey 在后台管理系统中注册的APPKEY[必填]
+@apiParam {string} token 对应该appkey的有效token, token的有效期为一小时[必填]
+@apiParam {string} FTEAMWORKERID 协同UUID[必填]
+@apiSampleRequest http://121.196.23.69:8090/ismsapi/get_teamworker_reply/
+@apiSuccess (返回消息) {string} result 返回码
+@apiSuccess (返回消息) {string} msg 返回消息
+@apiSuccess (返回消息) {string} data 安全规则结构体
+@apiSuccess (消息内容) {string} 0 数据获取成功
+@apiSuccess (消息内容) {string} 1 token过期
+@apiSuccess (消息内容) {string} 2 token校验失败
+@apiSuccess (消息内容) {string} 3 token校验传递参数错误
+@apiSuccess (消息内容) {string} 4 APPKEY未注册,或被禁用
+@apiSuccess (消息内容) {string} 5 API接口必须用POST方法提交
+@apiSuccess (结构体) {string} FID 回复内容UUID，唯一标识
+@apiSuccess (结构体) {string} FID_Split 去分割符后的UUID
+@apiSuccess (结构体) {string} FTeamWorkerID 协同UUID
+@apiSuccess (结构体) {string} FReply 回复内容
+@apiSuccess (结构体) {string} FPic 回复图片
+@apiSuccess (结构体) {string} FRecord 回复录音
+@apiSuccess (结构体) {string} FStakeholder at干系人
+@apiSuccess (结构体) {string} FReadTag 阅读标记0未读，1已读
+@apiSuccess (结构体) {string} FReplyPerson 回复人
+@apiSuccess (结构体) {string} CREATED_PRJ 所属项目
+@apiSuccess (结构体) {string} CREATED_ORG 所属组织
+@apiSuccess (结构体) {string} CREATED_TIME 创建时间
+@apiErrorExample {json} 错误返回样例：
+{"result": "1", "msg": "token has expired"}
+{"result": "2", "msg": "token validation failed"}
+{"result": "3", "msg": "args illegal"}
+{"result": "4", "msg": "APPKEY serial is UNREGISTERED"}
+{"result": "5", "msg": "API interface must be submitted by post method."}
+"""
 class get_teamworker_reply(api_common):
     def set_view(self, request):
 
@@ -2433,6 +2510,43 @@ class get_teamworker_reply(api_common):
 
 
 # 返回@人员消息
+"""
+@api {POST} /ismsapi/get_temworker_atReply/ 返回查询at人员消息
+@apiGroup TEAMWORKER
+@apiDescription 调用地址:http://121.196.23.69:8090/ismsapi/get_temworker_atReply/ API接口必须用POST:方法提交,请求类型为：x-www-form-urlencoded
+@apiParam {string} appkey 在后台管理系统中注册的APPKEY[必填]
+@apiParam {string} token 对应该appkey的有效token, token的有效期为一小时[必填]
+@apiParam {string} FStakeholder at干系人[必填]
+@apiParam {string} conditions 过滤条件,必须为JSON格式字符串,例如{"条件":"值", "条件","值"},不传递此参数则不进行过滤获取全部数据[选填],支持时间段查询,例如{"FTimestamp__gte": "2020-01-07 15:00:00", "FTimestamp__lte": "2020-01-07 15:20:00"}, 字段后加上__gte标示大于等于,__lte标示小于等于
+@apiSampleRequest http://121.196.23.69:8090/ismsapi/get_temworker_atReply/
+@apiSuccess (返回消息) {string} result 返回码
+@apiSuccess (返回消息) {string} msg 返回消息
+@apiSuccess (返回消息) {string} data 安全规则结构体
+@apiSuccess (消息内容) {string} 0 数据获取成功
+@apiSuccess (消息内容) {string} 1 token过期
+@apiSuccess (消息内容) {string} 2 token校验失败
+@apiSuccess (消息内容) {string} 3 token校验传递参数错误
+@apiSuccess (消息内容) {string} 4 APPKEY未注册,或被禁用
+@apiSuccess (消息内容) {string} 5 API接口必须用POST方法提交
+@apiSuccess (结构体) {string} FID 回复内容UUID，唯一标识
+@apiSuccess (结构体) {string} FID_Split 去分割符后的UUID
+@apiSuccess (结构体) {string} FTeamWorkerID 协同UUID
+@apiSuccess (结构体) {string} FReply 回复内容
+@apiSuccess (结构体) {string} FPic 回复图片
+@apiSuccess (结构体) {string} FRecord 回复录音
+@apiSuccess (结构体) {string} FStakeholder at干系人
+@apiSuccess (结构体) {string} FReadTag 阅读标记0未读，1已读
+@apiSuccess (结构体) {string} FReplyPerson 回复人
+@apiSuccess (结构体) {string} CREATED_PRJ 所属项目
+@apiSuccess (结构体) {string} CREATED_ORG 所属组织
+@apiSuccess (结构体) {string} CREATED_TIME 创建时间
+@apiErrorExample {json} 错误返回样例：
+{"result": "1", "msg": "token has expired"}
+{"result": "2", "msg": "token validation failed"}
+{"result": "3", "msg": "args illegal"}
+{"result": "4", "msg": "APPKEY serial is UNREGISTERED"}
+{"result": "5", "msg": "API interface must be submitted by post method."}
+"""
 class get_temworker_atReply(api_common):
     def set_view(self, request):
 
@@ -2459,15 +2573,184 @@ class get_temworker_atReply(api_common):
             return False
 
 
-# 审核协同
+# 标记回复内容已读/未读
+"""
+@api {POST} /ismsapi/marke_replyreadtag/ 标记回复内容已读未读
+@apiGroup TEAMWORKER
+@apiDescription 调用地址:http://121.196.23.69:8090/ismsapi/marke_replyreadtag/ API接口必须用POST:方法提交,请求类型为：x-www-form-urlencoded
+@apiParam {string} appkey 在后台管理系统中注册的APPKEY[必填]
+@apiParam {string} token 对应该appkey的有效token, token的有效期为一小时[必填]
+@apiParam {string} FREPLYID 回复UUID[必填]
+@apiParam {string} ACTION 已读/未读标记[必填],0:未读，1:已读
+@apiSampleRequest http://121.196.23.69:8090/ismsapi/marke_replyreadtag/
+@apiSuccess (返回消息) {string} result 返回码
+@apiSuccess (返回消息) {string} msg 返回消息
+@apiSuccess (返回消息) {string} data 安全规则结构体
+@apiSuccess (消息内容) {string} 0 数据获取成功
+@apiSuccess (消息内容) {string} 1 token过期
+@apiSuccess (消息内容) {string} 2 token校验失败
+@apiSuccess (消息内容) {string} 3 token校验传递参数错误
+@apiSuccess (消息内容) {string} 4 APPKEY未注册,或被禁用
+@apiSuccess (消息内容) {string} 5 API接口必须用POST方法提交
+@apiSuccess (结构体) {string} FID 回复内容UUID，唯一标识
+@apiSuccess (结构体) {string} FID_Split 去分割符后的UUID
+@apiSuccess (结构体) {string} FTeamWorkerID 协同UUID
+@apiSuccess (结构体) {string} FReply 回复内容
+@apiSuccess (结构体) {string} FPic 回复图片
+@apiSuccess (结构体) {string} FRecord 回复录音
+@apiSuccess (结构体) {string} FStakeholder at干系人
+@apiSuccess (结构体) {string} FReadTag 阅读标记0未读，1已读
+@apiSuccess (结构体) {string} FReplyPerson 回复人
+@apiSuccess (结构体) {string} CREATED_PRJ 所属项目
+@apiSuccess (结构体) {string} CREATED_ORG 所属组织
+@apiSuccess (结构体) {string} CREATED_TIME 创建时间
+@apiErrorExample {json} 错误返回样例：
+{"result": "1", "msg": "token has expired"}
+{"result": "2", "msg": "token validation failed"}
+{"result": "3", "msg": "args illegal"}
+{"result": "4", "msg": "APPKEY serial is UNREGISTERED"}
+{"result": "5", "msg": "API interface must be submitted by post method."}
+"""
+class marke_replyreadtag(api_common):
+    def set_view(self, request):
+
+        replyID = self.request.POST.get('FREPLYID')
+        action = self.request.POST.get('ACTION')
+
+        if replyID != None:
+            try:
+                reply_info = teamworkreply.objects.get(Q(FID=replyID))
+            except ObjectDoesNotExist:
+                self.response_data['result'] = '11'
+                self.response_data['msg'] = '回复内容不存在'
+
+                return
+
+        else:
+            self.response_data['result'] = '10'
+            self.response_data['msg'] = '回复UUID不能为空'
+
+            return False
+
+
+        if action == None:
+            self.response_data['result'] = '12'
+            self.response_data['msg'] = 'ACTION不能为空'
+
+            return False
+
+
+        if action == '0':   # 未读
+            reply_info.FReadTag = 0
+        elif action == '1': # 已读
+            reply_info.FReadTag = 1
+        else:
+            self.response_data['result'] = '13'
+            self.response_data['msg'] = 'ACTION只能传0或1'
+
+            return False
+
+        reply_info.save()
+
+        reply_info = teamworkreply.objects.filter(Q(FID=replyID))
+
+        self.response_data['result'] = '0'
+        self.response_data['msg'] = 'success'
+        self.response_data['data'] = convert_to_dicts(reply_info)
+
+
+# 审核/取消审核协同
+"""
+@api {POST} /ismsapi/approve_teamworker/ 审核,取消审核协同
+@apiGroup TEAMWORKER
+@apiDescription 调用地址:http://121.196.23.69:8090/ismsapi/approve_teamworker/ API接口必须用POST:方法提交,请求类型为：x-www-form-urlencoded
+@apiParam {string} appkey 在后台管理系统中注册的APPKEY[必填]
+@apiParam {string} token 对应该appkey的有效token, token的有效期为一小时[必填]
+@apiParam {string} FTEAMWORKERID 协同UUID[必填]
+@apiParam {string} FApproveMemo 审核内容[选填]
+@apiParam {string} ACTION 操作类型[必填]0:审核,1:取消审核
+@apiSampleRequest http://121.196.23.69:8090/ismsapi/approve_teamworker/
+@apiSuccess (返回消息) {string} result 返回码
+@apiSuccess (返回消息) {string} msg 返回消息
+@apiSuccess (返回消息) {string} data 安全规则结构体
+@apiSuccess (消息内容) {string} 0 数据获取成功
+@apiSuccess (消息内容) {string} 1 token过期
+@apiSuccess (消息内容) {string} 2 token校验失败
+@apiSuccess (消息内容) {string} 3 token校验传递参数错误
+@apiSuccess (消息内容) {string} 4 APPKEY未注册,或被禁用
+@apiSuccess (消息内容) {string} 5 API接口必须用POST方法提交
+@apiSuccess (结构体) {string} FID 协同UUID，唯一标识
+@apiSuccess (结构体) {string} FID_Split 去分割符后的UUID
+@apiSuccess (结构体) {string} FTeamWorkerTypeID 协作类型UUID
+@apiSuccess (结构体) {string} FTeamWorkerType 协作类型
+@apiSuccess (结构体) {string} FTitle 协同主题
+@apiSuccess (结构体) {string} FDeadLine 限期
+@apiSuccess (结构体) {string} FLevel 优先级
+@apiSuccess (结构体) {string} FTag 标识
+@apiSuccess (结构体) {string} FBimModel 关联BIM[选填]
+@apiSuccess (结构体) {string} FPic 关联图片或文件[选填],form-data,File类型
+@apiSuccess (结构体) {string} FRecord 录音文件[选填],form-data,File类型
+@apiSuccess (结构体) {string} FStakeholder 关联干系人[选填]
+@apiSuccess (结构体) {string} FDesc 描述[选填]
+@apiSuccess (结构体) {string} FClassifyTag 分类标记0：待整改，1：进行中【创建了回复，该协同自动变成此状态】，2:已完成【审批通过，该协同自动变成此状态】
+@apiSuccess (结构体) {string} CREATED_PRJ 所属项目
+@apiSuccess (结构体) {string} CREATED_ORG 创建组织
+@apiSuccess (结构体) {string} CREATED_TIME 创建时间
+@apiSuccess (结构体) {string} UPDATE_TIME 修改时间
+@apiErrorExample {json} 错误返回样例：
+{"result": "1", "msg": "token has expired"}
+{"result": "2", "msg": "token validation failed"}
+{"result": "3", "msg": "args illegal"}
+{"result": "4", "msg": "APPKEY serial is UNREGISTERED"}
+{"result": "5", "msg": "API interface must be submitted by post method."}
+"""
 class approve_teamworker(api_common):
     def set_view(self, request):
 
         teamworkerID = self.request.POST.get('FTEAMWORKERID')
         approveMemo = self.request.POST.get('FApproveMemo')
+        action = self.request.POST.get('ACTION')
 
-        pass
+        if teamworkerID != None:
+            try:
+                teamworker_info = teamworker.objects.get(Q(FID=teamworkerID))
+            except ObjectDoesNotExist:
+                self.response_data['result'] = '11'
+                self.response_data['msg'] = '协同不存在'
+
+                return
+
+        else:
+            self.response_data['result'] = '10'
+            self.response_data['msg'] = '协同ID不能为空'
+
+            return False
 
 
+        if action == None:
+            self.response_data['result'] = '12'
+            self.response_data['msg'] = 'ACTION不能为空'
 
+            return False
+
+
+        if action == '0':   # 审核
+            teamworker_info.FClassifyTag = 2  # 已完成
+        elif action == '1':
+            teamworker_info.FClassifyTag = 1  # 进行中
+        else:
+            self.response_data['result'] = '13'
+            self.response_data['msg'] = 'ACTION只能传0或1'
+
+            return False
+
+        teamworker_info.FApproveMemo = approveMemo
+        teamworker_info.FApproveDate = timezone.now()
+        teamworker_info.save()
+
+        teamworker_info = teamworker.objects.filter(Q(FID=teamworkerID))
+
+        self.response_data['result'] = '0'
+        self.response_data['msg'] = 'success'
+        self.response_data['data'] = convert_to_dicts(teamworker_info)
 
