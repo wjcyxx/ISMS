@@ -1837,7 +1837,7 @@ class add_teamworker(api_common):
         desc = self.request.POST.get('FDesc')
         action = self.request.POST.get('ACTION')
         teamworkerID = self.request.POST.get('FTEAMWORKER_ID')
-        classifytag = self.request.POST.get('FClassifyTag')
+        created_by = self.request.POST.get('CREATED_BY')
 
         if action == None:
             self.response_data['result'] = '12'
@@ -1908,12 +1908,17 @@ class add_teamworker(api_common):
         teamworker_info.FDesc = desc
         teamworker_info.FStatus = 1
         teamworker_info.CREATED_PRJ = prj_id
-        teamworker_info.FClassifyTag = classifytag
+        # teamworker_info.FClassifyTag = classifytag
 
         org_id = prj_2_manageorg(prj_id)
 
         teamworker_info.CREATED_ORG = org_id
-        teamworker_info.CREATED_BY = 'API'
+
+        if created_by == None:
+            teamworker_info.CREATED_BY = 'API'
+        else:
+            teamworker_info.CREATED_BY = created_by
+
         teamworker_info.UPDATED_BY = 'API'
         teamworker_info.CREATED_TIME = timezone.now()
 
