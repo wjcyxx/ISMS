@@ -110,7 +110,89 @@ class get_token(View):
         return HttpResponse(json.dumps(response_data))
 
 
+#获取用户列表
+"""
+@api {POST} /ismsapi/get_userlist/ 获取用户列表
+@apiGroup BD
+@apiDescription 调用地址:http://121.196.23.69/ismsapi/get_userlist/ API接口必须用POST:方法提交,请求类型为：x-www-form-urlencoded
+@apiParam {string} appkey 在后台管理系统中注册的APPKEY[必填]
+@apiParam {string} token 对应该appkey的有效token, token的有效期为一小时[必填]
+@apiParam {string} ORGID组织UUID[必填]
+@apiSampleRequest http://121.196.23.69/ismsapi/get_userlist/ 
+@apiSuccess (返回消息) {string} result 返回码
+@apiSuccess (返回消息) {string} msg 消息
+@apiSuccess (消息内容) {string} 0 校验正常
+@apiSuccess (消息内容) {string} 1 token过期
+@apiSuccess (消息内容) {string} 2 token校验失败
+@apiSuccess (消息内容) {string} 3 token校验传递参数错误
+@apiSuccess (消息内容) {string} 4 APPKEY未注册,或被禁用
+@apiSuccess (消息内容) {string} 5 API接口必须用POST方法提交
+@apiSuccess (结构体) {string} FID 用户UUID，唯一标识
+@apiSuccess (结构体) {string} FUserID 用户账户
+@apiSuccess (结构体) {string} FUserpwd 用户密码
+@apiSuccess (结构体) {string} FType 用户类型0:企业账户1:合作伙伴2:管理员3:政务平台
+@apiSuccess (结构体) {string} FStatus 用户启用状态
+@apiSuccess (结构体) {string} FUsername 用户名称
+@apiSuccess (结构体) {string} FOrgID 所属组织
+@apiSuccess (结构体) {string} FRoleID 用户角色
+@apiSuccess (结构体) {string} FTel 联系电话
+@apiSuccess (结构体) {string} CREATED_ORG 创建组织
+@apiSuccess (结构体) {string} CREATED_BY 创建人员
+@apiSuccess (结构体) {datetime} CREATED_TIME 创建时间
+@apiSuccess (结构体) {datetime} UPDATED_TIME 更新时间
+@apiSuccessExample {json} 成功返回样例：
+{"result": "0", "msg": "success"}
+"""
+class get_userlist(api_common):
+    def set_view(self, request):
+        orgID = self.request.POST.get('ORGID')
 
+        if orgID != None:
+            try:
+                organize_info = organize.objects.get(Q(FID=orgID))
+            except ObjectDoesNotExist:
+                self.response_data['result'] = '11'
+                self.response_data['msg'] = '组织UUID不存在'
+
+                return
+
+        else:
+            self.response_data['result'] = '10'
+            self.response_data['msg'] = '组织UUID不能为空'
+
+            return
+
+        user_info = User.objects.filter(Q(CREATED_ORG=orgID))
+
+        self.response_data['result'] = '0'
+        self.response_data['msg'] = 'success'
+        self.response_data['data'] = convert_to_dicts(user_info)
+
+
+
+#获取组织信息
+"""
+@api {POST} /ismsapi/get_orgainze/ 获取组织信息
+@apiGroup BD
+@apiDescription 调用地址:http://121.196.23.69/ismsapi/get_orgainze/ API接口必须用POST:方法提交,请求类型为：x-www-form-urlencoded
+@apiParam {string} appkey 在后台管理系统中注册的APPKEY[必填]
+@apiParam {string} token 对应该appkey的有效token, token的有效期为一小时[必填]
+@apiParam {string} ORGID组织UUID[必填]
+@apiSampleRequest http://121.196.23.69/ismsapi/get_orgainze/
+@apiSuccess (返回消息) {string} result 返回码
+@apiSuccess (返回消息) {string} msg 消息
+@apiSuccess (消息内容) {string} 0 校验正常
+@apiSuccess (消息内容) {string} 1 token过期
+@apiSuccess (消息内容) {string} 2 token校验失败
+@apiSuccess (消息内容) {string} 3 token校验传递参数错误
+@apiSuccess (消息内容) {string} 4 APPKEY未注册,或被禁用
+@apiSuccess (消息内容) {string} 5 API接口必须用POST方法提交
+@apiSuccessExample {json} 成功返回样例：
+{"result": "0", "msg": "success"}
+"""
+class get_orgainze(api_base):
+    def set_view(self, request):
+        self.model = organize
 
 
 #校验用户名是否存在
