@@ -24,6 +24,8 @@ from receaccount.models import materialsaccount, materaccountgoods
 from vehiclepasslog.models import vehiclepasslog
 from vehiclegate.models import vehiclegate
 from login.models import User
+from usergroup.models import usergroup
+from busmenu.models import busmenu, authmenu
 from filefolder.models import filefolder, uploadfiles
 from django.http import JsonResponse
 import json
@@ -169,6 +171,134 @@ class get_userlist(api_common):
         self.response_data['data'] = convert_to_dicts(user_info)
 
 
+# 获取用户组
+class get_usergroup(api_base):
+    def set_view(self, request):
+        self.model = usergroup
+
+
+# 获取菜单列表
+class get_busmenu(api_base):
+    def set_view(self, request):
+        self.model = busmenu
+
+
+# 新增用户组菜单权限
+class add_authmenu(api_common):
+    def set_view(self, request):
+        usergroupID = self.request.POST.get('FUserGroupID')
+        busmenuID = self.request.POST.get('FBusMenuID')
+
+        if usergroupID != None:
+            try:
+                usergroup_info = usergroup.objects.get(Q(FID=usergroupID))
+            except ObjectDoesNotExist:
+                self.response_data['result'] = '11'
+                self.response_data['msg'] = '用户组UUID不存在'
+
+                return
+        else:
+            self.response_data['result'] = '10'
+            self.response_data['msg'] = '用户组UUID不能为空'
+
+            return
+
+        if busmenuID == None:
+            self.response_data['result'] = '12'
+            self.response_data['msg'] = '菜单项UUID不能为空'
+
+            return
+
+        busmenu_array = str(busmenuID).split(',')
+
+        data = []
+        for _list in busmenu_array:
+            try:
+                busmenu_info = busmenu.objects.get(Q(FID=_list))
+
+                dict = {}
+                authmenu_info = authmenu()
+                authmenu_info.FUserGroupID = usergroupID
+                authmenu_info.FBusMenuID = _list
+                authmenu_info.CREATED_ORG = busmenu_info.CREATED_ORG
+                authmenu_info.CREATED_BY = 'API'
+                authmenu_info.CREATED_TIME = timezone.now()
+                authmenu_info.UPDATED_BY = 'API'
+
+                authmenu_info.save()
+
+                dict['FID'] = authmenu_info.FID
+                dict['FID_Split'] = ''.join(str(authmenu_info.FID).split('-'))
+                dict['FUserGroupID'] = usergroupID
+                dict['FBusMenuID'] = _list
+                dict['CREATED_ORG'] = authmenu_info.CREATED_ORG
+                dict['CREATED_BY'] = 'API'
+                dict['CREATED_TIME'] = authmenu_info.CREATED_TIME
+
+                data.append(dict)
+
+            except ObjectDoesNotExist:
+                self.response_data['result'] = '13'
+                self.response_data['msg'] = '菜单项目【'+ _list +'】UUID 不存在'
+
+                return
+
+
+        self.response_data['result'] = '0'
+        self.response_data['msg'] = '菜单权限分配成功'
+        self.response_data['data'] = data
+
+
+# 移除菜单项权限
+class remove_authmenu(api_common):
+    def set_view(self, request):
+        usergroupID = self.request.POST.get('FUserGroupID')
+        busmenuID = self.request.POST.get('FBusMenuID')
+
+        if usergroupID != None:
+            authmenu.objects.filter(Q(FUserGroupID=usergroupID)).delete()
+
+            self.response_data['result'] = '0'
+            self.response_data['msg'] = '权限项移除成功'
+
+        else:
+            self.response_data['result'] = '10'
+            self.response_data['msg'] = '用户组UUID不能为空'
+
+            return
+
+        if busmenuID != None:
+            busmenu_array = str(busmenuID).split('-')
+
+            authmenu.objects.filter(Q(FBusMenuID__in=busmenu_array)).delete()
+
+            self.response_data['result'] = '0'
+            self.response_data['msg'] = '权限项移除成功'
+
+            return
+        else:
+            self.response_data['result'] = '10'
+            self.response_data['msg'] = '菜单项UUID不能为空'
+
+            return
+
+
+# 根据用户组获取菜单项权限
+class get_authmenu(api_common):
+    def set_view(self, request):
+        usergroupID = self.request.POST.get('FUserGroupID')
+
+        if usergroupID == None:
+            self.response_data['result'] = '10'
+            self.response_data['msg'] = '用户组UUID不能为空'
+
+            return
+
+        authmenu_info = authmenu.objects.filter(Q(FUserGroupID=usergroupID))
+
+        self.response_data['result'] = '0'
+        self.response_data['msg'] = 'success'
+        self.response_data['data'] = convert_to_dicts(authmenu_info)
 
 #获取组织信息
 """
