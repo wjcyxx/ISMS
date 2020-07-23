@@ -172,18 +172,122 @@ class get_userlist(api_common):
 
 
 # 获取用户组
+"""
+@api {POST} /ismsapi/get_usergroup/ 获取用户组列表
+@apiGroup AUTH
+@apiDescription 调用地址:http://121.196.23.69/ismsapi/get_usergroup/ API接口必须用POST:方法提交,请求类型为：x-www-form-urlencoded
+@apiParam {string} appkey 在后台管理系统中注册的APPKEY[必填]
+@apiParam {string} token 对应该appkey的有效token, token的有效期为一小时[必填]
+@apiParam {json} conditions 过滤条件,必须为JSON格式,例如{"条件":"值", "条件","值"},不传递此参数则不进行过滤获取全部数据[选填]
+@apiSampleRequest http://121.196.23.69/ismsapi/get_usergroup/
+@apiSuccess (返回消息) {string} result 返回码
+@apiSuccess (返回消息) {string} msg 返回消息
+@apiSuccess (返回消息) {string} data 用户组结构体
+@apiSuccess (消息内容) {string} 0 数据获取成功
+@apiSuccess (消息内容) {string} 1 token过期
+@apiSuccess (消息内容) {string} 2 token校验失败
+@apiSuccess (消息内容) {string} 3 token校验传递参数错误
+@apiSuccess (消息内容) {string} 4 APPKEY未注册,或被禁用
+@apiSuccess (消息内容) {string} 5 API接口必须用POST方法提交
+@apiSuccess (结构体) {string} FID 用户组UUID，唯一标识,根据此关键字段进行检索
+@apiSuccess (结构体) {string} FID_Split 去分割符后的UUID
+@apiSuccess (结构体) {string} FName 用户组名称
+@apiSuccess (结构体) {string} FDesc 用户组描述
+@apiSuccess (结构体) {string} FStatus 用户组状态
+@apiSuccess (结构体) {string} CREATED_ORG 创建组织
+@apiSuccess (结构体) {string} CREATED_BY 创建人员
+@apiSuccess (结构体) {datetime} CREATED_TIME 创建时间
+@apiSuccess (结构体) {datetime} UPDATED_TIME 更新时间
+@apiErrorExample {json} 错误返回样例：
+{"result": "1", "msg": "token has expired"}
+{"result": "2", "msg": "token validation failed"}
+{"result": "3", "msg": "args illegal"}
+{"result": "4", "msg": "APPKEY serial is UNREGISTERED"}
+{"result": "5", "msg": "API interface must be submitted by post method."}
+
+"""
 class get_usergroup(api_base):
     def set_view(self, request):
         self.model = usergroup
 
 
 # 获取菜单列表
+"""
+@api {POST} /ismsapi/get_busmenu/ 获取菜单项列表
+@apiGroup AUTH
+@apiDescription 调用地址:http://121.196.23.69/ismsapi/get_busmenu/ API接口必须用POST:方法提交,请求类型为：x-www-form-urlencoded
+@apiParam {string} appkey 在后台管理系统中注册的APPKEY[必填]
+@apiParam {string} token 对应该appkey的有效token, token的有效期为一小时[必填]
+@apiParam {json} conditions 过滤条件,必须为JSON格式,例如{"条件":"值", "条件","值"},不传递此参数则不进行过滤获取全部数据[选填]
+@apiSampleRequest http://121.196.23.69/ismsapi/get_busmenu/
+@apiSuccess (返回消息) {string} result 返回码
+@apiSuccess (返回消息) {string} msg 返回消息
+@apiSuccess (返回消息) {string} data 用户组结构体
+@apiSuccess (消息内容) {string} 0 数据获取成功
+@apiSuccess (消息内容) {string} 1 token过期
+@apiSuccess (消息内容) {string} 2 token校验失败
+@apiSuccess (消息内容) {string} 3 token校验传递参数错误
+@apiSuccess (消息内容) {string} 4 APPKEY未注册,或被禁用
+@apiSuccess (消息内容) {string} 5 API接口必须用POST方法提交
+@apiSuccess (结构体) {string} FID 菜单项UUID，唯一标识,根据此关键字段进行检索
+@apiSuccess (结构体) {string} FID_Split 去分割符后的UUID
+@apiSuccess (结构体) {string} FPID 菜单项父UUID
+@apiSuccess (结构体) {string} FSequence 排序顺序号
+@apiSuccess (结构体) {string} FMenuID 菜单项编号
+@apiSuccess (结构体) {string} FMenuName 菜单项名称
+@apiSuccess (结构体) {string} FStatus 用户组状态
+@apiSuccess (结构体) {string} CREATED_ORG 创建组织
+@apiSuccess (结构体) {string} CREATED_BY 创建人员
+@apiSuccess (结构体) {datetime} CREATED_TIME 创建时间
+@apiSuccess (结构体) {datetime} UPDATED_TIME 更新时间
+@apiErrorExample {json} 错误返回样例：
+{"result": "1", "msg": "token has expired"}
+{"result": "2", "msg": "token validation failed"}
+{"result": "3", "msg": "args illegal"}
+{"result": "4", "msg": "APPKEY serial is UNREGISTERED"}
+{"result": "5", "msg": "API interface must be submitted by post method."}
+
+"""
 class get_busmenu(api_base):
     def set_view(self, request):
         self.model = busmenu
 
 
 # 新增用户组菜单权限
+"""
+@api {POST} /ismsapi/add_authmenu/ 新增用户组菜单权限
+@apiGroup AUTH
+@apiDescription 调用地址:http://121.196.23.69/ismsapi/add_authmenu/ API接口必须用POST:方法提交,请求类型为：x-www-form-urlencoded
+@apiParam {string} appkey 在后台管理系统中注册的APPKEY[必填]
+@apiParam {string} token 对应该appkey的有效token, token的有效期为一小时[必填]
+@apiParam {string} FUserGroupID 用户组UUID[必填]
+@apiParam {string} FBusMenuID 菜单项UUID, 多个菜单项之间用逗号分割开[必填]
+@apiSampleRequest http://121.196.23.69/ismsapi/add_authmenu/
+@apiSuccess (返回消息) {string} result 返回码
+@apiSuccess (返回消息) {string} msg 返回消息
+@apiSuccess (返回消息) {string} data 用户组结构体
+@apiSuccess (消息内容) {string} 0 数据获取成功
+@apiSuccess (消息内容) {string} 1 token过期
+@apiSuccess (消息内容) {string} 2 token校验失败
+@apiSuccess (消息内容) {string} 3 token校验传递参数错误
+@apiSuccess (消息内容) {string} 4 APPKEY未注册,或被禁用
+@apiSuccess (消息内容) {string} 5 API接口必须用POST方法提交
+@apiSuccess (结构体) {string} FID 权限项UUID，唯一标识,根据此关键字段进行检索
+@apiSuccess (结构体) {string} FID_Split 去分割符后的UUID
+@apiSuccess (结构体) {string} FUserGroupID 用户组UUID
+@apiSuccess (结构体) {string} FBusMenuID 菜单项UUID
+@apiSuccess (结构体) {string} CREATED_ORG 创建组织
+@apiSuccess (结构体) {string} CREATED_BY 创建人员
+@apiSuccess (结构体) {datetime} CREATED_TIME 创建时间
+@apiSuccess (结构体) {datetime} UPDATED_TIME 更新时间
+@apiErrorExample {json} 错误返回样例：
+{"result": "1", "msg": "token has expired"}
+{"result": "2", "msg": "token validation failed"}
+{"result": "3", "msg": "args illegal"}
+{"result": "4", "msg": "APPKEY serial is UNREGISTERED"}
+{"result": "5", "msg": "API interface must be submitted by post method."}
+
+"""
 class add_authmenu(api_common):
     def set_view(self, request):
         usergroupID = self.request.POST.get('FUserGroupID')
@@ -250,27 +354,47 @@ class add_authmenu(api_common):
 
 
 # 移除菜单项权限
+"""
+@api {POST} /ismsapi/remove_authmenu/ 移除用户组菜单权限
+@apiGroup AUTH
+@apiDescription 调用地址:http://121.196.23.69/ismsapi/remove_authmenu/ API接口必须用POST:方法提交,请求类型为：x-www-form-urlencoded
+@apiParam {string} appkey 在后台管理系统中注册的APPKEY[必填]
+@apiParam {string} token 对应该appkey的有效token, token的有效期为一小时[必填]
+@apiParam {string} FUserGroupID 用户组UUID[必填]
+@apiParam {string} FBusMenuID 菜单项UUID, 多个菜单项之间用逗号分割开[必填]
+@apiSampleRequest http://121.196.23.69/ismsapi/remove_authmenu/
+@apiSuccess (返回消息) {string} result 返回码
+@apiSuccess (返回消息) {string} msg 返回消息
+@apiSuccess (返回消息) {string} data 用户组结构体
+@apiSuccess (消息内容) {string} 0 权限移除成功
+@apiSuccess (消息内容) {string} 1 token过期
+@apiSuccess (消息内容) {string} 2 token校验失败
+@apiSuccess (消息内容) {string} 3 token校验传递参数错误
+@apiSuccess (消息内容) {string} 4 APPKEY未注册,或被禁用
+@apiSuccess (消息内容) {string} 5 API接口必须用POST方法提交
+@apiErrorExample {json} 错误返回样例：
+{"result": "1", "msg": "token has expired"}
+{"result": "2", "msg": "token validation failed"}
+{"result": "3", "msg": "args illegal"}
+{"result": "4", "msg": "APPKEY serial is UNREGISTERED"}
+{"result": "5", "msg": "API interface must be submitted by post method."}
+
+"""
 class remove_authmenu(api_common):
     def set_view(self, request):
         usergroupID = self.request.POST.get('FUserGroupID')
         busmenuID = self.request.POST.get('FBusMenuID')
 
-        if usergroupID != None:
-            authmenu.objects.filter(Q(FUserGroupID=usergroupID)).delete()
-
-            self.response_data['result'] = '0'
-            self.response_data['msg'] = '权限项移除成功'
-
-        else:
+        if usergroupID == None:
             self.response_data['result'] = '10'
             self.response_data['msg'] = '用户组UUID不能为空'
 
             return
 
         if busmenuID != None:
-            busmenu_array = str(busmenuID).split('-')
+            busmenu_array = str(busmenuID).split(',')
 
-            authmenu.objects.filter(Q(FBusMenuID__in=busmenu_array)).delete()
+            authmenu.objects.filter(Q(FBusMenuID__in=busmenu_array), Q(FUserGroupID=usergroupID)).delete()
 
             self.response_data['result'] = '0'
             self.response_data['msg'] = '权限项移除成功'
@@ -284,6 +408,39 @@ class remove_authmenu(api_common):
 
 
 # 根据用户组获取菜单项权限
+"""
+@api {POST} /ismsapi/get_authmenu/ 获取用户组菜单权限
+@apiGroup AUTH
+@apiDescription 调用地址:http://121.196.23.69/ismsapi/get_authmenu/ API接口必须用POST:方法提交,请求类型为：x-www-form-urlencoded
+@apiParam {string} appkey 在后台管理系统中注册的APPKEY[必填]
+@apiParam {string} token 对应该appkey的有效token, token的有效期为一小时[必填]
+@apiParam {string} FUserGroupID 用户组UUID[必填]
+@apiSampleRequest http://121.196.23.69/ismsapi/get_authmenu/
+@apiSuccess (返回消息) {string} result 返回码
+@apiSuccess (返回消息) {string} msg 返回消息
+@apiSuccess (返回消息) {string} data 用户组结构体
+@apiSuccess (消息内容) {string} 0 数据获取成功
+@apiSuccess (消息内容) {string} 1 token过期
+@apiSuccess (消息内容) {string} 2 token校验失败
+@apiSuccess (消息内容) {string} 3 token校验传递参数错误
+@apiSuccess (消息内容) {string} 4 APPKEY未注册,或被禁用
+@apiSuccess (消息内容) {string} 5 API接口必须用POST方法提交
+@apiSuccess (结构体) {string} FID 权限项UUID，唯一标识,根据此关键字段进行检索
+@apiSuccess (结构体) {string} FID_Split 去分割符后的UUID
+@apiSuccess (结构体) {string} FUserGroupID 用户组UUID
+@apiSuccess (结构体) {string} FBusMenuID 菜单项UUID
+@apiSuccess (结构体) {string} CREATED_ORG 创建组织
+@apiSuccess (结构体) {string} CREATED_BY 创建人员
+@apiSuccess (结构体) {datetime} CREATED_TIME 创建时间
+@apiSuccess (结构体) {datetime} UPDATED_TIME 更新时间
+@apiErrorExample {json} 错误返回样例：
+{"result": "1", "msg": "token has expired"}
+{"result": "2", "msg": "token validation failed"}
+{"result": "3", "msg": "args illegal"}
+{"result": "4", "msg": "APPKEY serial is UNREGISTERED"}
+{"result": "5", "msg": "API interface must be submitted by post method."}
+
+"""
 class get_authmenu(api_common):
     def set_view(self, request):
         usergroupID = self.request.POST.get('FUserGroupID')

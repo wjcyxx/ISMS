@@ -52,6 +52,11 @@ urlpatterns = [
     path('approve_teamworker/', views.approve_teamworker.as_view(), name='approve_teamworker'),
     path('marke_replyreadtag/', views.marke_replyreadtag.as_view(), name='marke_replyreadtag'),
     path('get_userlist/', views.get_userlist.as_view(), name='get_userlist'),
-    path('get_orgainze', views.get_orgainze.as_view(), name='get_orgainze')
+    path('get_orgainze/', views.get_orgainze.as_view(), name='get_orgainze'),
 
+    path('get_usergroup/', views.get_usergroup.as_view(), name='get_usergroup'),
+    path('get_busmenu/', views.get_busmenu.as_view(), name='get_busmenu'),
+    path('add_authmenu/', views.add_authmenu.as_view(), name='add_authmenu'),
+    path('remove_authmenu/', views.remove_authmenu.as_view(), name='remove_authmenu'),
+    path('get_authmenu/', views.get_authmenu.as_view(), name='get_authmenu')
 ]
