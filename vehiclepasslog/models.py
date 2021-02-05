@@ -2,7 +2,7 @@ from django.db import models
 import uuid
 from vehiclegate.models import vehiclegate
 from vehiclefiles.models import vehiclefiles
-from django.utils.encoding import python_2_unicode_compatible
+from six import python_2_unicode_compatible
 
 # Create your models here.
 
