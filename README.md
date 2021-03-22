@@ -16,3 +16,7 @@
  
  # 演示地址：http://www.nbplus.link:8090/login/index/
  用户名密码 admin/123456
+
+# 如果觉得此项目对您有用，请赞赏。或者联系我进行项目合作
+![image](https://user-images.githubusercontent.com/38596601/111937017-ddf54900-8b01-11eb-89c9-b8342ef2b26f.png)
+
